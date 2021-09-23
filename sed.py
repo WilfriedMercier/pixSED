@@ -8,19 +8,19 @@ Utilties related to generating 2D mass and SFR maps using LePhare SED fitting co
 
 import subprocess
 import os
-import os.path                    as     opath
+import os.path          as     opath
 
-from   copy                       import deepcopy
-from   typing                     import List, Any
-from   io                         import TextIOBase
-from   abc                        import ABC, abstractmethod
-from   textwrap                   import dedent
-from   functools                  import partialmethod
+from   copy             import deepcopy
+from   typing           import List, Any
+from   io               import TextIOBase
+from   abc              import ABC, abstractmethod
+from   textwrap         import dedent
+from   functools        import partialmethod
 
-from   astropy.table              import Table
-from   .catalogues                import LePhareCat
-from   ..symlinks.coloredMessages import errorMessage, warningMessage
-from   .misc                      import MagType, YESNO, ANDOR, IntProperty, FloatProperty, StrProperty, ListIntProperty, ListFloatProperty, ListStrProperty, PathProperty, ListPathProperty, EnumProperty
+from   astropy.table    import Table
+from   .catalogues      import LePhareCat
+from   .coloredMessages import errorMessage, warningMessage
+from   .misc            import MagType, YESNO, ANDOR, IntProperty, FloatProperty, StrProperty, ListIntProperty, ListFloatProperty, ListStrProperty, PathProperty, ListPathProperty, EnumProperty
                               
 ERROR   = errorMessage('Error:')
 WARNING = warningMessage('Warning:')

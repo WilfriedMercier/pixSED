@@ -6,20 +6,20 @@ r"""
 Base classes used to generate resolved stellar and SFR maps with LePhare or Cigale SED fitting codes.
 """
 
-import os.path                    as     opath
-import numpy                      as     np
-import astropy.io.fits            as     fits
-from   astropy.table              import Table
-from   copy                       import deepcopy
-from   functools                  import partialmethod
+import os.path          as     opath
+import numpy            as     np
+import astropy.io.fits  as     fits
+from   astropy.table    import Table
+from   copy             import deepcopy
+from   functools        import partialmethod
 
-from   numpy                      import ndarray
-from   typing                     import Tuple, List, Union, Any
+from   numpy            import ndarray
+from   typing           import Tuple, List, Union, Any
 
-from   .misc                      import SEDcode, CleanMethod, TableUnit
-from   .catalogues                import LePhareCat, Catalogue
-from   ..photometry               import countToMag, countToFlux
-from   ..symlinks.coloredMessages import warningMessage, errorMessage
+from   .misc            import SEDcode, CleanMethod, TableUnit
+from   .catalogues      import LePhareCat, Catalogue
+from   .photometry      import countToMag, countToFlux
+from   .coloredMessages import warningMessage, errorMessage
 
 import warnings
 
