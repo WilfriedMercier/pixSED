@@ -1,158 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-.. codeauthor:: Hugo Plombat - LUPM <hugo.plombat@umontpellier.fr> & Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+.. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
 
-Miscellaneous, quite general objects used by the SED fitting classes.
+Property classes used in other parts of the code.
 """
 
 from   abc     import ABC, abstractmethod
-from   typing  import Any, Union, Callable, List, Optional
-from   numpy   import ndarray
+from   typing  import Any, Callable, List, Optional
 from   enum    import Enum
+from   .misc   import check_type, check_type_in_list
 import os.path as     opath
-
-
-##############################################
-#        Custom errors and exceptions        #
-##############################################
-      
-class ShapeError(Exception):
-    r'''Error which is caught when two arrays do not share the same shape.'''
-    
-    def __init__(self, arr1: ndarray, arr2: ndarray, msg: str = '', **kwargs) -> None:
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init method for this exception.
-        
-        :param ndarray arr1: first array
-        :param ndarray arr2: second array
-        
-        :param str msg: (**Optional**) message to append at the end
-        '''
-        
-        if not isinstance(msg, str):
-            msg = ''
-        
-        super.__init__(f'Array 1 has shape {arr1.shape} but array 2 has shape {arr2.shape}{msg}.')
-        
-
-###################################
-#        Custom decorators        #
-###################################
-
-def check_type(dtype):
-    r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-    
-    A decorator which check data type of the first mandatory parameter of the function.
-    
-    :param dtype: type the parameter must have
-    
-    :raises TypeError: if data has the wrong type.
-    :raises ValueError: if there is no data to check the type
-    '''
-    
-    def decorator(func):
-        '''
-        :param function func: function to be decorated
-        '''
-    
-        def wrap(*args, **kwargs):
-            if not len(args) > 1:
-                raise ValueError('Cannot check type for data with length 0.')
-            
-            value = args[1]
-            if value != '-1' and not isinstance(value, dtype):
-                raise TypeError(f'parameter has type {type(value)} but it must have type {dtype}.')
-                
-            return func(*args, **kwargs)
-        return wrap
-    return decorator
-        
-def check_type_in_list(dtype):
-    r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-    
-    A decorator which check data type of the first mandatory parameter of the function.
-    
-    :param dtype: type the parameter must have
-    
-    :raises TypeError: if data has the wrong type.
-    :raises ValueError: if there is no data to check the type
-    '''
-    
-    def decorator(func):
-        '''
-        :param function func: function to be decorated
-        '''
-        
-        def wrap(*args, **kwargs):
-            
-            if len(args) < 1 or len(args[1]) < 1:
-                raise ValueError('Cannot check type for data with length 0.')
-            
-            value = args[1]
-            if any((not isinstance(i, dtype) for i in value)):
-                raise TypeError(f'at least one parameter element does not have type {dtype}.')
-                
-            return func(*args, **kwargs)
-        return wrap
-    return decorator
-        
-##############################
-#        Enumerations        #
-##############################
-
-class CleanMethod(Enum):
-    r'''An enumeration for the cleaning method used by the filters.'''
-     
-    ZERO = 'zero'
-    MIN  = 'min'
-    
-class MagType(Enum):
-    r'''An enumeration for valid magnitude types for LePhare.'''
-    
-    AB   = 'AB'
-    VEGA = 'VEGA'
-
-class SEDcode(Enum):
-    r'''An enumeration for the SED fitting codes available.'''
-    
-    LEPHARE = 'lephare'
-    CIGALE  = 'cigale'
-    
-class TableFormat(Enum):
-    r'''An enumerator for valid table format for LePhare.'''
-    
-    MEME = 'MEME'
-    MMEE = 'MMEE'
-    
-class TableType(Enum):
-    r'''An enumerator for valid table data type for LePhare.'''
-    
-    LONG  = 'LONG'
-    SHORT = 'SHORT'
-    
-class TableUnit(Enum):
-    r'''An enumeration for valid values for table units for LePhare.'''
-    
-    MAG  = 'M'
-    FLUX = ''
-    
-class YESNO(Enum):
-    r'''An enumeration with YES or NO options for LePhare.'''
-    
-    YES = 'YES'
-    NO  = 'NO'
-    
-class ANDOR(Enum):
-    r'''An enumeration with AND or OR options for LePhare.'''
-    
-    AND = 'AND'
-    OR  = 'OR'
-    
 
 ########################################
 #           Property objects           #
