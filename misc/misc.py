@@ -6,7 +6,10 @@
 Miscellaneous, quite general objects used by the SED fitting classes.
 """
 
-from numpy import ndarray
+import numpy         as     np
+from   numpy         import ndarray
+from   astropy.units import Unit, Quantity
+from   typing        import Any
 
 ##############################################
 #        Custom errors and exceptions        #
@@ -95,3 +98,88 @@ def check_type_in_list(dtype):
             return func(*args, **kwargs)
         return wrap
     return decorator
+ 
+##########################
+#      Custom class      #
+##########################
+
+class NamedColumn:
+   r'''A general named column to assicate to an Enum object.'''
+   
+   def __init__(self, name: str, unit: Unit, end: str = '', log=False) -> None:
+      r'''
+      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      
+      Init named column.
+      
+      :param str name: name of the column when included in a Table
+      :param Unit unit: unit of the column
+      
+      :param str end: (**Optional**) end string to append to the associate enum name
+      :param bool log: (**Optional**) whether this column holds log values. This will trigger a conversion to the power of 10 if True.
+      
+      :raises TypeError: 
+         
+         * if **name** is not of type str
+         * if **unit** is not of type Astropy Unit
+         * if **end** is not of type str
+      '''
+      
+      if any((not isinstance(i, str) for i in [name, unit, end])):
+         raise TypeError('one of the parameters does not have type str.')
+      
+      self.name = name
+      self.unit = Unit(unit)
+      self.end  = end
+      self.log  = log
+      
+      
+class PhysicalLogQuantity:
+   r'''Implement an Astropy Quantity which can have log of physical values.'''
+   
+   def __init__(self, value: Any, *args, unit: str = '', **kwargs) -> None:
+      r'''
+      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      
+      Init the physical log quantity object.
+      
+      :param value: value to pass to the constructor
+      '''
+      
+      # Get unit for data when it is not in log form
+      if 'unit' in kwargs:
+         kwargs.pop('unit')
+         
+      if isinstance(value, (list, tuple)):
+         value     = np.asarray(value)
+   
+      self.unit    = unit
+      self.value   = value
+         
+      # Used when printing
+      self._args   = args
+      self._kwargs = kwargs
+      
+      
+      
+   def __str__(self, *args, **kwargs) -> str:
+      r'''
+      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+       
+      Slightly modified string representation.
+      '''
+   
+      return f'{Quantity(self.value, *self._args, unit="", **self._kwargs)} [log({self.unit})]'
+   
+   def toPhysical(self, *args, **kwargs) -> Quantity:
+      r'''
+      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      
+      Go to physical unit by raising to the power of 10 and converting to the right unit.
+      '''
+      
+      return Quantity(10**self.value, unit=self.unit)
+      
+   
+   
+   
