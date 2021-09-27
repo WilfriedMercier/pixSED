@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-f"""
+r"""
 .. codeauthor:: Hugo Plombat - LUPM <hugo.plombat@umontpellier.fr> & Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
 
 Classes used by the sed objects to generate objects loading output tables and producing resolved maps.
@@ -8,11 +8,16 @@ Classes used by the sed objects to generate objects loading output tables and pr
 
 import os.path          as     opath
 import astropy.io.ascii as     asci
+import numpy            as     np
+from   numpy            import ndarray
+from   copy             import deepcopy
 from   abc              import ABC, abstractmethod
-from   typing           import Tuple
+from   typing           import Tuple, Union, Optional
 from   astropy.table    import Table
+from   astropy.units    import Quantity
 from   numpy            import ndarray
 from   .misc.enum       import LePhareOutputParam
+from   .filters         import FilterList
 
 class Output(ABC):
    r'''Abstract SED fitting code output class.'''
@@ -20,7 +25,7 @@ class Output(ABC):
 
    def __init__(self, file: str, *args, **kwargs) -> None:
       r'''
-      Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
       
       Init the output class.
       
@@ -37,6 +42,12 @@ class Output(ABC):
       #: SED fitting code output file name used
       self.file   = fullFile
       
+      #: Image properties corresponding to the output table (keys are None by default, update using the link method with a FilterList object)
+      self.imProp = {'shape'   : None,
+                     'scale'   : None,
+                     'meanMap' : None
+                    }
+      
       #: Configuration dictionary with info from the header
       self.config = {}
       
@@ -45,14 +56,34 @@ class Output(ABC):
       r'''Load data from a file into an astropy Table object.'''
    
       return
-   
+  
+   def link(self, filterList: FilterList, *args, **kwargs) -> None:
+      r'''
+      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      
+      Provide the default image properties from a FilterList object.
+      
+      :param FilterList filterList: FilterList object from which the image properties are retrieved
+      
+      :raises TypeError: if **filterList** is not of type FilterList
+      '''
+      
+      if not isinstance(filterList, FilterList):
+         raise TypeError(f'filterList parameter has type {type(filterList)} but it must be of type FilterList.')
+         
+      self.imProp['shape']   = filterList.shape
+      self.imProp['scale']   = filterList.scaleFac
+      self.imProp['meanMap'] = filterList.meanMap
+      
+      return
+
    
 class LePhareOutput(Output):
    r'''Implement an output class for LePhare.'''
    
    def __init__(self, file: str, *args, **kwargs) -> None:
       r'''
-      Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
       
       Init the output class.
       
@@ -66,7 +97,7 @@ class LePhareOutput(Output):
    
    def readHeader(self, *args, **kwargs) -> dict:
       r'''
-      Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
       
       Read the header of LePhare output file.
       
@@ -99,7 +130,7 @@ class LePhareOutput(Output):
                break
             else:
 
-               items       = line.strip('#, ').split(',')
+               items          = line.strip('#, ').split(',')
                for item in items:
                   key, val    = item.split()
                   colMap[key] = int(val)
@@ -111,7 +142,7 @@ class LePhareOutput(Output):
    
    def load(self, *args, **kwargs) -> Table:
       r'''
-      Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
       
       Load data from LePhare output file.
       '''
@@ -160,16 +191,106 @@ class LePhareOutput(Output):
       return table
       
      
-   def toImage(self, name: str, shape: Tuple[int] = (100, 100), scaleFactor: int = 100) -> ndarray:
+   def toImage(self, name: str, 
+               shape: Optional[Tuple[int]] = None, 
+               scaleFactor: Optional[Union[int, float]] = None,
+               meanMap: Optional[ndarray] = None, **kwargs) -> Quantity:
       r'''
-      Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
       
       Generate an image from the Astropy Table given column name.
       
+      .. note::
+          
+          Depending on the type of output quantity one wants to generate an image from, **scaleFactor** can have different values:
+              
+              * if the output quantity is extensive, then this is the same scaleFactor which was used to scale down the filters data
+              * if the output quantity is intensive, then it must be 1
+              
+          The **shape**, **scaleFactor** and **meanMap** parameters can also be passed as default values using
+          
+          >>> output = LePhareOutput('someFileName.out')
+          >>> output.link(filterList)
+          
+          where filterList is the FilterList object used to perform the SED fitting.
+          
+          These parameters always override the default values if provided.
+      
       :param str name: name of the column to generate the image from
+      
+      :param tuple[int] shape: (**Optional**) shape of the output image. The shape must be such that shape[0]*shape[1] == len(self.table)
+      :param scaleFactor: (**Optional**) scale factor used to scale up the image
+      :type scaleFactor: int or float
+      :param ndarray meanMap: (**Optional**) mean map used during the filterList table creation to normalise the data
+      
+      :returns: output image as an Astropy Quantity. Use .data method to only get the array.
+      :rtype: Quantity
+      
+      :raises TypeError:
+          
+          * if **name** is not of type str
+          * if **shape** is neither a tuple nor a list
+          * if **scaleFactor** is neither an int nor a float
+          
+      :raises ValueError: if **shape** is not of length
       '''
       
-      return
+      if not isinstance(name, str):
+         raise TypeError(f'column name has type {type(name)} but it must have type str.')
+      
+      # Check shape parameter
+      if self.imProp['shape'] is None and shape is None:
+         raise ValueError('an image shape must be provided either in this function call or using the link method.')
+      
+      if shape is not None:
+
+         if not isinstance(shape, (tuple, list)):
+            raise TypeError(f'shape parameter has type {type(shape)} but it must have type tuple.')
+              
+         if len(shape) != 2:
+            raise ValueError(f'shape parameter has not a length of 2.')
+            
+      else:
+         shape        = self.imProp['shape']
+          
+      # Check scaleFactor parameter
+      if self.imProp['scale'] is None and scaleFactor is None:
+         raise ValueError('a scale facor must be provided either in this function call or using the link method.')
+           
+      if scaleFactor is not None:
+          
+         if not isinstance(scaleFactor, (int, float)):
+            raise TypeError(f'scaleFactor parameter has type {type(scaleFactor)} but it must have type int or float.')
+          
+         if scaleFactor <= 0:
+            raise ValueError(f'scaleFactor parameter has value {scaleFactor} but it must be strictly positive.')
+      else:
+         scaleFactor  = self.imProp['scale']
+      
+      # Check meanMap parameter
+      if meanMap is not None:
+         if not isinstance(meanMap, ndarray):
+            raise TypeError(f'meanMap parameter has type {type(meanMap)} but it must have type ndarray.')
+      else:
+         meanMap      = self.imProp['meanMap']
+      
+      if shape != meanMap.shape:
+         raise ValueError(f'meanMap has shape {meanMap.shape} but is must have shape {shape}.')
+          
+      # Location of good pixels
+      indices         = self.table['ID']
+          
+      # Output array (NaN for bad pixels - default NaN everywhere)
+      data            = np.full(shape[0]*shape[1], np.nan)
+      data[indices]   = self.table[name].data / scaleFactor
+      data            = data.reshape(shape)
+      
+      # Multiply by mean map only where it is non zero
+      if meanMap is not None:
+          mask        = meanMap != 0
+          data[mask] *= meanMap[mask]
+      
+      return Quantity(data, unit=self.table[name].unit)
          
       
       
