@@ -16,8 +16,9 @@ from   io               import TextIOBase
 from   abc              import ABC, abstractmethod
 from   textwrap         import dedent
 from   functools        import partialmethod
-
 from   astropy.table    import Table
+
+from   .outputs         import LePhareOutput
 from   .catalogues      import LePhareCat
 from   .coloredMessages import errorMessage, warningMessage
 from   .misc.properties import IntProperty, FloatProperty, StrProperty, ListIntProperty, ListFloatProperty, ListStrProperty, PathProperty, ListPathProperty, EnumProperty
@@ -721,7 +722,7 @@ class LePhareSED(SED):
     #        Run methods        #
     #############################
     
-    def runScript(self, commands: List[str], file: str = '', log: TextIOBase = None, errMsg:str = '') -> None:
+    def runScript(self, commands: List[str], file: str = '', log: TextIOBase = None, errMsg: str = '') -> LePhareOutput:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
@@ -748,9 +749,13 @@ class LePhareSED(SED):
     genMagGal    = partialmethod(runScript, ['$LEPHAREDIR/source/mag_gal', '-t', 'G', '-c'],        errMsg='Galaxy magnitudes failed.')
     startLePhare = partialmethod(runScript, ['$LEPHAREDIR/source/zphota', '-c'],                    errMsg='SED fitting failed.')
     
-    def __call__(self, catalogue: LePhareCat, outputParams: List[str] = [], 
-                 skipSEDgen: bool = False, skipFilterGen: bool = False, skipMagQSO: bool = False, 
-                 skipMagStar: bool = False, skipMagGal: bool = False, **kwargs) -> None:
+    def __call__(self, catalogue: LePhareCat, 
+                 outputParams: List[str] = [], 
+                 skipSEDgen: bool = False, 
+                 skipFilterGen: bool = False, 
+                 skipMagQSO: bool = False, 
+                 skipMagStar: bool = False, 
+                 skipMagGal: bool = False, **kwargs) -> LePhareOutput:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
@@ -766,6 +771,9 @@ class LePhareSED(SED):
         :param bool skipMagStar: (**Optional**) whether to skip the predicted magnitude computations for the stars. Useful to gain time if the same libraries/parameters are used for multiple sources.
         :param bool skipMagGal: (**Optional**) whether to skip the predicted magnitude computations for the galaxies. Useful to gain time if the same libraries/parameters are used for multiple sources.
 
+        :returns: LePhare output file object with data from the file loaded
+        :rtype: LePhareOutput
+
         :raises TypeError: if **catalogue** is not of type :py:class:`LePhareCat`
         '''
         
@@ -777,10 +785,14 @@ class LePhareSED(SED):
         if not opath.isdir(directory):
             os.mkdir(directory)
             
+        # Different SED fitting output file names
+        paramFile = catalogue.name.replace('.in', '.para')
+        pfile     = opath.join(directory)
+        logFile   = opath.join(directory, catalogue.name.replace('.in', '.log'))
+        oCatFile  = opath.join(directory, catalogue.name.replace('.in', '.out'))
+        
         # Generate and write parameters file
         params    = dedent(self.parameters.replace('%INPUTCATALOGUEINFORMATION%', catalogue.text))
-        paramFile = catalogue.name.replace('.in', '.para')
-        pfile     = opath.join(directory, paramFile)
         with open(pfile, 'w') as f:
             f.write(params)
             
@@ -793,7 +805,6 @@ class LePhareSED(SED):
         with open(ofile, 'w') as f:
             f.write(oparams)
         
-        logFile   = opath.join(directory, catalogue.name.replace('.in', '.log'))
         with open(logFile, 'a') as log:
 
             #########################################
@@ -841,9 +852,9 @@ class LePhareSED(SED):
             # Move back to parent directory
             os.chdir('..')
             
-         ###################################
-         #      Load output catalogue      #
-         ###################################
+        ###################################
+        #      Load output catalogue      #
+        ###################################
             
-        return
+        return LePhareOutput(oCatFile) 
  
