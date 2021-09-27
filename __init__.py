@@ -9,4 +9,5 @@ Init file for the SED fitting parser library.
 from .filters    import Filter, FilterList
 from .sed        import LePhareSED
 from .catalogues import LePhareCat
+from .outputs    import LePhareOutput
 from .misc       import SEDcode, CleanMethod, MagType, TableFormat, TableType, TableUnit, YESNO, ANDOR
