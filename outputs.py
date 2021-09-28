@@ -10,12 +10,10 @@ import os.path          as     opath
 import astropy.io.ascii as     asci
 import numpy            as     np
 from   numpy            import ndarray
-from   copy             import deepcopy
 from   abc              import ABC, abstractmethod
 from   typing           import Tuple, Union, Optional
 from   astropy.table    import Table
 from   astropy.units    import Quantity
-from   numpy            import ndarray
 from   .misc.enum       import LePhareOutputParam
 from   .filters         import FilterList
 
@@ -248,7 +246,7 @@ class LePhareOutput(Output):
             raise TypeError(f'shape parameter has type {type(shape)} but it must have type tuple.')
               
          if len(shape) != 2:
-            raise ValueError(f'shape parameter has not a length of 2.')
+            raise ValueError('shape parameter has not a length of 2.')
             
       else:
          shape        = self.imProp['shape']

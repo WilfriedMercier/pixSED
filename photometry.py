@@ -6,8 +6,8 @@ r"""
 Photometry functions.
 """
 
-import numpy             as np
-import astropy.units     as u
+import numpy         as np
+import astropy.units as u
 
 def countToMag(data, err, zeropoint):
     r'''

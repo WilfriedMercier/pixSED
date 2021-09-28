@@ -17,6 +17,7 @@ from   numpy            import ndarray
 from   typing           import Tuple, List, Union, Any, Optional
 
 from   .misc.enum       import SEDcode, CleanMethod, TableUnit, MagType, TableFormat, TableType
+from   .misc.misc       import ShapeError
 from   .catalogues      import LePhareCat, Catalogue
 from   .photometry      import countToMag, countToFlux
 from   .coloredMessages import warningMessage, errorMessage
@@ -24,8 +25,8 @@ from   .coloredMessages import warningMessage, errorMessage
 import warnings
 
 # Custom colored messages
-WARNING = warningMessage('Warning: ')
-ERROR   = errorMessage('Error: ')
+WARNING = warningMessage('Warning:')
+ERROR   = errorMessage('Error:')
 
 class Filter:
     r'''Base class implementing data related to a single filter.'''
@@ -118,7 +119,7 @@ class Filter:
             raise TypeError(f'file has type {type(file)} but it must have type str.')
         
         if not opath.isfile(file):
-            print(ERROR + 'file ' + brightMessage(file) + ' not found.')
+            print(f'{ERROR} file {file} not found.')
             return False
         return True
     
@@ -153,9 +154,9 @@ class Filter:
                     
             # If an error is triggered, we always return None, None
             except OSError:
-                print(ERROR + ' file ' + brightMessage(file) + ' could not be loaded as a FITS file.')
+                print(f'{ERROR} file file could not be loaded as a FITS file.')
             except IndexError:
-                print(ERROR + f' extension number {ext} too large.')
+                print(f'{ERROR} extension number {ext} too large.')
                 
         return None, None
 
@@ -237,7 +238,7 @@ class FilterList:
         for filt in filters:
             
             if filt.filter in [i.filter for i in self.filters]:
-                print(f'{WARNING}filter {brightMessage(filt.filter)} already present in filter list.')
+                print(f'{WARNING} filter {filt.filter} already present in filter list.')
                 print(errorMessage(f'Skipping filter {filt.filter}...'))
             else:
                 
@@ -294,7 +295,7 @@ class FilterList:
         elif self.code is SEDcode.CIGALE:
             raise NotImplementedError('Cigale catalogue not implemented yet.')
         else:
-            raise ValueError(f'Code {code} not recognised.')
+            raise ValueError(f'Code {self.code} not recognised.')
     
     def _toLePhareCat(self, fname: str,
                      tunit: TableUnit     = TableUnit.MAG, 
@@ -406,7 +407,7 @@ class FilterList:
        
         dataList                   = []
         stdList                    = []
-        for filt in self.filters:
+        for pos, filt in enumerate(self.filters):
 
             # Clean and add noise to variance map
             data, var              = self.cleanAndNoise(filt.data, filt.var, self.mask, cleanMethod=cleanMethod, texp=filt.texp, texpFac=texpFac)
@@ -587,7 +588,7 @@ class FilterList:
         :param int texpFac: (**Optional**) factor used to divide the exposition time
         
         :returns: cleaned data and cleaned variance map with Poisson noise added
-        rtype: ndarray, ndarray
+        :rtype: ndarray, ndarray
         '''
         
         # Clean data and error maps of bad pixels and pixels with negative values

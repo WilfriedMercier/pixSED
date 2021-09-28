@@ -56,7 +56,7 @@ class Catalogue(ABC):
             raise TypeError(f'path as type {type(path)} but it must have type str.')
             
         fname = opath.join(path, self.name)
-        self.data.write(self.name, overwrite=True, **kwargs)
+        self.data.write(fname, overwrite=True, **kwargs)
         return
     
     @property

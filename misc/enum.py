@@ -7,7 +7,6 @@ Enumerations used in other parts of the code.
 """
 
 from enum          import Enum
-from astropy.units import Unit
 from .misc         import NamedColumn
 
 class CleanMethod(Enum):

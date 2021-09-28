@@ -16,7 +16,6 @@ from   io               import TextIOBase
 from   abc              import ABC, abstractmethod
 from   textwrap         import dedent
 from   functools        import partialmethod
-from   astropy.table    import Table
 
 from   .outputs         import LePhareOutput
 from   .catalogues      import LePhareCat
@@ -504,7 +503,7 @@ class LePhareSED(SED):
             raise TypeError(f'params has type {type(params)} but it must have type list.')
             
         if any((not isinstance(param, str) for param in params)):
-            raise TypeError(f'one of the values in params is not of type str.')
+            raise TypeError('one of the values in params is not of type str.')
         
         # Check and then set given parameters to True
         newParams                = deepcopy(self.outParam)
