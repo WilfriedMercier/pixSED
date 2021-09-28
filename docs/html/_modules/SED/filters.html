@@ -1,0 +1,935 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SED.filters &mdash; Resolved SED-fitting wrapper 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../../index.html">
+                Resolved SED-fitting wrapper
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a></li>
+        
+          <li><a href="../index.html">Module code</a></li>
+        
+      <li>SED.filters</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../setup.html">Installation and setup</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial introduction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/example1.html">1. Generate a LePhare configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/example2.html">2. Resolved stellar mass map with LePhare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/example3.html">3. Resolved SFR map from an already existing LePhare output file</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">----------------------------------------</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../API/index.html">API</a></li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <h1>Source code for SED.filters</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. codeauthor:: Hugo Plombat - LUPM &lt;hugo.plombat@umontpellier.fr&gt; &amp; Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+
+<span class="sd">Base classes used to generate resolved stellar and SFR maps with LePhare or Cigale SED fitting codes.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os.path</span>          <span class="k">as</span>     <span class="nn">opath</span>
+<span class="kn">import</span> <span class="nn">numpy</span>            <span class="k">as</span>     <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astropy.io.fits</span>  <span class="k">as</span>     <span class="nn">fits</span>
+<span class="kn">from</span>   <span class="nn">astropy.table</span>    <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span>   <span class="nn">copy</span>             <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span>   <span class="nn">functools</span>        <span class="kn">import</span> <span class="n">partialmethod</span>
+
+<span class="kn">from</span>   <span class="nn">numpy</span>            <span class="kn">import</span> <span class="n">ndarray</span>
+<span class="kn">from</span>   <span class="nn">typing</span>           <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span>   <span class="nn">.misc.enum</span>       <span class="kn">import</span> <span class="n">SEDcode</span><span class="p">,</span> <span class="n">CleanMethod</span><span class="p">,</span> <span class="n">TableUnit</span><span class="p">,</span> <span class="n">MagType</span><span class="p">,</span> <span class="n">TableFormat</span><span class="p">,</span> <span class="n">TableType</span>
+<span class="kn">from</span>   <span class="nn">.misc.misc</span>       <span class="kn">import</span> <span class="n">ShapeError</span>
+<span class="kn">from</span>   <span class="nn">.catalogues</span>      <span class="kn">import</span> <span class="n">LePhareCat</span><span class="p">,</span> <span class="n">Catalogue</span>
+<span class="kn">from</span>   <span class="nn">.photometry</span>      <span class="kn">import</span> <span class="n">countToMag</span><span class="p">,</span> <span class="n">countToFlux</span>
+<span class="kn">from</span>   <span class="nn">.coloredMessages</span> <span class="kn">import</span> <span class="n">warningMessage</span><span class="p">,</span> <span class="n">errorMessage</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="c1"># Custom colored messages</span>
+<span class="n">WARNING</span> <span class="o">=</span> <span class="n">warningMessage</span><span class="p">(</span><span class="s1">&#39;Warning:&#39;</span><span class="p">)</span>
+<span class="n">ERROR</span>   <span class="o">=</span> <span class="n">errorMessage</span><span class="p">(</span><span class="s1">&#39;Error:&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Filter"><a class="viewcode-back" href="../../API/filters.html#SED.filters.Filter">[docs]</a><span class="k">class</span> <span class="nc">Filter</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Base class implementing data related to a single filter.&#39;&#39;&#39;</span>
+    
+<div class="viewcode-block" id="Filter.__init__"><a class="viewcode-back" href="../../API/filters.html#SED.filters.Filter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">errFile</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">zeropoint</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ext</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">extErr</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">            </span>
+<span class="sd">        Initialise filter object.</span>
+
+<span class="sd">        :param str filt: filter name</span>
+<span class="sd">        :param str file: data file name. File must exist and be a loadable FITS file.</span>
+<span class="sd">        :param str errFile: error file name. File must exist and be a loadable FITS file. Error file is assumed to be the variance map.</span>
+<span class="sd">        :param float zeropoint: filter AB magnitude zeropoint</span>
+<span class="sd">        </span>
+<span class="sd">        :param int ext: (**Optional**) extension in the data FITS file</span>
+<span class="sd">        :param int extErr: (**Optional**) extension in the error FITS file</span>
+<span class="sd">        </span>
+<span class="sd">        :raises TypeError:</span>
+<span class="sd">            </span>
+<span class="sd">            * if **filt** is not of type str</span>
+<span class="sd">            * if **zeropoint** is neither an int nor a float</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filt</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;filt parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">filt</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must be of type list.&#39;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zeropoint</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;zeropoint parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zeropoint</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must be of type int or float.&#39;</span><span class="p">)</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">filter</span>          <span class="o">=</span> <span class="n">filt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zpt</span>             <span class="o">=</span> <span class="n">zeropoint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span>           <span class="o">=</span> <span class="n">file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ename</span>           <span class="o">=</span> <span class="n">errFile</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">hdr</span><span class="p">,</span>  <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loadFits</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">ext</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ehdr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loadFits</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ename</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">extErr</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ShapeError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39; in filter </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            
+        <span class="c1"># Check that exposure time is in the header (otherwise Poisson noise cannot be computed)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">texp</span>        <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hdr</span><span class="p">[</span><span class="s1">&#39;TEXPTIME&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">texp</span>        <span class="o">=</span> <span class="kc">None</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">WARNING</span><span class="si">}</span><span class="s1">data header in </span><span class="si">{</span><span class="n">filt</span><span class="o">.</span><span class="n">filter</span><span class="si">}</span><span class="s1"> does not have TEXPTIME key.&#39;</span><span class="p">)</span></div>
+            
+            
+    <span class="c1">###############################</span>
+    <span class="c1">#       Private methods       #</span>
+    <span class="c1">###############################</span>
+    
+<div class="viewcode-block" id="Filter._mask"><a class="viewcode-back" href="../../API/filters.html#SED.filters.Filter._mask">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_mask</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Apply the given mask by placing NaN values onto the array.</span>
+<span class="sd">        </span>
+<span class="sd">        :param ndarary arr: array to mask</span>
+<span class="sd">        :param ndarary[bool] mask: mask with boolean values</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: array with masked values</span>
+<span class="sd">        :rtype: ndarray</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="c1"># We make a deep copy to be sure we do not modify the input arrays</span>
+        <span class="n">arr</span>       <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        
+        <span class="k">return</span> <span class="n">arr</span></div>
+            
+<div class="viewcode-block" id="Filter._checkFile"><a class="viewcode-back" href="../../API/filters.html#SED.filters.Filter._checkFile">[docs]</a>    <span class="k">def</span> <span class="nf">_checkFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">            </span>
+<span class="sd">        Check whether a file exists.</span>
+<span class="sd">        </span>
+<span class="sd">        :param str file: file name</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: </span>
+<span class="sd">            * True if the file exists</span>
+<span class="sd">            * False otherwise</span>
+<span class="sd">            </span>
+<span class="sd">        :raises TypeError: if **file** is not of type str</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;file has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must have type str.&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">opath</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ERROR</span><span class="si">}</span><span class="s1"> file </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s1"> not found.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+    
+<div class="viewcode-block" id="Filter._loadFits"><a class="viewcode-back" href="../../API/filters.html#SED.filters.Filter._loadFits">[docs]</a>    <span class="k">def</span> <span class="nf">_loadFits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ext</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Load data and header from a FITS file at the given extension.</span>
+
+<span class="sd">        :param str file: file name</span>
+<span class="sd">        :param int ext: (**Optional**) extension to load data from</span>
+
+<span class="sd">        :returns: </span>
+<span class="sd">            * None, None if the file cannot be loaded as a FITS file or if the hdu extension is too large</span>
+<span class="sd">            * header, data</span>
+<span class="sd">        :rtype: astropy Header, ndarray</span>
+<span class="sd">        </span>
+<span class="sd">        :raises TypeError: if **ext** is not an int</span>
+<span class="sd">        :raises ValueError: if **ext** is negative</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ext has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must have type int.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">ext</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ext has value </span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1"> but it must be larger than or equal to 0.&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkFile</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdul</span><span class="p">:</span>
+                    <span class="n">hdu</span> <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="n">ext</span><span class="p">]</span>
+                    <span class="k">return</span> <span class="n">hdu</span><span class="o">.</span><span class="n">header</span><span class="p">,</span> <span class="n">hdu</span><span class="o">.</span><span class="n">data</span>
+                    
+            <span class="c1"># If an error is triggered, we always return None, None</span>
+            <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ERROR</span><span class="si">}</span><span class="s1"> file file could not be loaded as a FITS file.&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ERROR</span><span class="si">}</span><span class="s1"> extension number </span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1"> too large.&#39;</span><span class="p">)</span>
+                
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div></div>
+
+
+<div class="viewcode-block" id="FilterList"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList">[docs]</a><span class="k">class</span> <span class="nc">FilterList</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Base class implementing the object used to stored SED fitting into.&#39;&#39;&#39;</span>
+    
+<div class="viewcode-block" id="FilterList.__init__"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Filter</span><span class="p">],</span> <span class="n">mask</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">SEDcode</span> <span class="o">=</span> <span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span><span class="p">,</span> <span class="n">redshift</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">            </span>
+<span class="sd">        Initialise filter list object.</span>
+
+<span class="sd">        :param list[Filter] filters: filters used to perform the SED fitting</span>
+<span class="sd">        :param ndarray[bool] mask: mask for bad pixels (True for bad pixels, False for good ones)</span>
+<span class="sd">        </span>
+<span class="sd">        :param SEDcode code: (**Optional**) code used to perform the SED fitting. Either SEDcode.LEPHARE or SEDcode.CIGALE or accepted.</span>
+<span class="sd">        :param redshift: (**Optional**) redshift of the galaxy</span>
+<span class="sd">        :type redshift: int or float</span>
+<span class="sd">        </span>
+<span class="sd">        :raises TypeError: </span>
+<span class="sd">            * if **filters** is not a list</span>
+<span class="sd">            * if **redshift** is neither an int nor a float</span>
+<span class="sd">            * if one of the filters is not of type Filter</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+            
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">redshift</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;redshift parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">redshift</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must be of type int or float.&#39;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;filters parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span><span class="si">}</span><span class="s1"> but they must be of type list.&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># :Redshift of the galaxy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">redshift</span> <span class="o">=</span> <span class="n">redshift</span>
+        
+        <span class="c1"># :Define a mask which hides pixels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span>     <span class="o">=</span> <span class="n">mask</span>
+        
+        <span class="c1"># :Table used by SED fitting code (default is None)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table</span>    <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1">#: Mean map used when building the table (default is None, updated each time meanMap method is called)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meanMap</span>  <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1">#: Scale factor used to normalise the data and error maps (default is None, updated each time genTable method is called)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaleFac</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1">#: Filter list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filters</span>  <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filters</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buildFilters</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span>
+                    
+        <span class="c1"># Check that data in all filters have the same shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_checkFilters</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s1">&#39; in filter list&#39;</span><span class="p">)</span>
+                    
+        <span class="c1">#: Data shape for easy access</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+                    
+        <span class="c1"># Set SED fitting code. This rebuilds the table since SED fitting codes do not expect tables with the same columns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setCode</span><span class="p">(</span><span class="n">code</span><span class="p">)</span></div>
+       
+        
+    <span class="c1">###############################</span>
+    <span class="c1">#       Private methods       #</span>
+    <span class="c1">###############################</span>
+    
+<div class="viewcode-block" id="FilterList._buildFilters"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList._buildFilters">[docs]</a>    <span class="k">def</span> <span class="nf">_buildFilters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Filter</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        :param list[Filter] filters: list of Filter objects</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: list of checked Filter objects</span>
+<span class="sd">        :rtype: List[Filter]</span>
+<span class="sd">        </span>
+<span class="sd">        :raises TypeError: if one of the filters is not of type Filter</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">filt</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
+            
+            <span class="k">if</span> <span class="n">filt</span><span class="o">.</span><span class="n">filter</span> <span class="ow">in</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">filter</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">]:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">WARNING</span><span class="si">}</span><span class="s1"> filter </span><span class="si">{</span><span class="n">filt</span><span class="o">.</span><span class="n">filter</span><span class="si">}</span><span class="s1"> already present in filter list.&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">errorMessage</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Skipping filter </span><span class="si">{</span><span class="n">filt</span><span class="o">.</span><span class="n">filter</span><span class="si">}</span><span class="s1">...&#39;</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filt</span><span class="p">,</span> <span class="n">Filter</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;One of the filters has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">filt</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must have type Filter.&#39;</span><span class="p">)</span>
+                
+                <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">([</span><span class="n">i</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">filt</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">filt</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">filt</span><span class="o">.</span><span class="n">hdr</span><span class="p">,</span> <span class="n">filt</span><span class="o">.</span><span class="n">ehdr</span><span class="p">]]):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">errorMessage</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Skipping filter </span><span class="si">{</span><span class="n">filt</span><span class="o">.</span><span class="n">filter</span><span class="si">}</span><span class="s1">...&#39;</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filt</span><span class="p">)</span>
+                    
+        <span class="k">return</span> <span class="n">out</span></div>
+    
+<div class="viewcode-block" id="FilterList._checkFilters"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList._checkFilters">[docs]</a>    <span class="k">def</span> <span class="nf">_checkFilters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        :param str msg: (**Optional**) message to append to the error message</span>
+<span class="sd">        </span>
+<span class="sd">        :raises ShapeError: if at least one filter has a different shape</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">ShapeError</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msg</span><span class="o">=</span><span class="s1">&#39; in filter list&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span></div>
+        
+        
+    <span class="c1">################################</span>
+    <span class="c1">#       Calogue creation       #</span>
+    <span class="c1">################################</span>
+    
+<div class="viewcode-block" id="FilterList.toCatalogue"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList.toCatalogue">[docs]</a>    <span class="k">def</span> <span class="nf">toCatalogue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Catalogue</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Construct a Catalogue instance given the table associated to the filter list and the given SED fitting code.</span>
+<span class="sd">        </span>
+<span class="sd">        .. note::</span>
+<span class="sd">            </span>
+<span class="sd">            This function should always be used instead of :py:meth:`_toLePhareCat` or :py:meth:`_toCigaleCat` private methods as it automatically builds the correct catalogue object.</span>
+<span class="sd">            </span>
+<span class="sd">            See their definition to know which parameters to pass.</span>
+<span class="sd">        </span>
+<span class="sd">        :param str fname: name of the output file containing the catalogue when it is saved</span>
+<span class="sd">        </span>
+<span class="sd">        :raises ValueError: if code is not recognised</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="ow">is</span> <span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span><span class="p">:</span>        
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_toLePhareCat</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="ow">is</span> <span class="n">SEDcode</span><span class="o">.</span><span class="n">CIGALE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Cigale catalogue not implemented yet.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Code </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s1"> not recognised.&#39;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="FilterList._toLePhareCat"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList._toLePhareCat">[docs]</a>    <span class="k">def</span> <span class="nf">_toLePhareCat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                     <span class="n">tunit</span><span class="p">:</span> <span class="n">TableUnit</span>     <span class="o">=</span> <span class="n">TableUnit</span><span class="o">.</span><span class="n">MAG</span><span class="p">,</span> 
+                     <span class="n">magtype</span><span class="p">:</span> <span class="n">MagType</span>     <span class="o">=</span> <span class="n">MagType</span><span class="o">.</span><span class="n">AB</span><span class="p">,</span> 
+                     <span class="n">tformat</span><span class="p">:</span> <span class="n">TableFormat</span> <span class="o">=</span> <span class="n">TableFormat</span><span class="o">.</span><span class="n">MEME</span><span class="p">,</span> 
+                     <span class="n">ttype</span><span class="p">:</span> <span class="n">TableType</span>     <span class="o">=</span> <span class="n">TableType</span><span class="o">.</span><span class="n">LONG</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LePhareCat</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Construct a Catalogue instance given the table associated to the filter list.</span>
+<span class="sd">        </span>
+<span class="sd">        :param str fname: name of the output file containing the catalogue when it is saved</span>
+<span class="sd">        </span>
+<span class="sd">        :param TableUnit tunit: (**Optional**) unit of the table data. Must either be TableUnit.MAG for magnitude or TableUnit.FLUX for flux.</span>
+<span class="sd">        :param MagType magtype: (**Optional**) magnitude type if data are in magnitude unit. Must either be MagType.AB or MagType.VEGA.</span>
+<span class="sd">        :param TableFormat tformat: (**Optional**) format of the table. Must either be TableFormat.MEME if data and error columns are intertwined or TableFormat.MMEE if columns are first data and then errors.</span>
+<span class="sd">        :param TableType ttype: (**Optional**) data type. Must either be TableType.SHORT or TableType.LONG.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: LePhare catalogue object</span>
+<span class="sd">        :rtype: LePhareCat</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;code is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s1"> but it needs to be SED.SEDcode to build a LePhare catalogue object.&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">LePhareCat</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">tunit</span><span class="o">=</span><span class="n">tunit</span><span class="p">,</span> <span class="n">magtype</span><span class="o">=</span><span class="n">magtype</span><span class="p">,</span> <span class="n">tformat</span><span class="o">=</span><span class="n">tformat</span><span class="p">,</span> <span class="n">ttype</span><span class="o">=</span><span class="n">ttype</span><span class="p">)</span></div>
+        
+     
+    <span class="c1">################################</span>
+    <span class="c1">#        Table creation        #</span>
+    <span class="c1">################################</span>
+    
+<div class="viewcode-block" id="FilterList._LePhareTableFactory"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList._LePhareTableFactory">[docs]</a>    <span class="k">def</span> <span class="nf">_LePhareTableFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cleanMethod</span><span class="p">:</span> <span class="n">CleanMethod</span> <span class="o">=</span> <span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">scaleFactor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">texpFac</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">         .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">         </span>
+<span class="sd">         Factory function used to build a data table for LePhare SED fitting code.</span>
+<span class="sd">         </span>
+<span class="sd">         :param CleanMethod cleanMethod: (**Optional**) method used to clean pixel with negative values. Accepted values are CleanMethod.ZERO or CleanMethod.MIN.</span>
+<span class="sd">         :param scaleFactor: (**Optional**) factor used to multiply data and std map</span>
+<span class="sd">         :type scaleFactor: int or float</span>
+<span class="sd">         :param int texpFac: (**Optional**) exposure factor used to divide the exposure time when computing Poisson noise. A value of 0 means no Poisson noise is added to the variance map.</span>
+<span class="sd">         </span>
+<span class="sd">         :returns: columns, column names and column types</span>
+<span class="sd">         :rtype: list[int/float/str], list[str], list[data type]</span>
+<span class="sd">         &#39;&#39;&#39;</span>
+         
+        <span class="c1"># Compute mean map to scale data</span>
+        <span class="n">meanMap</span><span class="p">,</span> <span class="n">_</span>                 <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">computeMeanMap</span><span class="p">(</span><span class="n">maskVal</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        
+        <span class="n">dataList</span>                   <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">stdList</span>                    <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pos</span><span class="p">,</span> <span class="n">filt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">):</span>
+                  
+            <span class="c1"># Clean and add noise to variance map</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">var</span>              <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleanAndNoise</span><span class="p">(</span><span class="n">filt</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">filt</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="n">cleanMethod</span><span class="o">=</span><span class="n">cleanMethod</span><span class="p">,</span> <span class="n">texp</span><span class="o">=</span><span class="n">filt</span><span class="o">.</span><span class="n">texp</span><span class="p">,</span> <span class="n">texpFac</span><span class="o">=</span><span class="n">texpFac</span><span class="p">)</span>
+           
+            <span class="c1"># Scale data to have compatible values with LePhare for the flux</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">var</span>              <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">meanMap</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">scaleFactor</span><span class="p">)</span>
+            
+            <span class="c1"># Go to 1D version</span>
+            <span class="k">if</span> <span class="n">pos</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrayTo1D</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">,</span> <span class="n">var</span>          <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrayTo1D</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                
+            <span class="c1"># 0 values are cast to NaN otherwise corresponding magnitude would be infinite</span>
+            <span class="n">mask0</span>                  <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">var</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">mask0</span><span class="p">]</span>            <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="n">var</span><span class="p">[</span> <span class="n">mask0</span><span class="p">]</span>            <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            
+            <span class="c1"># Compute std instead of variance</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">std</span>              <span class="o">=</span> <span class="n">countToMag</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var</span><span class="p">),</span> <span class="n">filt</span><span class="o">.</span><span class="n">zpt</span><span class="p">)</span>
+            
+            <span class="c1"># Cast back pixels with NaN values to -99 mag to specify they are not to be used in the SED fitting</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">mask0</span><span class="p">]</span>            <span class="o">=</span> <span class="o">-</span><span class="mi">99</span>
+            <span class="n">std</span><span class="p">[</span> <span class="n">mask0</span><span class="p">]</span>            <span class="o">=</span> <span class="o">-</span><span class="mi">99</span>
+            
+            <span class="c1"># Append data and std to list</span>
+            <span class="n">dataList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">stdList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">std</span><span class="p">)</span>
+            
+        <span class="c1"># Redshift column</span>
+        <span class="n">lf</span>                         <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span>
+        <span class="n">ld</span>                         <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">zs</span>                         <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">redshift</span><span class="p">]</span><span class="o">*</span><span class="n">ld</span>
+        
+        <span class="c1"># Compute context (number of filters used - see LePhare documentation) and redshift columns</span>
+        <span class="n">context</span>                    <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="n">lf</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">ld</span>
+        <span class="n">dtypes</span>                     <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">]</span>     <span class="o">+</span> <span class="p">[</span><span class="nb">float</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">lf</span>                                                       <span class="o">+</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+        <span class="n">colnames</span>                   <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span>    <span class="o">+</span> <span class="p">[</span><span class="n">val</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">filter</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;e_</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">filter</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;Context&#39;</span><span class="p">,</span> <span class="s1">&#39;zs&#39;</span><span class="p">]</span>
+        <span class="n">columns</span>                    <span class="o">=</span> <span class="p">[</span><span class="n">indices</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">val</span> <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dataList</span><span class="p">,</span> <span class="n">stdList</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="n">s</span><span class="p">]]</span>         <span class="o">+</span> <span class="p">[</span> <span class="n">context</span><span class="p">,</span> <span class="n">zs</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">columns</span><span class="p">,</span> <span class="n">colnames</span><span class="p">,</span> <span class="n">dtypes</span></div>
+    
+        
+<div class="viewcode-block" id="FilterList._CigaleTableFactory"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList._CigaleTableFactory">[docs]</a>    <span class="k">def</span> <span class="nf">_CigaleTableFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cleanMethod</span><span class="p">:</span> <span class="n">CleanMethod</span> <span class="o">=</span> <span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">texpFac</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Factory function used to build a data table for Cigale SED fitting code.</span>
+<span class="sd">        </span>
+<span class="sd">        :param CleanMethod cleanMethod: (**Optional**) method used to clean pixel with negative values. Accepted values are CleanMethod.ZERO or CleanMethod.MIN.</span>
+<span class="sd">        :param int texpFac: (**Optional**) exposure factor used to divide the exposure time when computing Poisson noise. A value of 0 means no Poisson noise is added to the variance map.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: columns, column names and column types</span>
+<span class="sd">        :rtype: list[int/float/str], list[str], list[data type]</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+       
+        <span class="n">dataList</span>                   <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">stdList</span>                    <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pos</span><span class="p">,</span> <span class="n">filt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">):</span>
+
+            <span class="c1"># Clean and add noise to variance map</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">var</span>              <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleanAndNoise</span><span class="p">(</span><span class="n">filt</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">filt</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="n">cleanMethod</span><span class="o">=</span><span class="n">cleanMethod</span><span class="p">,</span> <span class="n">texp</span><span class="o">=</span><span class="n">filt</span><span class="o">.</span><span class="n">texp</span><span class="p">,</span> <span class="n">texpFac</span><span class="o">=</span><span class="n">texpFac</span><span class="p">)</span>
+            
+            <span class="c1"># Go to 1D version</span>
+            <span class="k">if</span> <span class="n">pos</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrayTo1D</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">,</span> <span class="n">var</span>          <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrayTo1D</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        
+            <span class="c1"># Compute std and convert std and data to mJy unit</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">std</span>              <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;mJy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">countToFlux</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var</span><span class="p">),</span> <span class="n">filt</span><span class="o">.</span><span class="n">zpt</span><span class="p">)]</span>
+            
+            <span class="c1"># Append data and std to list</span>
+            <span class="n">dataList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">stdList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">std</span><span class="p">)</span>
+            
+        <span class="c1"># Redshift column</span>
+        <span class="n">ll</span>                         <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span>
+        <span class="n">zs</span>                         <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">redshift</span><span class="p">]</span><span class="o">*</span><span class="n">ll</span>
+        
+        <span class="n">dtypes</span>                     <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>       <span class="o">+</span> <span class="p">[</span><span class="nb">float</span><span class="p">]</span><span class="o">*</span><span class="n">ll</span>
+        <span class="n">colnames</span>                   <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;redshift&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">val</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">filter</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="n">filter</span><span class="si">}</span><span class="s1">_err&#39;</span><span class="p">]]</span>
+        <span class="n">columns</span>                    <span class="o">=</span> <span class="p">[</span><span class="n">indices</span><span class="p">,</span> <span class="n">zs</span><span class="p">]</span>      <span class="o">+</span> <span class="p">[</span><span class="n">val</span> <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dataList</span><span class="p">,</span> <span class="n">stdList</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">[</span><span class="n">d</span><span class="p">,</span> <span class="n">s</span><span class="p">]]</span>
+        
+        <span class="k">return</span> <span class="n">columns</span><span class="p">,</span> <span class="n">colnames</span><span class="p">,</span> <span class="n">dtypes</span></div>
+        
+    
+<div class="viewcode-block" id="FilterList.genTable"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList.genTable">[docs]</a>    <span class="k">def</span> <span class="nf">genTable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cleanMethod</span><span class="p">:</span> <span class="n">CleanMethod</span> <span class="o">=</span> <span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">scaleFactor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">texpFac</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Generate an input table for the SED fitting codes.</span>
+<span class="sd">        </span>
+<span class="sd">        :param CleanMethod cleanMethod: (**Optional**) method used to clean pixel with negative values. Accepted values are CleanMethod.ZERO or CleanMethod.MIN.</span>
+<span class="sd">        :param scaleFactor: (**Optional**) factor used to multiply data and std map. Only used if SED fitting code is LePhare.</span>
+<span class="sd">        :type scaleFactor: int or float</span>
+<span class="sd">        :param int texpFac: (**Optional**) exposure factor used to divide the exposure time when computing Poisson noise. A value of 0 means no Poisson noise is added to the variance map.</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: output table</span>
+<span class="sd">        :rtype: Astropy Table</span>
+<span class="sd">        </span>
+<span class="sd">        :raises ValueError: if there are no filters in the filter list</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;At least one filter must be in the filter list to build a table.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="ow">is</span> <span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span><span class="p">:</span>
+            <span class="n">col</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">dtypes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_LePhareTableFactory</span><span class="p">(</span><span class="n">cleanMethod</span><span class="o">=</span><span class="n">cleanMethod</span><span class="p">,</span> <span class="n">scaleFactor</span><span class="o">=</span><span class="n">scaleFactor</span><span class="p">,</span> <span class="n">texpFac</span><span class="o">=</span><span class="n">texpFac</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="ow">is</span> <span class="n">SEDcode</span><span class="o">.</span><span class="n">CIGALE</span><span class="p">:</span>
+            <span class="n">col</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">dtypes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CigaleTableFactory</span><span class="p">(</span><span class="n">cleanMethod</span><span class="o">=</span><span class="n">cleanMethod</span><span class="p">,</span> <span class="n">texpFac</span><span class="o">=</span><span class="n">texpFac</span><span class="p">)</span>
+            
+        <span class="c1"># Generate the output Table</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table</span>             <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span></div>
+     
+        
+    <span class="c1">#############################</span>
+    <span class="c1">#       Data handling       #</span>
+    <span class="c1">#############################</span>
+    
+<div class="viewcode-block" id="FilterList.arrayTo1D"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList.arrayTo1D">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">arrayTo1D</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Convert data and variance maps into 1D vectors and remove nan values.</span>
+<span class="sd">        </span>
+<span class="sd">        .. note::</span>
+<span class="sd">            </span>
+<span class="sd">            Provide indices = True to get the indices of the non-NaN pixels in the 1D array (brefore NaN are removed).</span>
+<span class="sd">            </span>
+<span class="sd">        :param ndarray data: data map</span>
+<span class="sd">        :param ndarray var: variance map</span>
+<span class="sd">        </span>
+<span class="sd">        :param bool indices: (**Optional**) whether to return the list of indices of non-NaN values or not</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: 1D data, 1D variance (and the indices if **indices** is True)</span>
+<span class="sd">        </span>
+<span class="sd">        :raises TypeError:</span>
+<span class="sd">            </span>
+<span class="sd">            * if **data** or **var** are not ndarray</span>
+<span class="sd">            * if **indices** is not a bool</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">((</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">])):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;either data or variance maps is not a ndarray.&#39;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;indices parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must of type bool.&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Avoid to overwrite original arrays</span>
+        <span class="n">data</span>    <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">var</span>     <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        
+        <span class="n">shp</span>     <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>        
+        
+        <span class="c1"># Transform data and error maps into 1D vectors</span>
+        <span class="n">data</span>    <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">shp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">var</span>     <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span> <span class="n">shp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">shp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        
+        <span class="c1"># Get rid of NaN values</span>
+        <span class="n">nanMask</span> <span class="o">=</span> <span class="o">~</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+        <span class="n">data</span>    <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">nanMask</span><span class="p">]</span>
+        <span class="n">var</span>     <span class="o">=</span> <span class="n">var</span><span class="p">[</span> <span class="n">nanMask</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">indices</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">nanMask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">var</span></div>
+    
+<div class="viewcode-block" id="FilterList.clean"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList.clean">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="n">CleanMethod</span> <span class="o">=</span> <span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Clean given data and error maps by masking pixels and dealing with negative values.</span>
+<span class="sd">        </span>
+<span class="sd">        .. note::</span>
+<span class="sd">                </span>
+<span class="sd">            * If **method** is CleanMethod.ZERO, negative values in the data and error maps are set to 0</span>
+<span class="sd">            * If **method** is CleanMethod.MIN, negative values in the data and error maps are set to the minimum value in the array</span>
+<span class="sd">            * If **method** is neither, &#39;zero&#39; is used as default</span>
+<span class="sd">            </span>
+<span class="sd">        :param ndarray data: data map</span>
+<span class="sd">        :param ndarray var: variance map</span>
+<span class="sd">        :param ndarray[bool] mask: mask used to apply NaN values</span>
+<span class="sd">        </span>
+<span class="sd">        :param CleanMethod method: (**Optional**) method to deal with negative values</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: cleaned data and variance maps</span>
+<span class="sd">        :rtype: ndarray, ndarray</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">CleanMethod</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;method parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">method</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must have type CleanMethod.&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Deep copies to avoid to overwrite input arrays</span>
+        <span class="n">data</span>              <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">var</span>               <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        
+        <span class="c1"># Apply mask</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">var</span><span class="p">[</span> <span class="n">mask</span><span class="p">]</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        
+        <span class="c1"># Mask pixels having negative values</span>
+        <span class="n">negMask</span>           <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">var</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">is</span> <span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">negMask</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">var</span><span class="p">[</span> <span class="n">negMask</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="n">CleanMethod</span><span class="o">.</span><span class="n">MIN</span><span class="p">:</span>
+            <span class="n">mini</span>          <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="n">negMask</span><span class="p">])</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">negMask</span><span class="p">]</span> <span class="o">=</span> <span class="n">mini</span>
+            <span class="n">var</span><span class="p">[</span> <span class="n">negMask</span><span class="p">]</span> <span class="o">=</span> <span class="n">mini</span>
+            
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">var</span></div>
+    
+<div class="viewcode-block" id="FilterList.cleanAndNoise"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList.cleanAndNoise">[docs]</a>    <span class="k">def</span> <span class="nf">cleanAndNoise</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> 
+                      <span class="n">cleanMethod</span><span class="p">:</span> <span class="n">CleanMethod</span> <span class="o">=</span> <span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> 
+                      <span class="n">texp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+                      <span class="n">texpFac</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Clean data and variance maps from bad pixels and add Poisson noise to the variance map.</span>
+<span class="sd">        </span>
+<span class="sd">        .. note::</span>
+<span class="sd">            </span>
+<span class="sd">            If **texpFac** is 0 or **texp** is None, no Poisson noise is added to the variance map</span>
+<span class="sd">            </span>
+<span class="sd">        :param ndarray data: data map</span>
+<span class="sd">        :param ndarray var: variance map</span>
+<span class="sd">        :param ndarray[bool] mask: mask map</span>
+<span class="sd">        </span>
+<span class="sd">        :param CleanMethod cleanMethod: (**Optional**) method used for the cleaning process</span>
+<span class="sd">        :param texp: (**Optional**) exposition time</span>
+<span class="sd">        :type texp: int or float</span>
+<span class="sd">        :param int texpFac: (**Optional**) factor used to divide the exposition time</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: cleaned data and cleaned variance map with Poisson noise added</span>
+<span class="sd">        :rtype: ndarray, ndarray</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="c1"># Clean data and error maps of bad pixels and pixels with negative values</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clean</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">cleanMethod</span><span class="p">)</span>
+            
+        <span class="c1"># Add Poisson noise to the variance map</span>
+        <span class="k">if</span> <span class="n">texp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">var</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">poissonVar</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">texp</span><span class="o">=</span><span class="n">texp</span><span class="p">,</span> <span class="n">texpFac</span><span class="o">=</span><span class="n">texpFac</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">var</span></div>
+    
+<div class="viewcode-block" id="FilterList.computeMeanMap"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList.computeMeanMap">[docs]</a>    <span class="k">def</span> <span class="nf">computeMeanMap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maskVal</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Compute the averaged data and error maps over the spectral dimension for non masked pixels.</span>
+<span class="sd">        </span>
+<span class="sd">        :param maskVal: (**Optional**) value to put into masked pixels</span>
+<span class="sd">        :type maskVal: int or float</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: averaged data and averaged error map</span>
+<span class="sd">        :rtype: ndarray, ndarray</span>
+<span class="sd">        </span>
+<span class="sd">        :raises TypeError: if **maskVal** is neither int nor float</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">maskVal</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;maskVal parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">maskVal</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must have type int or float.&#39;</span><span class="p">)</span>
+            
+        <span class="c1"># Compute masked arrays</span>
+        <span class="n">data</span>      <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">_mask</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">]</span>
+        <span class="n">err</span>       <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">_mask</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">var</span><span class="p">,</span>  <span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">]</span>
+        
+        <span class="c1"># Compute mean value along spectral dimension</span>
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="s1">&#39;Mean of empty slice&#39;</span><span class="p">)</span>
+            <span class="n">data</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">err</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">err</span><span class="p">,</span>  <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            
+        <span class="c1"># Replace NaN values</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="n">maskVal</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">err</span><span class="p">,</span>  <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="n">maskVal</span><span class="p">)</span>
+        
+        <span class="c1"># Store mean data map for easy access</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meanMap</span> <span class="o">=</span> <span class="n">data</span>
+        
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">err</span></div>
+    
+<div class="viewcode-block" id="FilterList.poissonVar"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList.poissonVar">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">poissonVar</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">texp</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">texpFac</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Compute a scaled Poisson variance term from a given flux map. The variance :math:`(\Delta F)^2` is computed as</span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">            </span>
+<span class="sd">            (\Delta F)^2 = | \alpha F |</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`F` is the flux map and :math:`\alpha` is a scale factor defined as</span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">                </span>
+<span class="sd">            \alpha = {\rm{TEXP / TEXPFAC}}</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`\rm{TEXP}` is the exposure time and :math:`\rm{TEXPFAC}` is a coefficient used to scale it down.</span>
+<span class="sd">        </span>
+<span class="sd">        :param ndarray data: flux map</span>
+<span class="sd">        </span>
+<span class="sd">        :param texp: (**Optional**) exposure time in seconds</span>
+<span class="sd">        :type text: int or float</span>
+<span class="sd">        :param texpFac: (**Optional**) exposure factor</span>
+<span class="sd">        :type texpFac: int or float</span>
+<span class="sd">        </span>
+<span class="sd">        :raises TypeError: if **texp** or **texpFac** are not both int or float</span>
+<span class="sd">        :raises ValueError:</span>
+<span class="sd">            </span>
+<span class="sd">            * if **texp** is less than or equal to 0</span>
+<span class="sd">            * if **texpFac** is less than 0</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">texp</span><span class="p">,</span> <span class="n">texpFac</span><span class="p">]]):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;texp and texpFac parameters have types </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">texp</span><span class="p">)</span><span class="si">}</span><span class="s1"> and </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">texpFac</span><span class="p">)</span><span class="si">}</span><span class="s1"> but they must have type int or float.&#39;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">texp</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;texp has value </span><span class="si">{</span><span class="n">texp</span><span class="si">}</span><span class="s1"> but it must be positive.&#39;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">texpFac</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;texpFac has value </span><span class="si">{</span><span class="n">texpFac</span><span class="si">}</span><span class="s1"> but it must be positive or null.&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="n">texpFac</span> <span class="o">/</span> <span class="n">texp</span></div>
+    
+<div class="viewcode-block" id="FilterList.scale"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList.scale">[docs]</a>    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">norm</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Normalise given data and error maps using a norm map and scale by a certain amount. Necessary for LePhare SED fitting code.</span>
+<span class="sd">        </span>
+<span class="sd">        :param ndarray data: data map</span>
+<span class="sd">        :param ndarray var: variance map</span>
+<span class="sd">        :param ndarray norm: normalisation map which divides data and error maps</span>
+<span class="sd">        </span>
+<span class="sd">        :param factor: (**Optional**) scale factor which multiplies the output array</span>
+<span class="sd">        :type factor: int or float</span>
+<span class="sd">        </span>
+<span class="sd">        :returns: scaled data and variance maps</span>
+<span class="sd">        :rtype: ndarray, ndarray</span>
+<span class="sd">        </span>
+<span class="sd">        :raises ValueError: if **data** and **norm** do not have the same shapes</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="n">norm</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Incompatible norm and data shapes. norm map has shape </span><span class="si">{</span><span class="n">norm</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> but data map has shape </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Deep copies to avoid to overwrite input arrays</span>
+        <span class="n">d</span>             <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">v</span>             <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        
+        <span class="n">mask</span>          <span class="o">=</span> <span class="n">norm</span> <span class="o">!=</span> <span class="mi">0</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>      <span class="o">*=</span> <span class="n">factor</span><span class="o">/</span><span class="n">norm</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>      <span class="o">*=</span> <span class="p">(</span><span class="n">factor</span><span class="o">*</span><span class="n">factor</span><span class="o">/</span><span class="p">(</span><span class="n">norm</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">*</span><span class="n">norm</span><span class="p">[</span><span class="n">mask</span><span class="p">]))</span> <span class="c1"># Variance normalisation is squared</span>
+        
+        <span class="c1"># Store scale factor for easy access</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaleFac</span> <span class="o">=</span> <span class="n">factor</span>
+        
+        <span class="k">return</span> <span class="n">d</span><span class="p">,</span> <span class="n">v</span></div>
+        
+        
+    <span class="c1">####################</span>
+    <span class="c1">#       Misc       #</span>
+    <span class="c1">####################    </span>
+    
+<div class="viewcode-block" id="FilterList.setCode"><a class="viewcode-back" href="../../API/filters.html#SED.filters.FilterList.setCode">[docs]</a>    <span class="k">def</span> <span class="nf">setCode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">SEDcode</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Set the SED fitting code.</span>
+<span class="sd">        </span>
+<span class="sd">        .. warning::</span>
+<span class="sd">            </span>
+<span class="sd">            This function also recomputes and rewrites the output table used for the SED fitting.</span>
+<span class="sd">            If you want a table with different parameters you must run :py:meth:`FilterList.genTable` again, for e.g.</span>
+<span class="sd">            </span>
+<span class="sd">            &gt;&gt;&gt; from SED.misc import SEDcode, CleanMethod</span>
+<span class="sd">            &gt;&gt;&gt; flist = FilterList(filters, mask)                          # setCode and genTable methods are called with default SED fitting code name</span>
+<span class="sd">            &gt;&gt;&gt; flist.setCode(SEDcode.LEPHARE)                             # setCode and genTable methods are called with &#39;lephare&#39; SED fitting code name</span>
+<span class="sd">            &gt;&gt;&gt; flist.genTable(cleanMethod=CleanMethod.MIN, scaleFactor=50) # toTable is run again with different parameters but still &#39;lephare&#39; SED fitting code name</span>
+<span class="sd">        </span>
+<span class="sd">        :param SEDcode code: code used for SED fitting. Acceptable values are SEDcode.CIGALE and SEDcode.LEPHARE.</span>
+<span class="sd">        </span>
+<span class="sd">        :raises TypeError: if **code** is not of type str</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">SEDcode</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;code parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">code</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must be of type SEDcode.&#39;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+            
+        <span class="c1"># Update output table with default parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">genTable</span><span class="p">()</span>
+        <span class="k">return</span></div>
+    
+    
+    <span class="c1">#############################</span>
+    <span class="c1">#      Partial methods      #</span>
+    <span class="c1">#############################</span>
+    
+    <span class="c1">#: Set Cigale as fitting code</span>
+    <span class="n">setCigale</span>  <span class="o">=</span> <span class="n">partialmethod</span><span class="p">(</span><span class="n">setCode</span><span class="p">,</span> <span class="n">SEDcode</span><span class="o">.</span><span class="n">CIGALE</span><span class="p">)</span>
+    
+    <span class="c1">#: Set LePhare as fitting code</span>
+    <span class="n">setLePhare</span> <span class="o">=</span> <span class="n">partialmethod</span><span class="p">(</span><span class="n">setCode</span><span class="p">,</span> <span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span><span class="p">)</span></div>
+</pre></div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.5',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, Wilfried Mercier.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.
+        </div>
+    </div>  
+
+</body>
+</html>

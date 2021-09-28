@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Catalogue classes &mdash; Resolved SED-fitting wrapper 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Filter classes" href="filters.html" />
+    <link rel="prev" title="API" href="index.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                Resolved SED-fitting wrapper
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+          <li><a href="index.html">API</a></li>
+        
+      <li>Catalogue classes</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/API/catalogues.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup.html">Installation and setup</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial introduction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/example1.html">1. Generate a LePhare configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/example2.html">2. Resolved stellar mass map with LePhare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/example3.html">3. Resolved SFR map from an already existing LePhare output file</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">----------------------------------------</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a></li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <section id="module-SED.catalogues">
+<span id="catalogue-classes"></span><h1>Catalogue classes<a class="headerlink" href="#module-SED.catalogues" title="Permalink to this headline">¶</a></h1>
+<p><em>Code author: Hugo Plombat - LUPM &lt;<a class="reference external" href="mailto:hugo&#46;plombat&#37;&#52;&#48;umontpellier&#46;fr">hugo<span>&#46;</span>plombat<span>&#64;</span>umontpellier<span>&#46;</span>fr</a>&gt; &amp; Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
+<p>Base classes used to generate catalogues for LePhare or Cigale SED fitting codes.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="SED.catalogues.Catalogue">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">SED.catalogues.</span></span><span class="sig-name descname"><span class="pre">Catalogue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">astropy.table.table.Table</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/catalogues.html#Catalogue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.catalogues.Catalogue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<p>Class implementing a catalogue consisting of as Astropy Table and additional information used by the SED fitting codes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="SED.catalogues.Catalogue.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">astropy.table.table.Table</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/SED/catalogues.html#Catalogue.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.catalogues.Catalogue.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
+<p>Init general catalogue. This is supposed to be subclassed to account for specificities of LePhare or Cigale catalogues.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<em>str</em>) – name of the catalogue file where the catalogue is written into when saving</p></li>
+<li><p><strong>table</strong> (<em>Astropy Table</em>) – input table</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – <ul class="simple">
+<li><p>if <strong>table</strong> is not an astropy Table</p></li>
+<li><p>if <strong>fname</strong> is not of type str</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SED.catalogues.Catalogue.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/SED/catalogues.html#Catalogue.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.catalogues.Catalogue.save" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
+<p>Save the catalogue into the given file.</p>
+<p>:param str path:(<strong>Optional</strong>) a path to append to the file name
+:param kwargs: optional parameters passed to Astropy.table.Table.writeto method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – if <strong>path</strong> is not of type str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="SED.catalogues.Catalogue.text">
+<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#SED.catalogues.Catalogue.text" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
+<p>Return a text representation of the catalogue used when making the parameter files.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="SED.catalogues.LePhareCat">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">SED.catalogues.</span></span><span class="sig-name descname"><span class="pre">LePhareCat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">astropy.table.table.Table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tunit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SED.misc.enum.TableUnit</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">TableUnit.MAG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magtype</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SED.misc.enum.MagType</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">MagType.AB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tformat</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SED.misc.enum.TableFormat</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">TableFormat.MEME</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttype</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SED.misc.enum.TableType</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">TableType.LONG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlines</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[0,</span> <span class="pre">100000000]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/catalogues.html#LePhareCat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.catalogues.LePhareCat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#SED.catalogues.Catalogue" title="SED.catalogues.Catalogue"><code class="xref py py-class docutils literal notranslate"><span class="pre">SED.catalogues.Catalogue</span></code></a></p>
+<p>Class implementing a catalogue compatible with LePhare SED fitting code.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="SED.catalogues.LePhareCat.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">astropy.table.table.Table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tunit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SED.misc.enum.TableUnit</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">TableUnit.MAG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magtype</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SED.misc.enum.MagType</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">MagType.AB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tformat</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SED.misc.enum.TableFormat</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">TableFormat.MEME</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttype</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">SED.misc.enum.TableType</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">TableType.LONG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlines</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[0,</span> <span class="pre">100000000]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/SED/catalogues.html#LePhareCat.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.catalogues.LePhareCat.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
+<p>Init LePhare catalogue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<em>str</em>) – name of the output file containing the catalogue when it is saved</p></li>
+<li><p><strong>table</strong> (<em>Astropy Table</em>) – input table</p></li>
+<li><p><strong>tunit</strong> (<em>TableUnit</em>) – (<strong>Optional</strong>) unit of the table data. Must either be TableUnit.MAG for magnitude or TableUnit.FLUX for flux.</p></li>
+<li><p><strong>magtype</strong> (<em>MagType</em>) – (<strong>Optional</strong>) magnitude type if data are in magnitude unit. Must either be MagType.AB or MagType.VEGA.</p></li>
+<li><p><strong>tformat</strong> (<em>TableFormat</em>) – (<strong>Optional</strong>) format of the table. Must either be TableFormat.MEME if data and error columns are intertwined or TableFormat.MMEE if columns are first data and then errors.</p></li>
+<li><p><strong>ttype</strong> (<em>TableType</em>) – (<strong>Optional</strong>) data type. Must either be TableType.SHORT or TableType.LONG.</p></li>
+<li><p><strong>nlines</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – (<strong>Optional</strong>) first and last line of the catalogue to be used during the SED fitting</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – <ul>
+<li><p>if <strong>table</strong> is not an astropy Table</p></li>
+<li><p>if <strong>fname</strong> is not of type str</p></li>
+<li><p>if <strong>nlines</strong> is not a list</p></li>
+</ul>
+</p></li>
+<li><p><strong>ValueError</strong> – if <strong>nlines</strong> values are not int, or if first value is less than 0, or if second value is less than the first one</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SED.catalogues.LePhareCat.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/SED/catalogues.html#LePhareCat.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.catalogues.LePhareCat.save" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
+<p>Save LePhare catalogue into the given file.</p>
+<p>:param str path:(<strong>Optional</strong>) a path to append to the file name
+:param kwargs: optional parameters passed to Astropy.table.Table.writeto method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – if <strong>path</strong> is not of type str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="SED.catalogues.LePhareCat.text">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#SED.catalogues.LePhareCat.text" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
+<p>Return a text representation of the catalogue used when making the parameter files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>output representation</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.5',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, Wilfried Mercier.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.
+        </div>
+    </div>  
+
+</body>
+</html>
