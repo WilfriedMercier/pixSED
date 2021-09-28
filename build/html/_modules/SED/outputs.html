@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SED.outputs &mdash; Resolved SED-fitting wrapper 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../../index.html">
+                Resolved SED-fitting wrapper
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a></li>
+        
+          <li><a href="../index.html">Module code</a></li>
+        
+      <li>SED.outputs</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../setup.html">Installation and setup</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial introduction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/example1.html">1. Generate a LePhare configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/example2.html">2. Resolved stellar mass map with LePhare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/example3.html">3. Resolved SFR map from an already existing LePhare output file</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">----------------------------------------</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../API/index.html">API</a></li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <h1>Source code for SED.outputs</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. codeauthor:: Hugo Plombat - LUPM &lt;hugo.plombat@umontpellier.fr&gt; &amp; Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+
+<span class="sd">Classes used by the sed objects to generate objects loading output tables and producing resolved maps.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os.path</span>          <span class="k">as</span>     <span class="nn">opath</span>
+<span class="kn">import</span> <span class="nn">astropy.io.ascii</span> <span class="k">as</span>     <span class="nn">asci</span>
+<span class="kn">import</span> <span class="nn">numpy</span>            <span class="k">as</span>     <span class="nn">np</span>
+<span class="kn">from</span>   <span class="nn">numpy</span>            <span class="kn">import</span> <span class="n">ndarray</span>
+<span class="kn">from</span>   <span class="nn">abc</span>              <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span>   <span class="nn">typing</span>           <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span>   <span class="nn">astropy.table</span>    <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span>   <span class="nn">astropy.units</span>    <span class="kn">import</span> <span class="n">Quantity</span>
+<span class="kn">from</span>   <span class="nn">.misc.enum</span>       <span class="kn">import</span> <span class="n">LePhareOutputParam</span>
+<span class="kn">from</span>   <span class="nn">.filters</span>         <span class="kn">import</span> <span class="n">FilterList</span>
+
+<div class="viewcode-block" id="Output"><a class="viewcode-back" href="../../API/outputs.html#SED.outputs.Output">[docs]</a><span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+   <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Abstract SED fitting code output class.&#39;&#39;&#39;</span>
+
+
+<div class="viewcode-block" id="Output.__init__"><a class="viewcode-back" href="../../API/outputs.html#SED.outputs.Output.__init__">[docs]</a>   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">      </span>
+<span class="sd">      Init the output class.</span>
+<span class="sd">      </span>
+<span class="sd">      :param str file: name of the SED fitting outut file</span>
+<span class="sd">      &#39;&#39;&#39;</span>
+      
+      <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;file parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must have type str.&#39;</span><span class="p">)</span>
+         
+      <span class="n">fullFile</span> <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">opath</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fullFile</span><span class="p">):</span>
+         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;file </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s1"> (expanded as </span><span class="si">{</span><span class="n">fullFile</span><span class="si">}</span><span class="s1">) not found.&#39;</span><span class="p">)</span>
+         
+      <span class="c1">#: SED fitting code output file name used</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">file</span>   <span class="o">=</span> <span class="n">fullFile</span>
+      
+      <span class="c1">#: Image properties corresponding to the output table (keys are None by default, update using the link method with a FilterList object)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">imProp</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span>   <span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                     <span class="s1">&#39;scale&#39;</span>   <span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                     <span class="s1">&#39;meanMap&#39;</span> <span class="p">:</span> <span class="kc">None</span>
+                    <span class="p">}</span>
+      
+      <span class="c1">#: Configuration dictionary with info from the header</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="p">{}</span></div>
+      
+<div class="viewcode-block" id="Output.load"><a class="viewcode-back" href="../../API/outputs.html#SED.outputs.Output.load">[docs]</a>   <span class="nd">@abstractmethod</span>
+   <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+      <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Load data from a file into an astropy Table object.&#39;&#39;&#39;</span>
+   
+      <span class="k">return</span></div>
+  
+<div class="viewcode-block" id="Output.link"><a class="viewcode-back" href="../../API/outputs.html#SED.outputs.Output.link">[docs]</a>   <span class="k">def</span> <span class="nf">link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterList</span><span class="p">:</span> <span class="n">FilterList</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">      </span>
+<span class="sd">      Provide the default image properties from a FilterList object.</span>
+<span class="sd">      </span>
+<span class="sd">      :param FilterList filterList: FilterList object from which the image properties are retrieved</span>
+<span class="sd">      </span>
+<span class="sd">      :raises TypeError: if **filterList** is not of type FilterList</span>
+<span class="sd">      &#39;&#39;&#39;</span>
+      
+      <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filterList</span><span class="p">,</span> <span class="n">FilterList</span><span class="p">):</span>
+         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;filterList parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">filterList</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must be of type FilterList.&#39;</span><span class="p">)</span>
+         
+      <span class="bp">self</span><span class="o">.</span><span class="n">imProp</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">filterList</span><span class="o">.</span><span class="n">shape</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">imProp</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">filterList</span><span class="o">.</span><span class="n">scaleFac</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">imProp</span><span class="p">[</span><span class="s1">&#39;meanMap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filterList</span><span class="o">.</span><span class="n">meanMap</span>
+      
+      <span class="k">return</span></div></div>
+
+   
+<div class="viewcode-block" id="LePhareOutput"><a class="viewcode-back" href="../../API/outputs.html#SED.outputs.LePhareOutput">[docs]</a><span class="k">class</span> <span class="nc">LePhareOutput</span><span class="p">(</span><span class="n">Output</span><span class="p">):</span>
+   <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Implement an output class for LePhare.&#39;&#39;&#39;</span>
+   
+<div class="viewcode-block" id="LePhareOutput.__init__"><a class="viewcode-back" href="../../API/outputs.html#SED.outputs.LePhareOutput.__init__">[docs]</a>   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">      </span>
+<span class="sd">      Init the output class.</span>
+<span class="sd">      </span>
+<span class="sd">      :param str file: name of the SED fitting outut file</span>
+<span class="sd">      &#39;&#39;&#39;</span>
+      
+      <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      
+      <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">()</span></div>
+      
+   
+<div class="viewcode-block" id="LePhareOutput.readHeader"><a class="viewcode-back" href="../../API/outputs.html#SED.outputs.LePhareOutput.readHeader">[docs]</a>   <span class="k">def</span> <span class="nf">readHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+      <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">      </span>
+<span class="sd">      Read the header of LePhare output file.</span>
+<span class="sd">      </span>
+<span class="sd">      :returns: dict mapping between column names and column number</span>
+<span class="sd">      &#39;&#39;&#39;</span>
+      
+      <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+         
+         <span class="c1"># Go through header lines till output format line</span>
+         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s1">&#39;# Output format                       #&#39;</span><span class="p">:</span>
+               <span class="k">break</span>
+            <span class="k">elif</span> <span class="s1">&#39;:&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+               <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+               <span class="n">key</span><span class="p">,</span> <span class="n">value</span>       <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+               <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+               
+         <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;Output format line could not be reached.&#39;</span><span class="p">)</span>
+            
+         <span class="c1"># Go through the lines which tell us which parameters to extract and where</span>
+         <span class="n">colMap</span>  <span class="o">=</span> <span class="p">{}</span>
+         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s1">&#39;#######################################&#39;</span><span class="p">:</span>
+               <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+
+               <span class="n">items</span>          <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;#, &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+               <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+                  <span class="n">key</span><span class="p">,</span> <span class="n">val</span>    <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                  <span class="n">colMap</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                  
+         <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;End of SED fitting code output file header could not be reached.&#39;</span><span class="p">)</span>
+            
+         <span class="k">return</span> <span class="n">colMap</span></div>
+   
+<div class="viewcode-block" id="LePhareOutput.load"><a class="viewcode-back" href="../../API/outputs.html#SED.outputs.LePhareOutput.load">[docs]</a>   <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
+      <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">      </span>
+<span class="sd">      Load data from LePhare output file.</span>
+<span class="sd">      &#39;&#39;&#39;</span>
+      
+      <span class="c1"># Read header first</span>
+      <span class="n">colMap</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readHeader</span><span class="p">()</span>
+      
+      <span class="c1"># Select columns from the header and map them to the names given in the Enum object</span>
+      <span class="n">colNames</span>   <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">!=</span> <span class="s1">&#39;()&#39;</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">i</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s1">_2&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colMap</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+      <span class="n">colDef</span>     <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;col</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colMap</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+      
+      <span class="n">tcolNames</span>  <span class="o">=</span> <span class="p">[]</span>
+      <span class="n">tcolUnits</span>  <span class="o">=</span> <span class="p">[]</span>
+      <span class="n">tcolLog</span>    <span class="o">=</span> <span class="p">[]</span>
+      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colNames</span><span class="p">:</span>
+      
+         <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="s1">&#39;IDENT&#39;</span><span class="p">:</span>
+            <span class="n">tcolNames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">)</span>
+            <span class="n">tcolUnits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">tcolLog</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+         <span class="k">else</span><span class="p">:</span>
+            
+            <span class="c1"># Get names which will appear in the Astropy table column headers</span>
+            <span class="n">tcolNames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LePhareOutputParam</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+      
+            <span class="c1"># Get units which will appear in the Astropy table colulmn headers</span>
+            <span class="n">tcolUnits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LePhareOutputParam</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+      
+            <span class="c1"># Get log flag for each column</span>
+            <span class="n">tcolLog</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">LePhareOutputParam</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">log</span><span class="p">)</span>
+      
+      <span class="c1"># Read full Table</span>
+      <span class="n">table</span>                  <span class="o">=</span> <span class="n">asci</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+      
+      <span class="c1"># Only keep desired columns, rename them and add unit</span>
+      <span class="n">table</span>                  <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="n">colDef</span><span class="p">]</span>
+      
+      <span class="k">for</span> <span class="n">tcname</span><span class="p">,</span> <span class="n">tcunit</span><span class="p">,</span> <span class="n">tclog</span><span class="p">,</span> <span class="n">cdef</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tcolNames</span><span class="p">,</span> <span class="n">tcolUnits</span><span class="p">,</span> <span class="n">tcolLog</span><span class="p">,</span> <span class="n">colDef</span><span class="p">):</span>
+          <span class="n">table</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="n">cdef</span><span class="p">,</span> <span class="n">tcname</span><span class="p">)</span>
+          <span class="n">table</span><span class="p">[</span><span class="n">tcname</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="n">tcunit</span>
+          
+          <span class="k">if</span> <span class="n">tclog</span><span class="p">:</span>
+             <span class="n">table</span><span class="p">[</span><span class="n">tcname</span><span class="p">]</span>   <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">table</span><span class="p">[</span><span class="n">tcname</span><span class="p">]</span>
+      
+      <span class="bp">self</span><span class="o">.</span><span class="n">table</span>             <span class="o">=</span> <span class="n">table</span>
+      <span class="k">return</span> <span class="n">table</span></div>
+      
+     
+<div class="viewcode-block" id="LePhareOutput.toImage"><a class="viewcode-back" href="../../API/outputs.html#SED.outputs.LePhareOutput.toImage">[docs]</a>   <span class="k">def</span> <span class="nf">toImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> 
+               <span class="n">shape</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+               <span class="n">scaleFactor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+               <span class="n">meanMap</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Quantity</span><span class="p">:</span>
+      <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">      .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">      </span>
+<span class="sd">      Generate an image from the Astropy Table given column name.</span>
+<span class="sd">      </span>
+<span class="sd">      .. note::</span>
+<span class="sd">          </span>
+<span class="sd">          Depending on the type of output quantity one wants to generate an image from, **scaleFactor** can have different values:</span>
+<span class="sd">              </span>
+<span class="sd">              * if the output quantity is extensive, then this is the same scaleFactor which was used to scale down the filters data</span>
+<span class="sd">              * if the output quantity is intensive, then it must be 1</span>
+<span class="sd">              </span>
+<span class="sd">          The **shape**, **scaleFactor** and **meanMap** parameters can also be passed as default values using</span>
+<span class="sd">          </span>
+<span class="sd">          &gt;&gt;&gt; output = LePhareOutput(&#39;someFileName.out&#39;)</span>
+<span class="sd">          &gt;&gt;&gt; output.link(filterList)</span>
+<span class="sd">          </span>
+<span class="sd">          where filterList is the FilterList object used to perform the SED fitting.</span>
+<span class="sd">          </span>
+<span class="sd">          These parameters always override the default values if provided.</span>
+<span class="sd">      </span>
+<span class="sd">      :param str name: name of the column to generate the image from</span>
+<span class="sd">      </span>
+<span class="sd">      :param tuple[int] shape: (**Optional**) shape of the output image. The shape must be such that shape[0]*shape[1] == len(self.table)</span>
+<span class="sd">      :param scaleFactor: (**Optional**) scale factor used to scale up the image</span>
+<span class="sd">      :type scaleFactor: int or float</span>
+<span class="sd">      :param ndarray meanMap: (**Optional**) mean map used during the filterList table creation to normalise the data</span>
+<span class="sd">      </span>
+<span class="sd">      :returns: output image as an Astropy Quantity. Use .data method to only get the array.</span>
+<span class="sd">      :rtype: Quantity</span>
+<span class="sd">      </span>
+<span class="sd">      :raises TypeError:</span>
+<span class="sd">          </span>
+<span class="sd">          * if **name** is not of type str</span>
+<span class="sd">          * if **shape** is neither a tuple nor a list</span>
+<span class="sd">          * if **scaleFactor** is neither an int nor a float</span>
+<span class="sd">          </span>
+<span class="sd">      :raises ValueError: if **shape** is not of length</span>
+<span class="sd">      &#39;&#39;&#39;</span>
+      
+      <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;column name has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must have type str.&#39;</span><span class="p">)</span>
+      
+      <span class="c1"># Check shape parameter</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">imProp</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;an image shape must be provided either in this function call or using the link method.&#39;</span><span class="p">)</span>
+      
+      <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;shape parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must have type tuple.&#39;</span><span class="p">)</span>
+              
+         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;shape parameter has not a length of 2.&#39;</span><span class="p">)</span>
+            
+      <span class="k">else</span><span class="p">:</span>
+         <span class="n">shape</span>        <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imProp</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">]</span>
+          
+      <span class="c1"># Check scaleFactor parameter</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">imProp</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">scaleFactor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;a scale facor must be provided either in this function call or using the link method.&#39;</span><span class="p">)</span>
+           
+      <span class="k">if</span> <span class="n">scaleFactor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+          
+         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scaleFactor</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;scaleFactor parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">scaleFactor</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must have type int or float.&#39;</span><span class="p">)</span>
+          
+         <span class="k">if</span> <span class="n">scaleFactor</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;scaleFactor parameter has value </span><span class="si">{</span><span class="n">scaleFactor</span><span class="si">}</span><span class="s1"> but it must be strictly positive.&#39;</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+         <span class="n">scaleFactor</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imProp</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span>
+      
+      <span class="c1"># Check meanMap parameter</span>
+      <span class="k">if</span> <span class="n">meanMap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">meanMap</span><span class="p">,</span> <span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;meanMap parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">meanMap</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must have type ndarray.&#39;</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+         <span class="n">meanMap</span>      <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imProp</span><span class="p">[</span><span class="s1">&#39;meanMap&#39;</span><span class="p">]</span>
+      
+      <span class="k">if</span> <span class="n">shape</span> <span class="o">!=</span> <span class="n">meanMap</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;meanMap has shape </span><span class="si">{</span><span class="n">meanMap</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> but is must have shape </span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+          
+      <span class="c1"># Location of good pixels</span>
+      <span class="n">indices</span>         <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span>
+          
+      <span class="c1"># Output array (NaN for bad pixels - default NaN everywhere)</span>
+      <span class="n">data</span>            <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+      <span class="n">data</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="n">scaleFactor</span>
+      <span class="n">data</span>            <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+      
+      <span class="c1"># Multiply by mean map only where it is non zero</span>
+      <span class="k">if</span> <span class="n">meanMap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+          <span class="n">mask</span>        <span class="o">=</span> <span class="n">meanMap</span> <span class="o">!=</span> <span class="mi">0</span>
+          <span class="n">data</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">*=</span> <span class="n">meanMap</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+      
+      <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span></div></div>
+         
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+</pre></div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.5',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, Wilfried Mercier.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.
+        </div>
+    </div>  
+
+</body>
+</html>
