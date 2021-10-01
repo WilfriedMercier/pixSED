@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Example 2: Resolved SFR map with LePhare from an output file &mdash; Resolved SED-fitting wrapper 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API" href="../API/index.html" />
+    <link rel="prev" title="Example 1: Generating a resolved stellar mass map with LePhare" href="example1.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                Resolved SED-fitting wrapper
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+      <li>Example 2: Resolved SFR map with LePhare from an output file</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/examples/example2.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup.html">Installation and setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../setup.html#required-dependencies">Required dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/lephare.html">LePhare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/cigale.html">Cigale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#nomenclature">Nomenclature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#pre-processing-step">Pre-processing step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code> objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="example1.html">1. Resolved stellar mass map with LePhare</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Resolved SFR map from an already existing LePhare output file</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">----------------------------------------</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../API/index.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../API/catalogues.html">Catalogue classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API/filters.html">Filter classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API/misc/index.html">Miscellaneous</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API/outputs.html">SED fitting code output classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API/sed.html">SED classes</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <section id="example-2-resolved-sfr-map-with-lephare-from-an-output-file">
+<h1>Example 2: Resolved SFR map with LePhare from an output file<a class="headerlink" href="#example-2-resolved-sfr-map-with-lephare-from-an-output-file" title="Permalink to this headline">¶</a></h1>
+<p>We assume the SED fitting has already been performed and there is an output file named <code class="code docutils literal notranslate"><span class="pre">1.in</span></code> found in <code class="code docutils literal notranslate"><span class="pre">example/1</span></code> directory.</p>
+<p>Since we need the mean map, scale factor and exposure time to scale back the output properties, we start by building the FilterList oject as in <a class="reference internal" href="example1.html"><span class="doc">example 1</span></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os.path</span>           <span class="k">as</span>     <span class="nn">opath</span>
+<span class="kn">from</span>   <span class="nn">astropy.io</span>        <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">import</span> <span class="nn">SED</span>
+
+<span class="n">galName</span>    <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+<span class="n">zeropoints</span> <span class="o">=</span> <span class="p">[</span><span class="mf">25.68</span><span class="p">,</span> <span class="mf">26.51</span><span class="p">,</span> <span class="mf">25.69</span><span class="p">,</span> <span class="mf">25.94</span><span class="p">,</span> <span class="mf">24.87</span><span class="p">,</span> <span class="mf">26.27</span><span class="p">,</span> <span class="mf">26.23</span><span class="p">,</span> <span class="mf">26.45</span><span class="p">,</span> <span class="mf">25.94</span><span class="p">]</span>
+<span class="n">redshift</span>   <span class="o">=</span> <span class="mf">0.622</span>
+<span class="n">bands</span>      <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;435&#39;</span><span class="p">,</span> <span class="s1">&#39;606&#39;</span><span class="p">,</span> <span class="s1">&#39;775&#39;</span><span class="p">,</span> <span class="s1">&#39;814&#39;</span><span class="p">,</span> <span class="s1">&#39;850&#39;</span><span class="p">,</span> <span class="s1">&#39;105&#39;</span><span class="p">,</span> <span class="s1">&#39;125&#39;</span><span class="p">,</span> <span class="s1">&#39;140&#39;</span><span class="p">,</span> <span class="s1">&#39;160&#39;</span><span class="p">]</span>
+
+<span class="n">dataFiles</span>  <span class="o">=</span> <span class="p">[]</span>
+<span class="n">varFiles</span>   <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">:</span>
+
+   <span class="n">file</span>    <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">.fits&#39;</span><span class="p">))</span>
+   <span class="n">dataFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+   <span class="n">vfile</span>   <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">_var.fits&#39;</span><span class="p">))</span>
+   <span class="n">varFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vfile</span><span class="p">)</span>
+
+<span class="n">mfile</span>      <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_mask.fits&#39;</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">mfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdul</span><span class="p">:</span>
+   <span class="n">mask</span>    <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="n">filts</span>      <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">band</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">zpt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bands</span><span class="p">,</span> <span class="n">dataFiles</span><span class="p">,</span> <span class="n">varFiles</span><span class="p">,</span> <span class="n">zeropoints</span><span class="p">):</span>
+   <span class="n">filts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SED</span><span class="o">.</span><span class="n">Filter</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">zpt</span><span class="p">))</span>
+
+<span class="n">flist</span>      <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">FilterList</span><span class="p">(</span><span class="n">filts</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">SED</span><span class="o">.</span><span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span><span class="p">,</span> <span class="n">redshift</span><span class="o">=</span><span class="n">redshift</span><span class="p">)</span>
+<span class="n">flist</span><span class="o">.</span><span class="n">genTable</span><span class="p">(</span><span class="n">cleanMethod</span><span class="o">=</span><span class="n">SED</span><span class="o">.</span><span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">scaleFactor</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">texpFac</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we just have to build an output object and link the filter list to it</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">sed</span><span class="o">.</span><span class="n">LePhareOutput</span><span class="p">(</span><span class="s1">&#39;1/1.out&#39;</span><span class="p">)</span>
+<span class="n">output</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">flist</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As in <a class="reference internal" href="example1.html"><span class="doc">example 1</span></a>, we can now generate a resolved map for the median SFR</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sfr</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">toImage</span><span class="p">(</span><span class="s1">&#39;sfr_med&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sfr</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.5',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, Wilfried Mercier.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.
+        </div>
+    </div>  
+
+</body>
+</html>
