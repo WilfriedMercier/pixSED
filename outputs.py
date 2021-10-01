@@ -74,6 +74,18 @@ class Output(ABC):
       self.imProp['meanMap'] = filterList.meanMap
       
       return
+  
+   @abstractmethod
+   def toImage(self, *args, **kwargs):
+       r'''Generate a resolved map.'''
+       
+       return
+
+class CigaleOutput(Output):
+    
+    def __init__(self, *args, **kwargs):
+        
+        raise NotImplementedError('Cigale not implemented yet.')
 
    
 class LePhareOutput(Output):

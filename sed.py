@@ -175,6 +175,12 @@ class SED(ABC):
         return
 
 
+class CigaleSED(SED):
+    
+    def __init__(self, ID: Any, *args, **kwargs):
+        
+        raise NotImplementedError('Cigale not implemented yet.')
+
 class LePhareSED(SED):
     r'''Implements LePhare SED object.'''
     

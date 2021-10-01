@@ -735,9 +735,10 @@ class FilterList:
             If you want a table with different parameters you must run :py:meth:`FilterList.genTable` again, for e.g.
             
             >>> from SED.misc import SEDcode, CleanMethod
-            >>> flist = FilterList(filters, mask)                          # setCode and genTable methods are called with default SED fitting code name
-            >>> flist.setCode(SEDcode.LEPHARE)                             # setCode and genTable methods are called with 'lephare' SED fitting code name
-            >>> flist.genTable(cleanMethod=CleanMethod.MIN, scaleFactor=50) # toTable is run again with different parameters but still 'lephare' SED fitting code name
+            >>> flist = FilterList(filters, mask)          # setCode and genTable methods are called with default SED fitting code name
+            >>> flist.setCode(SEDcode.LEPHARE,             # setCode and genTable methods are called with 'lephare' SED fitting code name
+                              cleanMethod=CleanMethod.MIN, # Additional parameters are passed to genTable
+                              scaleFactor=50)                             
         
         :param SEDcode code: code used for SED fitting. Acceptable values are SEDcode.CIGALE and SEDcode.LEPHARE.
         
@@ -750,7 +751,7 @@ class FilterList:
         self.code = code
             
         # Update output table with default parameters
-        self.genTable()
+        self.genTable(*args, **kwargs)
         return
     
     

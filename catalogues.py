@@ -70,11 +70,17 @@ class Catalogue(ABC):
         
         return
     
+class CigaleCat(Catalogue):
+
+    def __init__(self, *args, **kwargs):
+        
+        raise NotImplementedError('Cigale not implemented yet.')
+    
 class LePhareCat(Catalogue):
     r'''Class implementing a catalogue compatible with LePhare SED fitting code.'''
     
     def __init__(self, fname: str, table: Table, 
-                 tunit: TableUnit     = TableUnit.MAG, 
+                 tunit: TableUnit     = TableUnit.MAG,
                  magtype: MagType     = MagType.AB, 
                  tformat: TableFormat = TableFormat.MEME, 
                  ttype: TableType     = TableType.LONG, 
