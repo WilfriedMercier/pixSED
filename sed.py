@@ -384,9 +384,9 @@ class LePhareSED(SED):
                      
                      'FIR_SCALE'      : FloatProperty('-1'),
                      
-                     'FIR_FREESCALE'  : YESNO(YESNO.NO),
+                     'FIR_FREESCALE'  : EnumProperty(YESNO.NO),
                      
-                     'FIR_SUBSTELLAR' : YESNO(YESNO.NO),
+                     'FIR_SUBSTELLAR' : EnumProperty(YESNO.NO),
                      
                      'PHYS_LIB'       : PathProperty('NONE'),
                      
@@ -792,7 +792,7 @@ class LePhareSED(SED):
             
         # Different SED fitting output file names
         paramFile = catalogue.name.replace('.in', '.para')
-        pfile     = opath.join(directory)
+        pfile     = opath.join(directory, paramFile)
         logFile   = opath.join(directory, catalogue.name.replace('.in', '.log'))
         oCatFile  = opath.join(directory, catalogue.name.replace('.in', '.out'))
         
