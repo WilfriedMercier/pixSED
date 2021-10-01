@@ -28,7 +28,6 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/css/theme.min.css" type="text/css" />
   <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
-  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
 
@@ -103,10 +102,25 @@
                             
                             
                                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Installation and setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installation and setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#required-dependencies">Required dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></li>
+</ul>
+</li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">Tutorial introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">Tutorial introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/lephare.html">LePhare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/cigale.html">Cigale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#nomenclature">Nomenclature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#pre-processing-step">Pre-processing step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code> objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -116,7 +130,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">----------------------------------------</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="API/index.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API/index.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="API/catalogues.html">Catalogue classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API/filters.html">Filter classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API/misc/index.html">Miscellaneous</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API/outputs.html">SED fitting code output classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API/sed.html">SED classes</a></li>
+</ul>
+</li>
 </ul>
 
                             
@@ -134,16 +155,23 @@
  <a href="#_"><strong>_</strong></a>
  | <a href="#A"><strong>A</strong></a>
  | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#Y"><strong>Y</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
  
 </div>
 <h2 id="_">_</h2>
@@ -152,15 +180,49 @@
       <li><a href="API/catalogues.html#SED.catalogues.Catalogue.__init__">__init__() (SED.catalogues.Catalogue method)</a>
 
       <ul>
+        <li><a href="API/catalogues.html#SED.catalogues.CigaleCat.__init__">(SED.catalogues.CigaleCat method)</a>
+</li>
         <li><a href="API/catalogues.html#SED.catalogues.LePhareCat.__init__">(SED.catalogues.LePhareCat method)</a>
 </li>
         <li><a href="API/filters.html#SED.filters.Filter.__init__">(SED.filters.Filter method)</a>
 </li>
         <li><a href="API/filters.html#SED.filters.FilterList.__init__">(SED.filters.FilterList method)</a>
 </li>
+        <li><a href="API/misc/misc.html#SED.misc.misc.NamedColumn.__init__">(SED.misc.misc.NamedColumn method)</a>
+</li>
+        <li><a href="API/misc/misc.html#SED.misc.misc.PhysicalLogQuantity.__init__">(SED.misc.misc.PhysicalLogQuantity method)</a>
+</li>
+        <li><a href="API/misc/misc.html#SED.misc.misc.ShapeError.__init__">(SED.misc.misc.ShapeError method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.EnumProperty.__init__">(SED.misc.properties.EnumProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.FloatProperty.__init__">(SED.misc.properties.FloatProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.IntProperty.__init__">(SED.misc.properties.IntProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListFloatProperty.__init__">(SED.misc.properties.ListFloatProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListIntProperty.__init__">(SED.misc.properties.ListIntProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListPathProperty.__init__">(SED.misc.properties.ListPathProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListProperty.__init__">(SED.misc.properties.ListProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListStrProperty.__init__">(SED.misc.properties.ListStrProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.PathProperty.__init__">(SED.misc.properties.PathProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.Property.__init__">(SED.misc.properties.Property method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.StrProperty.__init__">(SED.misc.properties.StrProperty method)</a>
+</li>
+        <li><a href="API/outputs.html#SED.outputs.CigaleOutput.__init__">(SED.outputs.CigaleOutput method)</a>
+</li>
         <li><a href="API/outputs.html#SED.outputs.LePhareOutput.__init__">(SED.outputs.LePhareOutput method)</a>
 </li>
         <li><a href="API/outputs.html#SED.outputs.Output.__init__">(SED.outputs.Output method)</a>
+</li>
+        <li><a href="API/sed.html#SED.sed.CigaleSED.__init__">(SED.sed.CigaleSED method)</a>
 </li>
         <li><a href="API/sed.html#SED.sed.LePhareSED.__init__">(SED.sed.LePhareSED method)</a>
 </li>
@@ -169,6 +231,30 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/misc.html#SED.misc.misc.PhysicalLogQuantity.__str__">__str__() (SED.misc.misc.PhysicalLogQuantity method)</a>
+
+      <ul>
+        <li><a href="API/misc/properties.html#SED.misc.properties.EnumProperty.__str__">(SED.misc.properties.EnumProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.FloatProperty.__str__">(SED.misc.properties.FloatProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.IntProperty.__str__">(SED.misc.properties.IntProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListFloatProperty.__str__">(SED.misc.properties.ListFloatProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListIntProperty.__str__">(SED.misc.properties.ListIntProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListPathProperty.__str__">(SED.misc.properties.ListPathProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListStrProperty.__str__">(SED.misc.properties.ListStrProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.PathProperty.__str__">(SED.misc.properties.PathProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.Property.__str__">(SED.misc.properties.Property method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.StrProperty.__str__">(SED.misc.properties.StrProperty method)</a>
+</li>
+      </ul></li>
       <li><a href="API/filters.html#SED.filters.FilterList._buildFilters">_buildFilters() (SED.filters.FilterList method)</a>
 </li>
       <li><a href="API/filters.html#SED.filters.Filter._checkFile">_checkFile() (SED.filters.Filter method)</a>
@@ -191,10 +277,26 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API/sed.html#SED.sed.SED.appendLog">appendLog() (SED.sed.SED method)</a>
+      <li><a href="API/misc/enum.html#SED.misc.enum.MagType.AB">AB (SED.misc.enum.MagType attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.AGE_BEST">AGE_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.AGE_INF">AGE_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.AGE_MED">AGE_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.AGE_SEC">AGE_SEC (SED.misc.enum.LePhareOutputParam attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.AGE_SUP">AGE_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.ANDOR.AND">AND (SED.misc.enum.ANDOR attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.ANDOR">ANDOR (class in SED.misc.enum)</a>
+</li>
+      <li><a href="API/sed.html#SED.sed.SED.appendLog">appendLog() (SED.sed.SED method)</a>
+</li>
       <li><a href="API/filters.html#SED.filters.FilterList.arrayTo1D">arrayTo1D() (SED.filters.FilterList static method)</a>
 </li>
   </ul></td>
@@ -205,15 +307,77 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API/catalogues.html#SED.catalogues.Catalogue">Catalogue (class in SED.catalogues)</a>
 </li>
-      <li><a href="API/filters.html#SED.filters.FilterList.clean">clean() (SED.filters.FilterList static method)</a>
+      <li><a href="API/misc/properties.html#SED.misc.properties.ListProperty.check_bounds">check_bounds() (SED.misc.properties.ListProperty static method)</a>
+
+      <ul>
+        <li><a href="API/misc/properties.html#SED.misc.properties.Property.check_bounds">(SED.misc.properties.Property static method)</a>
+</li>
+      </ul></li>
+      <li><a href="API/misc/misc.html#SED.misc.misc.check_type">check_type() (in module SED.misc.misc)</a>
+</li>
+      <li><a href="API/misc/misc.html#SED.misc.misc.check_type_in_list">check_type_in_list() (in module SED.misc.misc)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.CHI2_FIR">CHI2_FIR (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.CHI_BEST">CHI_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.CHI_QSO">CHI_QSO (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.CHI_SEC">CHI_SEC (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.CHI_STAR">CHI_STAR (SED.misc.enum.LePhareOutputParam attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.SEDcode.CIGALE">CIGALE (SED.misc.enum.SEDcode attribute)</a>
+</li>
+      <li><a href="API/catalogues.html#SED.catalogues.CigaleCat">CigaleCat (class in SED.catalogues)</a>
+</li>
+      <li><a href="API/outputs.html#SED.outputs.CigaleOutput">CigaleOutput (class in SED.outputs)</a>
+</li>
+      <li><a href="API/sed.html#SED.sed.CigaleSED">CigaleSED (class in SED.sed)</a>
+</li>
+      <li><a href="API/filters.html#SED.filters.FilterList.clean">clean() (SED.filters.FilterList static method)</a>
+</li>
       <li><a href="API/filters.html#SED.filters.FilterList.cleanAndNoise">cleanAndNoise() (SED.filters.FilterList method)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.CleanMethod">CleanMethod (class in SED.misc.enum)</a>
 </li>
       <li><a href="API/filters.html#SED.filters.FilterList.computeMeanMap">computeMeanMap() (SED.filters.FilterList method)</a>
 </li>
       <li><a href="API/outputs.html#SED.outputs.Output.config">config (SED.outputs.Output attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.CONTEXT">CONTEXT (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.DIST_MOD_BEST">DIST_MOD_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.DIST_MOD_QSO">DIST_MOD_QSO (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.EBV_BEST">EBV_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.EBV_SEC">EBV_SEC (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/properties.html#SED.misc.properties.EnumProperty">EnumProperty (class in SED.misc.properties)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.ERR_MAG_OBS_2">ERR_MAG_OBS_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.EXTLAW_BEST">EXTLAW_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -225,11 +389,17 @@
 </li>
       <li><a href="API/filters.html#SED.filters.Filter">Filter (class in SED.filters)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API/filters.html#SED.filters.FilterList">FilterList (class in SED.filters)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API/filters.html#SED.filters.FilterList.filters">filters (SED.filters.FilterList attribute)</a>
+</li>
+      <li><a href="API/misc/properties.html#SED.misc.properties.FloatProperty">FloatProperty (class in SED.misc.properties)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.TableUnit.FLUX">FLUX (SED.misc.enum.TableUnit attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.FSCALE_FIR">FSCALE_FIR (SED.misc.enum.LePhareOutputParam attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -248,20 +418,62 @@
       <li><a href="API/outputs.html#SED.outputs.Output.imProp">imProp (SED.outputs.Output attribute)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/properties.html#SED.misc.properties.IntProperty">IntProperty (class in SED.misc.properties)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.K_COR_2">K_COR_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.K_COR_FIR_2">K_COR_FIR_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.K_COR_QSO_2">K_COR_QSO_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.LDUST_BEST">LDUST_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.LDUST_INF">LDUST_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.LDUST_MED">LDUST_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.LDUST_SUP">LDUST_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.SEDcode.LEPHARE">LEPHARE (SED.misc.enum.SEDcode attribute)</a>
+</li>
       <li><a href="API/catalogues.html#SED.catalogues.LePhareCat">LePhareCat (class in SED.catalogues)</a>
 </li>
       <li><a href="API/outputs.html#SED.outputs.LePhareOutput">LePhareOutput (class in SED.outputs)</a>
 </li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam">LePhareOutputParam (class in SED.misc.enum)</a>
+</li>
       <li><a href="API/sed.html#SED.sed.LePhareSED">LePhareSED (class in SED.sed)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.LIB_FIR">LIB_FIR (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/outputs.html#SED.outputs.Output.link">link() (SED.outputs.Output method)</a>
+</li>
+      <li><a href="API/misc/properties.html#SED.misc.properties.ListFloatProperty">ListFloatProperty (class in SED.misc.properties)</a>
+</li>
+      <li><a href="API/misc/properties.html#SED.misc.properties.ListIntProperty">ListIntProperty (class in SED.misc.properties)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API/outputs.html#SED.outputs.Output.link">link() (SED.outputs.Output method)</a>
+      <li><a href="API/misc/properties.html#SED.misc.properties.ListPathProperty">ListPathProperty (class in SED.misc.properties)</a>
+</li>
+      <li><a href="API/misc/properties.html#SED.misc.properties.ListProperty">ListProperty (class in SED.misc.properties)</a>
+</li>
+      <li><a href="API/misc/properties.html#SED.misc.properties.ListStrProperty">ListStrProperty (class in SED.misc.properties)</a>
 </li>
       <li><a href="API/outputs.html#SED.outputs.LePhareOutput.load">load() (SED.outputs.LePhareOutput method)</a>
 
@@ -269,13 +481,79 @@
         <li><a href="API/outputs.html#SED.outputs.Output.load">(SED.outputs.Output method)</a>
 </li>
       </ul></li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.TableType.LONG">LONG (SED.misc.enum.TableType attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.LUM_K_BEST">LUM_K_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.LUM_NUV_BEST">LUM_NUV_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.LUM_R_BEST">LUM_R_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.LUM_TIR_BEST">LUM_TIR_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.LUM_TIR_INF">LUM_TIR_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.LUM_TIR_MED">LUM_TIR_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.LUM_TIR_SUP">LUM_TIR_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MABS_FILT_2">MABS_FILT_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.TableUnit.MAG">MAG (SED.misc.enum.TableUnit attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MAG_ABS_2">MAG_ABS_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MAG_ABS_BEST">MAG_ABS_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MAG_ABS_FIR_2">MAG_ABS_FIR_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MAG_ABS_QSO">MAG_ABS_QSO (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MAG_ABS_QSO_2">MAG_ABS_QSO_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MAG_ABS_SEC">MAG_ABS_SEC (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MAG_MOD_2">MAG_MOD_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MAG_MOD_FIR_2">MAG_MOD_FIR_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MAG_OBS_2">MAG_OBS_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.MagType">MagType (class in SED.misc.enum)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MASS_BEST">MASS_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MASS_INF">MASS_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MASS_MED">MASS_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MASS_SUP">MASS_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API/filters.html#SED.filters.FilterList.meanMap">meanMap (SED.filters.FilterList attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.TableFormat.MEME">MEME (SED.misc.enum.TableFormat attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.CleanMethod.MIN">MIN (SED.misc.enum.CleanMethod attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.TableFormat.MMEE">MMEE (SED.misc.enum.TableFormat attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MOD_BEST">MOD_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MOD_FIR">MOD_FIR (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MOD_QSO">MOD_QSO (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MOD_SEC">MOD_SEC (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.MOD_STAR">MOD_STAR (SED.misc.enum.LePhareOutputParam attribute)</a>
 </li>
       <li>
     module
@@ -285,6 +563,12 @@
 </li>
         <li><a href="API/filters.html#module-SED.filters">SED.filters</a>
 </li>
+        <li><a href="API/misc/enum.html#module-SED.misc.enum">SED.misc.enum</a>
+</li>
+        <li><a href="API/misc/misc.html#module-SED.misc.misc">SED.misc.misc</a>
+</li>
+        <li><a href="API/misc/properties.html#module-SED.misc.properties">SED.misc.properties</a>
+</li>
         <li><a href="API/outputs.html#module-SED.outputs">SED.outputs</a>
 </li>
         <li><a href="API/sed.html#module-SED.sed">SED.sed</a>
@@ -293,13 +577,33 @@
   </ul></td>
 </tr></table>
 
-<h2 id="O">O</h2>
+<h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="API/outputs.html#SED.outputs.Output">Output (class in SED.outputs)</a>
+      <li><a href="API/misc/misc.html#SED.misc.misc.NamedColumn">NamedColumn (class in SED.misc.misc)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.NBAND_FIR">NBAND_FIR (SED.misc.enum.LePhareOutputParam attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.NBAND_ULIM">NBAND_ULIM (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.NBAND_USED">NBAND_USED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.YESNO.NO">NO (SED.misc.enum.YESNO attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.ANDOR.OR">OR (SED.misc.enum.ANDOR attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/outputs.html#SED.outputs.Output">Output (class in SED.outputs)</a>
+</li>
       <li><a href="API/sed.html#SED.sed.LePhareSED.output_parameters">output_parameters() (SED.sed.LePhareSED method)</a>
 </li>
   </ul></td>
@@ -310,9 +614,247 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API/sed.html#SED.sed.LePhareSED.parameters">parameters (SED.sed.LePhareSED property)</a>
 </li>
+      <li><a href="API/misc/properties.html#SED.misc.properties.PathProperty">PathProperty (class in SED.misc.properties)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PDZ_2">PDZ_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PDZ_BEST">PDZ_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PDZ_SEC">PDZ_SEC (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_CHI2_BEST">PHYS_CHI2_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_K_COR_2">PHYS_K_COR_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_MAG_ABS_2">PHYS_MAG_ABS_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_MAG_MOD_2">PHYS_MAG_MOD_2 (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_MOD_BEST">PHYS_MOD_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA10_BEST">PHYS_PARA10_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA10_INF">PHYS_PARA10_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA10_MED">PHYS_PARA10_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA10_SUP">PHYS_PARA10_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA11_BEST">PHYS_PARA11_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA11_INF">PHYS_PARA11_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA11_MED">PHYS_PARA11_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA11_SUP">PHYS_PARA11_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA12_BEST">PHYS_PARA12_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA12_INF">PHYS_PARA12_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA12_MED">PHYS_PARA12_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA12_SUP">PHYS_PARA12_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA13_BEST">PHYS_PARA13_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA13_INF">PHYS_PARA13_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA13_MED">PHYS_PARA13_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA13_SUP">PHYS_PARA13_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA14_BEST">PHYS_PARA14_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA14_INF">PHYS_PARA14_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA14_MED">PHYS_PARA14_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA14_SUP">PHYS_PARA14_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA15_BEST">PHYS_PARA15_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA15_INF">PHYS_PARA15_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA15_MED">PHYS_PARA15_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA15_SUP">PHYS_PARA15_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA16_BEST">PHYS_PARA16_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA16_INF">PHYS_PARA16_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA16_MED">PHYS_PARA16_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA16_SUP">PHYS_PARA16_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA17_BEST">PHYS_PARA17_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA17_INF">PHYS_PARA17_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA17_MED">PHYS_PARA17_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA17_SUP">PHYS_PARA17_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA18_BEST">PHYS_PARA18_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA18_INF">PHYS_PARA18_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA18_MED">PHYS_PARA18_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA18_SUP">PHYS_PARA18_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA19_BEST">PHYS_PARA19_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA19_INF">PHYS_PARA19_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA19_MED">PHYS_PARA19_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA19_SUP">PHYS_PARA19_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA1_BEST">PHYS_PARA1_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA1_INF">PHYS_PARA1_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA1_MED">PHYS_PARA1_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA1_SUP">PHYS_PARA1_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA20_BEST">PHYS_PARA20_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA20_INF">PHYS_PARA20_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA20_MED">PHYS_PARA20_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA20_SUP">PHYS_PARA20_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA21_BEST">PHYS_PARA21_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA21_INF">PHYS_PARA21_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA21_MED">PHYS_PARA21_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA21_SUP">PHYS_PARA21_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA22_BEST">PHYS_PARA22_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA22_INF">PHYS_PARA22_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA22_MED">PHYS_PARA22_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA22_SUP">PHYS_PARA22_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA23_BEST">PHYS_PARA23_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA23_INF">PHYS_PARA23_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA23_MED">PHYS_PARA23_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA23_SUP">PHYS_PARA23_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA24_BEST">PHYS_PARA24_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA24_INF">PHYS_PARA24_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA24_MED">PHYS_PARA24_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA24_SUP">PHYS_PARA24_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA25_BEST">PHYS_PARA25_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA25_INF">PHYS_PARA25_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA25_MED">PHYS_PARA25_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA25_SUP">PHYS_PARA25_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA26_BEST">PHYS_PARA26_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA26_INF">PHYS_PARA26_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA26_MED">PHYS_PARA26_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA26_SUP">PHYS_PARA26_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA27_BEST">PHYS_PARA27_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA27_INF">PHYS_PARA27_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA27_MED">PHYS_PARA27_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA27_SUP">PHYS_PARA27_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA2_BEST">PHYS_PARA2_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA2_INF">PHYS_PARA2_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA2_MED">PHYS_PARA2_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA2_SUP">PHYS_PARA2_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA3_BEST">PHYS_PARA3_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA3_INF">PHYS_PARA3_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA3_MED">PHYS_PARA3_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA3_SUP">PHYS_PARA3_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA4_BEST">PHYS_PARA4_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA4_INF">PHYS_PARA4_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA4_MED">PHYS_PARA4_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA4_SUP">PHYS_PARA4_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA5_BEST">PHYS_PARA5_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA5_INF">PHYS_PARA5_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA5_MED">PHYS_PARA5_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA5_SUP">PHYS_PARA5_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA6_BEST">PHYS_PARA6_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA6_INF">PHYS_PARA6_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA6_MED">PHYS_PARA6_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA6_SUP">PHYS_PARA6_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA7_BEST">PHYS_PARA7_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA7_INF">PHYS_PARA7_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA7_MED">PHYS_PARA7_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA7_SUP">PHYS_PARA7_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA8_BEST">PHYS_PARA8_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA8_INF">PHYS_PARA8_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA8_MED">PHYS_PARA8_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA8_SUP">PHYS_PARA8_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA9_BEST">PHYS_PARA9_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA9_INF">PHYS_PARA9_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA9_MED">PHYS_PARA9_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.PHYS_PARA9_SUP">PHYS_PARA9_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/misc.html#SED.misc.misc.PhysicalLogQuantity">PhysicalLogQuantity (class in SED.misc.misc)</a>
+</li>
       <li><a href="API/filters.html#SED.filters.FilterList.poissonVar">poissonVar() (SED.filters.FilterList static method)</a>
+</li>
+      <li><a href="API/misc/properties.html#SED.misc.properties.Property">Property (class in SED.misc.properties)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -340,6 +882,10 @@
       </ul></li>
       <li><a href="API/filters.html#SED.filters.FilterList.scale">scale() (SED.filters.FilterList method)</a>
 </li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.SCALE_BEST">SCALE_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.SCALE_SEC">SCALE_SEC (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
       <li><a href="API/filters.html#SED.filters.FilterList.scaleFac">scaleFac (SED.filters.FilterList attribute)</a>
 </li>
       <li><a href="API/sed.html#SED.sed.SED">SED (class in SED.sed)</a>
@@ -358,8 +904,27 @@
         <li><a href="API/filters.html#module-SED.filters">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    SED.misc.enum
+
+      <ul>
+        <li><a href="API/misc/enum.html#module-SED.misc.enum">module</a>
+</li>
+      </ul></li>
+      <li>
+    SED.misc.misc
+
+      <ul>
+        <li><a href="API/misc/misc.html#module-SED.misc.misc">module</a>
+</li>
+      </ul></li>
+      <li>
+    SED.misc.properties
+
+      <ul>
+        <li><a href="API/misc/properties.html#module-SED.misc.properties">module</a>
+</li>
+      </ul></li>
       <li>
     SED.outputs
 
@@ -374,15 +939,65 @@
         <li><a href="API/sed.html#module-SED.sed">module</a>
 </li>
       </ul></li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.SEDcode">SEDcode (class in SED.misc.enum)</a>
+</li>
+      <li><a href="API/misc/properties.html#SED.misc.properties.FloatProperty.set">set() (SED.misc.properties.FloatProperty method)</a>
+
+      <ul>
+        <li><a href="API/misc/properties.html#SED.misc.properties.IntProperty.set">(SED.misc.properties.IntProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListFloatProperty.set">(SED.misc.properties.ListFloatProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListIntProperty.set">(SED.misc.properties.ListIntProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListPathProperty.set">(SED.misc.properties.ListPathProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListProperty.set">(SED.misc.properties.ListProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.ListStrProperty.set">(SED.misc.properties.ListStrProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.PathProperty.set">(SED.misc.properties.PathProperty method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.Property.set">(SED.misc.properties.Property method)</a>
+</li>
+        <li><a href="API/misc/properties.html#SED.misc.properties.StrProperty.set">(SED.misc.properties.StrProperty method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="API/filters.html#SED.filters.FilterList.setCigale">setCigale() (SED.filters.FilterList method)</a>
 </li>
       <li><a href="API/filters.html#SED.filters.FilterList.setCode">setCode() (SED.filters.FilterList method)</a>
 </li>
       <li><a href="API/filters.html#SED.filters.FilterList.setLePhare">setLePhare() (SED.filters.FilterList method)</a>
 </li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.SFR_BEST">SFR_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.SFR_INF">SFR_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.SFR_MED">SFR_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.SFR_SUP">SFR_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
       <li><a href="API/filters.html#SED.filters.FilterList.shape">shape (SED.filters.FilterList attribute)</a>
 </li>
+      <li><a href="API/misc/misc.html#SED.misc.misc.ShapeError">ShapeError</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.TableType.SHORT">SHORT (SED.misc.enum.TableType attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.SSFR_BEST">SSFR_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.SSFR_INF">SSFR_INF (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.SSFR_MED">SSFR_MED (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.SSFR_SUP">SSFR_SUP (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
       <li><a href="API/sed.html#SED.sed.SED.startProcess">startProcess() (SED.sed.SED method)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.STRING_INPUT">STRING_INPUT (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/properties.html#SED.misc.properties.StrProperty">StrProperty (class in SED.misc.properties)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -390,6 +1005,12 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.TableFormat">TableFormat (class in SED.misc.enum)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.TableType">TableType (class in SED.misc.enum)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.TableUnit">TableUnit (class in SED.misc.enum)</a>
+</li>
       <li><a href="API/catalogues.html#SED.catalogues.Catalogue.text">text (SED.catalogues.Catalogue property)</a>
 
       <ul>
@@ -401,6 +1022,72 @@
       <li><a href="API/filters.html#SED.filters.FilterList.toCatalogue">toCatalogue() (SED.filters.FilterList method)</a>
 </li>
       <li><a href="API/outputs.html#SED.outputs.LePhareOutput.toImage">toImage() (SED.outputs.LePhareOutput method)</a>
+
+      <ul>
+        <li><a href="API/outputs.html#SED.outputs.Output.toImage">(SED.outputs.Output method)</a>
+</li>
+      </ul></li>
+      <li><a href="API/misc/misc.html#SED.misc.misc.PhysicalLogQuantity.toPhysical">toPhysical() (SED.misc.misc.PhysicalLogQuantity method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.MagType.VEGA">VEGA (SED.misc.enum.MagType attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Y">Y</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.YESNO.YES">YES (SED.misc.enum.YESNO attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.YESNO">YESNO (class in SED.misc.enum)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.Z_BEST">Z_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.Z_BEST68_HIGH">Z_BEST68_HIGH (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.Z_BEST68_LOW">Z_BEST68_LOW (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.Z_BEST90_HIGH">Z_BEST90_HIGH (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.Z_BEST90_LOW">Z_BEST90_LOW (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.Z_BEST99_HIGH">Z_BEST99_HIGH (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.Z_BEST99_LOW">Z_BEST99_LOW (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.Z_ML">Z_ML (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.Z_ML68_HIGH">Z_ML68_HIGH (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.Z_ML68_LOW">Z_ML68_LOW (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.Z_QSO">Z_QSO (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.Z_SEC">Z_SEC (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.CleanMethod.ZERO">ZERO (SED.misc.enum.CleanMethod attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.ZF_BEST">ZF_BEST (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.ZF_SEC">ZF_SEC (SED.misc.enum.LePhareOutputParam attribute)</a>
+</li>
+      <li><a href="API/misc/enum.html#SED.misc.enum.LePhareOutputParam.ZSPEC">ZSPEC (SED.misc.enum.LePhareOutputParam attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -432,8 +1119,6 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="_static/copybutton.js"></script>
     <script type="text/javascript" src="_static/js/theme.js"></script>
   
     <div class="footer" role="contentinfo">

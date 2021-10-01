@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Example 1: Generate a LePhare configuration file" href="../examples/example1.html" />
@@ -110,10 +110,25 @@
                             
                             
                                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../setup.html">Installation and setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup.html">Installation and setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../setup.html#required-dependencies">Required dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></li>
+</ul>
+</li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial introduction</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="lephare.html">LePhare</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Cigale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#nomenclature">Nomenclature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#pre-processing-step">Pre-processing step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code> objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -123,7 +138,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">----------------------------------------</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../API/index.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../API/index.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../API/catalogues.html">Catalogue classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API/filters.html">Filter classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API/outputs.html">SED fitting code output classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API/sed.html">SED classes</a></li>
+</ul>
+</li>
 </ul>
 
                             
@@ -137,6 +158,10 @@
   <section id="cigale-tutorial">
 <h1>Cigale tutorial<a class="headerlink" href="#cigale-tutorial" title="Permalink to this headline">¶</a></h1>
 <p>This tutorial is specific to using Cigale SED fitting code.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Cigale is not implemented yet.</p>
+</div>
 </section>
 
 
@@ -165,8 +190,6 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
     <div class="footer" role="contentinfo">

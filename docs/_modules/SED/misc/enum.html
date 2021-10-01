@@ -1,0 +1,879 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SED.misc.enum &mdash; Resolved SED-fitting wrapper 0.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../../../index.html">
+                Resolved SED-fitting wrapper
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a></li>
+        
+          <li><a href="../../index.html">Module code</a></li>
+        
+      <li>SED.misc.enum</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../../../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../setup.html">Installation and setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../setup.html#required-dependencies">Required dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/lephare.html">LePhare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/cigale.html">Cigale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#nomenclature">Nomenclature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#pre-processing-step">Pre-processing step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code> objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/example1.html">1. Generate a LePhare configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/example2.html">2. Resolved stellar mass map with LePhare</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/example3.html">3. Resolved SFR map from an already existing LePhare output file</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">----------------------------------------</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../API/index.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../API/catalogues.html">Catalogue classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../API/filters.html">Filter classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../API/misc/index.html">Miscellaneous</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../API/outputs.html">SED fitting code output classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../API/sed.html">SED classes</a></li>
+</ul>
+</li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <h1>Source code for SED.misc.enum</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+
+<span class="sd">Enumerations used in other parts of the code.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">enum</span>          <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">.misc</span>         <span class="kn">import</span> <span class="n">NamedColumn</span>
+
+<div class="viewcode-block" id="CleanMethod"><a class="viewcode-back" href="../../../API/misc/enum.html#SED.misc.enum.CleanMethod">[docs]</a><span class="k">class</span> <span class="nc">CleanMethod</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;An enumeration for the cleaning method used by the filters.&#39;&#39;&#39;</span>
+     
+    <span class="c1">#: Used to clean bad pixels with flux value of 0</span>
+    <span class="n">ZERO</span> <span class="o">=</span> <span class="s1">&#39;zero&#39;</span>
+    
+    <span class="c1">#: Used to clean bad pixels with flux value being the minimum of the good pixels</span>
+    <span class="n">MIN</span>  <span class="o">=</span> <span class="s1">&#39;min&#39;</span></div>
+    
+<div class="viewcode-block" id="SEDcode"><a class="viewcode-back" href="../../../API/misc/enum.html#SED.misc.enum.SEDcode">[docs]</a><span class="k">class</span> <span class="nc">SEDcode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;An enumeration for the SED fitting codes available.&#39;&#39;&#39;</span>
+    
+    <span class="c1">#: Used to set LePhare as the SED fitting code</span>
+    <span class="n">LEPHARE</span> <span class="o">=</span> <span class="s1">&#39;lephare&#39;</span>
+    
+    <span class="c1">#: Used to set Cigale as the SED fitting code</span>
+    <span class="n">CIGALE</span>  <span class="o">=</span> <span class="s1">&#39;cigale&#39;</span></div>
+    
+<span class="c1">###################################</span>
+<span class="c1">#        LePhare only Enum        #</span>
+<span class="c1">###################################</span>
+    
+<div class="viewcode-block" id="ANDOR"><a class="viewcode-back" href="../../../API/misc/enum.html#SED.misc.enum.ANDOR">[docs]</a><span class="k">class</span> <span class="nc">ANDOR</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;An enumeration with AND or OR options for LePhare.&#39;&#39;&#39;</span>
+    
+    <span class="c1">#: Logical AND</span>
+    <span class="n">AND</span> <span class="o">=</span> <span class="s1">&#39;AND&#39;</span>
+    
+    <span class="c1">#: Logical OR</span>
+    <span class="n">OR</span>  <span class="o">=</span> <span class="s1">&#39;OR&#39;</span></div>
+    
+<div class="viewcode-block" id="MagType"><a class="viewcode-back" href="../../../API/misc/enum.html#SED.misc.enum.MagType">[docs]</a><span class="k">class</span> <span class="nc">MagType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;An enumeration for valid magnitude types for LePhare.&#39;&#39;&#39;</span>
+    
+    <span class="c1">#: Used to set AB magnitude system</span>
+    <span class="n">AB</span>   <span class="o">=</span> <span class="s1">&#39;AB&#39;</span>
+    
+    <span class="c1">#: Used to set VEGA magnitude system</span>
+    <span class="n">VEGA</span> <span class="o">=</span> <span class="s1">&#39;VEGA&#39;</span></div>
+    
+<div class="viewcode-block" id="TableFormat"><a class="viewcode-back" href="../../../API/misc/enum.html#SED.misc.enum.TableFormat">[docs]</a><span class="k">class</span> <span class="nc">TableFormat</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;An enumerator for valid table format for LePhare.&#39;&#39;&#39;</span>
+    
+    <span class="c1">#: Table format being: Mag, Error, Mag, Error, ...</span>
+    <span class="n">MEME</span> <span class="o">=</span> <span class="s1">&#39;MEME&#39;</span>
+    
+    <span class="c1">#: Table format being Mag, Mag, Mag, ..., Error, Error, Error, ...</span>
+    <span class="n">MMEE</span> <span class="o">=</span> <span class="s1">&#39;MMEE&#39;</span></div>
+    
+<div class="viewcode-block" id="TableType"><a class="viewcode-back" href="../../../API/misc/enum.html#SED.misc.enum.TableType">[docs]</a><span class="k">class</span> <span class="nc">TableType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;An enumerator for valid table data type for LePhare.&#39;&#39;&#39;</span>
+    
+    <span class="c1">#: Table format being long</span>
+    <span class="n">LONG</span>  <span class="o">=</span> <span class="s1">&#39;LONG&#39;</span>
+    
+    <span class="c1">#: Table format being short</span>
+    <span class="n">SHORT</span> <span class="o">=</span> <span class="s1">&#39;SHORT&#39;</span></div>
+    
+<div class="viewcode-block" id="TableUnit"><a class="viewcode-back" href="../../../API/misc/enum.html#SED.misc.enum.TableUnit">[docs]</a><span class="k">class</span> <span class="nc">TableUnit</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;An enumeration for valid values for table units for LePhare.&#39;&#39;&#39;</span>
+    
+    <span class="c1">#: Unit of table set to magnitude</span>
+    <span class="n">MAG</span>  <span class="o">=</span> <span class="s1">&#39;M&#39;</span>
+    
+    <span class="c1">#: Unit of table set to flux</span>
+    <span class="n">FLUX</span> <span class="o">=</span> <span class="s1">&#39;F&#39;</span></div>
+    
+<div class="viewcode-block" id="YESNO"><a class="viewcode-back" href="../../../API/misc/enum.html#SED.misc.enum.YESNO">[docs]</a><span class="k">class</span> <span class="nc">YESNO</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;An enumeration with YES or NO options for LePhare.&#39;&#39;&#39;</span>
+    
+    <span class="c1">#: Used to set a value to YES</span>
+    <span class="n">YES</span> <span class="o">=</span> <span class="s1">&#39;YES&#39;</span>
+    
+    <span class="c1">#: Used to set a value to NO</span>
+    <span class="n">NO</span>  <span class="o">=</span> <span class="s1">&#39;NO&#39;</span></div>
+   
+<div class="viewcode-block" id="LePhareOutputParam"><a class="viewcode-back" href="../../../API/misc/enum.html#SED.misc.enum.LePhareOutputParam">[docs]</a><span class="k">class</span> <span class="nc">LePhareOutputParam</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;An enumeration for LePhare output parameters with corresponding table name and table unit.&#39;&#39;&#39;</span>
+    
+    <span class="c1">#: Best redshift. Z_BEST.name = &#39;z_best&#39;.</span>
+    <span class="n">Z_BEST</span>           <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;z_best&#39;</span><span class="p">,</span>               <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#: Best redshift lower bound 68%. Z_BEST68_LOW.name = &#39;z_best_l68&#39;.</span>
+    <span class="n">Z_BEST68_LOW</span>     <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;z_best_l68&#39;</span><span class="p">,</span>           <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best redshift upper bound 68%. Z_BEST68_HIGH.name = &#39;z_best_u68&#39;.</span>
+    <span class="n">Z_BEST68_HIGH</span>    <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;z_best_u68&#39;</span><span class="p">,</span>           <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best redshift lower bound 90%. Z_BEST90_LOW.name = &#39;z_best_l90&#39;.</span>
+    <span class="n">Z_BEST90_LOW</span>     <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;z_best_l90&#39;</span><span class="p">,</span>           <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best redshift upper bound 90%. Z_BEST90_HIGH.name = &#39;z_best_u90&#39;.</span>
+    <span class="n">Z_BEST90_HIGH</span>    <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;z_best_u90&#39;</span><span class="p">,</span>           <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best redshift lower bound 99%. Z_BEST99_LOW.name = &#39;z_best_l99&#39;.</span>
+    <span class="n">Z_BEST99_LOW</span>     <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;z_best_l99&#39;</span><span class="p">,</span>           <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best redshift upper bound 99%. Z_BEST99_HIGH.name = &#39;z_best_u99&#39;.</span>
+    <span class="n">Z_BEST99_HIGH</span>    <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;z_best_u99&#39;</span><span class="p">,</span>           <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#: Best redshift ML. Z_ML.name = &#39;z_ML&#39;.</span>
+    <span class="n">Z_ML</span>             <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;z_ML&#39;</span><span class="p">,</span>                 <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best redshift ML lower bound 68%. Z_ML68_LOW.name = &#39;z_ML_l68&#39;.</span>
+    <span class="n">Z_ML68_LOW</span>       <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;z_ML_l68&#39;</span><span class="p">,</span>             <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best reshift ML upper bound 68%. Z_ML68_HIGH.name = &#39;z_ML_u68&#39;.</span>
+    <span class="n">Z_ML68_HIGH</span>      <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;z_ML_u68&#39;</span><span class="p">,</span>             <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best chi2. CHI_BEST.name = &#39;chi2&#39;.</span>
+    <span class="n">CHI_BEST</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;chi2&#39;</span><span class="p">,</span>                 <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best model. MOD_BEST.name = &#39;Mod_best&#39;.</span>
+    <span class="n">MOD_BEST</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;Mod_best&#39;</span><span class="p">,</span>             <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best extinction law. EXTLAW_BEST.name = &#39;Ext_law_best&#39;.</span>
+    <span class="n">EXTLAW_BEST</span>      <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;Ext_law_best&#39;</span><span class="p">,</span>         <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best color excess. EBV_BEST.name = &#39;E(B-V)_best&#39;.</span>
+    <span class="n">EBV_BEST</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;E(B-V)_best&#39;</span><span class="p">,</span>          <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: ???. ZF_BEST.name = &#39;ZF_BEST&#39;.</span>
+    <span class="n">ZF_BEST</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;ZF_BEST&#39;</span><span class="p">,</span>              <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="c1"># No idea what this is</span>
+    
+    <span class="c1">#: Best absolute magnitude ? MAG_ABS_BEST.name = &#39;mag_abs_best&#39;.</span>
+    <span class="n">MAG_ABS_BEST</span>     <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mag_abs_best&#39;</span><span class="p">,</span>         <span class="s1">&#39;dex&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best PDZ. PDZ_BEST.name = &#39;pdz_best&#39;.</span>
+    <span class="n">PDZ_BEST</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;pdz_best&#39;</span><span class="p">,</span>             <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best scale factor. SCALE_BEST.name = &#39;scale_best&#39;.</span>
+    <span class="n">SCALE_BEST</span>       <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;scale_best&#39;</span><span class="p">,</span>           <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best dist mod ? DIST_MOD_BEST.name = &#39;dist_mod_best&#39;.</span>
+    <span class="n">DIST_MOD_BEST</span>    <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;dist_mod_best&#39;</span><span class="p">,</span>        <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="c1"># No idea</span>
+    
+    <span class="c1">#: Number of bands used. NBAND_USED.name = &#39;nband&#39;.</span>
+    <span class="n">NBAND_USED</span>       <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;nband&#39;</span><span class="p">,</span>                <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Upper limit on number of bands used ? NBAND_ULIM.name = &#39;nband_ulim&#39;.</span>
+    <span class="n">NBAND_ULIM</span>       <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;nband_ulim&#39;</span><span class="p">,</span>           <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best resdhift second galaxy. Z_SEC.name = &#39;z_second&#39;.</span>
+    <span class="n">Z_SEC</span>            <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;z_second&#39;</span><span class="p">,</span>             <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best chi2 second galaxy. CHI_SEC.name = &#39;chi2_second&#39;.</span>
+    <span class="n">CHI_SEC</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;chi2_second&#39;</span><span class="p">,</span>          <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best model second galaxy. MOD_SEC.name = &#39;Mod_second&#39;.</span>
+    <span class="n">MOD_SEC</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;Mod_second&#39;</span><span class="p">,</span>           <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best age second galaxy. AGE_SEC.name = &#39;age_second&#39;.</span>
+    <span class="n">AGE_SEC</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;age_second&#39;</span><span class="p">,</span>           <span class="s1">&#39;yr&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best color excess second galaxy. EBV_SEC.name = &#39;E(B-V)_second&#39;.</span>
+    <span class="n">EBV_SEC</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;E(B-V)_second&#39;</span><span class="p">,</span>        <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: ??? second galaxy. ZF_SEC.name = &#39;ZF_SEC&#39;.</span>
+    <span class="n">ZF_SEC</span>           <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;ZF_SEC&#39;</span><span class="p">,</span>               <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="c1"># No idea</span>
+    
+    <span class="c1">#: Absolute magnitude second galaxy. MAG_ABS_SEC.name = &#39;mag_abs_second&#39;.</span>
+    <span class="n">MAG_ABS_SEC</span>      <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mag_abs_second&#39;</span><span class="p">,</span>       <span class="s1">&#39;dex&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best PDZ second galaxy. PDZ_SEC.name = &#39;pdz_second&#39;.</span>
+    <span class="n">PDZ_SEC</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;pdz_second&#39;</span><span class="p">,</span>           <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best scale factor second galaxy. SCALE_SEC.name = &#39;scale_second&#39;</span>
+    <span class="n">SCALE_SEC</span>        <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;scale_second&#39;</span><span class="p">,</span>         <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: redshift QSO. Z_QSO.name = &#39;z_qso&#39;.</span>
+    <span class="n">Z_QSO</span>            <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;z_qso&#39;</span><span class="p">,</span>                <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#: chi2 QSO. CHI_QSO.name = &#39;chi2_qso&#39;.</span>
+    <span class="n">CHI_QSO</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;chi2_qso&#39;</span><span class="p">,</span>             <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: model QSO. MOD_QSO.name = &#39;Mod_qso&#39;.</span>
+    <span class="n">MOD_QSO</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;Mod_qso&#39;</span><span class="p">,</span>              <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: absolute magnitude QSO. MAG_ABS_QSO.name = &#39;mag_abs_qso&#39;.</span>
+    <span class="n">MAG_ABS_QSO</span>      <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mag_abs_qso&#39;</span><span class="p">,</span>          <span class="s1">&#39;dex&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Model distance QSO ? DIST_MOD_QSO.name = &#39;dist_mod_qso&#39;.</span>
+    <span class="n">DIST_MOD_QSO</span>     <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;dist_mod_qso&#39;</span><span class="p">,</span>         <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Stellar model. MOD_STAR.name = &#39;Mod_star&#39;.</span>
+    <span class="n">MOD_STAR</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;Mod_star&#39;</span><span class="p">,</span>             <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#: Chi2 stars. CHI_STAR.name = &#39;chi2_star&#39;.</span>
+    <span class="n">CHI_STAR</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;chi2_star&#39;</span><span class="p">,</span>            <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#: Absolute magnitude 2. MAG_OBS_2.name = &#39;mag_obs()&#39;.</span>
+    <span class="n">MAG_OBS_2</span>        <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mag_obs()&#39;</span><span class="p">,</span>            <span class="s1">&#39;dex&#39;</span><span class="p">,</span>  <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#: Error on absolute magnitude 2. ERR_MAG_OBS_2.name = &#39;mag_obs_err()&#39;.</span>
+    <span class="n">ERR_MAG_OBS_2</span>    <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mag_obs_err()&#39;</span><span class="p">,</span>        <span class="s1">&#39;dex&#39;</span><span class="p">,</span>  <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#: Model magnitude 2. MAG_MOD_2.name = &#39;mag_mod()&#39;.</span>
+    <span class="n">MAG_MOD_2</span>        <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mag_mod()&#39;</span><span class="p">,</span>            <span class="s1">&#39;dex&#39;</span><span class="p">,</span>  <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#: K correction 2. K_COR_2.name = &#39;K_correction()&#39;.</span>
+    <span class="n">K_COR_2</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;K_correction()&#39;</span><span class="p">,</span>       <span class="s1">&#39;dex&#39;</span><span class="p">,</span>  <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#: Absolute magnitude 2. MAG_ABS_2.name = &#39;mag_abs()&#39;.</span>
+    <span class="n">MAG_ABS_2</span>        <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mag_abs()&#39;</span><span class="p">,</span>            <span class="s1">&#39;dex&#39;</span><span class="p">,</span>  <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#: Absolute magnitude per filter 2 ??? MABS_FILT_2.name = &#39;MABS_FILT()&#39;.</span>
+    <span class="n">MABS_FILT_2</span>      <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;MABS_FILT()&#39;</span><span class="p">,</span>          <span class="s1">&#39;dex&#39;</span><span class="p">,</span>  <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span> <span class="c1"># No idea</span>
+    
+    <span class="c1">#: K correction QSO 2. K_COR_QSO_2.name = &#39;K_correction_qso()&#39;.</span>
+    <span class="n">K_COR_QSO_2</span>      <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;K_correction_qso()&#39;</span><span class="p">,</span>   <span class="s1">&#39;dex&#39;</span><span class="p">,</span>  <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span>
+    
+    <span class="c1">#: Absolute magnitude QSO 2. MAG_ABS_QSO_2.name = &#39;mag_abs_qso()&#39;.</span>
+    <span class="n">MAG_ABS_QSO_2</span>    <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mag_abs_qso()&#39;</span><span class="p">,</span>        <span class="s1">&#39;dex&#39;</span><span class="p">,</span>  <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: PDZ 2. PDZ_2.name = &#39;pdz()&#39;.</span>
+    <span class="n">PDZ_2</span>            <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;pdz()&#39;</span><span class="p">,</span>                <span class="s1">&#39;&#39;</span><span class="p">,</span>     <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Context. CONTEXT.name = &#39;context&#39;</span>
+    <span class="n">CONTEXT</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;context&#39;</span><span class="p">,</span>              <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Spectroscopic redshift. ZSPEC.name = &#39;zspec&#39;.</span>
+    <span class="n">ZSPEC</span>            <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;zspec&#39;</span><span class="p">,</span>                <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Input string. STRING_INPUT.name = &#39;string_input&#39;.</span>
+    <span class="n">STRING_INPUT</span>     <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;string_input&#39;</span><span class="p">,</span>         <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best TIR luminosity. LUM_TIR_BEST.name = &#39;luminosity_tir_best&#39;.</span>
+    <span class="n">LUM_TIR_BEST</span>     <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;luminosity_tir_best&#39;</span><span class="p">,</span>  <span class="s1">&#39;erg/s&#39;</span><span class="p">)</span> <span class="c1"># Not sure about unit</span>
+    
+    <span class="c1">#: FIR library. LIB_FIR.name = &#39;library_fir&#39;.</span>
+    <span class="n">LIB_FIR</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;library_fir&#39;</span><span class="p">,</span>          <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: FIR model. MOD_FIR.name = &#39;mod_fir&#39;.</span>
+    <span class="n">MOD_FIR</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mod_fir&#39;</span><span class="p">,</span>              <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: FIR chi2. CHI2_FIR.name = &#39;chi2_fir&#39;.</span>
+    <span class="n">CHI2_FIR</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;chi2_fir&#39;</span><span class="p">,</span>             <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: FIR scale factor. FSCALE_FIR.name = &#39;fscale_fir&#39;.</span>
+    <span class="n">FSCALE_FIR</span>       <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;fscale_fir&#39;</span><span class="p">,</span>           <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: FIR number of bands used. NBAND_FIR.name = &#39;nband_fir&#39;.</span>
+    <span class="n">NBAND_FIR</span>        <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;nband_fir&#39;</span><span class="p">,</span>            <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: TIR median luminosity. LUM_TIR_MED.name = &#39;luminosity_tir_med&#39;.</span>
+    <span class="n">LUM_TIR_MED</span>      <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;luminosity_tir_med&#39;</span><span class="p">,</span>   <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: TIR lower bound luminosity. LUM_TIR_INF.name = &#39;luminosity_tir_inf&#39;.</span>
+    <span class="n">LUM_TIR_INF</span>      <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;luminosity_tir_inf&#39;</span><span class="p">,</span>   <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: TIR upper bound luminosity. LUM_TIR_SUP.name = &#39;luminosity_tir_sup&#39;.</span>
+    <span class="n">LUM_TIR_SUP</span>      <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;luminosity_tir_sup&#39;</span><span class="p">,</span>   <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: FIR model magnitude 2. MAG_MOD_FIR_2.name = &#39;mag_mod_fir&#39;.</span>
+    <span class="n">MAG_MOD_FIR_2</span>    <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mag_mod_fir&#39;</span><span class="p">,</span>          <span class="s1">&#39;dex&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: FIR absolute magnitude 2. MAG_ABS_FIR_2.name = &#39;mag_abs_fir&#39;.</span>
+    <span class="n">MAG_ABS_FIR_2</span>    <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mag_abs_fir&#39;</span><span class="p">,</span>          <span class="s1">&#39;dex&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: FIR K correction 2. K_COR_FIR_2.name = &#39;K_correction_fir&#39;.</span>
+    <span class="n">K_COR_FIR_2</span>      <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;K_correction_fir&#39;</span><span class="p">,</span>     <span class="s1">&#39;dex&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best age. AGE_BEST.name = &#39;age_best&#39;.</span>
+    <span class="n">AGE_BEST</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;age_best&#39;</span><span class="p">,</span>             <span class="s1">&#39;yr&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: lower bound age. AGE_INF.name = &#39;age_inf&#39;.</span>
+    <span class="n">AGE_INF</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;age_inf&#39;</span><span class="p">,</span>              <span class="s1">&#39;yr&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Median age. AGE_MED.name = &#39;age_median&#39;.</span>
+    <span class="n">AGE_MED</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;age_median&#39;</span><span class="p">,</span>           <span class="s1">&#39;yr&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Upper bound age. AGE_SUP.name = &#39;age_sup&#39;.</span>
+    <span class="n">AGE_SUP</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;age_sup&#39;</span><span class="p">,</span>              <span class="s1">&#39;yr&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best dust luminosity. LDUST_BEST.name = &#39;luminosity_dust_best&#39;.</span>
+    <span class="n">LDUST_BEST</span>       <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;luminosity_dust_best&#39;</span><span class="p">,</span> <span class="s1">&#39;erg/s&#39;</span><span class="p">)</span> <span class="c1"># Not sure about unit</span>
+    
+    <span class="c1">#: Lower bound dust luminosity. LDUST_INF.name = &#39;luminosity_dust_inf&#39;.</span>
+    <span class="n">LDUST_INF</span>        <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;luminosity_dust_inf&#39;</span><span class="p">,</span>  <span class="s1">&#39;erg/s&#39;</span><span class="p">)</span> <span class="c1"># Not sure about unit </span>
+    
+    <span class="c1">#: Median dust luminosity. LDUST_MED.name = &#39;luminosity_dust_med&#39;.</span>
+    <span class="n">LDUST_MED</span>        <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;luminosity_dust_med&#39;</span><span class="p">,</span>  <span class="s1">&#39;erg/s&#39;</span><span class="p">)</span> <span class="c1"># Not sure about unit, </span>
+    
+    <span class="c1">#: Upper bound dust luminosity. LDUST_SUP.name = &#39;luminosity_dust_sup&#39;.</span>
+    <span class="n">LDUST_SUP</span>        <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;luminosity_dust_sup&#39;</span><span class="p">,</span>  <span class="s1">&#39;erg/s&#39;</span><span class="p">)</span> <span class="c1"># Not sure about unit, </span>
+    
+    <span class="c1">#: Best stellar mass. MASS_BEST.name = &#39;mass_best&#39;.</span>
+    <span class="n">MASS_BEST</span>        <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mass_best&#39;</span><span class="p">,</span>            <span class="s1">&#39;Msun&#39;</span><span class="p">,</span>    <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    
+    <span class="c1">#: Lower bound stellar mass. MASS_INF.name = &#39;mass_inf&#39;.</span>
+    <span class="n">MASS_INF</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mass_inf&#39;</span><span class="p">,</span>             <span class="s1">&#39;Msun&#39;</span><span class="p">,</span>    <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    
+    <span class="c1">#: Median stellar mass. MASS_MED.name = &#39;mass_med&#39;.</span>
+    <span class="n">MASS_MED</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mass_med&#39;</span><span class="p">,</span>             <span class="s1">&#39;Msun&#39;</span><span class="p">,</span>    <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    
+    <span class="c1">#: Upper bound stellar mass. MASS_SUP.name = &#39;mass_sup&#39;.</span>
+    <span class="n">MASS_SUP</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;mass_sup&#39;</span><span class="p">,</span>             <span class="s1">&#39;Msun&#39;</span><span class="p">,</span>    <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best SFR. SFR_BEST.name = &#39;sfr_best&#39;.</span>
+    <span class="n">SFR_BEST</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;sfr_best&#39;</span><span class="p">,</span>             <span class="s1">&#39;Msun/yr&#39;</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    
+    <span class="c1">#: Lower bound SFR. SFR_INF.name = &#39;sfr_inf&#39;.</span>
+    <span class="n">SFR_INF</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;sfr_inf&#39;</span><span class="p">,</span>              <span class="s1">&#39;Msun/yr&#39;</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    
+    <span class="c1">#: Median SFR. SFR_MED.name = &#39;sfr_med&#39;.</span>
+    <span class="n">SFR_MED</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;sfr_med&#39;</span><span class="p">,</span>              <span class="s1">&#39;Msun/yr&#39;</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    
+    <span class="c1">#: Upper bound SFR. SFR_SUP.name = &#39;sfr_sup&#39;.</span>
+    <span class="n">SFR_SUP</span>          <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;sfr_sup&#39;</span><span class="p">,</span>              <span class="s1">&#39;Msun/yr&#39;</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best sSFR. SSFR_BEST.name = &#39;ssfr_best&#39;.</span>
+    <span class="n">SSFR_BEST</span>        <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;ssfr_best&#39;</span><span class="p">,</span>            <span class="s1">&#39;1/yr&#39;</span><span class="p">,</span>    <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    
+    <span class="c1">#: Lower bound sSFR. SSFR_INF.name = &#39;ssfr_inf&#39;.</span>
+    <span class="n">SSFR_INF</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;ssfr_inf&#39;</span><span class="p">,</span>             <span class="s1">&#39;1/yr&#39;</span><span class="p">,</span>    <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    
+    <span class="c1">#: Median sSFR. SSFR_MED.name = &#39;ssfr_med&#39;.</span>
+    <span class="n">SSFR_MED</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;ssfr_med&#39;</span><span class="p">,</span>             <span class="s1">&#39;1/yr&#39;</span><span class="p">,</span>    <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    
+    <span class="c1">#: Upper bound sSFR. SSFR_SUP.name = &#39;ssfr_sup&#39;.</span>
+    <span class="n">SSFR_SUP</span>         <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;ssfr_sup&#39;</span><span class="p">,</span>             <span class="s1">&#39;1/yr&#39;</span><span class="p">,</span>    <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best NUV luminosity. LUM_NUV_BEST.name = &#39;luminosity_nuv_best&#39;.</span>
+    <span class="n">LUM_NUV_BEST</span>     <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;luminosity_nuv_best&#39;</span><span class="p">,</span>  <span class="s1">&#39;erg/s&#39;</span><span class="p">)</span> <span class="c1"># Not sure about unit</span>
+    
+    <span class="c1">#: Best R-band luminosity. LUM_R_BEST.name = &#39;luminosity_R_best&#39;.</span>
+    <span class="n">LUM_R_BEST</span>       <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;luminosity_R_best&#39;</span><span class="p">,</span>    <span class="s1">&#39;erg/s&#39;</span><span class="p">)</span> <span class="c1"># Not sure about unit</span>
+    
+    <span class="c1">#: Best K-band luminosity. LUM_K_BEST.name = &#39;luminosity_K_best&#39;.</span>
+    <span class="n">LUM_K_BEST</span>       <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;luminosity_K_best&#39;</span><span class="p">,</span>    <span class="s1">&#39;erg/s&#39;</span><span class="p">)</span> <span class="c1"># Not sure about unit</span>
+    
+    <span class="c1">#: Best physical chi2. PHYS_CHI2_BEST.name = &#39;phys_chi2_best&#39;.</span>
+    <span class="n">PHYS_CHI2_BEST</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_chi2_best&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Best physical model. PHYS_MOD_BEST.name = &#39;phys_mod_best&#39;.</span>
+    <span class="n">PHYS_MOD_BEST</span>    <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_mod_best&#39;</span><span class="p">,</span>        <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical model magnitude 2. PHYS_MAG_MOD_2.name = &#39;phys_mag_mod&#39;.</span>
+    <span class="n">PHYS_MAG_MOD_2</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_mag_mod&#39;</span><span class="p">,</span>         <span class="s1">&#39;dex&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical absolute magnitude 2. PHYS_MAG_ABS_2.name = &#39;phys_mag_abs&#39;.</span>
+    <span class="n">PHYS_MAG_ABS_2</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_mag_abs&#39;</span><span class="p">,</span>         <span class="s1">&#39;dex&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical K correction 2. PHYS_K_COR_2.name = &#39;phys_K_correction&#39;.</span>
+    <span class="n">PHYS_K_COR_2</span>     <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_K_correction&#39;</span><span class="p">,</span>    <span class="s1">&#39;dex&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA1. PHYS_PARA1_BEST.name = &#39;phys_para1_best&#39;</span>
+    <span class="n">PHYS_PARA1_BEST</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para1_best&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA2. PHYS_PARA2_BEST.name = &#39;phys_para2_best&#39;.</span>
+    <span class="n">PHYS_PARA2_BEST</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para2_best&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA3. PHYS_PARA3_BEST.name = &#39;phys_para3_best&#39;.</span>
+    <span class="n">PHYS_PARA3_BEST</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para3_best&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA4. PHYS_PARA4_BEST.name = &#39;phys_para4_best&#39;.</span>
+    <span class="n">PHYS_PARA4_BEST</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para4_best&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA5. PHYS_PARA5_BEST.name = &#39;phys_para5_best&#39;.</span>
+    <span class="n">PHYS_PARA5_BEST</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para5_best&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA6. PHYS_PARA6_BEST.name = &#39;phys_para6_best&#39;.</span>
+    <span class="n">PHYS_PARA6_BEST</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para6_best&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA7. PHYS_PARA7_BEST.name = &#39;phys_para7_best&#39;.</span>
+    <span class="n">PHYS_PARA7_BEST</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para7_best&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA8. PHYS_PARA8_BEST.name = &#39;phys_para8_best&#39;.</span>
+    <span class="n">PHYS_PARA8_BEST</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para8_best&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA9. PHYS_PARA9_BEST.name = &#39;phys_para9_best&#39;.</span>
+    <span class="n">PHYS_PARA9_BEST</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para9_best&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA10. PHYS_PARA10_BEST.name = &#39;phys_para10_best&#39;.</span>
+    <span class="n">PHYS_PARA10_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para10_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA11. PHYS_PARA11_BEST.name = &#39;phys_para11_best&#39;.</span>
+    <span class="n">PHYS_PARA11_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para11_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA12. PHYS_PARA12_BEST.name = &#39;phys_para12_best&#39;.</span>
+    <span class="n">PHYS_PARA12_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para12_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA13. PHYS_PARA13_BEST.name = &#39;phys_para13_best&#39;.</span>
+    <span class="n">PHYS_PARA13_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para13_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA14. PHYS_PARA14_BEST.name = &#39;phys_para14_best&#39;.</span>
+    <span class="n">PHYS_PARA14_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para14_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA15. PHYS_PARA15_BEST.name = &#39;phys_para15_best&#39;.</span>
+    <span class="n">PHYS_PARA15_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para15_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA16. PHYS_PARA16_BEST.name = &#39;phys_para16_best&#39;.</span>
+    <span class="n">PHYS_PARA16_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para16_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA17. PHYS_PARA17_BEST.name = &#39;phys_para17_best&#39;.</span>
+    <span class="n">PHYS_PARA17_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para17_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA18. PHYS_PARA18_BEST.name = &#39;phys_para18_best&#39;.</span>
+    <span class="n">PHYS_PARA18_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para18_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA19. PHYS_PARA19_BEST.name = &#39;phys_para19_best&#39;.</span>
+    <span class="n">PHYS_PARA19_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para19_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA20. PHYS_PARA20_BEST.name = &#39;phys_para20_best&#39;.</span>
+    <span class="n">PHYS_PARA20_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para20_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA21. PHYS_PARA21_BEST.name = &#39;phys_para21_best&#39;.</span>
+    <span class="n">PHYS_PARA21_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para21_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA22. PHYS_PARA22_BEST.name = &#39;phys_para22_best&#39;.</span>
+    <span class="n">PHYS_PARA22_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para22_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA23. PHYS_PARA23_BEST.name = &#39;phys_para23_best&#39;.</span>
+    <span class="n">PHYS_PARA23_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para23_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA24. PHYS_PARA24_BEST.name = &#39;phys_para24_best&#39;.</span>
+    <span class="n">PHYS_PARA24_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para24_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA25. PHYS_PARA25_BEST.name = &#39;phys_para25_best&#39;.</span>
+    <span class="n">PHYS_PARA25_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para25_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA26. PHYS_PARA26_BEST.name = &#39;phys_para26_best&#39;.</span>
+    <span class="n">PHYS_PARA26_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para26_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical best PARA27. PHYS_PARA27_BEST.name = &#39;phys_para27_best&#39;.</span>
+    <span class="n">PHYS_PARA27_BEST</span> <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para27_best&#39;</span><span class="p">,</span>     <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA1. PHYS_PARA1_MED.name = &#39;phys_para1_med&#39;.</span>
+    <span class="n">PHYS_PARA1_MED</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para1_med&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA2. PHYS_PARA2_MED.name = &#39;phys_para2_med&#39;.</span>
+    <span class="n">PHYS_PARA2_MED</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para2_med&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA3. PHYS_PARA3_MED.name = &#39;phys_para3_med&#39;.</span>
+    <span class="n">PHYS_PARA3_MED</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para3_med&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA4. PHYS_PARA4_MED.name = &#39;phys_para4_med&#39;.</span>
+    <span class="n">PHYS_PARA4_MED</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para4_med&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA5. PHYS_PARA5_MED.name = &#39;phys_para5_med&#39;.</span>
+    <span class="n">PHYS_PARA5_MED</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para5_med&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA6. PHYS_PARA6_MED.name = &#39;phys_para6_med&#39;.</span>
+    <span class="n">PHYS_PARA6_MED</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para6_med&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA7. PHYS_PARA7_MED.name = &#39;phys_para7_med&#39;.</span>
+    <span class="n">PHYS_PARA7_MED</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para7_med&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA8. PHYS_PARA8_MED.name = &#39;phys_para8_med&#39;.</span>
+    <span class="n">PHYS_PARA8_MED</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para8_med&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA9. PHYS_PARA9_MED.name = &#39;phys_para9_med&#39;.</span>
+    <span class="n">PHYS_PARA9_MED</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para9_med&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA10. PHYS_PARA10_MED.name = &#39;phys_para10_med&#39;.</span>
+    <span class="n">PHYS_PARA10_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para10_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA11. PHYS_PARA11_MED.name = &#39;phys_para11_med&#39;.</span>
+    <span class="n">PHYS_PARA11_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para11_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA12. PHYS_PARA12_MED.name = &#39;phys_para12_med&#39;.</span>
+    <span class="n">PHYS_PARA12_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para12_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA13. PHYS_PARA13_MED.name = &#39;phys_para13_med&#39;.</span>
+    <span class="n">PHYS_PARA13_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para13_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA14. PHYS_PARA14_MED.name = &#39;phys_para14_med&#39;.</span>
+    <span class="n">PHYS_PARA14_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para14_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA15. PHYS_PARA15_MED.name = &#39;phys_para15_med&#39;.</span>
+    <span class="n">PHYS_PARA15_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para15_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA16. PHYS_PARA16_MED.name = &#39;phys_para16_med&#39;.</span>
+    <span class="n">PHYS_PARA16_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para16_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA17. PHYS_PARA17_MED.name = &#39;phys_para17_med&#39;.</span>
+    <span class="n">PHYS_PARA17_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para17_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA18. PHYS_PARA18_MED.name = &#39;phys_para18_med&#39;.</span>
+    <span class="n">PHYS_PARA18_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para18_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA19. PHYS_PARA19_MED.name = &#39;phys_para19_med&#39;.</span>
+    <span class="n">PHYS_PARA19_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para19_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA20. PHYS_PARA20_MED.name = &#39;phys_para20_med&#39;.</span>
+    <span class="n">PHYS_PARA20_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para20_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA21. PHYS_PARA21_MED.name = &#39;phys_para21_med&#39;.</span>
+    <span class="n">PHYS_PARA21_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para21_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA22. PHYS_PARA22_MED.name = &#39;phys_para22_med&#39;.</span>
+    <span class="n">PHYS_PARA22_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para22_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA23. PHYS_PARA23_MED.name = &#39;phys_para23_med&#39;.</span>
+    <span class="n">PHYS_PARA23_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para23_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA24. PHYS_PARA24_MED.name = &#39;phys_para24_med&#39;.</span>
+    <span class="n">PHYS_PARA24_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para24_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA25. PHYS_PARA25_MED.name = &#39;phys_para25_med&#39;.</span>
+    <span class="n">PHYS_PARA25_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para25_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA26. PHYS_PARA26_MED.name = &#39;phys_para26_med&#39;.</span>
+    <span class="n">PHYS_PARA26_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para26_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical median PARA27. PHYS_PARA27_MED.name = &#39;phys_para27_med&#39;.</span>
+    <span class="n">PHYS_PARA27_MED</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para27_med&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA1. PHYS_PARA1_INF.name = &#39;phys_para1_inf&#39;</span>
+    <span class="n">PHYS_PARA1_INF</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para1_inf&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA2. PHYS_PARA2_INF.name = &#39;phys_para2_inf&#39;.</span>
+    <span class="n">PHYS_PARA2_INF</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para2_inf&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA3. PHYS_PARA3_INF.name = &#39;phys_para3_inf&#39;.</span>
+    <span class="n">PHYS_PARA3_INF</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para3_inf&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA4. PHYS_PARA4_INF.name = &#39;phys_para4_inf&#39;.</span>
+    <span class="n">PHYS_PARA4_INF</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para4_inf&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+
+    <span class="c1">#: Physical lower bound PARA5. PHYS_PARA5_INF.name = &#39;phys_para5_inf&#39;.</span>
+    <span class="n">PHYS_PARA5_INF</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para5_inf&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA6. PHYS_PARA6_INF.name = &#39;phys_para6_inf&#39;.</span>
+    <span class="n">PHYS_PARA6_INF</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para6_inf&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA7. PHYS_PARA7_INF.name = &#39;phys_para7_inf&#39;.</span>
+    <span class="n">PHYS_PARA7_INF</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para7_inf&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA8. PHYS_PARA8_INF.name = &#39;phys_para8_inf&#39;.</span>
+    <span class="n">PHYS_PARA8_INF</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para8_inf&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA9. PHYS_PARA9_INF.name = &#39;phys_para9_inf&#39;.</span>
+    <span class="n">PHYS_PARA9_INF</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para9_inf&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA10. PHYS_PARA10_INF.name = &#39;phys_para10_inf&#39;.</span>
+    <span class="n">PHYS_PARA10_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para10_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA11. PHYS_PARA11_INF.name = &#39;phys_para11_inf&#39;.</span>
+    <span class="n">PHYS_PARA11_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para11_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA12. PHYS_PARA12_INF.name = &#39;phys_para12_inf&#39;.</span>
+    <span class="n">PHYS_PARA12_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para12_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA13. PHYS_PARA13_INF.name = &#39;phys_para13_inf&#39;.</span>
+    <span class="n">PHYS_PARA13_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para13_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA14. PHYS_PARA14_INF.name = &#39;phys_para14_inf&#39;.</span>
+    <span class="n">PHYS_PARA14_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para14_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA15. PHYS_PARA15_INF.name = &#39;phys_para15_inf&#39;.</span>
+    <span class="n">PHYS_PARA15_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para15_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+
+    <span class="c1">#: Physical lower bound PARA16. PHYS_PARA16_INF.name = &#39;phys_para16_inf&#39;.</span>
+    <span class="n">PHYS_PARA16_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para16_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA17. PHYS_PARA17_INF.name = &#39;phys_para17_inf&#39;.</span>
+    <span class="n">PHYS_PARA17_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para17_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA18. PHYS_PARA18_INF.name = &#39;phys_para18_inf&#39;.</span>
+    <span class="n">PHYS_PARA18_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para18_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA19. PHYS_PARA19_INF.name = &#39;phys_para19_inf&#39;.</span>
+    <span class="n">PHYS_PARA19_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para19_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA20. PHYS_PARA20_INF.name = &#39;phys_para20_inf&#39;.</span>
+    <span class="n">PHYS_PARA20_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para20_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA21. PHYS_PARA21_INF.name = &#39;phys_para21_inf&#39;.</span>
+    <span class="n">PHYS_PARA21_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para21_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA22. PHYS_PARA22_INF.name = &#39;phys_para22_inf&#39;.</span>
+    <span class="n">PHYS_PARA22_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para22_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA23. PHYS_PARA23_INF.name = &#39;phys_para23_inf&#39;.</span>
+    <span class="n">PHYS_PARA23_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para23_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA24. PHYS_PARA24_INF.name = &#39;phys_para24_inf&#39;.</span>
+    <span class="n">PHYS_PARA24_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para24_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA25. PHYS_PARA25_INF.name = &#39;phys_para25_inf&#39;.</span>
+    <span class="n">PHYS_PARA25_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para25_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA26. PHYS_PARA26_INF.name = &#39;phys_para26_inf&#39;.</span>
+    <span class="n">PHYS_PARA26_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para26_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical lower bound PARA27. PHYS_PARA27_INF.name = &#39;phys_para27_inf&#39;.</span>
+    <span class="n">PHYS_PARA27_INF</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para27_inf&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA1. PHYS_PARA1_SUP.name = &#39;phys_para1_sup&#39;.</span>
+    <span class="n">PHYS_PARA1_SUP</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para1_sup&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA2. PHYS_PARA2_SUP.name = &#39;phys_para2_sup&#39;.</span>
+    <span class="n">PHYS_PARA2_SUP</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para2_sup&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA3. PHYS_PARA3_SUP.name = &#39;phys_para3_sup&#39;.</span>
+    <span class="n">PHYS_PARA3_SUP</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para3_sup&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA4. PHYS_PARA4_SUP.name = &#39;phys_para4_sup&#39;.</span>
+    <span class="n">PHYS_PARA4_SUP</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para4_sup&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA5. PHYS_PARA5_SUP.name = &#39;phys_para5_sup&#39;.</span>
+    <span class="n">PHYS_PARA5_SUP</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para5_sup&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA6. PHYS_PARA6_SUP.name = &#39;phys_para6_sup&#39;.</span>
+    <span class="n">PHYS_PARA6_SUP</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para6_sup&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA7. PHYS_PARA7_SUP.name = &#39;phys_para7_sup&#39;.</span>
+    <span class="n">PHYS_PARA7_SUP</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para7_sup&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA8. PHYS_PARA8_SUP.name = &#39;phys_para8_sup&#39;.</span>
+    <span class="n">PHYS_PARA8_SUP</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para8_sup&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA9. PHYS_PARA9_SUP.name = &#39;phys_para9_sup&#39;.</span>
+    <span class="n">PHYS_PARA9_SUP</span>   <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para9_sup&#39;</span><span class="p">,</span>       <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA10. PHYS_PARA10_SUP.name = &#39;phys_para10_sup&#39;.</span>
+    <span class="n">PHYS_PARA10_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para10_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA11. PHYS_PARA11_SUP.name = &#39;phys_para11_sup&#39;.</span>
+    <span class="n">PHYS_PARA11_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para11_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA12. PHYS_PARA12_SUP.name = &#39;phys_para12_sup&#39;.</span>
+    <span class="n">PHYS_PARA12_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para12_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA13. PHYS_PARA13_SUP.name = &#39;phys_para13_sup&#39;.</span>
+    <span class="n">PHYS_PARA13_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para13_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA14. PHYS_PARA14_SUP.name = &#39;phys_para14_sup&#39;.</span>
+    <span class="n">PHYS_PARA14_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para14_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA15. PHYS_PARA15_SUP.name = &#39;phys_para15_sup&#39;.</span>
+    <span class="n">PHYS_PARA15_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para15_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA16. PHYS_PARA16_SUP.name = &#39;phys_para16_sup&#39;.</span>
+    <span class="n">PHYS_PARA16_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para16_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA17. PHYS_PARA17_SUP.name = &#39;phys_para17_sup&#39;.</span>
+    <span class="n">PHYS_PARA17_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para17_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA18. PHYS_PARA18_SUP.name = &#39;phys_para18_sup&#39;.</span>
+    <span class="n">PHYS_PARA18_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para18_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PARA19. PHYS_PARA19_SUP.name = &#39;phys_para19_sup&#39;.</span>
+    <span class="n">PHYS_PARA19_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para19_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PAR20. PHYS_PARA20_SUP.name = &#39;phys_para20_sup&#39;.</span>
+    <span class="n">PHYS_PARA20_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para20_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PAR21. PHYS_PARA21_SUP.name = &#39;phys_para21_sup&#39;.</span>
+    <span class="n">PHYS_PARA21_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para21_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PAR22. PHYS_PARA22_SUP.name = &#39;phys_para22_sup&#39;.</span>
+    <span class="n">PHYS_PARA22_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para22_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PAR23. PHYS_PARA23_SUP.name = &#39;phys_para23_sup&#39;.</span>
+    <span class="n">PHYS_PARA23_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para23_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PAR24. PHYS_PARA24_SUP.name = &#39;phys_para24_sup&#39;.</span>
+    <span class="n">PHYS_PARA24_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para24_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PAR25. PHYS_PARA25_SUP.name = &#39;phys_para25_sup&#39;.</span>
+    <span class="n">PHYS_PARA25_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para25_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PAR26. PHYS_PARA26_SUP.name = &#39;phys_para26_sup&#39;.</span>
+    <span class="n">PHYS_PARA26_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para26_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span> 
+    
+    <span class="c1">#: Physical upper bound PAR27. PHYS_PARA27_SUP.name = &#39;phys_para27_sup&#39;.</span>
+    <span class="n">PHYS_PARA27_SUP</span>  <span class="o">=</span> <span class="n">NamedColumn</span><span class="p">(</span><span class="s1">&#39;phys_para27_sup&#39;</span><span class="p">,</span>      <span class="s1">&#39;&#39;</span><span class="p">)</span>
+   
+    
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">        </span>
+<span class="sd">        Formatted string for this enum.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">!=</span> <span class="s1">&#39;_2&#39;</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_2&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">end</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span></div>
+</pre></div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.5',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2021, Wilfried Mercier.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.
+        </div>
+    </div>  
+
+</body>
+</html>

@@ -29,7 +29,6 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
   <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="LePhare tutorial" href="lephare.html" />
@@ -108,10 +107,25 @@
                             
                             
                                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../setup.html">Installation and setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../setup.html">Installation and setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../setup.html#required-dependencies">Required dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></li>
+</ul>
+</li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lephare.html">LePhare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cigale.html">Cigale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nomenclature">Nomenclature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-processing-step">Pre-processing step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code> objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -121,7 +135,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">----------------------------------------</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../API/index.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../API/index.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../API/catalogues.html">Catalogue classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API/filters.html">Filter classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API/misc/index.html">Miscellaneous</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API/outputs.html">SED fitting code output classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API/sed.html">SED classes</a></li>
+</ul>
+</li>
 </ul>
 
                             
@@ -212,6 +233,120 @@
 <li><p><strong>zpt</strong> : Zeropoint corresponding to the filter. This zeropoint is used to convert the data and error maps from <img class="math" src="../_images/math/06573ea902cc42fd29eb0efddf78a5d6237c028f.png" alt="\rm{e^{-}/s}"/> to magnitude or flux values.</p></li>
 </ul>
 <p>Optionally, if the data and/or variance maps have multiple extensions, one can provide the extension number with the <code class="code docutils literal notranslate"><span class="pre">ext</span></code> and <code class="code docutils literal notranslate"><span class="pre">extErr</span></code> keywords.</p>
+<p>Once all the filters have been built, we combine them into a single <a class="reference internal" href="../API/filters.html#SED.filters.FilterList" title="SED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a> object. This object takes as input a list of all the <a class="reference internal" href="../API/filters.html#SED.filters.Filter" title="SED.filters.Filter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code></a> objects, a mask, the redshift of the galaxy and the SED fitting code used:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">code</span>  <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span>      <span class="c1"># Either SEDcode.LEPHARE or SEDcode.CIGALE</span>
+<span class="n">z</span>     <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">mask</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="c1"># True for bad pixels, False for good ones</span>
+
+<span class="c1"># We assume f1, f2, f3 respresent 3 Filter objects built as above</span>
+<span class="n">flist</span> <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">FilterList</span><span class="p">([</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">],</span> <span class="n">mask</span><span class="p">,</span> <span class="n">SEDcode</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">redshift</span><span class="o">=</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As in the example above, if you do not have a mask, just provide an array with the same shape as the data and filled with False.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The mask must be the same between all filters.</p>
+</div>
+<p>By default, when the <a class="reference internal" href="../API/filters.html#SED.filters.FilterList" title="SED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a> object is constructed for the first time, it automatically calls <a class="reference internal" href="../API/filters.html#SED.filters.FilterList.setCode" title="SED.filters.FilterList.setCode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setCode()</span></code></a> method, which builds an Astropy Table with the data required by the given SED fitting code.</p>
+<p>When building a table, a set of actions are performed on the data to process them. These actions depend on the given SED fitting code. In general, these are:</p>
+<ol class="arabic simple">
+<li><p>Mask bad pixels (including masked pixels and those with negative flux values)</p></li>
+<li><p>Add (nor not) Poisson noise to the variance map</p></li>
+<li><p>Optionally: scale data using a mean map and a scale factor</p></li>
+<li><p>Map data and variance maps to 1D arrays</p></li>
+<li><p>Compute std (square root of variance) map</p></li>
+<li><p>Convert data and std maps into magnitude or flux values</p></li>
+<li><p>Generate additional columns</p></li>
+</ol>
+<p>If needed, the astropy Table can easily be retrieved as follows</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">table</span> <span class="o">=</span> <span class="n">flist</span><span class="o">.</span><span class="n">table</span>
+</pre></div>
+</div>
+<p>There are a few options one can change to get a different data processing, update the table and also return it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">newTable</span> <span class="o">=</span> <span class="n">flist</span><span class="o">.</span><span class="n">toTable</span><span class="p">(</span><span class="n">cleanMethod</span><span class="o">=</span><span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">scaleFactor</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">texpFac</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The different options are:</p>
+<ul class="simple">
+<li><p><strong>cleanMethod</strong>: CleanMethod.ZERO (to put 0 if data is in flux unit or -99 if in magnitude on bad pixels) or CleanMethod.MIN (to put the minimum value of the good pixels on bad pixels)</p></li>
+<li><p><strong>texpFac</strong>: exposure time factor which divides the exposure time found in the header of the data. This is only used if a Poisson noise is addes to the data. If 0, no Poisson noise is added.</p></li>
+</ul>
+<p>Optionally, one can also pass these arguments when setting a new code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">flist</span><span class="o">.</span><span class="n">setCode</span><span class="p">(</span><span class="n">SED</span><span class="o">.</span><span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span><span class="p">,</span> <span class="n">cleanMethod</span><span class="o">=</span><span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">scaleFactor</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">texpFac</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-2-generate-a-catalogue-object">
+<h2>Step 2: Generate a <a class="reference internal" href="../API/catalogues.html#SED.catalogues.Catalogue" title="SED.catalogues.Catalogue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code></a> object<a class="headerlink" href="#step-2-generate-a-catalogue-object" title="Permalink to this headline">¶</a></h2>
+<p>To simplify the generation of the different input files required by the SED fitting code, a <a class="reference internal" href="../API/catalogues.html#SED.catalogues.Catalogue" title="SED.catalogues.Catalogue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code></a> object must be generated. Each SED fitting code has its own catalogue:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../API/catalogues.html#SED.catalogues.LePhareCat" title="SED.catalogues.LePhareCat"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareCat</span></code></a></p></li>
+<li><p><a class="reference internal" href="../API/catalogues.html#SED.catalogues.CigaleCat" title="SED.catalogues.CigaleCat"><code class="xref py py-class docutils literal notranslate"><span class="pre">CigaleCat</span></code></a></p></li>
+</ul>
+<p>The general syntax to produce a catalogue is</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="o">=</span> <span class="n">flist</span><span class="o">.</span><span class="n">toCatalogue</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c1"># Replace *args and **kwargs by the arguments and keyword argument specific to the catalogue</span>
+</pre></div>
+</div>
+<p>See <a class="reference external" href="lephare.html">LePhare</a> and <a class="reference external" href="cigale.html">Cigale</a> for SED fitting code specific information.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only <a class="reference internal" href="../API/catalogues.html#SED.catalogues.LePhareCat" title="SED.catalogues.LePhareCat"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareCat</span></code></a> is implemented for now.</p>
+</div>
+</section>
+<section id="step-3-create-a-sed-object">
+<h2>Step 3: Create a <a class="reference internal" href="../API/sed.html#SED.sed.SED" title="SED.sed.SED"><code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code></a> object<a class="headerlink" href="#step-3-create-a-sed-object" title="Permalink to this headline">¶</a></h2>
+<p>The input file creation, output file extraction and the interface allowing to run the SED fitting codes directly from python are all dealt with by a <a class="reference internal" href="../API/sed.html#SED.sed.SED" title="SED.sed.SED"><code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code></a> object.</p>
+<p>Each SED fitting code has its own <a class="reference internal" href="../API/sed.html#SED.sed.SED" title="SED.sed.SED"><code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code></a> class which allows to blindly run the code and gather the output data:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../API/sed.html#SED.sed.LePhareSED" title="SED.sed.LePhareSED"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareSED</span></code></a></p></li>
+<li><p><a class="reference internal" href="../API/sed.html#SED.sed.CigaleSED" title="SED.sed.CigaleSED"><code class="xref py py-class docutils literal notranslate"><span class="pre">CigaleSED</span></code></a></p></li>
+</ul>
+<p>Each SED object requires its own set of parameters (see <a class="reference external" href="lephare.html">LePhare</a> and <a class="reference external" href="cigale.html">Cigale</a> for SED fitting code specific information), but the general syntax is</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sed</span> <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">LePhareSED</span><span class="p">(</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c1"># Replace *args and **kwargs by the arguments and keyword argument specific to the SED object</span>
+</pre></div>
+</div>
+<p>where the first argument is always the idenfitier of the SED.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only <a class="reference internal" href="../API/sed.html#SED.sed.LePhareSED" title="SED.sed.LePhareSED"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareSED</span></code></a> is implemented for now.</p>
+</div>
+</section>
+<section id="step-4-run-the-sed-fitting">
+<h2>Step 4: Run the SED fitting<a class="headerlink" href="#step-4-run-the-sed-fitting" title="Permalink to this headline">¶</a></h2>
+<p>Once a <a class="reference internal" href="../API/sed.html#SED.sed.SED" title="SED.sed.SED"><code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code></a> object has been created, one can start the SED fitting. Each SED fitting code has its own set of parameters but the general syntax is</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MASS_BEST&#39;</span><span class="p">,</span> <span class="s1">&#39;SFR_BEST&#39;</span><span class="p">]</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">sed</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">outputParams</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c1"># Replace **kwargs by the keyword argument specific to the SED object</span>
+</pre></div>
+</div>
+<p>The first argument is always the catalogue. Additionally, one can pass the names of the output parameters one wants to retrieve from the SED fitting with the <code class="code docutils literal notranslate"><span class="pre">outputParam</span></code> keyword.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Running the fitting code will create a directory named after the identifier and generate various input and ouput file into it. All the information printed on screen are saved into a log file as well.</p>
+</div>
+<p>Running the SED fitting code returns an <a class="reference internal" href="../API/outputs.html#SED.outputs.Output" title="SED.outputs.Output"><code class="xref py py-class docutils literal notranslate"><span class="pre">Output</span></code></a> object. Each code has its own ouput object:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../API/outputs.html#SED.outputs.LePhareOutput" title="SED.outputs.LePhareOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareOutput</span></code></a></p></li>
+<li><p><a class="reference internal" href="../API/outputs.html#SED.outputs.CigaleOutput" title="SED.outputs.CigaleOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">CigaleOutput</span></code></a></p></li>
+</ul>
+<p>See <a class="reference external" href="lephare.html">LePhare</a> and <a class="reference external" href="cigale.html">Cigale</a> for SED fitting code specific information.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only <a class="reference internal" href="../API/outputs.html#SED.outputs.LePhareOutput" title="SED.outputs.LePhareOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareOutput</span></code></a> is implemented for now.</p>
+</div>
+</section>
+<section id="step-5-produce-a-resolved-map">
+<h2>Step 5: Produce a resolved map<a class="headerlink" href="#step-5-produce-a-resolved-map" title="Permalink to this headline">¶</a></h2>
+<p>When the <a class="reference internal" href="../API/outputs.html#SED.outputs.Output" title="SED.outputs.Output"><code class="xref py py-class docutils literal notranslate"><span class="pre">Output</span></code></a> object is created, data is loaded from the output file into an Astropy Table object. One can access the entire table or simply a column as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">table</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">table</span>
+<span class="n">mass</span>  <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s1">&#39;mass_best&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>But, in this format the data are given as a 1D array. To generate a resolved map, one can use the <a class="reference internal" href="../API/outputs.html#SED.outputs.Output.toImage" title="SED.outputs.Output.toImage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">toImage()</span></code></a> method. However, one needs to provide the image shape and, depending on the code used (see <a class="reference external" href="lephare.html">LePhare</a> and <a class="reference external" href="cigale.html">Cigale</a> for SED fitting code specific information) a scale factor and a mean map.</p>
+<p>Thus, a simpler way is to first link the <a class="reference internal" href="../API/outputs.html#SED.outputs.Output" title="SED.outputs.Output"><code class="xref py py-class docutils literal notranslate"><span class="pre">Output</span></code></a> object to the <a class="reference internal" href="../API/filters.html#SED.filters.FilterList" title="SED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a> generated at the beginning and then call <code class="xref py py-meth docutils literal notranslate"><span class="pre">toImage()</span></code> method. This ensures that all the necessary parameters are passed to recover an output resolved map which has the correct shape and which has been correctly scaled back.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">flist</span><span class="p">)</span>
+<span class="n">mass</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">toImage</span><span class="p">(</span><span class="s1">&#39;mass_best&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -241,8 +376,6 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="../_static/copybutton.js"></script>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
     <div class="footer" role="contentinfo">

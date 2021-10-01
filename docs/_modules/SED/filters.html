@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/css/theme.min.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/plot_directive.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 
@@ -103,10 +103,25 @@
                             
                             
                                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../setup.html">Installation and setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../setup.html">Installation and setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../setup.html#required-dependencies">Required dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></li>
+</ul>
+</li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/lephare.html">LePhare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/cigale.html">Cigale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#nomenclature">Nomenclature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#pre-processing-step">Pre-processing step</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code> objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code> object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
@@ -116,7 +131,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">----------------------------------------</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../API/index.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../API/index.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../API/catalogues.html">Catalogue classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API/filters.html">Filter classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API/outputs.html">SED fitting code output classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API/sed.html">SED classes</a></li>
+</ul>
+</li>
 </ul>
 
                             
@@ -865,9 +886,10 @@
 <span class="sd">            If you want a table with different parameters you must run :py:meth:`FilterList.genTable` again, for e.g.</span>
 <span class="sd">            </span>
 <span class="sd">            &gt;&gt;&gt; from SED.misc import SEDcode, CleanMethod</span>
-<span class="sd">            &gt;&gt;&gt; flist = FilterList(filters, mask)                          # setCode and genTable methods are called with default SED fitting code name</span>
-<span class="sd">            &gt;&gt;&gt; flist.setCode(SEDcode.LEPHARE)                             # setCode and genTable methods are called with &#39;lephare&#39; SED fitting code name</span>
-<span class="sd">            &gt;&gt;&gt; flist.genTable(cleanMethod=CleanMethod.MIN, scaleFactor=50) # toTable is run again with different parameters but still &#39;lephare&#39; SED fitting code name</span>
+<span class="sd">            &gt;&gt;&gt; flist = FilterList(filters, mask)          # setCode and genTable methods are called with default SED fitting code name</span>
+<span class="sd">            &gt;&gt;&gt; flist.setCode(SEDcode.LEPHARE,             # setCode and genTable methods are called with &#39;lephare&#39; SED fitting code name</span>
+<span class="sd">                              cleanMethod=CleanMethod.MIN, # Additional parameters are passed to genTable</span>
+<span class="sd">                              scaleFactor=50)                             </span>
 <span class="sd">        </span>
 <span class="sd">        :param SEDcode code: code used for SED fitting. Acceptable values are SEDcode.CIGALE and SEDcode.LEPHARE.</span>
 <span class="sd">        </span>
@@ -880,7 +902,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
             
         <span class="c1"># Update output table with default parameters</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">genTable</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">genTable</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span></div>
     
     
@@ -920,8 +942,6 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/clipboard.min.js"></script>
-    <script type="text/javascript" src="../../_static/copybutton.js"></script>
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
     <div class="footer" role="contentinfo">
