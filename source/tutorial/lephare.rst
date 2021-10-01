@@ -120,8 +120,8 @@ When running the code, the output parameter values are extracted from the output
 
     * file.in: Input catalogue containing data
     * file.para: Parameter files with all the SED fitting properties
+    * file.output_para: List of output parameters given in the output file
     * file.out: Output data file
-    * file._output_para: Output parameter for the various SED parameters
 
 The different values are stored in an Astropy table, with column names given by the :code:`.name` attribute of the :py:class:`~.LePhareOutputParam` values (e.g. the column name for :py:attr:`~.LePhareOutputParam.Z_BEST` parameter is given by :code:`LePhareOutputParam.Z_BEST.name` which is :code:`'z_best'`), and with the physical units stored.
 

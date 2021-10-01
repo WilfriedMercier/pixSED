@@ -31,9 +31,8 @@ We provide a few complete code examples below using the galaxy given in the :cod
 .. toctree::
     :caption: Examples
 
-    1. Generate a LePhare configuration file <examples/example1>
-    2. Resolved stellar mass map with LePhare <examples/example2>
-    3. Resolved SFR map from an already existing LePhare output file <examples/example3>
+    1. Resolved stellar mass map with LePhare <examples/example1>
+    2. Resolved SFR map from an already existing LePhare output file <examples/example2>
 
 .. toctree::
     :caption: ----------------------------------------
