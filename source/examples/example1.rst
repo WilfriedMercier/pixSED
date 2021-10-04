@@ -8,7 +8,6 @@ We define the galaxy name, the bands used, their zeropoints and the absolute pat
 .. code-block:: python
 
     import os.path           as     opath
-    import matplotlib.pyplot as     plt
     from   astropy.io        import fits
     import SED
 
@@ -79,8 +78,22 @@ To generate a resolved stellar mass map we need to provide additional parameters
 
 .. code-block:: python
 
+    from   matplotlib        import rc
+    import matplotlib        as     mpl
+    import matplotlib.pyplot as     plt
+
     output.link(flist)
-    mass_star  = output.toImage('mass_med')
+    mass_star = output.toImage('mass_med')
     
-    plt.imshow(mass_star.data, origin='lower', cmap='rainbow')
+    rc('font', **{'family': 'serif', 'serif': ['Times']})
+    rc('text', usetex=True)
+    mpl.rcParams['text.latex.preamble'] = r'\usepackage{newtxmath}'
+    rc('figure', figsize=(5, 4.5))
+    
+    ret = plt.imshow(mass_star.data, origin='lower', cmap='rainbow')
+    plt.xlabel('X [pixel]', size=13)
+    plt.ylabel('Y [pixel]', size=13)
+    
+    cbar = plt.colorbar(ret, orientation='vertical', shrink=0.9)
+    cbar.set_label(r'$\log_{10} M_{\star}$ [M$_{\odot}$]', size=13)
     plt.show()
