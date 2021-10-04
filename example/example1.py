@@ -1,7 +1,10 @@
 import os.path           as     opath
-import matplotlib.pyplot as     plt
 from   astropy.io        import fits
 import SED
+
+from   matplotlib        import rc
+import matplotlib        as     mpl
+import matplotlib.pyplot as     plt
 
 # Define data file names
 galName    = '1'                                                             # Galaxy number
@@ -31,7 +34,7 @@ with fits.open(mfile) as hdul:
 ###   1. Generate a FilterList object   ###
 filts      = []
 for band, data, var, zpt in zip(bands, dataFiles, varFiles, zeropoints):
-   filts.append(SED.Filter(band, file, var, zpt))
+   filts.append(SED.Filter(band, data, var, zpt))
 
 flist      = SED.FilterList(filts, mask, code=SED.SEDcode.LEPHARE, redshift=redshift)
 
@@ -46,7 +49,7 @@ hst_filt   = [] # Filter names for LePhare
 err        = [] # Quadratic errors to add to the magnitudes of each band
 
 for band in band_names:
-   filt    = opath.join('hst_filters', f'HST_{band}')
+   filt    = opath.join('hst_perso', f'HST_{band}')
    hst_filt.append(filt)
    err.append(0.03)
 
@@ -56,12 +59,24 @@ sed        = SED.LePhareSED(galName, properties=properties)
 ###   5. Run SED fitting   ###
 params     = ['MASS_BEST', 'MASS_INF', 'MASS_MED', 'MASS_SUP']
 skip       = {'skipSEDgen' : True, 'skipFilterGen' : True, 'skipMagGal' : True, 'skipMagQSO' : True, 'skipMagStar' : True}
-skip       = {'skipSEDgen' : False, 'skipFilterGen' : False, 'skipMagGal' : False, 'skipMagQSO' : False, 'skipMagStar' : False}
+#skip       = {'skipSEDgen' : False, 'skipFilterGen' : False, 'skipMagGal' : False, 'skipMagQSO' : False, 'skipMagStar' : False}
 output     = sed(catalogue, outputParams=params, **skip)
 
 ###   6. Generate a resolved stellar mass map   ###
 output.link(flist)
 mass_star  = output.toImage('mass_med')
 
-plt.imshow(mass_star.data, origin='lower', cmap='rainbow')
+
+###   7. Plot   ###
+rc('font', **{'family': 'serif', 'serif': ['Times']})
+rc('text', usetex=True)
+mpl.rcParams['text.latex.preamble'] = r'\usepackage{newtxmath}'
+rc('figure', figsize=(5, 4.5))
+
+ret = plt.imshow(mass_star.data, origin='lower', cmap='rainbow')
+plt.xlabel('X [pixel]', size=13)
+plt.ylabel('Y [pixel]', size=13)
+
+cbar = plt.colorbar(ret, orientation='vertical', shrink=0.9)
+cbar.set_label(r'$\log_{10} M_{\star}$ [M$_{\odot}$]', size=13)
 plt.show()
