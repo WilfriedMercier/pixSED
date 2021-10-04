@@ -353,6 +353,9 @@ class FilterList:
             # Clean and add noise to variance map
             data, var              = self.cleanAndNoise(filt.data, filt.var, self.mask, cleanMethod=cleanMethod, texp=filt.texp, texpFac=texpFac)
            
+            test = np.sqrt(var)/data
+            print(test[~np.isnan(test)]) 
+           
             # Scale data to have compatible values with LePhare for the flux
             data, var              = self.scale(data, var, meanMap, factor=scaleFactor)
             
@@ -367,7 +370,7 @@ class FilterList:
             data[mask0]            = np.nan
             var[ mask0]            = np.nan
             
-            # Compute std instead of variance
+            # Compute std instead of variance and go to mag
             data, std              = countToMag(data, np.sqrt(var), filt.zpt)
             
             # Cast back pixels with NaN values to -99 mag to specify they are not to be used in the SED fitting
@@ -596,7 +599,7 @@ class FilterList:
             
         # Add Poisson noise to the variance map
         if texp is not None:
-            var   = self.poissonVar(data, texp=texp, texpFac=texpFac)
+            var  += self.poissonVar(data, texp=texp, texpFac=texpFac)
         
         return data, var
     
