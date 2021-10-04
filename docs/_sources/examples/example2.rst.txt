@@ -49,7 +49,21 @@ As in :doc:`example 1 </examples/example1>`, we can now generate a resolved map 
 
 .. code:: python
 
+    from   matplotlib        import rc
+    import matplotlib        as     mpl
+    import matplotlib.pyplot as     plt
+        
+    rc('font', **{'family': 'serif', 'serif': ['Times']})
+    rc('text', usetex=True)
+    mpl.rcParams['text.latex.preamble'] = r'\usepackage{newtxmath}'
+    rc('figure', figsize=(5, 4.5))
+
     sfr = output.toImage('sfr_med')
     
     plt.imshow(sfr.data, origin='lower', cmap='rainbow')
+    plt.xlabel('X [pixel]', size=13)
+    plt.ylabel('Y [pixel]', size=13)
+    
+    cbar = plt.colorbar(ret, orientation='vertical', shrink=0.9)
+    cbar.set_label(r'$\log_{10}$ SFR [M$_{\odot}$ yr$^{-1}$]', size=13)
     plt.show()
