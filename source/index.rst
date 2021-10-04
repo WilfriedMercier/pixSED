@@ -35,7 +35,7 @@ We provide a few complete code examples below using the galaxy given in the :cod
     2. Resolved SFR map from an already existing LePhare output file <examples/example2>
 
 .. toctree::
-    :caption: ----------------------------------------
+    :caption: ―――――――――――――――
     :hidden:
     
     API/index
