@@ -353,9 +353,6 @@ class FilterList:
             # Clean and add noise to variance map
             data, var              = self.cleanAndNoise(filt.data, filt.var, self.mask, cleanMethod=cleanMethod, texp=filt.texp, texpFac=texpFac)
            
-            test = np.sqrt(var)/data
-            print(test[~np.isnan(test)]) 
-           
             # Scale data to have compatible values with LePhare for the flux
             data, var              = self.scale(data, var, meanMap, factor=scaleFactor)
             
