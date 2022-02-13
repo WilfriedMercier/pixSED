@@ -71,13 +71,49 @@ class Catalogue(ABC):
         return
     
 class CigaleCat(Catalogue):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a catalogue compatible with Cigale SED fitting code.
+    
+    :param str fname: name of the output file containing the catalogue when it is saved
+    :param table: input table
+    :type table: Astropy Table
+    
+    
+    '''
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, fname: str, table: Table, 
+                 ) -> None:
+        
+        super().__init__(fname, table)
         
         raise NotImplementedError('Cigale not implemented yet.')
     
 class LePhareCat(Catalogue):
-    r'''Class implementing a catalogue compatible with LePhare SED fitting code.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a catalogue compatible with LePhare SED fitting code.
+    
+    :param str fname: name of the output file containing the catalogue when it is saved
+    :param table: input table
+    :type table: Astropy Table
+    
+    :param TableUnit tunit: (**Optional**) unit of the table data. Must either be TableUnit.MAG for magnitude or TableUnit.FLUX for flux.
+    :param MagType magtype: (**Optional**) magnitude type if data are in magnitude unit. Must either be MagType.AB or MagType.VEGA.
+    :param TableFormat tformat: (**Optional**) format of the table. Must either be TableFormat.MEME if data and error columns are intertwined or TableFormat.MMEE if columns are first data and then errors.
+    :param TableType ttype: (**Optional**) data type. Must either be TableType.SHORT or TableType.LONG.
+    :param list[int] nlines: (**Optional**) first and last line of the catalogue to be used during the SED fitting
+    
+    :raises TypeError:
+         
+        * if **table** is not an astropy Table
+        * if **fname** is not of type str
+        * if **nlines** is not a list
+        
+    :raises ValueError: if **nlines** values are not int, or if first value is less than 0, or if second value is less than the first one
+    '''
     
     def __init__(self, fname: str, table: Table, 
                  tunit: TableUnit     = TableUnit.MAG,
@@ -85,29 +121,6 @@ class LePhareCat(Catalogue):
                  tformat: TableFormat = TableFormat.MEME, 
                  ttype: TableType     = TableType.LONG, 
                  nlines: List[int]    = [0, 100000000]) -> None:
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init LePhare catalogue.
-
-        :param str fname: name of the output file containing the catalogue when it is saved
-        :param table: input table
-        :type table: Astropy Table
-        
-        :param TableUnit tunit: (**Optional**) unit of the table data. Must either be TableUnit.MAG for magnitude or TableUnit.FLUX for flux.
-        :param MagType magtype: (**Optional**) magnitude type if data are in magnitude unit. Must either be MagType.AB or MagType.VEGA.
-        :param TableFormat tformat: (**Optional**) format of the table. Must either be TableFormat.MEME if data and error columns are intertwined or TableFormat.MMEE if columns are first data and then errors.
-        :param TableType ttype: (**Optional**) data type. Must either be TableType.SHORT or TableType.LONG.
-        :param list[int] nlines: (**Optional**) first and last line of the catalogue to be used during the SED fitting
-
-        :raises TypeError:
-             
-            * if **table** is not an astropy Table
-            * if **fname** is not of type str
-            * if **nlines** is not a list
-            
-        :raises ValueError: if **nlines** values are not int, or if first value is less than 0, or if second value is less than the first one
-        ''' 
             
         super().__init__(fname, table)
         

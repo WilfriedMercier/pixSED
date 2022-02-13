@@ -18,7 +18,7 @@ from   typing           import Tuple, List, Union, Any, Optional
 
 from   .misc.enum       import SEDcode, CleanMethod, TableUnit, MagType, TableFormat, TableType
 from   .misc.misc       import ShapeError
-from   .catalogues      import LePhareCat, Catalogue
+from   .catalogues      import LePhareCat, CigaleCat, Catalogue
 from   .photometry      import countToMag, countToFlux
 from   .coloredMessages import warningMessage, errorMessage
 
@@ -177,6 +177,8 @@ class FilterList:
         :param redshift: (**Optional**) redshift of the galaxy
         :type redshift: int or float
         
+        :param **kwargs: additional parameters to pass to :py:method:`setCode` and :py:method:`genTable`
+        
         :raises TypeError: 
             * if **filters** is not a list
             * if **redshift** is neither an int nor a float
@@ -215,7 +217,7 @@ class FilterList:
         self.shape    = self.filters[0].data.shape
                     
         # Set SED fitting code. This rebuilds the table since SED fitting codes do not expect tables with the same columns
-        self.setCode(code)
+        self.setCode(code, **kwargs)
        
         
     ###############################
@@ -287,15 +289,32 @@ class FilterList:
         
         :param str fname: name of the output file containing the catalogue when it is saved
         
+        :param *args: (**Optional**) arguments to pass to the private method building the catalogue
+        :param **kwargs: (**Optional**) keyword aguments to pass to the private method building the catalogue
+        
         :raises ValueError: if code is not recognised
         '''
         
         if self.code is SEDcode.LEPHARE:        
             return self._toLePhareCat(fname, *args, **kwargs)
         elif self.code is SEDcode.CIGALE:
-            raise NotImplementedError('Cigale catalogue not implemented yet.')
+            return self._toCigaleCat(fname, *args, **kwargs)
         else:
             raise ValueError(f'Code {self.code} not recognised.')
+            
+    def _toCigaleCat(self, fname: str) -> CigaleCat: # XXX to be completed
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Construct a CigaleCat instance given the table associated to the filter list.
+        
+        :param str fname: name of the output file containing the catalogue when it is saved
+        '''
+        
+        if self.code is not SEDcode.CIGALE:
+            raise ValueError(f'code is {self.code} but it needs to be SEDcode.CIGALE to build a Cigale catalogue object.')
+        
+        return CigaleCat() # XXX to be completed
     
     def _toLePhareCat(self, fname: str,
                      tunit: TableUnit     = TableUnit.MAG, 
@@ -305,7 +324,7 @@ class FilterList:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
-        Construct a Catalogue instance given the table associated to the filter list.
+        Construct a LePhareCat instance given the table associated to the filter list.
         
         :param str fname: name of the output file containing the catalogue when it is saved
         
@@ -319,7 +338,7 @@ class FilterList:
         '''
         
         if self.code is not SEDcode.LEPHARE:
-            raise ValueError(f'code is {self.code} but it needs to be SED.SEDcode to build a LePhare catalogue object.')
+            raise ValueError(f'code is {self.code} but it needs to be SEDcode.LEPHARE to build a LePhare catalogue object.')
         
         return LePhareCat(fname, self.table, tunit=tunit, magtype=magtype, tformat=tformat, ttype=ttype)
         
@@ -427,9 +446,10 @@ class FilterList:
             
         # Redshift column
         ll                         = len(self.filters)
-        zs                         = [self.redshift]*ll
+        ld                         = len(data)
+        zs                         = [self.redshift]*ld
         
-        dtypes                     = [int, float]       + [float]*ll
+        dtypes                     = [int, float]       + [float]*2*ll
         colnames                   = ['id', 'redshift'] + [val for f in self.filters for val in [f.filter, f'{f.filter}_err']]
         columns                    = [indices, zs]      + [val for d, s in zip(dataList, stdList) for val in [d, s]]
         
