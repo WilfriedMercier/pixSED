@@ -11,7 +11,7 @@ import os
 import os.path          as     opath
 
 from   copy             import deepcopy
-from   typing           import List, Any
+from   typing           import List, Any, Dict
 from   io               import TextIOBase
 from   abc              import ABC, abstractmethod
 from   textwrap         import dedent
@@ -180,13 +180,84 @@ class CigaleSED(SED):
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     
     Implements Cigale SED object.
+    
+    .. warning::
+        
+        At least one module must be given in SFH, SSP and redshifting dictionaries. For instance, the two following lines are incorrect
+        
+        .. code::
+            
+            SFH = {}
+            SFH = {'sfh2exp' : None}
+    
+        whereas the following line is correct for SFH parameter
+        
+        .. code::
+
+            sfh2exp = {}
+            SFH     = {'sfh2exp' : sfh2exp}
+    
+    .. note::
+        
+        We provide below a description of the different modules and their parameters.
+        
+        SFH
+        ---
+        
+        sfh2exp
+        #######
+        
+        :param list[float] tau_main: list of e-folding times of the main stellar population model in Myr
+        :param list[float] tau_burst: list of e-folding time of the late starburst population model in Myr
+        :param list[float] f_burst: 
+        
+    
+    :param ID: an identifier used to name the output files created during the SED fitting process
+    
+    :param dict SFH: (**Optional**) star formation history module(s) to use. At least one SFH must be provided.
+    :param dict SSP: (**Optional**) single stellar population module(s) to use. At least one SSP must be provided.
+    :param dict nebular: (**Optional**) nebular emission module(s) to use
+    :param dict attenuation: (**Optional**) dust attenuation module(s) to use
+    :param dict dust: (**Optional**) dust emission module(s) to use
+    :param dict AGN: (**Optional**) AGN emission module(s) to use
+    :param dict radio: (**Optional**) radio emission (synchrotron) module(s) to use
+    :param dict restframe: (**Optional**) restframe parameters (UV slope (β), IRX, D4000, EW, etc.)
+    :param dict redshifting: (**Optional**) redshifting parameters and IGM. It must be provided.
+    
+    :raises TypeError: if
+    * one of the parameters is not a dict
+    * there is not at least one value in SFH, SSP and redshifting dict which is a dict
+    
     '''
     
-    def __init__(self, ID: Any, properties: dict = {}, **kwargs) -> None:
+    def __init__(self, ID: Any, 
+                 SFH: Dict[str, Dict[str, Any]] = {'sfh2exp' : None, 'sfhdelayed' : None, 'sfhdelayedbq' : None, 'sfhfromfile' : None, 'sfhperiodic' : None}, 
+                 SSP: Dict[str, Dict[str, Any]] = {'bc03' : None, 'm2005' : None},
+                 nebular: Dict[str, Dict[str, Any]] = {'nebular' : None},
+                 attenuation: Dict[str, Dict[str, Any]] = {'dustatt_modified_CF00' : None, 'dustatt_modified_starburst' : None},
+                 dust: Dict[str, Dict[str, Any]] = {'casey2012' : None, 'dale2014' : None, 'dl2007' : None, 'dl2014' : None, 'themis' : None},
+                 AGN: Dict[str, Dict[str, Any]] = {'fritz2006' : None},
+                 radio: Dict[str, Dict[str, Any]] = {'radio' : None},
+                 restframe: Dict[str, Dict[str, Any]] = {'restframe_parameters' : None},
+                 redshifting: Dict[str, Dict[str, Any]] = {'redshifting' : None},
+                 **kwargs) -> None:
         
-        if not isinstance(properties, dict):
-            raise TypeError(f'properties parameter has type {type(properties)} but it must be a dict.')
-        
+        # Check input values are dictionaries of dictionaries
+        for dic, name in zip([SFH, SSP, nebular, attenuation, dust, AGN, radio, restframe, redshifting], ['SFH', 'SSP', 'nebular', 'attenuation', 'dust', 'AGN', 'radio', 'restframe', 'redshifting']):
+            
+            if not isinstance(dic, dict):
+                raise TypeError(f'parameter {name} has type {type(dic)} but it must be a dict.')
+                    
+        # Check that at least one SFH, one SSP and one redshifting dicts are given
+        if not any((isinstance(i, dict) for i in SFH)):
+           raise TypeError('At least one SFH dict must be provided in SFH parameter.')
+           
+        if not any((isinstance(i, dict) for i in SSP)):
+           raise TypeError('At least one SSP dict must be provided in SSP parameter.')
+           
+        if not any((isinstance(i, dict) for i in redshifting)):
+           raise TypeError('At least one redshifting dict must be provided in redshifting parameter.')
+            
         super().__init__(**kwargs)
         
         # Will be used to generate a custom directory
@@ -438,7 +509,7 @@ class LePhareSED(SED):
                      'MABS_FILT'      : ListIntProperty([1, 2, 3, 4], minBound=0),
                      
                      'MABS_ZBIN'      : ListFloatProperty([0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 3.5, 4.0], minBound=0,
-                                                          testFunc=lambda value: len(value)%2!=0 or any([j<=i for i, j in zip(value[:-1], value[1:])]), 
+                                                          testFunc=lambda value: len(value)%2!=0 or any((j<=i for i, j in zip(value[:-1], value[1:]))), 
                                                           testMsg='MABS_ZBIN property must be an increasing list with an even length.'),
                      
                      'SPEC_OUT'       : EnumProperty(YESNO.NO),
@@ -486,7 +557,7 @@ class LePhareSED(SED):
         for item, value in properties.items():
             
             if not isinstance(item, str):
-                raise TypeError(f'item in properties has type {type(item)} but it must have type str')
+                raise TypeError(f'item {item} in properties has type {type(item)} but it must have type str')
             
             item = item.upper()
             if item not in self.prop:

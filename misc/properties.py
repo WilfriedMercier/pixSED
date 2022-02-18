@@ -115,8 +115,67 @@ class Property(ABC):
         
         return
     
+    
+class BoolProperty(Property):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Define a property object which stores a single boolean.
+    
+    :param bool default: default value used at init
+    
+    :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+    :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
+    '''
+    
+    def __init__(self, default: bool,
+                 testFunc: Callable[[Any], bool] = lambda value: False, 
+                 testMsg: str ='', **kwargs) -> None:
+        
+        r'''Init method.'''
+        
+        super().__init__(default, minBound=None, maxBound=None, testFunc=testFunc, testMsg=testMsg)
+        
+        # Set the value to check data type (default property has already been set)
+        self.set(default)
+        
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class.
+        '''
+        
+        return f'{self.value}'
+    
+    @check_type(bool)
+    def set(self, value: bool, *args, **kwargs) -> None:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Set the current value.
+
+        :param bool value: new value
+        '''
+        
+        self.check_bounds(value, None, None, self._testFunc, self._testMsg)
+        self.value = value
+        return
+        
+    
 class IntProperty(Property):
-    r'''Define a property object which stores a single integer.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Define a property object which stores a single integer.
+    
+    :param int default: default value used at init
+
+    :param int minBound: (**Optional**) minimum value for the property. If None, it is ignored.
+    :param int maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
+    :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+    :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
+    '''
     
     def __init__(self, default: int,
                  minBound: int = None, 
@@ -124,18 +183,7 @@ class IntProperty(Property):
                  testFunc: Callable[[int], bool] = lambda value: False, 
                  testMsg: str ='', **kwargs) -> None:
         
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init the int property object.
-
-        :param int default: default value used at init
-
-        :param int minBound: (**Optional**) minimum value for the property. If None, it is ignored.
-        :param int maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
-        :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
-        '''
+        r'''Init method.'''
         
         super().__init__(default, minBound=minBound, maxBound=maxBound, testFunc=testFunc, testMsg=testMsg)
         
@@ -663,7 +711,7 @@ class ListPathProperty(ListProperty):
 #####################################
 
 class EnumProperty:
-    r'''Define a property which stores a Enum object.'''
+    r'''Define a property which stores an Enum object.'''
     
     def __init__(self, value: Enum, 
                  testFunc: Callable[[List[str]], bool] = lambda value: False, 

@@ -31,7 +31,8 @@ ERROR   = errorMessage('Error:')
 class Filter:
     r'''Base class implementing data related to a single filter.'''
     
-    def __init__(self, filt: str, file: str, errFile: str, zeropoint: float, ext: int = 0, extErr: int = 0) -> None:
+    def __init__(self, filt: str, file: str, file2: str, errFile: str, zeropoint: float, 
+                 ext: int = 0, ext2: int = 0, extErr: int = 0) -> None:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
             
@@ -39,10 +40,12 @@ class Filter:
 
         :param str filt: filter name
         :param str file: data file name. File must exist and be a loadable FITS file.
+        :param str file2: file name for the square of data. File must exist and be a loadable FITS file.
         :param str errFile: error file name. File must exist and be a loadable FITS file. Error file is assumed to be the variance map.
         :param float zeropoint: filter AB magnitude zeropoint
         
         :param int ext: (**Optional**) extension in the data FITS file
+        :param int ext2: (**Optional**) extension in the data squared FITS file
         :param int extErr: (**Optional**) extension in the error FITS file
         
         :raises TypeError:
@@ -60,13 +63,18 @@ class Filter:
         self.filter          = filt
         self.zpt             = zeropoint
         self.fname           = file
+        self.fname2          = file2
         self.ename           = errFile
         
-        self.hdr,  self.data = self._loadFits(self.fname, ext=ext)
-        self.ehdr, self.var  = self._loadFits(self.ename, ext=extErr)
+        self.hdr,  self.data  = self._loadFits(self.fname,  ext=ext)
+        self.hdr2, self.data2 = self._loadFits(self.fname2, ext=ext2)
+        self.ehdr, self.var   = self._loadFits(self.ename,  ext=extErr)
         
         if self.data.shape != self.var.shape:
             raise ShapeError(self.data, self.var, msg=f' in filter {self.filter}')
+            
+        if self.data.shape != self.data2.shape:
+            raise ShapeError(self.data, self.data2, msg=f' in filter {self.filter}')
             
         # Check that exposure time is in the header (otherwise Poisson noise cannot be computed)
         try:
@@ -164,7 +172,8 @@ class Filter:
 class FilterList:
     r'''Base class implementing the object used to stored SED fitting into.'''
     
-    def __init__(self, filters: List[Filter], mask: ndarray, code: SEDcode = SEDcode.LEPHARE, redshift: Union[int, float] = 0, **kwargs) -> None:
+    def __init__(self, filters: List[Filter], mask: ndarray,
+                 code: SEDcode = SEDcode.LEPHARE, redshift: Union[int, float] = 0, **kwargs) -> None:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
             
@@ -306,7 +315,7 @@ class FilterList:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
-        Construct a CigaleCat instance given the table associated to the filter list.
+        Construct a :class:`catalogues.CigaleCat` instance given the table associated to the filter list.
         
         :param str fname: name of the output file containing the catalogue when it is saved
         '''
@@ -314,7 +323,7 @@ class FilterList:
         if self.code is not SEDcode.CIGALE:
             raise ValueError(f'code is {self.code} but it needs to be SEDcode.CIGALE to build a Cigale catalogue object.')
         
-        return CigaleCat() # XXX to be completed
+        return CigaleCat(fname, self.table)
     
     def _toLePhareCat(self, fname: str,
                      tunit: TableUnit     = TableUnit.MAG, 
@@ -370,7 +379,7 @@ class FilterList:
         for pos, filt in enumerate(self.filters):
                   
             # Clean and add noise to variance map
-            data, var              = self.cleanAndNoise(filt.data, filt.var, self.mask, cleanMethod=cleanMethod, texp=filt.texp, texpFac=texpFac)
+            data, var              = self.cleanAndNoise(filt.data, filt.data2, filt.var, self.mask, cleanMethod=cleanMethod, texp=filt.texp, texpFac=texpFac)
            
             # Scale data to have compatible values with LePhare for the flux
             data, var              = self.scale(data, var, meanMap, factor=scaleFactor)
@@ -429,7 +438,7 @@ class FilterList:
         for pos, filt in enumerate(self.filters):
 
             # Clean and add noise to variance map
-            data, var              = self.cleanAndNoise(filt.data, filt.var, self.mask, cleanMethod=cleanMethod, texp=filt.texp, texpFac=texpFac)
+            data, var              = self.cleanAndNoise(filt.data, filt.data2, filt.var, self.mask, cleanMethod=cleanMethod, texp=filt.texp, texpFac=texpFac)
             
             # Go to 1D version
             if pos==0:
@@ -585,7 +594,7 @@ class FilterList:
             
         return data, var
     
-    def cleanAndNoise(self, data, var, mask, 
+    def cleanAndNoise(self, data, data2, var, mask, 
                       cleanMethod: CleanMethod = CleanMethod.ZERO, 
                       texp: Optional[Union[int, float]] = None, 
                       texpFac: int = 0, **kwargs) -> Tuple[ndarray]:
@@ -599,6 +608,7 @@ class FilterList:
             If **texpFac** is 0 or **texp** is None, no Poisson noise is added to the variance map
             
         :param ndarray data: data map
+        :param ndarray data2: square of data map used to add Poisson noise
         :param ndarray var: variance map
         :param ndarray[bool] mask: mask map
         
@@ -616,7 +626,7 @@ class FilterList:
             
         # Add Poisson noise to the variance map
         if texp is not None:
-            var  += self.poissonVar(data, texp=texp, texpFac=texpFac)
+            var  += self.poissonVar(data2, texp=texp, texpFac=texpFac)
         
         return data, var
     
@@ -658,7 +668,7 @@ class FilterList:
         return data, err
     
     @staticmethod
-    def poissonVar(data: ndarray, texp: Union[int, float] = 1, texpFac: Union[int, float] = 1, **kwargs) -> ndarray:
+    def poissonVar(data2: ndarray, texp: Union[int, float] = 1, texpFac: Union[int, float] = 1, **kwargs) -> ndarray:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
@@ -669,7 +679,7 @@ class FilterList:
             (\Delta F)^2 = | \alpha F |
         
         
-        where :math:`F` is the flux map and :math:`\alpha` is a scale factor defined as
+        where :math:`F` is the square of the flux map and :math:`\alpha` is a scale factor defined as
         
         .. math::
                 
@@ -678,7 +688,7 @@ class FilterList:
         
         where :math:`\rm{TEXP}` is the exposure time and :math:`\rm{TEXPFAC}` is a coefficient used to scale it down.
         
-        :param ndarray data: flux map
+        :param ndarray data2: square of flux map
         
         :param texp: (**Optional**) exposure time in seconds
         :type text: int or float
@@ -701,7 +711,7 @@ class FilterList:
         if texpFac < 0:
             raise ValueError(f'texpFac has value {texpFac} but it must be positive or null.')
         
-        return np.abs(data) * texpFac / texp
+        return np.abs(data2) * texpFac / texp
     
     def scale(self, data: ndarray, var: ndarray, norm: ndarray, factor: Union[int, float] = 100) -> Tuple[ndarray]:
         r'''

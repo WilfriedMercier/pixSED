@@ -13,24 +13,24 @@ from   astropy.table              import Table
 from   .misc                      import TableUnit, MagType, TableFormat, TableType, EnumProperty, ListIntProperty
 
 class Catalogue(ABC):
-    r'''Class implementing a catalogue consisting of as Astropy Table and additional information used by the SED fitting codes.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a catalogue consisting of as Astropy Table and additional information used by the SED fitting codes. This is supposed to be subclassed to account for specificities of LePhare or Cigale catalogues.
+    
+    :param str fname: name of the catalogue file where the catalogue is written into when saving
+    :param table: input table
+    :type table: Astropy Table
+    
+    :raises TypeError:
+         
+        * if **table** is not an astropy Table
+        * if **fname** is not of type str
+    '''
     
     def __init__(self, fname: str, table: Table, *args, **kwargs) -> None:
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init general catalogue. This is supposed to be subclassed to account for specificities of LePhare or Cigale catalogues.
+        r'''Init method.''' 
 
-        :param str fname: name of the catalogue file where the catalogue is written into when saving
-        :param table: input table
-        :type table: Astropy Table
-        
-        :raises TypeError:
-             
-            * if **table** is not an astropy Table
-            * if **fname** is not of type str
-        ''' 
-        
         if not isinstance(table, Table):
             raise TypeError(f'table has type {type(table)} but it must be an Astropy Table.')
             
@@ -53,7 +53,7 @@ class Catalogue(ABC):
         '''
 
         if not isinstance(path, str):
-            raise TypeError(f'path as type {type(path)} but it must have type str.')
+            raise TypeError(f'path has type {type(path)} but it must have type str.')
             
         fname = opath.join(path, self.name)
         self.data.write(fname, overwrite=True, **kwargs)
@@ -70,25 +70,57 @@ class Catalogue(ABC):
         
         return
     
+
 class CigaleCat(Catalogue):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     
     Class implementing a catalogue compatible with Cigale SED fitting code.
     
-    :param str fname: name of the output file containing the catalogue when it is saved
+    :param str fname: name of the output file containing the catalogue when it is saved (without any extension, e.g. galaxy1 instead of galaxy1.mag)
     :param table: input table
     :type table: Astropy Table
-    
-    
     '''
 
-    def __init__(self, fname: str, table: Table, 
-                 ) -> None:
+    def __init__(self, fname: str, table: Table) -> None:
+        '''Init method.'''
         
         super().__init__(fname, table)
         
-        raise NotImplementedError('Cigale not implemented yet.')
+    @property
+    def text(self, *args, **kwargs) -> str: # XXX Might need to be updated
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Return a text representation of the catalogue used when making the parameter files.
+        
+        :returns: output representation
+        :rtype: str
+        '''
+        
+        text =  ''
+        
+        return text
+        
+    def save(self, path: str = '', **kwargs) -> None:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Save LePhare catalogue into the given file.
+        
+        :param str path:(**Optional**) a path to append to the file name
+        :param kwargs: optional parameters passed to Astropy.table.Table.writeto method
+        
+        :raises TypeError: if **path** is not of type str
+        '''
+            
+        if not isinstance(path, str):
+            raise TypeError(f'path as type {type(path)} but it must have type str.')
+        
+        fname = opath.join(path, self.name)
+        self.data.write(fname, format='ascii.basic', overwrite=True, **kwargs)
+        return
+    
     
 class LePhareCat(Catalogue):
     r'''
@@ -96,7 +128,7 @@ class LePhareCat(Catalogue):
     
     Class implementing a catalogue compatible with LePhare SED fitting code.
     
-    :param str fname: name of the output file containing the catalogue when it is saved
+    :param str fname: name of the output file containing the catalogue when it is saved (without any extension, e.g. galaxy1 instead of galaxy1.in)
     :param table: input table
     :type table: Astropy Table
     
@@ -121,6 +153,7 @@ class LePhareCat(Catalogue):
                  tformat: TableFormat = TableFormat.MEME, 
                  ttype: TableType     = TableType.LONG, 
                  nlines: List[int]    = [0, 100000000]) -> None:
+        r'''Init method.'''
             
         super().__init__(fname, table)
         
@@ -184,8 +217,8 @@ class LePhareCat(Catalogue):
         '''
             
         if not isinstance(path, str):
-            raise TypeError(f'path as type {type(path)} but it must have type str.')
+            raise TypeError(f'path has type {type(path)} but it must have type str.')
         
         fname = opath.join(path, self.name)
-        self.data.write(fname, format='ascii.fast_no_header', overwrite=True, **kwargs)
+        self.data.write(f'{fname}.in', format='ascii.fast_no_header', overwrite=True, **kwargs)
         return
