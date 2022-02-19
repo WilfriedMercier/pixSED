@@ -395,7 +395,7 @@ class BC03module(SSPmodule):
         Implement a string representation of the class used to make Cigale parameter files.
         '''
         
-        text = f'''
+        text = f'''\
         [[bc03]]
           # Initial mass function: 0 (Salpeter) or 1 (Chabrier).
           imf = {self.imf}
@@ -444,7 +444,7 @@ class M2005module(SSPmodule):
         Implement a string representation of the class used to make Cigale parameter files.
         '''
         
-        text = f'''
+        text = f'''\
         [[m2005]]
           # Initial mass function: 0 (Salpeter) or 1 (Kroupa)
           imf = {self.imf}
@@ -491,7 +491,7 @@ class NEBULARmodule:
         
         self.logU = ListFloatProperty(logU, minBound=-4.0, maxBound=-1.0,
                                       testFunc=lambda value: any((i not in logURange for i in value)),
-                                      testMsg='One on the logU values is not accepted. Accepted values are between -4.0 and -1.0 by steps of 0.1.')
+                                      testMsg=f'One on the logU values is not accepted. Accepted values must be in the list {logURange}')
         
         self.f_esc       = ListFloatProperty(f_esc,       minBound=0, maxBound=1)
         self.f_dust      = ListFloatProperty(f_dust,      minBound=0, maxBound=1)
@@ -505,7 +505,7 @@ class NEBULARmodule:
         Implement a string representation of the class used to make Cigale parameter files.
         '''
         
-        text = f'''
+        text = f'''\
         [[nebular]]
           # Ionisation parameter
           logU = {self.logU}
@@ -535,7 +535,6 @@ class ATTENUATIONmodule(ABC):
     '''
     
     def __init__(self, filters: str = 'V_B90 & FUV') -> None:
-        
         r'''Init method.'''
         
         self.filters = StrProperty(filters)
@@ -586,7 +585,7 @@ class DUSTATT_MODIFIED_CF00module(ATTENUATIONmodule):
         Implement a string representation of the class used to make Cigale parameter files.
         '''
         
-        text = f'''
+        text = f'''\
         [[dustatt_modified_CF00]]
           # V-band attenuation in the interstellar medium.
           Av_ISM = {self.Av_ISM}
@@ -652,7 +651,7 @@ class DUSTATT_MODIFIED_STARBUSTmodule(ATTENUATIONmodule):
         Implement a string representation of the class used to make Cigale parameter files.
         '''
         
-        text = f'''
+        text = f'''\
         [[dustatt_modified_starburst]]
           # E(B-V)l, the colour excess of the nebular lines light for both the
           # young and old population.
@@ -690,3 +689,401 @@ class DUSTATT_MODIFIED_STARBUSTmodule(ATTENUATIONmodule):
 ###############################
 #        Dust emission        #
 ###############################
+
+class DUSTmodule(ABC):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a module to deal with dust emission.
+    '''
+    
+    def __init__(self, *args, **kwargs):
+        r'''Init method.'''
+        
+    @abstractmethod
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        return
+    
+class CASEYmodule(DUSTmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing Casey 2012 dust emission module.
+    
+    :param list[float] temperature: temperature of the dust in K
+    :param list[float] beta: emissivity index of the dust
+    :param list[float] alpha: mid-infrared powerlaw slope
+    '''
+    
+    def __init__(self, temperature: List[float] = [35.0],
+                 beta: List[float] = [1.6],
+                 alpha: List[float] = [2.0]) -> None:
+        
+        r'''Init method.'''
+        
+    super().__init__()
+        
+    temperature: List[float] = ListFloatProperty(temperature, minBound=0.0)
+    beta: List[float]        = ListFloatProperty(beta,        minBound=0.0)
+    alpha: List[float]       = ListFloatProperty(alpha,       minBound=0.0)
+        
+    def __str__(self, *args, **kwargs):
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[casey2012]]
+          # Temperature of the dust in K.
+          temperature = {self.temperature}
+          # Emissivity index of the dust.
+          beta = {self.beta}
+          # Mid-infrared powerlaw slope.
+          alpha = {self.alpha}
+        '''
+        
+        return text
+    
+class DALEmodule(DUSTmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing Dale et al. 2014 dust emission module.
+    
+    :param list fracAGN: (**Optional**) AGN fraction. It is not recommended to combine this AGN emission with the of Fritz et al. (2006) models.
+    :param list alpha: (**Optional**) mid-infrared powerlaw slope
+    '''
+    
+    def __init__(self, fracAGN: List[float] = [0.0],
+                 alpha: List[float] = [2.0]) -> None:
+    
+        r'''Init method.'''
+        
+        # Accepted values for alpha
+        alphaRange = [0.0625, 0.1250, 0.1875, 0.2500, 0.3125, 0.3750, 0.4375, 0.5000, 0.5625, 0.6250, 0.6875, 0.7500,
+                      0.8125, 0.8750, 0.9375, 1.0000, 1.0625, 1.1250, 1.1875, 1.2500, 1.3125, 1.3750, 1.4375, 1.5000, 
+                      1.5625, 1.6250, 1.6875, 1.7500, 1.8125, 1.8750, 1.9375, 2.0000, 2.0625, 2.1250, 2.1875, 2.2500,
+                      2.3125, 2.3750, 2.4375, 2.5000, 2.5625, 2.6250, 2.6875, 2.7500, 2.8125, 2.8750, 2.9375, 3.0000, 
+                      3.0625, 3.1250, 3.1875, 3.2500, 3.3125, 3.3750, 3.4375, 3.5000, 3.5625, 3.6250, 3.6875, 3.7500,
+                      3.8125, 3.8750, 3.9375, 4.0000]
+        
+        self.fracAGN: List[float] = ListFloatProperty(fracAGN, minBound=0.0,    maxBound=1.0)
+        self.alpha: List[float]   = ListFloatProperty(alpha,   minBound=0.0625, maxBound=4.0,
+                                                      testFunc=lambda value: any((i not in alphaRange for i in value)),
+                                                      testMsg=f'One on the alpha values is not accepted. Accepted values must be in the list {alphaRange}.')
+        
+    def __str__(self, *args, **kwargs):
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[dale2014]]
+          # AGN fraction. It is not recommended to combine this AGN emission with
+          # the of Fritz et al. (2006) models.
+          fracAGN = {self.fracAGN}
+          # Alpha slope. Possible values are: 0.0625, 0.1250, 0.1875, 0.2500,
+          # 0.3125, 0.3750, 0.4375, 0.5000, 0.5625, 0.6250, 0.6875, 0.7500,
+          # 0.8125, 0.8750, 0.9375, 1.0000, 1.0625, 1.1250, 1.1875, 1.2500,
+          # 1.3125, 1.3750, 1.4375, 1.5000, 1.5625, 1.6250, 1.6875, 1.7500,
+          # 1.8125, 1.8750, 1.9375, 2.0000, 2.0625, 2.1250, 2.1875, 2.2500,
+          # 2.3125, 2.3750, 2.4375, 2.5000, 2.5625, 2.6250, 2.6875, 2.7500,
+          # 2.8125, 2.8750, 2.9375, 3.0000, 3.0625, 3.1250, 3.1875, 3.2500,
+          # 3.3125, 3.3750, 3.4375, 3.5000, 3.5625, 3.6250, 3.6875, 3.7500,
+          # 3.8125, 3.8750, 3.9375, 4.0000
+          alpha = {self.alpha}
+        '''
+        
+        return text
+    
+class DL07module(DUSTmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing Draine & Li 2007 dust emission module.
+    
+    :param list qpah: (**Optional**) mass fraction of PAH. Possible values are: 0.47, 1.12, 1.77, 2.50, 3.19, 3.90, 4.58.
+    :param list umin: (**Optional**) minimum radiation field. Possible values are: 0.10, 0.15, 0.20, 0.30, 0.40, 0.50, 0.70, 0.80, 1.00, 1.20, 1.50, 2.00, 2.50, 3.00, 4.00, 5.00, 7.00, 8.00, 10.0, 12.0, 15.0, 20.0, 25.0.
+    :param list umax: (**Optional**) maximum radiation field. Possible values are: 1e3, 1e4, 1e5, 1e6.
+    :param list gamma: (**Optional**) fraction illuminated from Umin to Umax. Possible values between 0 and 1.
+    '''
+    
+    def __init__(self, qpah: List[float] = [2.5],
+                 umin: List[float] = [1.0],
+                 umax: List[float] = [1000000.0],
+                 gamma: List[float] = [0.1],) -> None:
+    
+        r'''Init method.'''
+        
+        # Accepted values for qpah
+        qpahRange = [0.47, 1.12, 1.77, 2.50, 3.19, 3.90, 4.58]
+        
+        # Accepted values for umin
+        uminRange = [0.10, 0.15, 0.20, 0.30, 0.40, 0.50, 0.70, 0.80, 1.00, 1.20, 1.50, 2.00, 2.50, 
+                     3.00, 4.00, 5.00, 7.00, 8.00, 10.0, 12.0, 15.0, 20.0, 25.0]
+        
+        # Accepted values for umax
+        umaxRange = [1e3, 1e4, 1e5, 1e6]
+        
+        self.qpah: List[float]  = ListFloatProperty(qpah, minBound=0.47, maxBound=4.58,
+                                                    testFunc=lambda value: any((i not in qpahRange for i in value)),
+                                                    testMsg=f'One on the qpah values is not accepted. Accepted values must be in the list {qpahRange}.')
+        
+        
+        self.umin: List[float]  = ListFloatProperty(umin, minBound=0.1, maxBound=25.0,
+                                                    testFunc=lambda value: any((i not in uminRange for i in value)),
+                                                    testMsg=f'One on the umin values is not accepted. Accepted values must be in the list {uminRange}.')
+        
+        
+        self.umax: List[float]  = ListFloatProperty(umax, minBound=1e3, maxBound=1e6,
+                                                    testFunc=lambda value: any((i not in umaxRange for i in value)),
+                                                    testMsg=f'One on the umax values is not accepted. Accepted values must be in the list {umaxRange}.')
+        
+        self.gamma: List[float] = ListFloatProperty(gamma, minBound=0.0, maxBound=1.0)
+        
+    def __str__(self, *args, **kwargs):
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[dl2007]]
+          # Mass fraction of PAH. Possible values are: 0.47, 1.12, 1.77, 2.50,
+          # 3.19, 3.90, 4.58.
+          qpah = {self.qpah}
+          # Minimum radiation field. Possible values are: 0.10, 0.15, 0.20, 0.30,
+          # 0.40, 0.50, 0.70, 0.80, 1.00, 1.20, 1.50, 2.00, 2.50, 3.00, 4.00,
+          # 5.00, 7.00, 8.00, 10.0, 12.0, 15.0, 20.0, 25.0.
+          umin = {self.umin}
+          # Maximum radiation field. Possible values are: 1e3, 1e4, 1e5, 1e6.
+          umax = {self.umax}
+          # Fraction illuminated from Umin to Umax. Possible values between 0 and
+          # 1.
+          gamma = {self.gamma}
+        '''
+        
+        return text
+    
+class DL14module(DUSTmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing Draine et al. 2014 update dust emission module.
+    
+    :param list qpah: (**Optional**) mass fraction of PAH. Possible values are: 0.47, 1.12, 1.77, 2.50, 3.19, 3.90, 4.58, 5.26, 5.95, 6.63, 7.32.
+    :param list umin: (**Optional**) minimum radiation field. Possible values are: 0.100, 0.120, 0.150, 0.170, 0.200, 0.250, 0.300, 0.350, 0.400, 0.500, 0.600, 0.700, 0.800, 1.000, 1.200, 1.500, 1.700, 2.000, 2.500, 3.000, 3.500, 4.000, 5.000, 6.000, 7.000, 8.000, 10.00, 12.00, 15.00, 17.00, 20.00, 25.00, 30.00, 35.00, 40.00, 50.00.
+    :param lsit alpha: (**Optional**) powerlaw slope dU/dM propto U^alpha. Possible values are: 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0
+    :param list gamma: (**Optional**) fraction illuminated from Umin to Umax. Possible values between 0 and 1.
+    '''
+    
+    def __init__(self, qpah: List[float] = [2.5],
+                 umin: List[float] = [1.0],
+                 gamma: List[float] = [0.1],
+                 alpha: List[float] = [2.0]) -> None:
+    
+        r'''Init method.'''
+        
+        # Accepted values for qpah
+        qpahRange  = [0.47, 1.12, 1.77, 2.50, 3.19, 3.90, 4.58, 5.26, 5.95, 6.63, 7.32]
+        
+        # Accepted values for umin
+        uminRange  = [0.100, 0.120, 0.150, 0.170, 0.200, 0.250, 0.300, 0.350, 0.400, 0.500, 0.600, 0.700, 0.800,
+                      1.000, 1.200, 1.500, 1.700, 2.000, 2.500, 3.000, 3.500, 4.000, 5.000, 6.000, 7.000, 8.000, 
+                      10.00, 12.00, 15.00, 17.00, 20.00, 25.00, 30.00, 35.00, 40.00, 50.00]
+        
+        # Accepted values for alpha
+        alphaRange = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0]
+        
+        self.qpah: List[float]  = ListFloatProperty(qpah, minBound=0.47, maxBound=7.32,
+                                                    testFunc=lambda value: any((i not in qpahRange for i in value)),
+                                                    testMsg=f'One on the qpah values is not accepted. Accepted values must be in the list {qpahRange}.')
+        
+        
+        self.umin: List[float]  = ListFloatProperty(umin, minBound=0.1, maxBound=50.0,
+                                                    testFunc=lambda value: any((i not in uminRange for i in value)),
+                                                    testMsg=f'One on the umin values is not accepted. Accepted values must be in the list {uminRange}.')
+        
+        self.alpha: List[float] = ListFloatProperty(alpha, minBound=1.0, maxBound=3.0,
+                                                    testFunc=lambda value: any((i not in alphaRange for i in value)),
+                                                    testMsg=f'One on the alpha values is not accepted. Accepted values must be in the list {alphaRange}.')
+        
+        self.gamma: List[float] = ListFloatProperty(gamma, minBound=0.0, maxBound=1.0)
+        
+    def __str__(self, *args, **kwargs):
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[dl2014]]
+          # Mass fraction of PAH. Possible values are: 0.47, 1.12, 1.77, 2.50,
+          # 3.19, 3.90, 4.58, 5.26, 5.95, 6.63, 7.32.
+          qpah = {self.qpah}
+          # Minimum radiation field. Possible values are: 0.100, 0.120, 0.150,
+          # 0.170, 0.200, 0.250, 0.300, 0.350, 0.400, 0.500, 0.600, 0.700, 0.800,
+          # 1.000, 1.200, 1.500, 1.700, 2.000, 2.500, 3.000, 3.500, 4.000, 5.000,
+          # 6.000, 7.000, 8.000, 10.00, 12.00, 15.00, 17.00, 20.00, 25.00, 30.00,
+          # 35.00, 40.00, 50.00.
+          umin = {self.umin}
+          # Powerlaw slope dU/dM propto U^alpha. Possible values are: 1.0, 1.1,
+          # 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5,
+          # 2.6, 2.7, 2.8, 2.9, 3.0.
+          alpha = {self.alpha}
+          # Fraction illuminated from Umin to Umax. Possible values between 0 and
+          # 1.
+          gamma = {self.gamma}
+        '''
+        
+        return text
+    
+class THEMISmodule(DUSTmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing Themis dust emission models from Jones et al. 2017.
+    
+    :param list qhac: (**Optional**) mass fraction of hydrocarbon solids i.e., a-C(:H) smaller than 1.5 nm, also known as HAC. Possible values are: 0.02, 0.06, 0.10, 0.14, 0.17, 0.20, 0.24, 0.28, 0.32, 0.36, 0.40.
+    :param list umin: (**Optional**) minimum radiation field. Possible values are: 0.100, 0.120, 0.150, 0.170, 0.200, 0.250, 0.300, 0.350, 0.400, 0.500, 0.600, 0.700, 0.800, 1.000, 1.200, 1.500, 1.700, 2.000, 2.500, 3.000, 3.500, 4.000, 5.000, 6.000, 7.000, 8.000, 10.00, 12.00, 15.00, 17.00, 20.00, 25.00, 30.00, 35.00, 40.00, 50.00.
+    :param lsit alpha: (**Optional**) powerlaw slope dU/dM propto U^alpha. Possible values are: 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0
+    :param list gamma: (**Optional**) fraction illuminated from Umin to Umax. Possible values between 0 and 1.
+    '''
+    
+    def __init__(self, qhac: List[float] = [0.17],
+                 umin: List[float] = [1.0],
+                 gamma: List[float] = [0.1],
+                 alpha: List[float] = [2.0]) -> None:
+    
+        r'''Init method.'''
+        
+        # Accepted values for qpah
+        qhacRange  = [0.02, 0.06, 0.10, 0.14, 0.17, 0.20, 0.24, 0.28, 0.32, 0.36, 0.40]
+        
+        # Accepted values for umin
+        uminRange  = [0.100, 0.120, 0.150, 0.170, 0.200, 0.250, 0.300, 0.350, 0.400, 0.500, 0.600, 0.700, 0.800,
+                      1.000, 1.200, 1.500, 1.700, 2.000, 2.500, 3.000, 3.500, 4.000, 5.000, 6.000, 7.000, 8.000, 
+                      10.00, 12.00, 15.00, 17.00, 20.00, 25.00, 30.00, 35.00, 40.00, 50.00, 80.00]
+        
+        # Accepted values for alpha
+        alphaRange = [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0]
+        
+        self.qhac: List[float]  = ListFloatProperty(qhac, minBound=0.02, maxBound=0.4,
+                                                    testFunc=lambda value: any((i not in qhacRange for i in value)),
+                                                    testMsg=f'One on the qhac values is not accepted. Accepted values must be in the list {qhacRange}.')
+        
+        
+        self.umin: List[float]  = ListFloatProperty(umin, minBound=0.1, maxBound=80.0,
+                                                    testFunc=lambda value: any((i not in uminRange for i in value)),
+                                                    testMsg=f'One on the umin values is not accepted. Accepted values must be in the list {uminRange}.')
+        
+        self.alpha: List[float] = ListFloatProperty(alpha, minBound=1.0, maxBound=3.0,
+                                                    testFunc=lambda value: any((i not in alphaRange for i in value)),
+                                                    testMsg=f'One on the alpha values is not accepted. Accepted values must be in the list {alphaRange}.')
+        
+        self.gamma: List[float] = ListFloatProperty(gamma, minBound=0.0, maxBound=1.0)
+        
+    def __str__(self, *args, **kwargs):
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[themis]]
+          # Mass fraction of hydrocarbon solids i.e., a-C(:H) smaller than 1.5 nm,
+          # also known as HAC. Possible values are: 0.02, 0.06, 0.10, 0.14, 0.17,
+          # 0.20, 0.24, 0.28, 0.32, 0.36, 0.40.
+          qhac = {self.qhac}
+          # Minimum radiation field. Possible values are: 0.100, 0.120, 0.150,
+          # 0.170, 0.200, 0.250, 0.300, 0.350, 0.400, 0.500, 0.600, 0.700, 0.800,
+          # 1.000, 1.200, 1.500, 1.700, 2.000, 2.500, 3.000, 3.500, 4.000, 5.000,
+          # 6.000, 7.000, 8.000, 10.00, 12.00, 15.00, 17.00, 20.00, 25.00, 30.00,
+          # 35.00, 40.00, 50.00, 80.00.
+          umin = {self.umin}
+          # Powerlaw slope dU/dM propto U^alpha. Possible values are: 1.0, 1.1,
+          # 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5,
+          # 2.6, 2.7, 2.8, 2.9, 3.0.
+          alpha = {self.alpha}
+          # Fraction illuminated from Umin to Umax. Possible values between 0 and
+          # 1.
+          gamma = {self.gamma}
+        '''
+        
+        return text
+    
+#####################
+#        AGN        #
+#####################
+
+class FRITZmodule: # XXX to be implemented
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a module to deal with Fritz et al. 2006 AGN module.
+    
+    .. warning:
+        
+        This module cannot be combined with :class:`M2005module`.
+    
+    :param list logU: (**Optional**) ionisation parameter. Minimum value is -4.0, maximum is -1.0 and steps of 0.1 only are accepted (i.e. -1.5 is ok but not -1.53).
+    :param list f_esc: (**Optional**) fraction of Lyman continuum photons escaping the galaxy
+    :param list f_dust: (**Optional**) fraction of Lyman continuum photons absorbed by dust
+    :param list lines_width: (**Optional**) Line width in km/s
+    :param bool include_emission: (**Optional**) whether to include the nebular emission or not
+    '''
+    
+    def __init__(self, logU: List[float] = [-2.0],
+                 f_esc: List[float] = [0.0],
+                 f_dust: List[float] = [0.0],
+                 lines_width: List[float] = [300.0],
+                 include_emission: bool = True) -> None:
+        
+        r'''Init method.'''
+        
+        logURange = [i/10 for i in range(-40, -9, 1)]
+        
+        self.logU = ListFloatProperty(logU, minBound=-4.0, maxBound=-1.0,
+                                      testFunc=lambda value: any((i not in logURange for i in value)),
+                                      testMsg=f'One on the logU values is not accepted. Accepted values must be in the list {logURange}')
+        
+        self.f_esc       = ListFloatProperty(f_esc,       minBound=0, maxBound=1)
+        self.f_dust      = ListFloatProperty(f_dust,      minBound=0, maxBound=1)
+        self.lines_width = ListFloatProperty(lines_width, minBound=0)
+        self.emission    = BoolProperty(include_emission)
+        
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[nebular]]
+          # Ionisation parameter
+          logU = {self.logU}
+          # Fraction of Lyman continuum photons escaping the galaxy
+          f_esc = {self.f_esc}
+          # Fraction of Lyman continuum photons absorbed by dust
+          f_dust = {self.f_dust}
+          # Line width in km/s
+          lines_width = {self.lines_width}
+          # Include nebular emission.
+          emission = {self.emission}
+        '''
+        
+        return text
