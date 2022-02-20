@@ -11,7 +11,7 @@ import os
 import os.path          as     opath
 
 from   copy             import deepcopy
-from   typing           import List, Any, Dict
+from   typing           import List, Any
 from   io               import TextIOBase
 from   abc              import ABC, abstractmethod
 from   textwrap         import dedent
@@ -22,6 +22,7 @@ from   .catalogues      import LePhareCat
 from   .coloredMessages import errorMessage, warningMessage
 from   .misc.properties import IntProperty, FloatProperty, StrProperty, ListIntProperty, ListFloatProperty, ListStrProperty, PathProperty, ListPathProperty, EnumProperty
 from   .misc.enum       import MagType, YESNO, ANDOR, LePhareOutputParam
+from   .misc            import cigaleModules as cigmod
                          
      
 ERROR   = errorMessage('Error:')
@@ -33,10 +34,10 @@ class SED(ABC):
     def __init__(self, *args, **kwargs) -> None:
         r'''Init SED oject.'''
         
-        # Allowed keys and corresponding types for the SED parameters
+        #: Allowed keys and corresponding types for the SED parameters
         self.keys       = {}
         
-        # SED parameter properties
+        #: SED parameter properties
         self.prop = {}
         
         self.log = []
@@ -181,88 +182,102 @@ class CigaleSED(SED):
     
     Implements Cigale SED object.
     
-    .. warning::
-        
-        At least one module must be given in SFH, SSP and redshifting dictionaries. For instance, the two following lines are incorrect
-        
-        .. code::
-            
-            SFH = {}
-            SFH = {'sfh2exp' : None}
-    
-        whereas the following line is correct for SFH parameter
-        
-        .. code::
-
-            sfh2exp = {}
-            SFH     = {'sfh2exp' : sfh2exp}
-    
-    .. note::
-        
-        We provide below a description of the different modules and their parameters.
-        
-        SFH
-        ---
-        
-        sfh2exp
-        #######
-        
-        :param list[float] tau_main: list of e-folding times of the main stellar population model in Myr
-        :param list[float] tau_burst: list of e-folding time of the late starburst population model in Myr
-        :param list[float] f_burst: 
-        
-    
     :param ID: an identifier used to name the output files created during the SED fitting process
     
-    :param dict SFH: (**Optional**) star formation history module(s) to use. At least one SFH must be provided.
-    :param dict SSP: (**Optional**) single stellar population module(s) to use. At least one SSP must be provided.
-    :param dict nebular: (**Optional**) nebular emission module(s) to use
-    :param dict attenuation: (**Optional**) dust attenuation module(s) to use
-    :param dict dust: (**Optional**) dust emission module(s) to use
-    :param dict AGN: (**Optional**) AGN emission module(s) to use
-    :param dict radio: (**Optional**) radio emission (synchrotron) module(s) to use
-    :param dict restframe: (**Optional**) restframe parameters (UV slope (β), IRX, D4000, EW, etc.)
-    :param dict redshifting: (**Optional**) redshifting parameters and IGM. It must be provided.
+    :param list SFH: (**Optional**) star formation history modules to use. At least one module must be given.
+    :param list SSP: (**Optional**) single stellar population modules to use. At least one module must be given.
+    :param list nebular: (**Optional**) nebular emission modules to use. Empty list means no module is used.
+    :param list attenuation: (**Optional**) dust attenuation modules to use. Empty list means no module is used.
+    :param list dust: (**Optional**) dust emission modules to use. Empty list means no module is used.
+    :param list agn: (**Optional**) agn modules to use. Empty list means no module is used.
+    :param list radio: (**Optional**) synchrotron radiation modules to use. Empty list means no module is used.
+    :param list restframe: (**Optional**) restframe parameters modules to use. Empty list means no module is used.
+    :param list redshifting: (**Optional**) redshifitng+IGM modules to use. Empty list means no module is used.
     
-    :raises TypeError: if
-    * one of the parameters is not a dict
-    * there is not at least one value in SFH, SSP and redshifting dict which is a dict
-    
+    :raises TypeError: if any of the keyword parameters if not a list
+    :raises ValueError: if no **SFH**, **SSP** and **redshifting** modules are provided
     '''
     
     def __init__(self, ID: Any, 
-                 SFH: Dict[str, Dict[str, Any]] = {'sfh2exp' : None, 'sfhdelayed' : None, 'sfhdelayedbq' : None, 'sfhfromfile' : None, 'sfhperiodic' : None}, 
-                 SSP: Dict[str, Dict[str, Any]] = {'bc03' : None, 'm2005' : None},
-                 nebular: Dict[str, Dict[str, Any]] = {'nebular' : None},
-                 attenuation: Dict[str, Dict[str, Any]] = {'dustatt_modified_CF00' : None, 'dustatt_modified_starburst' : None},
-                 dust: Dict[str, Dict[str, Any]] = {'casey2012' : None, 'dale2014' : None, 'dl2007' : None, 'dl2014' : None, 'themis' : None},
-                 AGN: Dict[str, Dict[str, Any]] = {'fritz2006' : None},
-                 radio: Dict[str, Dict[str, Any]] = {'radio' : None},
-                 restframe: Dict[str, Dict[str, Any]] = {'restframe_parameters' : None},
-                 redshifting: Dict[str, Dict[str, Any]] = {'redshifting' : None},
+                 SFH: List[cigmod.SFHmodule] = [cigmod.SFH2EXPmodule],
+                 SSP: List[cigmod.SSPmodule] = [cigmod.BC03module],
+                 nebular: List[cigmod.NEBULARmodule] = [],
+                 attenuation: List[cigmod.ATTENUATIONmodule] = [],
+                 dust: List[cigmod.DUSTmodule] = [],
+                 agn: List[cigmod.AGNmodule] = [],
+                 radio: List[cigmod.RADIOmodule] = [],
+                 restframe: List[cigmod.RESTFRAMEmodule] = [],
+                 redshifting: List[cigmod.REDSHIFTmodule] = [],
                  **kwargs) -> None:
         
-        # Check input values are dictionaries of dictionaries
-        for dic, name in zip([SFH, SSP, nebular, attenuation, dust, AGN, radio, restframe, redshifting], ['SFH', 'SSP', 'nebular', 'attenuation', 'dust', 'AGN', 'radio', 'restframe', 'redshifting']):
-            
-            if not isinstance(dic, dict):
-                raise TypeError(f'parameter {name} has type {type(dic)} but it must be a dict.')
-                    
-        # Check that at least one SFH, one SSP and one redshifting dicts are given
-        if not any((isinstance(i, dict) for i in SFH)):
-           raise TypeError('At least one SFH dict must be provided in SFH parameter.')
-           
-        if not any((isinstance(i, dict) for i in SSP)):
-           raise TypeError('At least one SSP dict must be provided in SSP parameter.')
-           
-        if not any((isinstance(i, dict) for i in redshifting)):
-           raise TypeError('At least one redshifting dict must be provided in redshifting parameter.')
-            
         super().__init__(**kwargs)
         
-        # Will be used to generate a custom directory
-        self.id              = ID
+        for var, name in zip([SFH, SSP, nebular, attenuation, dust, agn, radio, restframe, redshifting], ['SFH', 'SSP', 'nebular', 'attenuation', 'dust', 'agn', 'radio', 'restframe', 'redshifting']):
+            if not isinstance(var, list):
+                raise TypeError(f'parameter {name} has type {type(var)} but it must be a list.')
+                
+        if len(SFH) < 1:
+            raise ValueError('at least one SFH module must be provided')
+            
+        if len(SSP) < 1:
+            raise ValueError('at least one SSP module must be provided')
+            
+        if len(redshifting) < 1:
+            raise ValueError('at least one redshifting module must be provided')
+            
+        #: Will be used to generate a custom directory
+        self.id = ID
         
+        #: SFH modules to use
+        self.SFH = self._checkModule(SFH, cigmod.SFHmodule) 
+        
+        #: SSP modules to use
+        self.SSP = self._checkModule(SSP, cigmod.SSPmodule)
+        
+        #: Nebular emission modules to use
+        self.nebular = self._checkModule(nebular, cigmod.NEBULARmodule)
+        
+        #: Dust attenuation modules to use
+        self.attenuation = self._checkModule(attenuation, cigmod.ATTENUATIONmodule)
+        
+        #: Dust emission modules to use
+        self.dust = self._checkModule(dust, cigmod.DUSTmodule)
+        
+        #: AGN modules to use
+        self.agn = self._checkModule(agn, cigmod.AGNmodule)
+        
+        #: Synchrotron radiation modules to use
+        self.radio = self._checkModule(radio, cigmod.RADIOmodule)
+        
+        #: Rest-frame parameters modules to use
+        self.restframe = self._checkModule(restframe, cigmod.RESTFRAMEmodule)
+        
+        #: Redshifting modules to use
+        self.redshifting = self._checkModule(redshifting, cigmod.REDSHIFTmodule)
+
+
+    @staticmethod
+    def _checkModule(modules: List[Any], inheritedClass: Any) -> bool:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Check that the given list of Cigale modules belong to the correct class they should inherit from.
+        
+        :param list modules: modules to check the inheritance
+        :param inheritedClass: class to check against for inheritance
+        
+        :returns: the list of modules if all the modules inherit from the given class
+        :rtype: list
+        
+        :raises TypeError: if one of the modules in **modules** does not inherit from **inheritedClass**
+        '''
+        
+        for pos, module in enumerate(modules):
+            if not issubclass(module, inheritedClass):
+                raise TypeError(f'module {module.__name__} is not a subclass of {inheritedClass.__name__}.')
+
+        return modules
+                
 
 class LePhareSED(SED):
     r'''
@@ -369,7 +384,7 @@ class LePhareSED(SED):
         
         super().__init__(**kwargs)
         
-        # Will be used to generate a custom directory
+        #: Will be used to generate a custom directory
         self.id              = ID
         
         # Output parameter file is defined through the ID

@@ -700,6 +700,8 @@ class DUSTmodule(ABC):
     def __init__(self, *args, **kwargs):
         r'''Init method.'''
         
+        return
+        
     @abstractmethod
     def __str__(self, *args, **kwargs) -> str:
         r'''
@@ -726,13 +728,13 @@ class CASEYmodule(DUSTmodule):
                  alpha: List[float] = [2.0]) -> None:
         
         r'''Init method.'''
-        
-    super().__init__()
-        
-    temperature: List[float] = ListFloatProperty(temperature, minBound=0.0)
-    beta: List[float]        = ListFloatProperty(beta,        minBound=0.0)
-    alpha: List[float]       = ListFloatProperty(alpha,       minBound=0.0)
-        
+            
+        super().__init__()
+            
+        self.temperature = ListFloatProperty(temperature, minBound=0.0)
+        self.beta        = ListFloatProperty(beta,        minBound=0.0)
+        self.alpha       = ListFloatProperty(alpha,       minBound=0.0)
+            
     def __str__(self, *args, **kwargs):
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -1029,41 +1031,76 @@ class THEMISmodule(DUSTmodule):
 #        AGN        #
 #####################
 
-class FRITZmodule: # XXX to be implemented
+class AGNmodule:
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     
-    Class implementing a module to deal with Fritz et al. 2006 AGN module.
+    Class implementing a module to deal with Fritz et al. 2006 AGN model.
     
-    .. warning:
-        
-        This module cannot be combined with :class:`M2005module`.
-    
-    :param list logU: (**Optional**) ionisation parameter. Minimum value is -4.0, maximum is -1.0 and steps of 0.1 only are accepted (i.e. -1.5 is ok but not -1.53).
-    :param list f_esc: (**Optional**) fraction of Lyman continuum photons escaping the galaxy
-    :param list f_dust: (**Optional**) fraction of Lyman continuum photons absorbed by dust
-    :param list lines_width: (**Optional**) Line width in km/s
-    :param bool include_emission: (**Optional**) whether to include the nebular emission or not
+    :param list r_ratio: (**Optional**) ratio of the maximum to minimum radii of the dust torus. Possible values are: 10, 30, 60, 100, 150.
+    :param list tau: (**Optional**) optical depth at 9.7 microns. Possible values are: 0.1, 0.3, 0.6, 1.0, 2.0, 3.0, 6.0, 10.0.
+    :param list beta: (**Optional**) beta. Possible values are: -1.00, -0.75, -0.50, -0.25, 0.00.
+    :param list gamma: (**Optional**) gamma. Pssible values are: 0.0, 2.0, 4.0, 6.0.
+    :param list opening_angle: (**Optional**) full opening angle of the dust torus (Fig 1 of Fritz 2006). Possible values are: 60., 100., 140.
+    :param list psy: (**Optional**) angle between equatorial axis and line of sight. Psy = 90◦ for type 1 and Psy = 0° for type 2. Possible values are: 0.001, 10.100, 20.100, 30.100, 40.100, 50.100, 60.100, 70.100, 80.100, 89.990.
+    :param list fracAGN: (**Optional**) AGN fraction
     '''
     
-    def __init__(self, logU: List[float] = [-2.0],
-                 f_esc: List[float] = [0.0],
-                 f_dust: List[float] = [0.0],
-                 lines_width: List[float] = [300.0],
-                 include_emission: bool = True) -> None:
+    def __init__(self, r_ratio: List[int] = [60.0],
+                 tau: List[float] = [1.0],
+                 beta: List[float] = [-0.5],
+                 gamma: List[int] = [4],
+                 opening_angle: List[int] = [100],
+                 psy: List[float] = [50.1],
+                 fracAGN: List[float] = [0.1]) -> None:
         
         r'''Init method.'''
         
-        logURange = [i/10 for i in range(-40, -9, 1)]
+        # Accepted values for r_ratio
+        r_ratioRange       = [10, 30, 60, 100, 150]
         
-        self.logU = ListFloatProperty(logU, minBound=-4.0, maxBound=-1.0,
-                                      testFunc=lambda value: any((i not in logURange for i in value)),
-                                      testMsg=f'One on the logU values is not accepted. Accepted values must be in the list {logURange}')
+        # Accepted values for tau
+        tauRange           = [0.1, 0.3, 0.6, 1.0, 2.0, 3.0, 6.0, 10.0]
         
-        self.f_esc       = ListFloatProperty(f_esc,       minBound=0, maxBound=1)
-        self.f_dust      = ListFloatProperty(f_dust,      minBound=0, maxBound=1)
-        self.lines_width = ListFloatProperty(lines_width, minBound=0)
-        self.emission    = BoolProperty(include_emission)
+        # Accepted values for beta
+        betaRange          = [-1.0, -0.75, -0.5, -0.25, 0.0]
+        
+        # Accepted values for gamma
+        gammaRange         = [0, 2, 4, 6]
+        
+        # Accepted values for opening_angle
+        opening_angleRange = [60, 100, 140]
+        
+        # Accepted values for psy
+        psyRange           = [0.001, 10.10, 20.10, 30.10, 40.10, 50.10, 60.10, 70.10, 80.10, 89.99]
+        
+        
+        self.r_ratio       = ListFloatProperty(r_ratio, minBound=10, maxBound=150,
+                                               testFunc=lambda value: any((i not in r_ratioRange for i in value)),
+                                               testMsg=f'One on the r_ratio values is not accepted. Accepted values must be in the list {r_ratioRange}.')
+        
+        
+        self.tau           = ListFloatProperty(tau, minBound=0.1, maxBound=10.0,
+                                               testFunc=lambda value: any((i not in tauRange for i in value)),
+                                               testMsg=f'One on the tau values is not accepted. Accepted values must be in the list {tauRange}.')
+        
+        self.beta          = ListFloatProperty(beta, minBound=-1.0, maxBound=0.0,
+                                               testFunc=lambda value: any((i not in betaRange for i in value)),
+                                               testMsg=f'One on the beta values is not accepted. Accepted values must be in the list {betaRange}.')
+        
+        self.gamma         = ListFloatProperty(gamma, minBound=0, maxBound=6,
+                                               testFunc=lambda value: any((i not in gammaRange for i in value)),
+                                               testMsg=f'One on the gamma values is not accepted. Accepted values must be in the list {gammaRange}.')
+        
+        self.opening_angle = ListFloatProperty(opening_angle, minBound=60, maxBound=140,
+                                               testFunc=lambda value: any((i not in opening_angleRange for i in value)),
+                                               testMsg=f'One on the opening_angle values is not accepted. Accepted values must be in the list {opening_angleRange}.')
+        
+        self.psy           = ListFloatProperty(psy, minBound=0.001, maxBound=89.99,
+                                               testFunc=lambda value: any((i not in psyRange for i in value)),
+                                               testMsg=f'One on the psy values is not accepted. Accepted values must be in the list {psyRange}.')
+        
+        self.fracAGN       = ListFloatProperty(fracAGN, minBound=0.0, maxBound=1.0)
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
@@ -1073,17 +1110,188 @@ class FRITZmodule: # XXX to be implemented
         '''
         
         text = f'''\
-        [[nebular]]
-          # Ionisation parameter
-          logU = {self.logU}
-          # Fraction of Lyman continuum photons escaping the galaxy
-          f_esc = {self.f_esc}
-          # Fraction of Lyman continuum photons absorbed by dust
-          f_dust = {self.f_dust}
-          # Line width in km/s
-          lines_width = {self.lines_width}
-          # Include nebular emission.
-          emission = {self.emission}
+        [[fritz2006]]
+          # Ratio of the maximum to minimum radii of the dust torus. Possible
+          # values are: 10, 30, 60, 100, 150.
+          r_ratio = {self.r_ratio}
+          # Optical depth at 9.7 microns. Possible values are: 0.1, 0.3, 0.6, 1.0,
+          # 2.0, 3.0, 6.0, 10.0.
+          tau = {self.tau}
+          # Beta. Possible values are: -1.00, -0.75, -0.50, -0.25, 0.00.
+          beta = {self.beta}
+          # Gamma. Possible values are: 0.0, 2.0, 4.0, 6.0.
+          gamma = {self.gamma}
+          # Full opening angle of the dust torus (Fig 1 of Fritz 2006). Possible
+          # values are: 60., 100., 140.
+          opening_angle = {self.opening_angle}
+          # Angle between equatorial axis and line of sight. Psy = 90◦ for type 1
+          # and Psy = 0° for type 2. Possible values are: 0.001, 10.100, 20.100,
+          # 30.100, 40.100, 50.100, 60.100, 70.100, 80.100, 89.990.
+          psy = {self.psy}
+          # AGN fraction.
+          fracAGN = {self.fracAGN}
+        '''
+        
+        return text
+    
+#######################
+#        Radio        #
+#######################
+
+class RADIOmodule:
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a module to deal with synchrotron emission module.
+    
+    :param list qir: (**Optional**) the value of the FIR/radio correlation coefficient
+    :param list alpha: (**Optional**) the slope of the power-law synchrotron emission
+    '''
+    
+    def __init__(self, qir: List[float] = [2.58],
+                 alpha: List[float] = [0.8]) -> None:
+        
+        r'''Init method.'''
+        
+        self.qir   = ListFloatProperty(qir, minBound=0.0)
+        self.alpha = ListFloatProperty(alpha)
+        
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[radio]]
+          # The value of the FIR/radio correlation coefficient.
+          qir = {self.qir}
+          # The slope of the power-law synchrotron emission.
+          alpha = {self.alpha}
+        '''
+        
+        return text
+    
+#######################################
+#        Rest-frame parameters        #
+#######################################
+
+class RESTFRAMEmodule:
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a module for rest-frame parameters.
+    
+    :param bool beta_calz94: (**Optional**) UV slope measured in the same way as in Calzetti et al. (1994)
+    :param bool D4000: (**Optional**) D4000 break using the Balogh et al. (1999) definition
+    :param bool IRX: (**Optional**) IRX computed from the GALEX FUV filter and the dust luminosity
+    :param str EW_lines: (**Optional**) central wavelength of the emission lines for which to compute the equivalent width. The half-bandwidth must be indicated after the '/' sign. For instance 656.3/1.0 means oth the nebular line and the continuum are integrated over 655.3-657.3 nm.
+    :param str colours_filters: (**Optional**) rest-frame colours to be computed. You can give several colours separated by a & (don't use commas).
+    '''
+    
+    def __init__(self, beta_calz94: bool = False,
+                 D4000: bool = False,
+                 IRX: bool = False,
+                 EW_lines: str = '500.7/1.0 & 656.3/1.0',
+                 luminosity_filters: str = 'FUV & V_B90',
+                 colours_filters: str = 'FUV-NUV & NUV-r_prime') -> None:
+        
+        r'''Init method.'''
+        
+        def check_EW(ew):
+            r'''Check that the format given for the equivalent width is correct.'''
+            
+            # If no / is found, then the format is incorrect
+            if '/' not in ew:
+                return True
+             
+            for es in ew.split('&'):
+                for e in es.split('/'):
+                    
+                    # If casting to float does not work, the format is incorrect
+                    try:
+                        float(e)
+                    except ValueError:
+                        return True
+            
+            return False
+        
+        self.beta_calz94        = BoolProperty(beta_calz94)
+        self.D4000              = BoolProperty(D4000)
+        self.IRX                = BoolProperty(IRX)
+        self.EW_lines           = StrProperty(EW_lines, 
+                                              testFunc = check_EW,
+                                              testMsg='The value for EW_lines is not accepted.')
+        
+        self.luminosity_filters = StrProperty(luminosity_filters)
+        self.colours_filters    = StrProperty(colours_filters)
+        
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[restframe_parameters]]
+          # UV slope measured in the same way as in Calzetti et al. (1994).
+          beta_calz94 = {self.beta_calz94}
+          # D4000 break using the Balogh et al. (1999) definition.
+          D4000 = {self.D4000}
+          # IRX computed from the GALEX FUV filter and the dust luminosity.
+          IRX = {self.IRX}
+          # Central wavelength of the emission lines for which to compute the
+          # equivalent width. The half-bandwidth must be indicated after the '/'
+          # sign. For instance 656.3/1.0 means oth the nebular line and the
+          # continuum are integrated over 655.3-657.3 nm.
+          EW_lines = {self.EW_lines}
+          # Filters for which the rest-frame luminosity will be computed. You can
+          # give several filter names separated by a & (don't use commas).
+          luminosity_filters = {self.luminosity_filters}
+          # Rest-frame colours to be computed. You can give several colours
+          # separated by a & (don't use commas).
+          colours_filters = {self.colours_filters}
+        '''
+        
+        return text
+    
+#############################
+#        Redshifting        #
+#############################
+
+class REDSHIFTmodule:
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a module for redshifting and IGM.
+    
+    :param list redshift: redshift of the objects. Leave empty to use the redshifts from the input file.
+    '''
+    
+    def __init__(self, redshift: List[float] = []) -> None:
+        
+        r'''Init method.'''
+        
+        if redshift == []:
+            self.redshift = StrProperty('')
+        else:
+            self.redshift = ListFloatProperty(redshift, minBound=0.0)
+            
+        
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[redshifting]]
+          # Redshift of the objects. Leave empty to use the redshifts from the
+          # input file.
+          redshift = {self.redshift}
         '''
         
         return text
