@@ -11,7 +11,7 @@ import os
 import os.path          as     opath
 
 from   copy             import deepcopy
-from   typing           import List, Any
+from   typing           import List, Any, Optional
 from   io               import TextIOBase
 from   abc              import ABC, abstractmethod
 from   textwrap         import dedent
@@ -194,9 +194,12 @@ class CigaleSED(SED):
     :param list restframe: (**Optional**) restframe parameters modules to use. Empty list means no module is used.
     :param list redshifting: (**Optional**) redshifitng+IGM modules to use. Empty list means no module is used.
     
+    :param int ncores: (**Optional**) number of cores (technically threads) to use to generate the grid of parameters
+    :param list physical_properties: (**Optional**) physical properties to estimate at the end of the SED fitting. If None, all properties are computed.
+    
     :raises TypeError: if any of the keyword parameters if not a list
     :raises ValueError: if no **SFH**, **SSP** and **redshifting** modules are provided
-    '''
+    ''' # XXX to continue
     
     def __init__(self, ID: Any, 
                  SFH: List[cigmod.SFHmodule] = [cigmod.SFH2EXPmodule],
@@ -208,6 +211,8 @@ class CigaleSED(SED):
                  radio: List[cigmod.RADIOmodule] = [],
                  restframe: List[cigmod.RESTFRAMEmodule] = [],
                  redshifting: List[cigmod.REDSHIFTmodule] = [],
+                 ncores: int = 4,
+                 physical_properties: Optional[List[str]] = None,
                  **kwargs) -> None:
         
         super().__init__(**kwargs)
@@ -226,34 +231,43 @@ class CigaleSED(SED):
             raise ValueError('at least one redshifting module must be provided')
             
         #: Will be used to generate a custom directory
-        self.id = ID
+        self.id          = ID
+        
+        # For now we set this parameter to an empty str and we only allow pdf_analysis method (no savefluxes)
+        self.analysis    = StrProperty('')
         
         #: SFH modules to use
-        self.SFH = self._checkModule(SFH, cigmod.SFHmodule) 
+        self.SFH         = self._checkModule(SFH, cigmod.SFHmodule) 
         
         #: SSP modules to use
-        self.SSP = self._checkModule(SSP, cigmod.SSPmodule)
+        self.SSP         = self._checkModule(SSP, cigmod.SSPmodule)
         
         #: Nebular emission modules to use
-        self.nebular = self._checkModule(nebular, cigmod.NEBULARmodule)
+        self.nebular     = self._checkModule(nebular, cigmod.NEBULARmodule)
         
         #: Dust attenuation modules to use
         self.attenuation = self._checkModule(attenuation, cigmod.ATTENUATIONmodule)
         
         #: Dust emission modules to use
-        self.dust = self._checkModule(dust, cigmod.DUSTmodule)
+        self.dust        = self._checkModule(dust, cigmod.DUSTmodule)
         
         #: AGN modules to use
-        self.agn = self._checkModule(agn, cigmod.AGNmodule)
+        self.agn         = self._checkModule(agn, cigmod.AGNmodule)
         
         #: Synchrotron radiation modules to use
-        self.radio = self._checkModule(radio, cigmod.RADIOmodule)
+        self.radio       = self._checkModule(radio, cigmod.RADIOmodule)
         
         #: Rest-frame parameters modules to use
-        self.restframe = self._checkModule(restframe, cigmod.RESTFRAMEmodule)
+        self.restframe   = self._checkModule(restframe, cigmod.RESTFRAMEmodule)
         
         #: Redshifting modules to use
         self.redshifting = self._checkModule(redshifting, cigmod.REDSHIFTmodule)
+        
+        #: Number of threads to use when computing the grid of parameters
+        self.ncores      = IntProperty(ncores, minBound=1)
+        
+        #: Physical properties to estimate
+        self.phys_prop   = ListStrProperty(physical_properties if physical_properties is not None else [''])
 
 
     @staticmethod
