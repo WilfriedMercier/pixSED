@@ -85,10 +85,10 @@ class CigaleCat(Catalogue):
     def __init__(self, fname: str, table: Table) -> None:
         '''Init method.'''
         
-        super().__init__(fname, table)
+        super().__init__(f'{fname}.mag', table)
         
     @property
-    def text(self, *args, **kwargs) -> str: # XXX Might need to be updated
+    def text(self, *args, **kwargs) -> str:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
@@ -153,9 +153,10 @@ class LePhareCat(Catalogue):
                  tformat: TableFormat = TableFormat.MEME, 
                  ttype: TableType     = TableType.LONG, 
                  nlines: List[int]    = [0, 100000000]) -> None:
+        
         r'''Init method.'''
             
-        super().__init__(fname, table)
+        super().__init__(f'{fname}.in', table)
         
         #####################################################
         #             Define default properties             #
@@ -220,5 +221,5 @@ class LePhareCat(Catalogue):
             raise TypeError(f'path has type {type(path)} but it must have type str.')
         
         fname = opath.join(path, self.name)
-        self.data.write(f'{fname}.in', format='ascii.fast_no_header', overwrite=True, **kwargs)
+        self.data.write(fname, format='ascii.fast_no_header', overwrite=True, **kwargs)
         return

@@ -8,7 +8,7 @@ Modules which can be used in Cigale.
 
 from   abc           import ABC, abstractmethod
 from   .properties   import BoolProperty, PathProperty, StrProperty, ListIntProperty, ListFloatProperty
-from   typing        import List
+from   typing        import List, Any
 
 ##########################################
 #        Star Formation Histories        #
@@ -20,12 +20,14 @@ class SFHmodule(ABC):
     
     Class implementing a module to deal with SFH models.
     
+    :param name: identifier for the class
     :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
     '''
     
-    def __init__(self, normalise: bool = True) -> None:
+    def __init__(self, name: Any, normalise: bool = True) -> None:
         r'''Init method.'''
         
+        self.name      = name
         self.normalise = BoolProperty(normalise)
         
     @abstractmethod
@@ -63,7 +65,7 @@ class SFH2EXPmodule(SFHmodule):
         
         r'''Init method.'''
         
-        super().__init__(normalise=normalise)
+        super().__init__('sfh2exp', normalise=normalise)
         
         self.tau_main  = ListFloatProperty(tau_main,  minBound=0.0)
         self.tau_burst = ListFloatProperty(tau_burst, minBound=0.0)
@@ -125,7 +127,7 @@ class SFHDELAYEDmodule(SFHmodule):
                  normalise: bool = True) -> None:
         r'''Init method.'''
         
-        super().__init__(normalise=normalise)
+        super().__init__('sfhdelayed', normalise=normalise)
         
         self.tau_main  = ListFloatProperty(tau_main,  minBound=0.0)
         self.age_main  = ListIntProperty(  age_main,  minBound=0)
@@ -187,7 +189,7 @@ class SFHDELAYEDBQmodule(SFHmodule):
         
         r'''Init method.'''
         
-        super().__init__(normalise=normalise)
+        super().__init__('sfhdelayedbq', normalise=normalise)
         
         self.tau_main  = ListFloatProperty(tau_main,  minBound=0.0)
         self.age_main  = ListIntProperty(  age_main,  minBound=0)
@@ -242,7 +244,7 @@ class SFHFROMFILEmodule(SFHmodule):
         
         r'''Init method.'''
         
-        super().__init__(normalise=normalise)
+        super().__init__('sfrfromfile', normalise=normalise)
         
         self.filename   = PathProperty(filename)
         self.sfr_column = ListIntProperty(sfr_column)
@@ -295,7 +297,7 @@ class SFHPERIODICmodule(SFHmodule):
         
         r'''Init method.'''
         
-        super().__init__(normalise=normalise)
+        super().__init__('sfhperiodic', normalise=normalise)
         
         self.type_bursts  = ListIntProperty(  type_bursts,  minBound=0, maxBound=2)
         self.delta_bursts = ListIntProperty(  delta_bursts, minBound=0)
@@ -343,15 +345,19 @@ class SSPmodule(ABC):
     
     Class implementing a module to deal with SSP models.
     
+    :param name: identifier for the class
+    
     :param list imf: (**Optional**) initial mass function. See specific SSP module for the meaning of the values 0 and 1.
     :param list separation_age: (**Optional**) age [Myr] of the separation between the young and the old star populations. The default value in 10^7 years (10 Myr). Set to 0 not to differentiate ages (only an old population).
     '''
     
-    def __init__(self, imf: List[int] = [0],
+    def __init__(self, name: Any,
+                 imf: List[int] = [0],
                  separation_age: List[int] = [10]) -> None:
         
         r'''Init method.'''
         
+        self.name           = name
         self.imf            = ListIntProperty(imf,            minBound=0, maxBound=1)
         self.separation_age = ListIntProperty(separation_age, minBound=0)
         
@@ -382,7 +388,7 @@ class BC03module(SSPmodule):
         
         r'''Init method.'''
         
-        super().__init__(imf=imf, separation_age=separation_age)
+        super().__init__('bc03', imf=imf, separation_age=separation_age)
         
         self.metallicity = ListFloatProperty(metallicity, minBound=0.0001, maxBound=0.05, 
                                              testFunc=lambda value: any((i not in [0.0001, 0.0004, 0.004, 0.008, 0.02, 0.05] for i in value)),
@@ -431,7 +437,7 @@ class M2005module(SSPmodule):
         
         r'''Init method.'''
         
-        super().__init__(imf=imf, separation_age=separation_age)
+        super().__init__('m2005', imf=imf, separation_age=separation_age)
         
         self.metallicity = ListFloatProperty(metallicity, minBound=0.001, maxBound=0.04, 
                                              testFunc=lambda value: any((i not in [0.001, 0.01, 0.02, 0.04] for i in value)),
@@ -487,11 +493,13 @@ class NEBULARmodule:
         
         r'''Init method.'''
         
-        logURange = [i/10 for i in range(-40, -9, 1)]
+        self.name        = 'nebular'
         
-        self.logU = ListFloatProperty(logU, minBound=-4.0, maxBound=-1.0,
-                                      testFunc=lambda value: any((i not in logURange for i in value)),
-                                      testMsg=f'One on the logU values is not accepted. Accepted values must be in the list {logURange}')
+        logURange        = [i/10 for i in range(-40, -9, 1)]
+        
+        self.logU        = ListFloatProperty(logU, minBound=-4.0, maxBound=-1.0,
+                                             testFunc=lambda value: any((i not in logURange for i in value)),
+                                             testMsg=f'One on the logU values is not accepted. Accepted values must be in the list {logURange}')
         
         self.f_esc       = ListFloatProperty(f_esc,       minBound=0, maxBound=1)
         self.f_dust      = ListFloatProperty(f_dust,      minBound=0, maxBound=1)
@@ -531,12 +539,14 @@ class ATTENUATIONmodule(ABC):
     
     Class implementing a module to deal with dust attenuation.
     
+    :param name: identifier for the class
     :param str filters: (**Optional**) filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
     '''
     
-    def __init__(self, filters: str = 'V_B90 & FUV') -> None:
+    def __init__(self, name: Any, filters: str = 'V_B90 & FUV') -> None:
         r'''Init method.'''
         
+        self.name    = name
         self.filters = StrProperty(filters)
         
     @abstractmethod
@@ -570,7 +580,7 @@ class DUSTATT_MODIFIED_CF00module(ATTENUATIONmodule):
         
         r'''Init method.'''
         
-        super().__init__(filters=filters)
+        super().__init__('dustatt_modified_cf00', filters=filters)
         
         self.filters   = StrProperty(filters)
         self.Av_ISM    = ListFloatProperty(Av_ISM, minBound=0.0)
@@ -632,7 +642,7 @@ class DUSTATT_MODIFIED_STARBUSTmodule(ATTENUATIONmodule):
         
         r'''Init method.'''
         
-        super().__init__(filters=filters)
+        super().__init__('dustatt_modified_starbust', filters=filters)
         
         self.filters                = StrProperty(filters)
         self.E_BV_lines             = ListFloatProperty(E_BV_lines,           minBound=0.0)
@@ -695,10 +705,14 @@ class DUSTmodule(ABC):
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     
     Class implementing a module to deal with dust emission.
+    
+    :param name: identifier for the class
     '''
     
-    def __init__(self, *args, **kwargs):
+    def __init__(self, name, *args, **kwargs):
         r'''Init method.'''
+        
+        self.name = name
         
         return
         
@@ -729,7 +743,7 @@ class CASEYmodule(DUSTmodule):
         
         r'''Init method.'''
             
-        super().__init__()
+        super().__init__('casey2012')
             
         self.temperature = ListFloatProperty(temperature, minBound=0.0)
         self.beta        = ListFloatProperty(beta,        minBound=0.0)
@@ -768,6 +782,8 @@ class DALEmodule(DUSTmodule):
                  alpha: List[float] = [2.0]) -> None:
     
         r'''Init method.'''
+        
+        super().__init__('dale2014')
         
         # Accepted values for alpha
         alphaRange = [0.0625, 0.1250, 0.1875, 0.2500, 0.3125, 0.3750, 0.4375, 0.5000, 0.5625, 0.6250, 0.6875, 0.7500,
@@ -826,6 +842,8 @@ class DL07module(DUSTmodule):
                  gamma: List[float] = [0.1],) -> None:
     
         r'''Init method.'''
+        
+        super().__init__('dl2077')
         
         # Accepted values for qpah
         qpahRange = [0.47, 1.12, 1.77, 2.50, 3.19, 3.90, 4.58]
@@ -896,6 +914,8 @@ class DL14module(DUSTmodule):
                  alpha: List[float] = [2.0]) -> None:
     
         r'''Init method.'''
+        
+        super().__init__('dl2014')
         
         # Accepted values for qpah
         qpahRange  = [0.47, 1.12, 1.77, 2.50, 3.19, 3.90, 4.58, 5.26, 5.95, 6.63, 7.32]
@@ -970,6 +990,8 @@ class THEMISmodule(DUSTmodule):
                  alpha: List[float] = [2.0]) -> None:
     
         r'''Init method.'''
+        
+        super().__init__('themis')
         
         # Accepted values for qpah
         qhacRange  = [0.02, 0.06, 0.10, 0.14, 0.17, 0.20, 0.24, 0.28, 0.32, 0.36, 0.40]
@@ -1055,6 +1077,8 @@ class AGNmodule:
                  fracAGN: List[float] = [0.1]) -> None:
         
         r'''Init method.'''
+        
+        self.name          = 'fritz2006'
         
         # Accepted values for r_ratio
         r_ratioRange       = [10, 30, 60, 100, 150]
@@ -1153,6 +1177,7 @@ class RADIOmodule:
         
         r'''Init method.'''
         
+        self.name  = 'radio'
         self.qir   = ListFloatProperty(qir, minBound=0.0)
         self.alpha = ListFloatProperty(alpha)
         
@@ -1217,6 +1242,7 @@ class RESTFRAMEmodule:
             
             return False
         
+        self.name               = 'restframe_parameters'
         self.beta_calz94        = BoolProperty(beta_calz94)
         self.D4000              = BoolProperty(D4000)
         self.IRX                = BoolProperty(IRX)
@@ -1273,6 +1299,8 @@ class REDSHIFTmodule:
     def __init__(self, redshift: List[float] = []) -> None:
         
         r'''Init method.'''
+        
+        self.name         = 'redshifting'
         
         if redshift == []:
             self.redshift = StrProperty('')
