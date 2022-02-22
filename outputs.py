@@ -199,7 +199,6 @@ class LePhareOutput(Output):
       
       self.table             = table
       return table
-      
      
    def toImage(self, name: str, 
                shape: Optional[Tuple[int]] = None, 

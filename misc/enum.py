@@ -28,6 +28,34 @@ class SEDcode(Enum):
     CIGALE  = 'cigale'
     
 ###################################
+#        Cigale only Enum         #
+###################################
+
+class Save_chi2(Enum):
+    r'''An enumeration with different for saving the chi2 result of Cigale.'''
+    
+    #: Save all chi2
+    ALL        = 'all'
+    
+    #: Save no chi2
+    NONE       = 'none'
+    
+    #: Save fluxes chi2
+    FLUXES     = 'fluxes'
+    
+    #: Save properties chi2
+    PROPERTIES = 'properties'
+    
+class IMF(Enum):
+    r'''An enumeration with accepted IMF in Cigale.'''
+    
+    #: Chabrier IMF
+    CHABRIER = '1'
+    
+    #: Salpeter IMF
+    SALPETER = '0'
+    
+###################################
 #        LePhare only Enum        #
 ###################################
     

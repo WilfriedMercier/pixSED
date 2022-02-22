@@ -6,7 +6,7 @@ r"""
 Base classes used to generate catalogues for LePhare or Cigale SED fitting codes.
 """
 
-from   abc                        import ABC, abstractmethod
+from   abc                        import ABC
 from   typing                     import List
 import os.path                    as     opath
 from   astropy.table              import Table
@@ -60,7 +60,6 @@ class Catalogue(ABC):
         return
     
     @property
-    @abstractmethod
     def text(self, *args, **kwargs) -> str:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -86,21 +85,6 @@ class CigaleCat(Catalogue):
         '''Init method.'''
         
         super().__init__(f'{fname}.mag', table)
-        
-    @property
-    def text(self, *args, **kwargs) -> str:
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Return a text representation of the catalogue used when making the parameter files.
-        
-        :returns: output representation
-        :rtype: str
-        '''
-        
-        text =  ''
-        
-        return text
         
     def save(self, path: str = '', **kwargs) -> None:
         r'''

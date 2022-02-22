@@ -7,7 +7,7 @@ Init file for the SED fitting parser library.
 """
 
 from .filters    import Filter, FilterList
-from .sed        import LePhareSED
-from .catalogues import LePhareCat
+from .sed        import LePhareSED, CigaleSED
+from .catalogues import LePhareCat, CigaleCat
 from .outputs    import LePhareOutput
 from .misc       import SEDcode, CleanMethod, MagType, TableFormat, TableType, TableUnit, YESNO, ANDOR

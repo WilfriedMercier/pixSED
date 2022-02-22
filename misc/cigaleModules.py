@@ -7,7 +7,8 @@ Modules which can be used in Cigale.
 """
 
 from   abc           import ABC, abstractmethod
-from   .properties   import BoolProperty, PathProperty, StrProperty, ListIntProperty, ListFloatProperty
+from   .enum         import IMF
+from   .properties   import BoolProperty, PathProperty, StrProperty, EnumProperty, ListIntProperty, ListFloatProperty
 from   typing        import List, Any
 
 ##########################################
@@ -55,20 +56,20 @@ class SFH2EXPmodule(SFHmodule):
     :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
     '''
     
-    def __init__(self, tau_main: List[float] = [6000.0], 
-                 tau_burst: List[float] = [50.0],
-                 f_burst: List[float] = [0.01], 
-                 age: List[int] = [5000], 
-                 burst_age: List[int] = [20], 
-                 sfr_0: List[float] = [1.0],
-                 normalise: bool = True) -> None:
+    def __init__(self, tau_main: List[int] = [6000], 
+                 tau_burst: List[int]      = [50],
+                 f_burst: List[float]      = [0.01], 
+                 age: List[int]            = [5000], 
+                 burst_age: List[int]      = [20], 
+                 sfr_0: List[float]        = [1.0],
+                 normalise: bool           = True) -> None:
         
         r'''Init method.'''
         
         super().__init__('sfh2exp', normalise=normalise)
         
-        self.tau_main  = ListFloatProperty(tau_main,  minBound=0.0)
-        self.tau_burst = ListFloatProperty(tau_burst, minBound=0.0)
+        self.tau_main  = ListIntProperty(  tau_main,  minBound=0)
+        self.tau_burst = ListIntProperty(  tau_burst, minBound=0)
         self.f_burst   = ListFloatProperty(f_burst,   minBound=0.0, maxBound=0.9999)
         self.age       = ListIntProperty(  age,       minBound=0)
         self.burst_age = ListIntProperty(  burst_age, minBound=0)
@@ -118,20 +119,20 @@ class SFHDELAYEDmodule(SFHmodule):
     :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
     '''
     
-    def __init__(self, tau_main: List[float] = [2000.0], 
-                 age_main: List[int] = [5000],
-                 tau_burst: List[float] = [50.0],
-                 age_burst: List[int] = [20], 
-                 f_burst: List[float] = [0.0],  
-                 sfr_A: List[float] = [1.0],
-                 normalise: bool = True) -> None:
+    def __init__(self, tau_main: List[int] = [2000], 
+                 age_main: List[int]       = [5000],
+                 tau_burst: List[int]      = [50],
+                 age_burst: List[int]      = [20], 
+                 f_burst: List[float]      = [0.0],  
+                 sfr_A: List[float]        = [1.0],
+                 normalise: bool           = True) -> None:
         r'''Init method.'''
         
         super().__init__('sfhdelayed', normalise=normalise)
         
-        self.tau_main  = ListFloatProperty(tau_main,  minBound=0.0)
+        self.tau_main  = ListIntProperty(  tau_main,  minBound=0)
         self.age_main  = ListIntProperty(  age_main,  minBound=0)
-        self.tau_burst = ListFloatProperty(tau_burst, minBound=0.0)
+        self.tau_burst = ListIntProperty(  tau_burst, minBound=0)
         self.age_burst = ListIntProperty(  age_burst, minBound=0)
         self.f_burst   = ListFloatProperty(f_burst,   minBound=0.0, maxBound=0.9999)
         self.sfr_A     = ListFloatProperty(sfr_A,     minBound=0.0)
@@ -180,18 +181,18 @@ class SFHDELAYEDBQmodule(SFHmodule):
     :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
     '''
     
-    def __init__(self, tau_main: List[float] = [2000.0], 
-                 age_main: List[int] = [5000],
-                 age_bq: List[int] = [500],
-                 r_sfr: List[float] = [0.1], 
-                 sfr_A: List[float] = [1.0],
-                 normalise: bool = True) -> None:
+    def __init__(self, tau_main: List[int] = [2000], 
+                 age_main: List[int]       = [5000],
+                 age_bq: List[int]         = [500],
+                 r_sfr: List[float]        = [0.1], 
+                 sfr_A: List[float]        = [1.0],
+                 normalise: bool           = True) -> None:
         
         r'''Init method.'''
         
         super().__init__('sfhdelayedbq', normalise=normalise)
         
-        self.tau_main  = ListFloatProperty(tau_main,  minBound=0.0)
+        self.tau_main  = ListIntProperty(  tau_main,  minBound=0)
         self.age_main  = ListIntProperty(  age_main,  minBound=0)
         self.age_bq    = ListIntProperty(  age_bq,    minBound=0)
         self.r_sfr     = ListFloatProperty(r_sfr,     minBound=0.0)
@@ -237,10 +238,10 @@ class SFHFROMFILEmodule(SFHmodule):
     :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
     '''
     
-    def __init__(self, filename: str = '',
+    def __init__(self, filename: str   = '',
                  sfr_column: List[int] = [1],
-                 age: List[int] = [1000],
-                 normalise: bool = True) -> None:
+                 age: List[int]        = [1000],
+                 normalise: bool       = True) -> None:
         
         r'''Init method.'''
         
@@ -289,11 +290,11 @@ class SFHPERIODICmodule(SFHmodule):
     '''
     
     def __init__(self, type_bursts: List[int] = [0],
-                 delta_bursts: List[int] = [50],
-                 tau_bursts: List[float] = [20.0],
-                 age: List[int] = [1000],
-                 sfr_A: List[float] = [1.0],
-                 normalise: bool = True) -> None:
+                 delta_bursts: List[int]      = [50],
+                 tau_bursts: List[int]        = [20],
+                 age: List[int]               = [1000],
+                 sfr_A: List[float]           = [1.0],
+                 normalise: bool              = True) -> None:
         
         r'''Init method.'''
         
@@ -301,7 +302,7 @@ class SFHPERIODICmodule(SFHmodule):
         
         self.type_bursts  = ListIntProperty(  type_bursts,  minBound=0, maxBound=2)
         self.delta_bursts = ListIntProperty(  delta_bursts, minBound=0)
-        self.tau_bursts   = ListFloatProperty(tau_bursts,   minBound=0)
+        self.tau_bursts   = ListIntProperty(  tau_bursts,   minBound=0)
         self.age          = ListIntProperty(  age,          minBound=0)
         self.sfr_A        = ListFloatProperty(sfr_A,        minBound=0.0)
         
@@ -335,6 +336,134 @@ class SFHPERIODICmodule(SFHmodule):
         
         return text
     
+class SFH_BUATmodule(SFHmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a module for a SFH from Buat et al. (2008).
+    
+    :param list velocity: (**Optional**) rotational velocity of the galaxy in km/s. Must be between 40 and 360 (included)
+    :param list age: (**Optional**) age of the oldest stars in the galaxy. The precision is 1 Myr.
+    :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
+    '''
+    
+    def __init__(self, velocity: List[float] = [200.0],
+                 age: List[int]              = [5000],
+                 normalise: bool             = True) -> None:
+        
+        r'''Init method.'''
+        
+        super().__init__('sfh_buat2008', normalise=normalise)
+        
+        self.velocity = ListFloatProperty(velocity, minBound=40.0, maxBound=360.0)
+        self.age      = ListIntProperty(  age,      minBound=0)
+        
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[sfh_buat08]]
+          # Rotational velocity of the galaxy in km/s. Must be between 40 and 360
+          # (included).
+          velocity = {self.velocity}
+          # Age of the oldest stars in the galaxy. The precision is 1 Myr.
+          age = {self.age}
+          # Normalise the SFH to produce one solar mass.
+          normalise = {self.normalise}
+        '''
+        
+        return text
+    
+class SFH_QUENCHING_SMOOTHmodule(SFHmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a module for a SFH with a smooth quenching. Below a given age, the Star Formation Rate becomes linear to be multiplied by 1-quenching_factor at the end of the history.
+    
+    :param list quenching_time: (**Optional**) look-back time when the quenching starts in Myr
+    :param list quenching_factor: (**Optional**) quenching factor applied to the SFH. After the quenching time, the SFR s multiplied by 1 - quenching factor and made constant. The factor must be between 0.0 (no quenching) and 1.0 (no more star formation).
+    :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
+    '''
+    
+    def __init__(self, quenching_time: List[int] = [0],
+                 quenching_factor: List[float]   = [0.0],
+                 normalise: bool                 = True) -> None:
+        
+        r'''Init method.'''
+        
+        super().__init__('sfh_quenching_smooth', normalise=normalise)
+        
+        self.quenching_time   = ListIntProperty(  quenching_time,   minBound=0)
+        self.quenching_factor = ListFloatProperty(quenching_factor, minBound=0.0, maxBound=1.0)
+        
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[sfh_quenching_smooth]]
+          # Look-back time when the quenching starts in Myr.
+          quenching_time = {self.quenching_time}
+          # Quenching factor applied to the SFH. After the quenching time, the SFR
+          # is multiplied by 1 - quenching factor and made constant. The factor
+          # must be between 0 (no quenching) and 1 (no more star formation).
+          quenching_factor = {self.quenching_factor}
+          # Normalise the SFH to produce one solar mass.
+          normalise = {self.normalise}
+        '''
+        
+        return text
+    
+class SFH_QUENCHING_TRUNKmodule(SFHmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a module for a SFH with a smooth quenching. Below a given age, the Star Formation Rate is multiplied by 1-quenching_factor and is set constant.
+    
+    :param list quenching_age: (**Optional**) look-back time when the quenching happens in Myr
+    :param list quenching_factor: (**Optional**) quenching factor applied to the SFH. After the quenching time, the SFR s multiplied by 1 - quenching factor and made constant. The factor must be between 0.0 (no quenching) and 1.0 (no more star formation).
+    :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
+    '''
+    
+    def __init__(self, quenching_age: List[int] = [0],
+                 quenching_factor: List[float]  = [0.0],
+                 normalise: bool                = True) -> None:
+        
+        r'''Init method.'''
+        
+        super().__init__('sfh_quenching_smooth', normalise=normalise)
+        
+        self.quenching_age    = ListIntProperty(  quenching_age,    minBound=0)
+        self.quenching_factor = ListFloatProperty(quenching_factor, minBound=0.0, maxBound=1.0)
+        
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[sfh_quenching_trunk]]
+          # Look-back time when the quenching happens in Myr.
+          quenching_age = {self.quenching_age}
+          # Quenching factor applied to the SFH. After the quenching time, the SFR
+          # is multiplied by 1 - quenching factor and made constant. The factor
+          # must be between 0 (no quenching) and 1 (no more star formation).
+          quenching_factor = {self.quenching_factor}
+          # Normalise the SFH to produce one solar mass.
+          normalise = {self.normalise}
+        '''
+        
+        return text
+    
 ############################################
 #        Single Stellar Populations        #
 ############################################
@@ -347,18 +476,18 @@ class SSPmodule(ABC):
     
     :param name: identifier for the class
     
-    :param list imf: (**Optional**) initial mass function. See specific SSP module for the meaning of the values 0 and 1.
+    :param list imf: (**Optional**) initial mass function. Options are either enum.IMF.CHABRIER or enum.IMF.SALPETER.
     :param list separation_age: (**Optional**) age [Myr] of the separation between the young and the old star populations. The default value in 10^7 years (10 Myr). Set to 0 not to differentiate ages (only an old population).
     '''
     
     def __init__(self, name: Any,
-                 imf: List[int] = [0],
+                 imf: IMF                  = IMF.SALPETER,
                  separation_age: List[int] = [10]) -> None:
         
         r'''Init method.'''
         
         self.name           = name
-        self.imf            = ListIntProperty(imf,            minBound=0, maxBound=1)
+        self.imf            = EnumProperty(imf)
         self.separation_age = ListIntProperty(separation_age, minBound=0)
         
     @abstractmethod
@@ -377,14 +506,14 @@ class BC03module(SSPmodule):
     
     Class implementing a Bruzual et Charlot (2003) SSP module.
     
-    :param list imf: (**Optional**) initial mass function: 0 (Salpeter) or 1 (Chabrier)
+    :param IMF imf: (**Optional**) initial mass function: 0 (Salpeter) or 1 (Chabrier)
     :param list separation_age: (**Optional**) age [Myr] of the separation between the young and the old star populations. The default value in 10^7 years (10 Myr). Set to 0 not to differentiate ages (only an old population).
     :param list metallicity: (**Optional**) metallicity. Possible values are: 0.0001, 0.0004, 0.004, 0.008, 0.02, 0.05
     '''
     
-    def __init__(self, imf: List[int] = [0],
+    def __init__(self, imf: IMF            = IMF.SALPETER,
                  separation_age: List[int] = [10],
-                 metallicity: List[float] = [0.02]) -> None:
+                 metallicity: List[float]  = [0.02]) -> None:
         
         r'''Init method.'''
         
@@ -426,14 +555,14 @@ class M2005module(SSPmodule):
         
         This module cannot be combined with :class:`NEBULARmodule`.
     
-    :param list imf: (**Optional**) initial mass function: 0 (Salpeter) or 1 (Kroupa)
+    :param IMF imf: (**Optional**) initial mass function: 0 (Salpeter) or 1 (Kroupa)
     :param list separation_age: (**Optional**) age [Myr] of the separation between the young and the old star populations. The default value in 10^7 years (10 Myr). Set to 0 not to differentiate ages (only an old population).
     :param list metallicity: (**Optional**) metallicity. Possible values are: 0.001, 0.01, 0.02, 0.04
     '''
     
-    def __init__(self, imf: List[int] = [0],
+    def __init__(self, imf: IMF            = IMF.SALPETER,
                  separation_age: List[int] = [10],
-                 metallicity: List[float] = [0.02]) -> None:
+                 metallicity: List[float]  = [0.02]) -> None:
         
         r'''Init method.'''
         
@@ -485,11 +614,11 @@ class NEBULARmodule:
     :param bool include_emission: (**Optional**) whether to include the nebular emission or not
     '''
     
-    def __init__(self, logU: List[float] = [-2.0],
-                 f_esc: List[float] = [0.0],
-                 f_dust: List[float] = [0.0],
+    def __init__(self, logU: List[float]  = [-2.0],
+                 f_esc: List[float]       = [0.0],
+                 f_dust: List[float]      = [0.0],
                  lines_width: List[float] = [300.0],
-                 include_emission: bool = True) -> None:
+                 include_emission: bool   = True) -> None:
         
         r'''Init method.'''
         
@@ -559,6 +688,191 @@ class ATTENUATIONmodule(ABC):
         
         return
     
+class DUSTATT_POWERLAWmodule(ATTENUATIONmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a single powerlaw attenuation law module.
+    
+    :param str filters: (**Optional**) filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
+    :param list Av_young: (**Optional**) V-band attenuation of the young population
+    :param list Av_old_factor: (**Optional**) reduction factor for the V-band attenuation of the old population compared to the young one (<1).
+    :param list uv_bump_wavelength: (**Optional**) central wavelength of the UV bump in nm
+    :param list uv_bump_width: (**Optional**) width (FWHM) of the UV bump in nm
+    :param list uv_bump_amplitude: (**Optional**) amplitude of the UV bump. For the Milky Way: 0.75.
+    :param list powerlaw_slope: (**Optional**) slope delta of the power law modifying the attenuation curve
+    '''
+    
+    def __init__(self, filters: str              = 'V_B90 & FUV',
+                 Av_young: List[float]           = [1.0],
+                 Av_old_factor: List[float]      = [0.44],
+                 uv_bump_wavelength: List[float] = [217.5],
+                 uv_bump_width: List[float]      = [35.0],
+                 uv_bump_amplitude: List[float]  = [0.0],
+                 powerlaw_slope: List[float]     = [-0.7]) -> None:
+        
+        r'''Init method.'''
+        
+        super().__init__('dustatt_powerlaw', filters=filters)
+        
+        self.filters            = StrProperty(filters)
+        self.Av_young           = ListFloatProperty(Av_young,           minBound=0.0)
+        self.Av_old_factor      = ListFloatProperty(Av_old_factor,      minBound=0.0, maxBound=1.0)
+        self.uv_bump_wavelength = ListFloatProperty(uv_bump_wavelength, minBound=0.0)
+        self.uv_bump_width      = ListFloatProperty(uv_bump_width,      minBound=0.0)
+        self.uv_bump_amplitude  = ListFloatProperty(uv_bump_amplitude,  minBound=0.0)
+        self.powerlaw_slope     = ListFloatProperty(powerlaw_slope)
+        
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[dustatt_powerlaw]]
+          # V-band attenuation of the young population.
+          Av_young = {self.Av_young}
+          # Reduction factor for the V-band attenuation of the old population
+          # compared to the young one (<1).
+          Av_old_factor = {self.Av_old_factor}
+          # Central wavelength of the UV bump in nm.
+          uv_bump_wavelength = {self.uv_bump_wavelength}
+          # Width (FWHM) of the UV bump in nm.
+          uv_bump_width = {self.uv_bump_width}
+          # Amplitude of the UV bump. For the Milky Way: 0.75
+          uv_bump_amplitude = {self.uv_bump_amplitude}
+          # Slope delta of the power law continuum.
+          powerlaw_slope = {self.powerlaw_slope}
+          # Filters for which the attenuation will be computed and added to the
+          # SED information dictionary. You can give several filter names
+          # separated by a & (don't use commas).
+          filters = {self.filters}
+        '''
+        
+        return text
+    
+class DUSTATT_2POWERLAWSmodule(ATTENUATIONmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a double powerlaw attenuation law module: a birth cloud power law applied only to the young star population and an ISM power law applied to both the young and the old star population.
+    
+    :param str filters: (**Optional**) filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
+    :param list Av_BC: (**Optional**) V-band attenuation in the birth clouds
+    :param list slope_BC: (**Optional**) power law slope of the attenuation in the birth clouds
+    :param list BC_to_ISM_factor: (**Optional**) Av ISM / Av BC (<1)
+    :param list slope_ISM: (**optional**) power law slope of the attenuation in the ISM
+    '''
+    
+    def __init__(self, filters: str            = 'V_B90 & FUV',
+                 Av_BC: List[float]            = [1.0],
+                 slope_BC: List[float]         = [-1.3],
+                 BC_to_ISM_factor: List[float] = [0.44],
+                 slope_ISM: List[float]        = [-0.7]) -> None:
+        
+        r'''Init method.'''
+        
+        super().__init__('dustatt_2powerlaws', filters=filters)
+        
+        self.filters          = StrProperty(filters)
+        self.Av_BC            = ListFloatProperty(Av_BC,            minBound=0.0)
+        self.slope_BC         = ListFloatProperty(slope_BC)
+        self.BC_to_ISM_factor = ListFloatProperty(BC_to_ISM_factor, minBound=0.0, maxBound=1.0)
+        self.slope_ISM        = ListFloatProperty(slope_ISM)
+        
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[dustatt_2powerlaws]]
+          # V-band attenuation in the birth clouds.
+          Av_BC = {self.av_BC}
+          # Power law slope of the attenuation in the birth clouds.
+          slope_BC = {self.slope_BC}
+          # Av ISM / Av BC (<1).
+          BC_to_ISM_factor = {self.BC_to_ISM_factor}
+          # Power law slope of the attenuation in the ISM.
+          slope_ISM = {self.slope_ISM}
+          # Filters for which the attenuation will be computed and added to the
+          # SED information dictionary. You can give several filter names
+          # separated by a & (don't use commas).
+          filters = {self.filters}
+        '''
+        
+        return text
+    
+class DUSTATT_CALZLEITmodule(ATTENUATIONmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a Calzetti et al. (2000) and  Leitherer et al. (2002) attenuation law module.
+    
+    :param str filters: (**Optional**) filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
+    :param list E_BVs_young: (**Optional**) E(B-V)*, the colour excess of the stellar continuum light for the young population
+    :param list E_BVs_old_factor: (**Optional**) reduction factor for the E(B-V)* of the old population compared to the young one (<1)
+    :param list uv_bump_wavelength: (**Optional**) central wavelength of the UV bump in nm
+    :param list uv_bump_width: (**Optional**) width (FWHM) of the UV bump in nm
+    :param list uv_bump_amplitude: (**Optional**) amplitude of the UV bump. For the Milky Way: 3.
+    :param list powerlaw_slope: (**Optional**) slope delta of the power law modifying the attenuation curve
+    '''
+    
+    def __init__(self, filters: str              = 'B_B90 & V_B90 & FUV',
+                 E_BVs_young: List[float]        = [0.3],
+                 E_BVs_old_factor: List[float]   = [1.0],
+                 uv_bump_wavelength: List[float] = [217.5],
+                 uv_bump_width: List[float]      = [35.0],
+                 uv_bump_amplitude: List[float]  = [0.0],
+                 powerlaw_slope: List[float]     = [0.0]) -> None:
+        
+        r'''Init method.'''
+        
+        super().__init__('dustatt_calzleit', filters=filters)
+        
+        self.filters            = StrProperty(filters)
+        self.E_BVs_young        = ListFloatProperty(E_BVs_young,        minBound=0.0)
+        self.E_BVs_old_factor   = ListFloatProperty(E_BVs_old_factor,   minBound=0.0, maxBound=0.0)
+        self.uv_bump_wavelength = ListFloatProperty(uv_bump_wavelength, minBound=0.0)
+        self.uv_bump_width      = ListFloatProperty(uv_bump_width,      minBound=0.0)
+        self.uv_bump_amplitude  = ListFloatProperty(uv_bump_amplitude,  minBound=0.0)
+        self.powerlaw_slope     = ListFloatProperty(powerlaw_slope)
+        
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[dustatt_calzleit]]
+          # E(B-V)*, the colour excess of the stellar continuum light for the
+          # young population.
+          E_BVs_young = {self.E_BVs_young}
+          # Reduction factor for the E(B-V)* of the old population compared to the
+          # young one (<1).
+          E_BVs_old_factor = {self.E_BVs_old_factor}
+          # Central wavelength of the UV bump in nm.
+          uv_bump_wavelength = {self.uv_bump_wavelength}
+          # Width (FWHM) of the UV bump in nm.
+          uv_bump_width = {self.uv_bump_width}
+          # Amplitude of the UV bump. For the Milky Way: 3.
+          uv_bump_amplitude = {self.uv_bump_amplitude}
+          # Slope delta of the power law modifying the attenuation curve.
+          powerlaw_slope = {self.powerlaw_slope}
+          # Filters for which the attenuation will be computed and added to the
+          # SED information dictionary. You can give several filter names
+          # separated by a & (don't use commas).
+          filters = {self.filters}
+        '''
+        
+        return text
+    
 class DUSTATT_MODIFIED_CF00module(ATTENUATIONmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -572,11 +886,11 @@ class DUSTATT_MODIFIED_CF00module(ATTENUATIONmodule):
     :param list slope_BC: (**Optional**) power law slope of the attenuation in the birth clouds
     '''
     
-    def __init__(self, filters: str = 'V_B90 & FUV',
-                 Av_ISM: List[float] = [1.0],
-                 mu: List[float] = [0.44],
+    def __init__(self, filters: str     = 'V_B90 & FUV',
+                 Av_ISM: List[float]    = [1.0],
+                 mu: List[float]        = [0.44],
                  slope_ISM: List[float] = [-0.7],
-                 slope_BC: List[float] = [-1.3]) -> None:
+                 slope_BC: List[float]  = [-1.3]) -> None:
         
         r'''Init method.'''
         
@@ -630,15 +944,15 @@ class DUSTATT_MODIFIED_STARBUSTmodule(ATTENUATIONmodule):
     :param list Rv: (**Optional**) ratio of total to selective extinction, A_V / E(B-V), for the extinction curve applied to emission lines. Standard value is 3.1 for MW using CCM89, but can be changed.F or SMC and LMC using Pei92 the value is automatically set to 2.93 and 3.16 respectively, no matter the value you write.
     '''
     
-    def __init__(self, filters: str = 'B_B90 & V_B90 & FUV',
-                 E_BV_lines: List[float] = [0.3],
-                 E_BV_factor: List[float] = [0.44],
-                 uv_bump_wavelength: List[float] = [217.5],
-                 uv_bump_width: List[float] = [35.0],
-                 uv_bump_amplitude: List[float] = [0.0],
-                 powerlaw_slope: List[float] = [0.0],
+    def __init__(self, filters: str                = 'B_B90 & V_B90 & FUV',
+                 E_BV_lines: List[float]           = [0.3],
+                 E_BV_factor: List[float]          = [0.44],
+                 uv_bump_wavelength: List[float]   = [217.5],
+                 uv_bump_width: List[float]        = [35.0],
+                 uv_bump_amplitude: List[float]    = [0.0],
+                 powerlaw_slope: List[float]       = [0.0],
                  Ext_law_emission_lines: List[int] = 1,
-                 Rv: List[float] = 3.1) -> None:
+                 Rv: List[float]                   = 3.1) -> None:
         
         r'''Init method.'''
         
@@ -726,20 +1040,110 @@ class DUSTmodule(ABC):
         
         return
     
+class MBBmodule(DUSTmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a modified black body dust emission module.
+    
+    :param list epsilon_mbb: fraction [>= 0] of L_dust(energy balance) in the MBB
+    :param list t_mbb: temperature of black body in K
+    :param list beta_mbb: emissivity index of modified black body
+    :param bool energy_balance: Energy balance checked ? If False, Lum[MBB] not taken into account in energy balance.
+    '''
+    
+    def __init__(self, epsilon_mbb: List[float] = [0.5],
+                 t_mbb: List[float]             = [50.0],
+                 beta_mbb: List[float]          = [1.5],
+                 energy_balance: bool           = False) -> None:
+        
+        r'''Init method.'''
+            
+        super().__init__('mbb')
+        
+        self.epsilon_mbb    = ListFloatProperty(epsilon_mbb, minBound=0.0, maxBound=1.0)
+        self.t_mbb          = ListFloatProperty(t_mbb,       minBound=0.0)
+        self.beta_mbb       = ListFloatProperty(beta_mbb)
+        self.energy_balance = BoolProperty(energy_balance)
+            
+    def __str__(self, *args, **kwargs):
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[mbb]]
+          # Fraction [>= 0] of L_dust(energy balance) in the MBB
+          epsilon_mbb = {self.epsilon_mbb}
+          # Temperature of black body in K.
+          t_mbb = {self.t_mbb}
+          # Emissivity index of modified black body.
+          beta_mbb = {self.beta_mbb}
+          # Energy balance checked?If False, Lum[MBB] not taken into account in
+          # energy balance
+          energy_balance = {self.energy_balance}
+        '''
+        
+        return text
+    
+class SCHREIBERmodule(DUSTmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing Schreiber at al. (2016) dust emission module.
+    
+    :param list tdust: temperature of the dust in K
+    :param list fpah: emissivity index of the dust
+    '''
+    
+    def __init__(self, tdust: List[int] = [20],
+                 fpah: List[float]      = [0.05]) -> None:
+        
+        r'''Init method.'''
+            
+        super().__init__('schreiber2016')
+        
+        tdustRange = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60]
+            
+        self.tdust = ListFloatProperty(tdust, minBound=15, maxBound=60,
+                                       testFunc=lambda value: any((i not in tdustRange for i in value)),
+                                       testMsg=f'one of tdust values is not in the list {tdustRange}')
+        
+        self.fpah  = ListFloatProperty(fpah, minBound=0.0, maxBound=1.0)
+            
+    def __str__(self, *args, **kwargs):
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[schreiber2016]]
+          # Dust temperature. Between 15 and 60K, with 1K step.
+          tdust = {self.tdust}
+          # Mass fraction of PAH. Between 0 and 1.
+          fpah = {self.fpah}
+        '''
+        
+        return text
+    
 class CASEYmodule(DUSTmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     
     Class implementing Casey 2012 dust emission module.
     
-    :param list[float] temperature: temperature of the dust in K
-    :param list[float] beta: emissivity index of the dust
-    :param list[float] alpha: mid-infrared powerlaw slope
+    :param list temperature: temperature of the dust in K
+    :param list beta: emissivity index of the dust
+    :param list alpha: mid-infrared powerlaw slope
     '''
     
     def __init__(self, temperature: List[float] = [35.0],
-                 beta: List[float] = [1.6],
-                 alpha: List[float] = [2.0]) -> None:
+                 beta: List[float]              = [1.6],
+                 alpha: List[float]             = [2.0]) -> None:
         
         r'''Init method.'''
             
@@ -779,7 +1183,7 @@ class DALEmodule(DUSTmodule):
     '''
     
     def __init__(self, fracAGN: List[float] = [0.0],
-                 alpha: List[float] = [2.0]) -> None:
+                 alpha: List[float]         = [2.0]) -> None:
     
         r'''Init method.'''
         
@@ -793,10 +1197,10 @@ class DALEmodule(DUSTmodule):
                       3.0625, 3.1250, 3.1875, 3.2500, 3.3125, 3.3750, 3.4375, 3.5000, 3.5625, 3.6250, 3.6875, 3.7500,
                       3.8125, 3.8750, 3.9375, 4.0000]
         
-        self.fracAGN: List[float] = ListFloatProperty(fracAGN, minBound=0.0,    maxBound=1.0)
-        self.alpha: List[float]   = ListFloatProperty(alpha,   minBound=0.0625, maxBound=4.0,
-                                                      testFunc=lambda value: any((i not in alphaRange for i in value)),
-                                                      testMsg=f'One on the alpha values is not accepted. Accepted values must be in the list {alphaRange}.')
+        self.fracAGN = ListFloatProperty(fracAGN, minBound=0.0,    maxBound=1.0)
+        self.alpha   = ListFloatProperty(alpha,   minBound=0.0625, maxBound=4.0,
+                                         testFunc=lambda value: any((i not in alphaRange for i in value)),
+                                         testMsg=f'One on the alpha values is not accepted. Accepted values must be in the list {alphaRange}.')
         
     def __str__(self, *args, **kwargs):
         r'''
@@ -837,9 +1241,9 @@ class DL07module(DUSTmodule):
     '''
     
     def __init__(self, qpah: List[float] = [2.5],
-                 umin: List[float] = [1.0],
-                 umax: List[float] = [1000000.0],
-                 gamma: List[float] = [0.1],) -> None:
+                 umin: List[float]       = [1.0],
+                 umax: List[float]       = [1000000.0],
+                 gamma: List[float]      = [0.1],) -> None:
     
         r'''Init method.'''
         
@@ -909,9 +1313,9 @@ class DL14module(DUSTmodule):
     '''
     
     def __init__(self, qpah: List[float] = [2.5],
-                 umin: List[float] = [1.0],
-                 gamma: List[float] = [0.1],
-                 alpha: List[float] = [2.0]) -> None:
+                 umin: List[float]       = [1.0],
+                 gamma: List[float]      = [0.1],
+                 alpha: List[float]      = [2.0]) -> None:
     
         r'''Init method.'''
         
@@ -985,9 +1389,9 @@ class THEMISmodule(DUSTmodule):
     '''
     
     def __init__(self, qhac: List[float] = [0.17],
-                 umin: List[float] = [1.0],
-                 gamma: List[float] = [0.1],
-                 alpha: List[float] = [2.0]) -> None:
+                 umin: List[float]       = [1.0],
+                 gamma: List[float]      = [0.1],
+                 alpha: List[float]      = [2.0]) -> None:
     
         r'''Init method.'''
         
@@ -1053,7 +1457,35 @@ class THEMISmodule(DUSTmodule):
 #        AGN        #
 #####################
 
-class AGNmodule:
+class AGNmodule(ABC):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a module to deal with dust emission.
+    
+    :param name: identifier for the class
+    :param list fracAGN: (**Optional**) AGN fraction
+    '''
+    
+    def __init__(self, name, fracAGN: List[float] = [0.1], **kwargs) -> None:
+        r'''Init method.'''
+        
+        self.name    = name
+        self.fracAGN = ListFloatProperty(fracAGN, minBound=0.0, maxBound=1.0)
+        
+        return
+        
+    @abstractmethod
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        return
+
+class FRITZmodule(AGNmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     
@@ -1069,16 +1501,16 @@ class AGNmodule:
     '''
     
     def __init__(self, r_ratio: List[int] = [60.0],
-                 tau: List[float] = [1.0],
-                 beta: List[float] = [-0.5],
-                 gamma: List[int] = [4],
+                 tau: List[float]         = [1.0],
+                 beta: List[float]        = [-0.5],
+                 gamma: List[int]         = [4],
                  opening_angle: List[int] = [100],
-                 psy: List[float] = [50.1],
-                 fracAGN: List[float] = [0.1]) -> None:
+                 psy: List[float]         = [50.1],
+                 fracAGN: List[float]     = [0.1]) -> None:
         
         r'''Init method.'''
         
-        self.name          = 'fritz2006'
+        super().__init__('fritz2006', fracAGN=fracAGN)
         
         # Accepted values for r_ratio
         r_ratioRange       = [10, 30, 60, 100, 150]
@@ -1124,8 +1556,6 @@ class AGNmodule:
                                                testFunc=lambda value: any((i not in psyRange for i in value)),
                                                testMsg=f'One on the psy values is not accepted. Accepted values must be in the list {psyRange}.')
         
-        self.fracAGN       = ListFloatProperty(fracAGN, minBound=0.0, maxBound=1.0)
-        
     def __str__(self, *args, **kwargs) -> str:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -1158,6 +1588,123 @@ class AGNmodule:
         
         return text
     
+class SKIRTORmodule(AGNmodule):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Class implementing a module to deal with a SKIRTOR 2016 (Stalevski et al., 2016) AGN dust torus emission model.
+    
+    :param list t: (**Optional**) average edge-on optical depth at 9.7 micron; the actual one along the line of sight may vary depending on the clumps distribution. Possible values are: 3, 5, 7, 8, and 11.
+    :param list pl: (**Optional**) power-law exponent that sets radial gradient of dust density. Possible values are: 0., 0.5, 1., and 1.5.
+    :param list q: (**Optional**) index that sets dust density gradient with polar angle. Possible values are:  0., 0.5, 1., and 1.5.
+    :param list oa: (**Optional**) angle measured between the equatorial plan and edge of the torus. Half-opening angle of the dust-free cone is 90-oa. Possible values are: 10, 20, 30, 40, 50, 60, 70, and 80
+    :param list R: (**Optional**) ratio of outer to inner radius, R_out/R_in. Possible values are: 10, 20, and 30.
+    :param list Mcl: (**Optional**) fraction of total dust mass inside clumps. 0.97 means 97% of total mass is inside the clumps and 3% in the interclump dust. Possible values are: 0.97.
+    :param list i: (**Optional**) inclination, i.e. viewing angle, i.e. position of the instrument w.r.t. the AGN axis. i=0: face-on, type 1 view; i=90: edge-on, type 2 view. Possible values are: 0, 10, 20, 30, 40, 50, 60, 70, 80, and 90.
+    :param list fracAGN: (**Optional**) AGN fraction
+    '''
+    
+    def __init__(self, t: List[int]   = [3],
+                 pl: List[float]      = [1.0],
+                 q: List[float]       = [1.0],
+                 oa: List[int]        = [40],
+                 R: List[int]         = [20],
+                 Mcl: List[float]     = [0.97],
+                 i: List[int]         = [40],
+                 fracAGN: List[float] = [0.1]) -> None:
+        
+        r'''Init method.'''
+        
+        super().__init__('skirtor2016', fracAGN=fracAGN)
+        
+        # Accepted values for t
+        tRange    = [3, 5, 7, 9, 11]
+        
+        # Accepted values for pl and q
+        pl_qRange = [0.0, 0.5, 1.0, 1.5]
+        
+        # Accepted values for oa
+        oaRange   = [10, 20, 30, 40, 50, 60, 70, 80]
+        
+        # Accepted values for R
+        RRange    = [10, 20, 30]
+        
+        # Accepted values for Mcl
+        MclRange  = [0.97]
+        
+        # Accepted values for i
+        iRange    = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
+        
+        
+        self.t   =  ListIntProperty(t, minBound=3, maxBound=11,
+                                    testFunc=lambda value: any((i not in tRange for i in value)),
+                                    testMsg=f'One on the t values is not accepted. Accepted values must be in the list {tRange}.')
+        
+        
+        self.pl   = ListFloatProperty(pl, minBound=0.0, maxBound=1.5,
+                                      testFunc=lambda value: any((i not in pl_qRange for i in value)),
+                                      testMsg=f'One on the pl values is not accepted. Accepted values must be in the list {pl_qRange}.')
+        
+        self.q    = ListFloatProperty(q, minBound=0.0, maxBound=1.5,
+                                      testFunc=lambda value: any((i not in pl_qRange for i in value)),
+                                      testMsg=f'One on the q values is not accepted. Accepted values must be in the list {pl_qRange}.')
+        
+        self.oa   = ListIntProperty(oa, minBound=10, maxBound=80,
+                                    testFunc=lambda value: any((i not in oaRange for i in value)),
+                                    testMsg=f'One on the oa values is not accepted. Accepted values must be in the list {oaRange}.')
+        
+        self.R    = ListFloatProperty(R, minBound=10, maxBound=30,
+                                      testFunc=lambda value: any((i not in RRange for i in value)),
+                                      testMsg=f'One on the R values is not accepted. Accepted values must be in the list {RRange}.')
+        
+        self.Mcl  = ListFloatProperty(Mcl, minBound=0.97, maxBound=0.97,
+                                      testFunc=lambda value: any((i not in MclRange for i in value)),
+                                      testMsg=f'One on the Mcl values is not accepted. Accepted values must be in the list {MclRange}.')
+        
+        self.i    = ListIntProperty(i, minBound=0, maxBound=90,
+                                    testFunc=lambda value: any((i not in iRange for i in value)),
+                                    testMsg=f'One on the i values is not accepted. Accepted values must be in the list {iRange}.')
+        
+    def __str__(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        text = f'''\
+        [[skirtor2016]]
+          # Average edge-on optical depth at 9.7 micron; the actual one alongthe
+          # line of sight may vary depending on the clumps distribution. Possible
+          # values are: 3, 5, 7, 8, and 11.
+          t = {self.ts}
+          # Power-law exponent that sets radial gradient of dust density.Possible
+          # values are: 0., 0.5, 1., and 1.5.
+          pl = {self.pl}
+          # Index that sets dust density gradient with polar angle.Possible values
+          # are:  0., 0.5, 1., and 1.5.
+          q = {self.q}
+          # Angle measured between the equatorial plan and edge of the torus.
+          # Half-opening angle of the dust-free cone is 90-oaPossible values are:
+          # 10, 20, 30, 40, 50, 60, 70, and 80
+          oa = {self.oa}
+          # Ratio of outer to inner radius, R_out/R_in.Possible values are: 10,
+          # 20, and 30
+          R = {self.R}
+          # fraction of total dust mass inside clumps. 0.97 means 97% of total
+          # mass is inside the clumps and 3% in the interclump dust. Possible
+          # values are: 0.97.
+          Mcl = {self.Mcl}
+          # inclination, i.e. viewing angle, i.e. position of the instrument
+          # w.r.t. the AGN axis. i=0: face-on, type 1 view; i=90: edge-on, type 2
+          # view.Possible values are: 0, 10, 20, 30, 40, 50, 60, 70, 80, and 90.
+          i = {self.i}
+          # AGN fraction.
+          fracAGN = {self.fracAGN}
+        '''
+        
+        return text
+    
 #######################
 #        Radio        #
 #######################
@@ -1173,7 +1720,7 @@ class RADIOmodule:
     '''
     
     def __init__(self, qir: List[float] = [2.58],
-                 alpha: List[float] = [0.8]) -> None:
+                 alpha: List[float]     = [0.8]) -> None:
         
         r'''Init method.'''
         
@@ -1216,11 +1763,11 @@ class RESTFRAMEmodule:
     '''
     
     def __init__(self, beta_calz94: bool = False,
-                 D4000: bool = False,
-                 IRX: bool = False,
-                 EW_lines: str = '500.7/1.0 & 656.3/1.0',
+                 D4000: bool             = False,
+                 IRX: bool               = False,
+                 EW_lines: str           = '500.7/1.0 & 656.3/1.0',
                  luminosity_filters: str = 'FUV & V_B90',
-                 colours_filters: str = 'FUV-NUV & NUV-r_prime') -> None:
+                 colours_filters: str    = 'FUV-NUV & NUV-r_prime') -> None:
         
         r'''Init method.'''
         
