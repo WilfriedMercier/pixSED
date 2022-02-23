@@ -41,6 +41,17 @@ class SFHmodule(ABC):
         
         return
     
+    @property
+    @abstractmethod
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        return
+    
 class SFH2EXPmodule(SFHmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -99,6 +110,27 @@ class SFH2EXPmodule(SFHmodule):
           sfr_0 = {self.sfr_0}
           # Normalise the SFH to produce one solar mass.
           normalise = {self.normalise}
+        '''
+        
+        return text
+    
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[sfh2exp]]
+          tau_main = cigale_list()
+          tau_burst = cigale_list()
+          f_burst = cigale_list(minvalue=0., maxvalue=0.9999)
+          age = cigale_list(dtype=int, minvalue=0.)
+          burst_age = cigale_list(dtype=int, minvalue=1.)
+          sfr_0 = cigale_list(minvalue=0.)
+          normalise = boolean()\
         '''
         
         return text
@@ -166,6 +198,27 @@ class SFHDELAYEDmodule(SFHmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[sfhdelayed]]
+          tau_main = cigale_list()
+          age_main = cigale_list(dtype=int, minvalue=0.)
+          tau_burst = cigale_list()
+          age_burst = cigale_list(dtype=int, minvalue=1.)
+          f_burst = cigale_list(minvalue=0., maxvalue=0.9999)
+          sfr_A = cigale_list(minvalue=0.)
+          normalise = boolean()\
+        '''
+        
+        return text
+    
     
 class SFHDELAYEDBQmodule(SFHmodule):
     r'''
@@ -224,6 +277,26 @@ class SFHDELAYEDBQmodule(SFHmodule):
         '''
         
         return text
+
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[sfhdelayedbq]]
+          tau_main = cigale_list()
+          age_main = cigale_list(dtype=int, minvalue=0.)
+          age_bq = cigale_list(dtype=int)
+          r_sfr = cigale_list(minvalue=0.)
+          sfr_A = cigale_list(minvalue=0.)
+          normalise = boolean()\
+        '''
+        
+        return text
     
     
 class SFHFROMFILEmodule(SFHmodule):
@@ -271,6 +344,24 @@ class SFHFROMFILEmodule(SFHmodule):
           age = {self.age}
           # Normalise the SFH to one solar mass produced at the given age.
           normalise = {self.normalise}
+        '''
+        
+        return text
+    
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[sfhfromfile]]
+          filename = string()
+          sfr_column = cigale_list(dtype=int)
+          age = cigale_list(dtype=int, minvalue=0.)
+          normalise = boolean()\
         '''
         
         return text
@@ -336,6 +427,26 @@ class SFHPERIODICmodule(SFHmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[sfhperiodic]]
+          type_bursts = cigale_list(dtype=int, options=0. & 1. & 2.)
+          delta_bursts = cigale_list(dtype=int, minvalue=0.)
+          tau_bursts = cigale_list()
+          age = cigale_list(dtype=int, minvalue=0.)
+          sfr_A = cigale_list(minvalue=0.)
+          normalise = boolean()\
+        '''
+        
+        return text
+    
 class SFH_BUATmodule(SFHmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -374,6 +485,23 @@ class SFH_BUATmodule(SFHmodule):
           age = {self.age}
           # Normalise the SFH to produce one solar mass.
           normalise = {self.normalise}
+        '''
+        
+        return text
+    
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[sfh_buat08]]
+          velocity = cigale_list(minvalue=40., maxvalue=360.)
+          age = cigale_list(dtype=int, minvalue=0.)
+          normalise = boolean()\
         '''
         
         return text
@@ -421,6 +549,23 @@ class SFH_QUENCHING_SMOOTHmodule(SFHmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[sfh_quenching_smooth]]
+          quenching_time = cigale_list(dtype=int, minvalue=0.)
+          quenching_factor = cigale_list(minvalue=0., maxvalue=1.)
+          normalise = boolean()\
+        '''
+        
+        return text
+    
 class SFH_QUENCHING_TRUNKmodule(SFHmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -464,6 +609,23 @@ class SFH_QUENCHING_TRUNKmodule(SFHmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[sfh_quenching_trunk]]
+          quenching_age = cigale_list(dtype=int, minvalue=0.)
+          quenching_factor = cigale_list(minvalue=0., maxvalue=1.)
+          normalise = boolean()\
+        '''
+        
+        return text
+    
 ############################################
 #        Single Stellar Populations        #
 ############################################
@@ -496,6 +658,17 @@ class SSPmodule(ABC):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        return
+    
+    @property
+    @abstractmethod
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
         '''
         
         return
@@ -545,6 +718,23 @@ class BC03module(SSPmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[bc03]]
+          imf = cigale_list(dtype=int, options=0. & 1.)
+          metallicity = cigale_list(options=0.0001 & 0.0004 & 0.004 & 0.008 & 0.02 & 0.05)
+          separation_age = cigale_list(dtype=int, minvalue=0)\
+        '''
+        
+        return text
+    
 class M2005module(SSPmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -589,6 +779,23 @@ class M2005module(SSPmodule):
           # populations. The default value in 10^7 years (10 Myr). Set to 0 not to
           # differentiate ages (only an old population).
           separation_age = {self.separation_age}
+        '''
+        
+        return text
+    
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[m2005]]
+          imf = cigale_list(dtype=int, options=0. & 1.)
+          metallicity = cigale_list(options=0.001 & 0.01 & 0.02 & 0.04)
+          separation_age = cigale_list(dtype=int, minvalue=0.)\
         '''
         
         return text
@@ -658,6 +865,25 @@ class NEBULARmodule:
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[nebular]]
+          logU = cigale_list(options=-4.0 & -3.9 & -3.8 & -3.7 & -3.6 & -3.5 & -3.4 & -3.3 & -3.2 & -3.1 & -3.0 & -2.9 & -2.8 & -2.7 & -2.6 & -2.5 & -2.4 & -2.3 & -2.2 & -2.1 & -2.0 & -1.9 & -1.8 & -1.7 & -1.6 & -1.5 & -1.4 & -1.3 & -1.2 & -1.1 & -1.0)
+          f_esc = cigale_list(minvalue=0., maxvalue=1.)
+          f_dust = cigale_list(minvalue=0., maxvalue=1.)
+          lines_width = cigale_list(minvalue=0.)
+          emission = boolean()\
+        '''
+        
+        return text
+    
 ##################################
 #        Dust attenuation        #
 ##################################
@@ -684,6 +910,17 @@ class ATTENUATIONmodule(ABC):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        return
+    
+    @property
+    @abstractmethod
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
         '''
         
         return
@@ -753,6 +990,27 @@ class DUSTATT_POWERLAWmodule(ATTENUATIONmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[dustatt_powerlaw]]
+          Av_young = cigale_list(minvalue=0.)
+          Av_old_factor = cigale_list(minvalue=0., maxvalue=1.)
+          uv_bump_wavelength = cigale_list(minvalue=0.)
+          uv_bump_width = cigale_list(minvalue=0.)
+          uv_bump_amplitude = cigale_list(minvalue=0.)
+          powerlaw_slope = cigale_list()
+          filters = string()\
+        '''
+        
+        return text
+    
 class DUSTATT_2POWERLAWSmodule(ATTENUATIONmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -803,6 +1061,25 @@ class DUSTATT_2POWERLAWSmodule(ATTENUATIONmodule):
           # SED information dictionary. You can give several filter names
           # separated by a & (don't use commas).
           filters = {self.filters}
+        '''
+        
+        return text
+    
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[dustatt_2powerlaws]]
+          Av_BC = cigale_list(minvalue=0)
+          slope_BC = cigale_list()
+          BC_to_ISM_factor = cigale_list(minvalue=0., maxvalue=1.)
+          slope_ISM = cigale_list()
+          filters = string()\
         '''
         
         return text
@@ -873,6 +1150,27 @@ class DUSTATT_CALZLEITmodule(ATTENUATIONmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[dustatt_calzleit]]
+          E_BVs_young = cigale_list(minvalue=0.)
+          E_BVs_old_factor = cigale_list(minvalue=0., maxvalue=1.)
+          uv_bump_wavelength = cigale_list(minvalue=0.)
+          uv_bump_width = cigale_list()
+          uv_bump_amplitude = cigale_list(minvalue=0.)
+          powerlaw_slope = cigale_list()
+          filters = string()\
+        '''
+        
+        return text
+    
 class DUSTATT_MODIFIED_CF00module(ATTENUATIONmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -923,6 +1221,25 @@ class DUSTATT_MODIFIED_CF00module(ATTENUATIONmodule):
           # SED information dictionary. You can give several filter names
           # separated by a & (don't use commas).
           filters = {self.filters}
+        '''
+        
+        return text
+    
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[dustatt_modified_CF00]]
+          Av_ISM = cigale_list(minvalue=0)
+          mu = cigale_list(minvalue=.0001, maxvalue=1.)
+          slope_ISM = cigale_list()
+          slope_BC = cigale_list()
+          filters = string()\
         '''
         
         return text
@@ -1010,6 +1327,29 @@ class DUSTATT_MODIFIED_STARBUSTmodule(ATTENUATIONmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[dustatt_modified_starburst]]
+          E_BV_lines = cigale_list(minvalue=0.)
+          E_BV_factor = cigale_list(minvalue=0., maxvalue=1.)
+          uv_bump_wavelength = cigale_list(minvalue=0.)
+          uv_bump_width = cigale_list()
+          uv_bump_amplitude = cigale_list(minvalue=0.)
+          powerlaw_slope = cigale_list()
+          Ext_law_emission_lines = cigale_list(dtype=int, options=1 & 2 & 3)
+          Rv = cigale_list()
+          filters = string()\
+        '''
+        
+        return text
+    
 ###############################
 #        Dust emission        #
 ###############################
@@ -1036,6 +1376,17 @@ class DUSTmodule(ABC):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        return
+    
+    @property
+    @abstractmethod
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
         '''
         
         return
@@ -1088,6 +1439,24 @@ class MBBmodule(DUSTmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[mbb]]
+          epsilon_mbb = cigale_list(minvalue=0., maxvalue=1.)
+          t_mbb = cigale_list(minvalue=0.)
+          beta_mbb = cigale_list()
+          energy_balance = boolean()\
+        '''
+        
+        return text
+    
 class SCHREIBERmodule(DUSTmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -1130,6 +1499,22 @@ class SCHREIBERmodule(DUSTmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[schreiber2016]]
+          tdust = cigale_list(options=15. & 16. & 17. & 18. & 19. & 20. & 21. & 22. & 23. & 24. & 25. & 26. & 27. & 28. & 29. & 30. & 31. & 32. & 33. & 34. & 35. & 36. & 37. & 38. & 39. & 40. & 41. & 42. & 43. & 44. & 45. & 46. & 47. & 48. & 49. & 50. & 51. & 52. & 53. & 54. & 55. & 56. & 57. & 58. & 59. & 60.)
+          fpah = cigale_list(minvalue=0., maxvalue=1.)\
+        '''
+        
+        return text
+    
 class CASEYmodule(DUSTmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -1168,6 +1553,23 @@ class CASEYmodule(DUSTmodule):
           beta = {self.beta}
           # Mid-infrared powerlaw slope.
           alpha = {self.alpha}
+        '''
+        
+        return text
+    
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[casey2012]]
+          temperature = cigale_list(minvalue=0.)
+          beta = cigale_list(minvalue=0.)
+          alpha = cigale_list(minvalue=0.)\
         '''
         
         return text
@@ -1224,6 +1626,22 @@ class DALEmodule(DUSTmodule):
           # 3.3125, 3.3750, 3.4375, 3.5000, 3.5625, 3.6250, 3.6875, 3.7500,
           # 3.8125, 3.8750, 3.9375, 4.0000
           alpha = {self.alpha}
+        '''
+        
+        return text
+    
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[dale2014]]
+          fracAGN = cigale_list(minvalue=0., maxvalue=1.)
+          alpha = cigale_list(options=0.0625 & 0.1250 & 0.1875 & 0.2500 & 0.3125 & 0.3750 & 0.4375 & 0.5000 & 0.5625 & 0.6250 & 0.6875 & 0.7500 & 0.8125 & 0.8750 & 0.9375 & 1.0000 & 1.0625 & 1.1250 & 1.1875 & 1.2500 & 1.3125 & 1.3750 & 1.4375 & 1.5000 & 1.5625 & 1.6250 & 1.6875 & 1.7500 & 1.8125 & 1.8750 & 1.9375 & 2.0000 & 2.0625 & 2.1250 & 2.1875 & 2.2500 & 2.3125 & 2.3750 & 2.4375 & 2.5000 & 2.5625 & 2.6250 & 2.6875 & 2.7500 & 2.8125 & 2.8750 & 2.9375 & 3.0000 & 3.0625 & 3.1250 & 3.1875 & 3.2500 & 3.3125 & 3.3750 & 3.4375 & 3.5000 & 3.5625 & 3.6250 & 3.6875 & 3.7500 & 3.8125 & 3.8750 & 3.9375 & 4.0000)\
         '''
         
         return text
@@ -1300,6 +1718,24 @@ class DL07module(DUSTmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[dl2007]]
+          qpah = cigale_list(options=0.47 & 1.12 & 1.77 & 2.50 & 3.19 & 3.90 & 4.58)
+          umin = cigale_list(options=0.10 & 0.15 & 0.20 & 0.30 & 0.40 & 0.50 & 0.70 & 0.80 & 1.00 & 1.20 & 1.50 & 2.00 & 2.50 & 3.00 & 4.00 & 5.00 & 7.00 & 8.00 & 10.0 & 12.0 & 15.0 & 20.0 & 25.0)
+          umax = cigale_list(options=1e3 & 1e4 & 1e5 & 1e6)
+          gamma = cigale_list(minvalue=0., maxvalue=1.)\
+        '''
+        
+        return text
+    
 class DL14module(DUSTmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -1372,6 +1808,24 @@ class DL14module(DUSTmodule):
           # Fraction illuminated from Umin to Umax. Possible values between 0 and
           # 1.
           gamma = {self.gamma}
+        '''
+        
+        return text
+    
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[dl2014]]
+          qpah = cigale_list(options=0.47 & 1.12 & 1.77 & 2.50 & 3.19 & 3.90 & 4.58 & 5.26 & 5.95 & 6.63 & 7.32)
+          umin = cigale_list(options=0.10 & 0.12 & 0.15 & 0.17 & 0.20 & 0.25 & 0.30 & 0.35 & 0.40 & 0.50 & 0.60 & 0.70 & 0.80 & 1.00 & 1.20 & 1.50 & 1.70 & 2.00 & 2.50 & 3.00 & 3.50 & 4.00 & 5.00 & 6.00 & 7.00 & 8.00 & 10.00 & 12.00 & 15.00 & 17.00 & 20.00 & 25.00 & 30.00 & 35.00 & 40.00 & 50.00)
+          alpha = cigale_list(options=1.0 & 1.1 & 1.2 & 1.3 & 1.4 & 1.5 & 1.6 & 1.7 & 1.8 & 1.9 & 2.0 & 2.1 & 2.2 & 2.3 & 2.4 & 2.5 & 2.6 & 2.7 & 2.8 & 2.9 & 3.0)
+          gamma = cigale_list(minvalue=0., maxvalue=1.)\
         '''
         
         return text
@@ -1453,6 +1907,24 @@ class THEMISmodule(DUSTmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[themis]]
+          qhac = cigale_list(options=0.02 & 0.06 & 0.10 & 0.14 & 0.17 & 0.20 & 0.24 & 0.28 & 0.32 & 0.36 & 0.40)
+          umin = cigale_list(options=0.10 & 0.12 & 0.15 & 0.17 & 0.20 & 0.25 & 0.30 & 0.35 & 0.40 & 0.50 & 0.60 & 0.70 & 0.80 & 1.00 & 1.20 & 1.50 & 1.70 & 2.00 & 2.50 & 3.00 & 3.50 & 4.00 & 5.00 & 6.00 & 7.00 & 8.00 & 10.00 & 12.00 & 15.00 & 17.00 & 20.00 & 25.00 & 30.00 & 35.00 & 40.00 & 50.00 & 80.00)
+          alpha = cigale_list(options=1.0 & 1.1 & 1.2 & 1.3 & 1.4 & 1.5 & 1.6 & 1.7 & 1.8 & 1.9 & 2.0 & 2.1 & 2.2 & 2.3 & 2.4 & 2.5 & 2.6 & 2.7 & 2.8 & 2.9 & 3.0)
+          gamma = cigale_list(minvalue=0., maxvalue=1.)\
+        '''
+        
+        return text
+    
 #####################
 #        AGN        #
 #####################
@@ -1481,6 +1953,17 @@ class AGNmodule(ABC):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class used to make Cigale parameter files.
+        '''
+        
+        return
+    
+    @property
+    @abstractmethod
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
         '''
         
         return
@@ -1584,6 +2067,27 @@ class FRITZmodule(AGNmodule):
           psy = {self.psy}
           # AGN fraction.
           fracAGN = {self.fracAGN}
+        '''
+        
+        return text
+    
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[fritz2006]]
+          r_ratio = cigale_list(options=10. & 30. & 60. & 100. & 150.)
+          tau = cigale_list(options=0.1 & 0.3 & 0.6 & 1.0 & 2.0 & 3.0 & 6.0 & 10.0)
+          beta = cigale_list(options=-1.00 & -0.75 & -0.50 & -0.25 & 0.00)
+          gamma = cigale_list(options=0.0 & 2.0 & 4.0 & 6.0)
+          opening_angle = cigale_list(options=60. & 100. & 140.)
+          psy = cigale_list(options=0.001 & 10.100 & 20.100 & 30.100 & 40.100 & 50.100 & 60.100 & 70.100 & 80.100 & 89.990)
+          fracAGN = cigale_list(minvalue=0., maxvalue=1.)\
         '''
         
         return text
@@ -1705,6 +2209,28 @@ class SKIRTORmodule(AGNmodule):
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[skirtor2016]]
+          t = cigale_list(options=3 & 5 & 7 & 9 & 11)
+          pl = cigale_list(options=0. & .5 & 1. & 1.5)
+          q = cigale_list(options=0. & .5 & 1. & 1.5)
+          oa = cigale_list(options=10 & 20 & 30 & 40 & 50 & 60 & 70 & 80)
+          R = cigale_list(options=10 & 20 & 30)
+          Mcl = cigale_list(options=0.97)
+          i = cigale_list(options=0 & 10 & 20 & 30 & 40 & 50 & 60 & 70 & 80 & 90)
+          fracAGN = cigale_list(minvalue=0., maxvalue=1.)\
+        '''
+        
+        return text
+    
 #######################
 #        Radio        #
 #######################
@@ -1741,6 +2267,22 @@ class RADIOmodule:
           qir = {self.qir}
           # The slope of the power-law synchrotron emission.
           alpha = {self.alpha}
+        '''
+        
+        return text
+    
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[radio]]
+          qir = cigale_list(minvalue=0.)
+          alpha = cigale_list()\
         '''
         
         return text
@@ -1830,6 +2372,26 @@ class RESTFRAMEmodule:
         
         return text
     
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[restframe_parameters]]
+          beta_calz94 = boolean()
+          D4000 = boolean()
+          IRX = boolean()
+          EW_lines = string()
+          luminosity_filters = string()
+          colours_filters = string()\
+        '''
+        
+        return text
+    
 #############################
 #        Redshifting        #
 #############################
@@ -1867,6 +2429,21 @@ class REDSHIFTmodule:
           # Redshift of the objects. Leave empty to use the redshifts from the
           # input file.
           redshift = {self.redshift}
+        '''
+        
+        return text
+    
+    @property
+    def spec(self, *args, **kwargs) -> str:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Implement a string representation for the .spec file of Cigale parameters.
+        '''
+        
+        text = '''\
+        [[redshifting]]
+          redshift = cigale_list(minvalue=0.)\
         '''
         
         return text

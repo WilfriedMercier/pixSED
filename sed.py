@@ -22,7 +22,7 @@ from   .outputs         import LePhareOutput, CigaleOutput
 from   .catalogues      import LePhareCat, CigaleCat
 from   .coloredMessages import errorMessage, warningMessage
 from   .misc.properties import IntProperty, FloatProperty, StrProperty, ListIntProperty, ListFloatProperty, ListStrProperty, PathProperty, ListPathProperty, EnumProperty, BoolProperty
-from   .misc.enum       import MagType, YESNO, ANDOR, LePhareOutputParam, Save_chi2
+from   .misc.enum       import MagType, YESNO, ANDOR, LePhareOutputParam
 from   .misc            import cigaleModules as cigmod
                          
      
@@ -135,9 +135,20 @@ class CigaleSED(SED):
     
     Implements Cigale SED object.
     
+    .. important:
+        
+        If you want to consider the uncertainties, you must specify it for each band. That is, the following line will not consider uncertainties
+        
+        :code:`sedobj = CigaleSED('someID', ['F160W', 'F125W', 'F850LP'])`
+        
+        On the other hand, the follwing line will consider the uncertainties for the first and last filters (F160W and F850LP) only
+        
+        :code:`sedobj = CigaleSED('someID', ['F160W', 'F125W', 'F850LP'], uncertainties=[True, False, True])`
+    
     :param ID: an identifier used to name the output files created during the SED fitting process
     :param list filters: filters to use for the SED fitting
     
+    :param list uncertainties: (**Optional**) list of bool to specify which uncertainties to use. If provided, it must be same length as **filters**.
     :param list SFH: (**Optional**) star formation history modules to use. At least one module must be given.
     :param list SSP: (**Optional**) single stellar population modules to use. At least one module must be given.
     :param list nebular: (**Optional**) nebular emission modules to use. Empty list means no module is used.
@@ -152,7 +163,8 @@ class CigaleSED(SED):
     :raises ValueError: if no **SFH**, **SSP** and **redshifting** modules are provided
     ''' # XXX to continue
     
-    def __init__(self, ID: Any, filters: List[str],
+    def __init__(self, ID: Any, filters: List[str], 
+                 uncertainties: Optional[List[bool]]         = None,
                  SFH: List[cigmod.SFHmodule]                 = [cigmod.SFH2EXPmodule()],
                  SSP: List[cigmod.SSPmodule]                 = [cigmod.BC03module()],
                  nebular: List[cigmod.NEBULARmodule]         = [],
@@ -166,9 +178,24 @@ class CigaleSED(SED):
         
         super().__init__(**kwargs)
         
-        for var, name in zip([SFH, SSP, nebular, attenuation, dust, agn, radio, restframe, redshifting], ['SFH', 'SSP', 'nebular', 'attenuation', 'dust', 'agn', 'radio', 'restframe', 'redshifting']):
+        if not isinstance(filters, list):
+            raise TypeError(f'parameter filters has type {type(filters)} but it must be a list.')
+        
+        # If no uncertainty is given, we do not use the filters
+        if uncertainties is None:
+            uncertainties = [False]*len(filters)
+        
+        for var, name in zip([uncertainties, SFH, SSP, nebular, attenuation, dust, agn, radio, restframe, redshifting], 
+                             ['uncertainties','SFH', 'SSP', 'nebular', 'attenuation', 'dust', 'agn', 'radio', 'restframe', 'redshifting']):
+            
             if not isinstance(var, list):
                 raise TypeError(f'parameter {name} has type {type(var)} but it must be a list.')
+                
+        if len(filters) != len(uncertainties):
+            raise ValueError(f'uncertainties has length {len(uncertainties)} and filters has length {len(filters)} but they must have the same length.')
+            
+        if any((not isinstance(i, bool) for i in uncertainties)):
+            raise TypeError('one of the values in uncertainties is not a bool.')
                 
         if len(SFH) < 1:
             raise ValueError('at least one SFH module must be provided')
@@ -183,7 +210,7 @@ class CigaleSED(SED):
         self.id                = ID
         
         #: Filters to use for the SED fitting
-        self.filters           = ListStrProperty(filters)
+        self.filters           = ListStrProperty(filters + [f'{filt}_err' for filt, uncertainty in zip(filters, uncertainties) if uncertainty])
         
         # For now we set this parameter to an empty str and we only allow pdf_analysis method (no savefluxes)
         self.analysis          = StrProperty('pdf_analysis')
@@ -222,9 +249,13 @@ class CigaleSED(SED):
         
         #: Modules parameters in str format
         self.modulesStr        = ''
-        for module in self.SFH + self.SSP + self.nebular + self.attenuation + self.dust + self.agn + self.radio + self.restframe + self.redshifting:
-            self.modulesStr   += f'\n\n{module}'
-
+        
+        #: Modules spec parameters in str format
+        self.modulesSpec       = ''
+        
+        for pos, module in enumerate(self.SFH + self.SSP + self.nebular + self.attenuation + self.dust + self.agn + self.radio + self.restframe + self.redshifting):
+            self.modulesStr   += f'\n\n{module}' if pos != 0 else f'\n{module}'
+            self.modulesSpec  += indent(dedent(f'\n{module.spec}' if pos != 0 else f'{module.spec}'), '   ')
 
     @staticmethod
     def _checkModule(modules: List[Any], inheritedClass: Any) -> bool:
@@ -252,78 +283,59 @@ class CigaleSED(SED):
     #       Text formatting       #
     ###############################
     
-    @property
-    def empty_parameters(self, *args, **kwargs) -> str:
+    def analysisParamsModule(self, physical_properties: Optional[List[str]], bands: Optional[List[str]], save_best_sed: bool,
+                save_chi2: bool, lim_flag: bool, mock_flag: bool, redshift_decimals: int, blocks: int, **kwargs) -> str:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
-        Generate an empty pre-config text for Cigale to generate the .spec file
+        Generate the analysis_params module text for Cigale.
+        
+        :param list physical_properties: physical properties to estimate at the end of the SED fitting. If None, all properties are computed.
+        :param list bands: list of bands for which to estimate the fluxes. Note that this is independent from the fluxes actually fitted to estimate the physical properties. If None, the same bands as the ones provided in **filters** will be used.
+        :param bool save_best_sed: whether to save the best SED for each observation into a file or not
+        :param bool save_chi2: whether to save the raw chi2 or not. It occupies ~15 MB/million models/variable.
+        :param bool lim_flag: if True, for each object check whether upper limits are present and analyse them
+        :param bool mock_flag: if true, for each object we create a mock object and analyse them
+        :param int redshift_decimals: when redshifts are not given explicitly in the redshifting module, number of decimals to round the observed redshifts to compute the grid of models. To disable rounding give -1. Do not round if you use narrow-band filters.
+        :param int blocks: number of blocks to compute the models and analyse the observations. If there is enough memory, we strongly recommend this to be set to 1.
+        
+        :returns: module text for the analysis parameters
+        :rtype: str
         '''
         
         text = dedent(f'''
-        # File containing the input data. The columns are 'id' (name of the
-        # object), 'redshift' (if 0 the distance is assumed to be 10 pc),
-        # 'distance' (Mpc, optional, if present it will be used in lieu of the
-        # distance computed from the redshift), the filter names for the fluxes,
-        # and the filter names with the '_err' suffix for the uncertainties. The
-        # fluxes and the uncertainties must be in mJy for broadband data and in
-        # W/m² for emission lines. This file is optional to generate the
-        # configuration file, in particular for the savefluxes module.
-        data_file = whatever
-        
-        # Optional file containing the list of physical parameters. Each column
-        # must be in the form module_name.parameter_name, with each line being a
-        # different model. The columns must be in the order the modules will be
-        # called. The redshift column must be the last one. Finally, if this
-        # parameter is not empty, cigale will not interpret the configuration
-        # parameters given in pcigale.ini. They will be given only for
-        # information. Note that this module should only be used in conjonction
-        # with the savefluxes module. Using it with the pdf_analysis module will
-        # yield incorrect results.
-        parameters_file = 
-        
-        # Avaiable modules to compute the models. The order must be kept.
-        # SFH:
-        # * sfh2exp (double exponential)
-        # * sfhdelayed (delayed SFH with optional exponential burst)
-        # * sfhdelayedbq (delayed SFH with optional constant burst/quench)
-        # * sfhfromfile (arbitrary SFH read from an input file)
-        # * sfhperiodic (periodic SFH, exponential, rectangle or delayed)
-        # SSP:
-        # * bc03 (Bruzual and Charlot 2003)
-        # * m2005 (Maraston 2005; note that it cannot be combined with the nebular module)
-        # Nebular emission:
-        # * nebular (continuum and line nebular emission)
-        # Dust attenuation:
-        # * dustatt_modified_CF00 (modified Charlot & Fall 2000 attenuation law)
-        # * dustatt_modified_starburst (modified Calzetti 2000 attenuaton law)
-        # Dust emission:
-        # * casey2012 (Casey 2012 dust emission models)
-        # * dale2014 (Dale et al. 2014 dust emission templates)
-        # * dl2007 (Draine & Li 2007 dust emission models)
-        # * dl2014 (Draine et al. 2014 update of the previous models)
-        # * themis (Themis dust emission models from Jones et al. 2017)
-        # AGN:
-        # * fritz2006 (AGN models from Fritz et al. 2006)
-        # Radio:
-        # * radio (synchrotron emission)
-        # Restframe parameters:
-        # * restframe_parameters (UV slope (β), IRX, D4000, EW, etc.)
-        # Redshift+IGM:
-        # * redshifting (mandatory, also includes the IGM from Meiksin 2006)
-        sed_modules = {self.modulesStr}
-        
-        # Method used for statistical analysis. Available methods: pdf_analysis,
-        # savefluxes.
-        analysis_method = {self.analysis}
-        
-        # Number of CPU cores available. This computer has 8 cores.
-        cores = 4
+        # Configuration of the statistical analysis method.
+        [analysis_params]
+          # List of the physical properties to estimate. Leave empty to analyse
+          # all the physical properties (not recommended when there are many
+          # models).
+          variables = {physical_properties}
+          # List of bands for which to estimate the fluxes. Note that this is
+          # independent from the fluxes actually fitted to estimate the physical
+          # properties.
+          bands = {bands}
+          # If true, save the best SED for each observation to a file.
+          save_best_sed = {save_best_sed}
+          # If true, for each observation and each analysed property, save the raw
+          # chi2. It occupies ~15 MB/million models/variable.
+          save_chi2 = {save_chi2}
+          # If true, for each object check whether upper limits are present and
+          # analyse them.
+          lim_flag = {lim_flag}
+          # If true, for each object we create a mock object and analyse them.
+          mock_flag = {mock_flag}
+          # When redshifts are not given explicitly in the redshifting module,
+          # number of decimals to round the observed redshifts to compute the grid
+          # of models. To disable rounding give a negative value. Do not round if
+          # you use narrow-band filters.
+          redshift_decimals = {redshift_decimals}
+          # Number of blocks to compute the models and analyse the observations.
+          # If there is enough memory, we strongly recommend this to be set to 1.
+          blocks = {blocks}
         ''')
         
         return text
 
-    
     @property
     def parameters(self, *args, **kwargs) -> str:
         r'''
@@ -408,89 +420,65 @@ class CigaleSED(SED):
         [sed_modules_params]
         ''')
         
-        text2 = indent(dedent(f'{self.modulesStr}'), '\t')
+        text2 = indent(dedent(f'{self.modulesStr}'), '   ')
         
         return text1 + text2
     
-    def analysisParamsModule(self, physical_properties: Optional[List[str]], bands: Optional[List[str]], save_best_sed: bool,
-                save_chi2: Save_chi2, lim_flag: bool, mock_flag: bool, redshift_decimals: int, blocks: int, **kwargs) -> str:
+    @property
+    def specParameters(self, *args, **kwargs) -> str:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
-        Generate the analysis_params module text for Cigale.
-        
-        :param list physical_properties: physical properties to estimate at the end of the SED fitting. If None, all properties are computed.
-        :param list bands: list of bands for which to estimate the fluxes. Note that this is independent from the fluxes actually fitted to estimate the physical properties. If None, the same bands as the ones provided in **filters** will be used.
-        :param bool save_best_sed: whether to save the best SED for each observation into a file or not
-        :param str save_chi2: save the raw chi2. It occupies ~15 MB/million models/variable. Allowed values are enum.Save_chi2.ALL, enum.Save_chi2.NONE, enum.Save_chi2.FLUXES or enum.Save_chi2.PROPERTIES.
-        :param bool lim_flag: if True, for each object check whether upper limits are present and analyse them
-        :param bool mock_flag: if true, for each object we create a mock object and analyse them
-        :param int redshift_decimals: when redshifts are not given explicitly in the redshifting module, number of decimals to round the observed redshifts to compute the grid of models. To disable rounding give -1. Do not round if you use narrow-band filters.
-        :param int blocks: number of blocks to compute the models and analyse the observations. If there is enough memory, we strongly recommend this to be set to 1.
-        
-        :returns: module text for the analysis parameters
-        :rtype: str
+        Generate the spec parameter file associated to the given sed modules.
         '''
         
-        text = dedent(f'''
-        # Configuration of the statistical analysis method.
+        text = dedent('''\
+        data_file = string()
+        parameters_file = string()
+        sed_modules = cigale_string_list()
+        analysis_method = string()
+        cores = integer(min=1)
+        bands = cigale_string_list()
+        properties = cigale_string_list()
+        [sed_modules_params]
+        %MODULESSPEC%
         [analysis_params]
-          # List of the physical properties to estimate. Leave empty to analyse
-          # all the physical properties (not recommended when there are many
-          # models).
-          variables = {physical_properties}
-          # List of bands for which to estimate the fluxes. Note that this is
-          # independent from the fluxes actually fitted to estimate the physical
-          # properties.
-          bands = {bands}
-          # If true, save the best SED for each observation to a file.
-          save_best_sed = {save_best_sed}
-          # Save the raw chi2. It occupies ~15 MB/million models/variable. Allowed
-          # values are 'all', 'none', 'properties', and 'fluxes'.
-          save_chi2 = {save_chi2}
-          # If true, for each object check whether upper limits are present and
-          # analyse them.
-          lim_flag = {lim_flag}
-          # If true, for each object we create a mock object and analyse them.
-          mock_flag = {mock_flag}
-          # When redshifts are not given explicitly in the redshifting module,
-          # number of decimals to round the observed redshifts to compute the grid
-          # of models. To disable rounding give a negative value. Do not round if
-          # you use narrow-band filters.
-          redshift_decimals = {redshift_decimals}
-          # Number of blocks to compute the models and analyse the observations.
-          # If there is enough memory, we strongly recommend this to be set to 1.
-          blocks = {blocks}
+          variables = cigale_string_list()
+          save_best_sed = boolean()
+          save_chi2 = boolean()
+          lim_flag = boolean()
+          mock_flag = boolean()
+          redshift_decimals = integer()
+          blocks = integer(min=1)
         ''')
         
-        return text
+        return text.replace('%MODULESSPEC%', self.modulesSpec)
     
     #############################
     #        Run methods        #
     #############################
     
-    def startCigale(self, file: str = '', log: TextIOBase = None):
+    def startCigale(self, log: TextIOBase = None):
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Wrapper around default :py:meth:`SED.startProcess` which allows to run Cigale.
         
-        :param str file: (**Optional**) file to run the process or script against
         :param TextIOBase log: (**Optional**) oppened log file
         '''
         
-        return self.startProcess(['pcigale', '-c', file, 'run'], log=log, errMsg='SED fitting failed.')
+        return self.startProcess(['pcigale', 'run'], log=log, errMsg='SED fitting failed.')
     
     def __call__(self, catalogue: CigaleCat, 
-                 ncores: int                                 = 4,
-                 physical_properties: Optional[List[str]]    = None,
-                 bands: Optional[List[str]]                  = None,
-                 save_best_sed: bool                         = False,
-                 save_chi2: Save_chi2                        = Save_chi2.NONE,
-                 lim_flag: bool                              = False,
-                 mock_flag: bool                             = False,
-                 redshift_decimals: int                      = 2,
-                 blocks: int                                 = 1,
+                 ncores: int                              = 4,
+                 physical_properties: Optional[List[str]] = None,
+                 bands: Optional[List[str]]               = None,
+                 save_best_sed: bool                      = False,
+                 save_chi2: bool                          = False,
+                 lim_flag: bool                           = False,
+                 mock_flag: bool                          = False,
+                 redshift_decimals: int                   = 2,
+                 blocks: int                              = 1,
                  **kwargs) -> CigaleOutput:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
@@ -503,7 +491,7 @@ class CigaleSED(SED):
         :param list physical_properties: (**Optional**) physical properties to estimate at the end of the SED fitting. If None, all properties are computed.
         :param list bands: (**Optional**) list of bands for which to estimate the fluxes. Note that this is independent from the fluxes actually fitted to estimate the physical properties. If None, the same bands as the ones provided in **filters** will be used.
         :param bool save_best_sed: (**Optional**) whether to save the best SED for each observation into a file or not
-        :param str save_chi2: (**Optional**) save the raw chi2. It occupies ~15 MB/million models/variable. Allowed values are enum.Save_chi2.ALL, enum.Save_chi2.NONE, enum.Save_chi2.FLUXES or enum.Save_chi2.PROPERTIES.
+        :param bool save_chi2: (**Optional**) whether to save the raw chi2 or not. It occupies ~15 MB/million models/variable.
         :param bool lim_flag: (**Optional**) if True, for each object check whether upper limits are present and analyse them
         :param bool mock_flag: (**Optional**) if true, for each object we create a mock object and analyse them
         :param int redshift_decimals: (**Optional**) when redshifts are not given explicitly in the redshifting module, number of decimals to round the observed redshifts to compute the grid of models. To disable rounding give -1. Do not round if you use narrow-band filters.
@@ -523,7 +511,7 @@ class CigaleSED(SED):
         phys_prop         = ListStrProperty(physical_properties if physical_properties is not None else [''])
         bands             = ListStrProperty(bands if bands is not None else self.filters.value)
         save_best_sed     = BoolProperty(save_best_sed)
-        save_chi2         = EnumProperty(save_chi2)
+        save_chi2         = BoolProperty(save_chi2)
         lim_flag          = BoolProperty(lim_flag)
         mock_flag         = BoolProperty(mock_flag)
         redshift_decimals = IntProperty(redshift_decimals, minBound=-1)
@@ -534,9 +522,10 @@ class CigaleSED(SED):
         if not opath.isdir(directory):
             os.mkdir(directory)
             
-        # Different SED fitting output file names
-        paramFile = catalogue.name.replace('.mag', '.ini')
+        # Param file in cigale works in a weird way, better to always use the default name (pcigale.ini and pcigale.ini.spec)
+        paramFile = 'pcigale.ini'
         pfile     = opath.join(directory, paramFile)
+        sfile     = opath.join(directory, 'pcigale.ini.spec')
         logFile   = opath.join(directory, catalogue.name.replace('.mag', '_cig.log'))
         oCatFile  = opath.join(directory, catalogue.name.replace('.mag', '_cig_results'))
         
@@ -546,6 +535,10 @@ class CigaleSED(SED):
         
         with open(pfile, 'w') as f:
             f.write(beg_param + end_param) 
+            
+        # Generate and write spec file
+        with open(sfile, 'w') as f:
+            f.write(self.specParameters)
         
         # Write catalogue
         catalogue.save(path=directory)
@@ -559,7 +552,7 @@ class CigaleSED(SED):
             # Move to directory
             os.chdir(directory)
             
-            self.startCigale(file=paramFile, log=log)
+            self.startCigale(log=log)
             
             # Move back to parent directory
             os.chdir('..')
