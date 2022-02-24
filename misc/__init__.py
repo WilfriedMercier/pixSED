@@ -8,4 +8,4 @@ Init file for the misc part of the library.
 """
 
 from .properties import IntProperty, FloatProperty, StrProperty, ListProperty, ListIntProperty, ListFloatProperty, ListStrProperty, PathProperty, ListPathProperty, EnumProperty
-from .enum       import SEDcode, CleanMethod, MagType, TableFormat, TableType, TableUnit, YESNO, ANDOR
+from .enum       import SEDcode, CleanMethod, MagType, TableFormat, TableType, TableUnit, YESNO, ANDOR, IMF

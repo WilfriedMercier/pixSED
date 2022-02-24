@@ -7,6 +7,7 @@ Utilties related to generating 2D mass and SFR maps using LePhare SED fitting co
 """
 
 import subprocess
+import shutil
 import os
 import os.path          as     opath
 
@@ -161,7 +162,7 @@ class CigaleSED(SED):
     
     :raises TypeError: if any of the keyword parameters if not a list
     :raises ValueError: if no **SFH**, **SSP** and **redshifting** modules are provided
-    ''' # XXX to continue
+    '''
     
     def __init__(self, ID: Any, filters: List[str], 
                  uncertainties: Optional[List[bool]]         = None,
@@ -522,12 +523,17 @@ class CigaleSED(SED):
         if not opath.isdir(directory):
             os.mkdir(directory)
             
+        # Delete output directory in the galaxy directory if already present (otherwise Cigale will make a new one with a different name)
+        outDir    = opath.join(directory, 'out')
+        if opath.isdir(outDir):
+            shutil.rmtree(outDir)
+        
         # Param file in cigale works in a weird way, better to always use the default name (pcigale.ini and pcigale.ini.spec)
         paramFile = 'pcigale.ini'
         pfile     = opath.join(directory, paramFile)
         sfile     = opath.join(directory, 'pcigale.ini.spec')
         logFile   = opath.join(directory, catalogue.name.replace('.mag', '_cig.log'))
-        oCatFile  = opath.join(directory, catalogue.name.replace('.mag', '_cig_results'))
+        oCatFile  = opath.join(outDir,    'results.fits')
         
         # Generate and write parameters file
         beg_param = self.parameters.replace('%INPUTCATALOGUEINFORMATION%', catalogue.name).replace('%NCORES%', f'{ncores}')

@@ -11,24 +11,24 @@ import astropy.io.ascii as     asci
 import numpy            as     np
 from   numpy            import ndarray
 from   abc              import ABC, abstractmethod
-from   typing           import Tuple, Union, Optional
+from   typing           import Tuple, Union, Optional, Dict
+from   astropy.io       import fits
 from   astropy.table    import Table
 from   astropy.units    import Quantity
 from   .misc.enum       import LePhareOutputParam
 from   .filters         import FilterList
 
 class Output(ABC):
-   r'''Abstract SED fitting code output class.'''
-
+   r'''
+   .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+   
+   Abstract SED fitting code output class.
+   
+   :param str file: name of the SED fitting outut file
+   '''
 
    def __init__(self, file: str, *args, **kwargs) -> None:
-      r'''
-      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-      
-      Init the output class.
-      
-      :param str file: name of the SED fitting outut file
-      '''
+      r'''Init method.'''
       
       if not isinstance(file, str):
          raise TypeError(f'file parameter has type {type(file)} but it must have type str.')
@@ -48,6 +48,9 @@ class Output(ABC):
       
       #: Configuration dictionary with info from the header
       self.config = {}
+      
+      #: Table gathering data
+      self.table  = None
       
    @abstractmethod
    def load(self, *args, **kwargs) -> Table:
@@ -82,73 +85,136 @@ class Output(ABC):
        return
 
 class CigaleOutput(Output):
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     
-    def __init__(self, *args, **kwargs):
+    Init the output class.
+    
+    :param str file: name of the SED fitting outut file
+    '''
+    
+    def __init__(self, file: str, *args, **kwargs):
+        r'''Init method.'''
         
-        raise NotImplementedError('Cigale not implemented yet.')
+        super().__init__(file, *args, **kwargs)
+        
+        #: Mapping between column names and units
+        self.units = {}
+        print(self.file)
+        self.load()
+        
+    def _getUnits(self, hdr: fits.Header, *args, **kwargs) -> Dict[str, str]:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Get and return the units from a Cigale output fits file header and map them to their column names.
+        
+        :param fits.Header hdr: header to read the units from
+        
+        :returns: mapping between column names and units
+        :rtype: dict
+        '''
+        
+        self.units = {hdr[f'TTYPE{i}'] : hdr[f'TUNIT{i}'] if f'TUNIT{i}' in hdr else '' for i in range(1, hdr['TFIELDS']+1)}
+        
+        return self.units
+
+    def link(self, filterList: FilterList, *args, **kwargs) -> None:
+       r'''
+       .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+       
+       Provide the default image properties from a FilterList object.
+       
+       :param FilterList filterList: FilterList object from which the image properties are retrieved
+       
+       :raises TypeError: if **filterList** is not of type FilterList
+       '''
+       
+       if not isinstance(filterList, FilterList):
+          raise TypeError(f'filterList parameter has type {type(filterList)} but it must be of type FilterList.')
+          
+       # Scale and meanMap are not used when generating the catalogue for cigale so no need to retrieve them
+       self.imProp['shape']   = filterList.shape
+       
+       return
+
+    def load(self, *args, **kwargs) -> Table:
+       r'''Load data from Cigale output fits file.'''
+       
+       with fits.open(self.file) as hdul:
+           self._getUnits(hdul[1].header)
+           table = Table(hdul[1].data)
+       
+       self.table = table
+       
+       return table
+  
+    def toImage(self, name: str, 
+                shape: Optional[Tuple[int]] = None, **kwargs) -> Quantity:
+       r'''
+       .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+       
+       Generate an image from the Astropy Table given column name.
+       
+       :param str name: name of the column to generate the image from
+       
+       :param tuple[int] shape: (**Optional**) shape of the output image. The shape must be such that shape[0]*shape[1] == len(self.table). If None, the default value provided in the :py:meth:`LePhareOutput.link` method is used.
+       
+       :returns: output image as an Astropy Quantity. Use .data method to only get the array.
+       :rtype: Quantity
+       
+       :raises TypeError:
+           
+           * if **name** is not of type str
+           * if **shape** is neither a tuple nor a list
+           
+       :raises ValueError: if **shape** is not of length 2
+       '''
+       
+       if not isinstance(name, str):
+          raise TypeError(f'column name has type {type(name)} but it must have type str.')
+       
+       # Check shape parameter
+       if self.imProp['shape'] is None and shape is None:
+          raise ValueError('an image shape must be provided either in this function call or using the link method.')
+       
+       if shape is not None:
+
+          if not isinstance(shape, (tuple, list)):
+             raise TypeError(f'shape parameter has type {type(shape)} but it must have type tuple or list.')
+               
+          if len(shape) != 2:
+             raise ValueError(f'shape parameter has length {len(shape)} but it must have a length of 2.')
+             
+       else:
+          shape        = self.imProp['shape']
+       
+       # Location of good pixels
+       indices         = self.table['id']
+           
+       # Output array (NaN for bad pixels - default NaN everywhere)
+       data            = np.full(shape[0]*shape[1], np.nan)
+       data[indices]   = self.table[name]
+       data            = data.reshape(shape)
+       
+       return Quantity(data, unit=self.units[name])
 
    
 class LePhareOutput(Output):
-   r'''Implement an output class for LePhare.'''
+   r'''
+   .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+   
+   Implement an output class for LePhare.
+   
+   :param str file: name of the SED fitting outut file
+   '''
    
    def __init__(self, file: str, *args, **kwargs) -> None:
-      r'''
-      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-      
-      Init the output class.
-      
-      :param str file: name of the SED fitting outut file
-      '''
+      r'''Init method.'''
       
       super().__init__(file, *args, **kwargs)
       
       self.load()
-      
-   
-   def readHeader(self, *args, **kwargs) -> dict:
-      r'''
-      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-      
-      Read the header of LePhare output file.
-      
-      :returns: dict mapping between column names and column number
-      '''
-      
-      with open(self.file, 'r') as f:
-         
-         # Go through header lines till output format line
-         for line in f:
-            
-            line = line.strip()
-            if line == '# Output format                       #':
-               break
-            elif ':' not in line:
-               continue
-            else:
-               key, value       = (i.strip() for i in line.strip('#').rsplit(':', maxsplit=1))
-               self.config[key] = value
-               
-         else:
-            raise IOError('Output format line could not be reached.')
-            
-         # Go through the lines which tell us which parameters to extract and where
-         colMap  = {}
-         for line in f:
-            
-            line = line.strip()
-            if line == '#######################################':
-               break
-            else:
-
-               items          = line.strip('#, ').split(',')
-               for item in items:
-                  key, val    = item.split()
-                  colMap[key] = int(val)
-                  
-         else:
-            raise IOError('End of SED fitting code output file header could not be reached.')
-            
-         return colMap
    
    def load(self, *args, **kwargs) -> Table:
       r'''
@@ -198,7 +264,53 @@ class LePhareOutput(Output):
              table[tcname]   = 10**table[tcname]
       
       self.table             = table
+      
       return table
+  
+   def readHeader(self, *args, **kwargs) -> dict:
+      r'''
+      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      
+      Read the header of LePhare output file.
+      
+      :returns: dict mapping between column names and column number
+      '''
+      
+      with open(self.file, 'r') as f:
+         
+         # Go through header lines till output format line
+         for line in f:
+            
+            line = line.strip()
+            if line == '# Output format                       #':
+               break
+            elif ':' not in line:
+               continue
+            else:
+               key, value       = (i.strip() for i in line.strip('#').rsplit(':', maxsplit=1))
+               self.config[key] = value
+               
+         else:
+            raise IOError('Output format line could not be reached.')
+            
+         # Go through the lines which tell us which parameters to extract and where
+         colMap  = {}
+         for line in f:
+            
+            line = line.strip()
+            if line == '#######################################':
+               break
+            else:
+
+               items          = line.strip('#, ').split(',')
+               for item in items:
+                  key, val    = item.split()
+                  colMap[key] = int(val)
+                  
+         else:
+            raise IOError('End of SED fitting code output file header could not be reached.')
+            
+         return colMap
      
    def toImage(self, name: str, 
                shape: Optional[Tuple[int]] = None, 
@@ -227,21 +339,22 @@ class LePhareOutput(Output):
       
       :param str name: name of the column to generate the image from
       
-      :param tuple[int] shape: (**Optional**) shape of the output image. The shape must be such that shape[0]*shape[1] == len(self.table)
-      :param scaleFactor: (**Optional**) scale factor used to scale up the image
+      :param tuple[int] shape: (**Optional**) shape of the output image. The shape must be such that shape[0]*shape[1] == len(self.table). If None, the default value provided in the :py:meth:`LePhareOutput.link` method is used.
+      :param scaleFactor: (**Optional**) scale factor used to scale up the image. If None, the default value provided in the :py:meth:`LePhareOutput.link` method is used.
       :type scaleFactor: int or float
-      :param ndarray meanMap: (**Optional**) mean map used during the filterList table creation to normalise the data
+      :param ndarray meanMap: (**Optional**) mean map used during the filterList table creation to normalise the data. If None, the default value provided in the :py:meth:`LePhareOutput.link` method is used.
       
       :returns: output image as an Astropy Quantity. Use .data method to only get the array.
       :rtype: Quantity
       
-      :raises TypeError:
+      :raises TypeError: if
+        
+      * **name** is not of type str
+      * **shape** is neither a tuple nor a list
+      * **scaleFactor** is neither an int nor a float
+      * **meanMap** is not a ndarray 
           
-          * if **name** is not of type str
-          * if **shape** is neither a tuple nor a list
-          * if **scaleFactor** is neither an int nor a float
-          
-      :raises ValueError: if **shape** is not of length
+      :raises ValueError: if **shape** is not of length 2
       '''
       
       if not isinstance(name, str):
@@ -254,10 +367,10 @@ class LePhareOutput(Output):
       if shape is not None:
 
          if not isinstance(shape, (tuple, list)):
-            raise TypeError(f'shape parameter has type {type(shape)} but it must have type tuple.')
+            raise TypeError(f'shape parameter has type {type(shape)} but it must have type tuple or list.')
               
          if len(shape) != 2:
-            raise ValueError('shape parameter has not a length of 2.')
+            raise ValueError(f'shape parameter has length {len(shape)} but it must have a length of 2.')
             
       else:
          shape        = self.imProp['shape']
@@ -300,14 +413,3 @@ class LePhareOutput(Output):
           data[mask] *= meanMap[mask]
       
       return Quantity(data, unit=self.table[name].unit)
-         
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
