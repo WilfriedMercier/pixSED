@@ -1,5 +1,1 @@
-This example uses custom hst filers located in ./hst_filters directory. Copy this directory directly into $LEPHAREDIR/filt directory.
-
-For Linux and Mac users, you can use the following line
-
-`cp -r hst_filters "$LEPHAREDIR"/filt`
+These examples use custom hst filers. You can find information on how to add them into LePhare or Cigale databases in ../additional_files directory
