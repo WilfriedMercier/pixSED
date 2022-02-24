@@ -15,13 +15,17 @@ band_names = ['ACS_WFC.F435W', 'ACS_WFC.F606W', 'ACS_WFC.F775W',             # N
               'ACS_WFC.F814W', 'ACS_WFC.F850LP', 'WFC3_IR.F105W',
               'WFC3_IR.F125W', 'WFC3_IR.F140W', 'WFC3_IR.F160W']
 
-dataFiles  = [] # Data files
+dataFiles  = [] # Flux maps
+data2Files = [] # Flux maps convolved by the PSF squared
 varFiles   = [] # Variance maps
 
 for band in bands:
 
    file    = opath.abspath(opath.join('data', f'{galName}_{band}.fits'))
    dataFiles.append(file)
+
+   file2   = opath.abspath(opath.join('data', f'{galName}_{band}_PSF2.fits'))
+   data2Files.append(file2)
 
    vfile   = opath.abspath(opath.join('data', f'{galName}_{band}_var.fits'))
    varFiles.append(vfile)
@@ -33,8 +37,8 @@ with fits.open(mfile) as hdul:
 
 ###   1. Generate a FilterList object   ###
 filts      = []
-for band, data, var, zpt in zip(bands, dataFiles, varFiles, zeropoints):
-   filts.append(SED.Filter(band, data, var, zpt))
+for band, data, data2, var, zpt in zip(bands, dataFiles, data2Files, varFiles, zeropoints):
+   filts.append(SED.Filter(band, data, data2, var, zpt))
 
 flist      = SED.FilterList(filts, mask, code=SED.SEDcode.LEPHARE, redshift=redshift)
 
@@ -42,7 +46,7 @@ flist      = SED.FilterList(filts, mask, code=SED.SEDcode.LEPHARE, redshift=reds
 flist.genTable(cleanMethod=SED.CleanMethod.ZERO, scaleFactor=100, texpFac=4)
 
 ###   3. Convert to LePhareCat   ###
-catalogue  = flist.toCatalogue(f'{galName}.in')
+catalogue  = flist.toCatalogue(f'{galName}')
 
 ###   4. Create SED fitting object   ###
 hst_filt   = [] # Filter names for LePhare
@@ -57,7 +61,7 @@ properties = {'FILTER_LIST' : hst_filt, 'ERR_SCALE' : err}
 sed        = SED.LePhareSED(galName, properties=properties)
 
 ###   5. Run SED fitting   ###
-params     = ['MASS_BEST', 'MASS_INF', 'MASS_MED', 'MASS_SUP']
+params     = ['MASS_BEST', 'MASS_INF', 'MASS_MED', 'MASS_SUP', 'SFR_BEST', 'SFR_INF', 'SFR_MED', 'SFR_SUP']
 skip       = {'skipSEDgen' : True, 'skipFilterGen' : True, 'skipMagGal' : True, 'skipMagQSO' : True, 'skipMagStar' : True}
 #skip       = {'skipSEDgen' : False, 'skipFilterGen' : False, 'skipMagGal' : False, 'skipMagQSO' : False, 'skipMagStar' : False}
 output     = sed(catalogue, outputParams=params, **skip)
@@ -78,5 +82,5 @@ plt.xlabel('X [pixel]', size=13)
 plt.ylabel('Y [pixel]', size=13)
 
 cbar = plt.colorbar(ret, orientation='vertical', shrink=0.9)
-cbar.set_label(r'$\log_{10} M_{\star}$ [M$_{\odot}$]', size=13)
+cbar.set_label(r'$M_{\star}$ [M$_{\odot}$]', size=13)
 plt.show()
