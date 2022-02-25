@@ -29,30 +29,41 @@ WARNING = warningMessage('Warning:')
 ERROR   = errorMessage('Error:')
 
 class Filter:
-    r'''Base class implementing data related to a single filter.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     
-    def __init__(self, filt: str, file: str, file2: str, errFile: str, zeropoint: float, 
-                 ext: int = 0, ext2: int = 0, extErr: int = 0) -> None:
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    Base class implementing data related to a single filter.
+    
+    :param str filt: filter name
+    :type filt: :python:`str`
+    :param file: data file name. File must exist and be a loadable FITS file.
+    :type file: :python:`str`
+    :param file2: file name for the data convolved by the square of the PSF. File must exist and be a loadable FITS file. If None, no file is loaded and Poisson noise will not be added to the variance map.
+    :type file2: :python:`str`
+    :param errFile: error file name. File must exist and be a loadable FITS file. Error file is assumed to be the variance map.
+    :type errFile: :python:`str`
+    :param float zeropoint: filter AB magnitude zeropoint
+    :type zeropoint: :python:`float`
+    
+    :param int ext: (**Optional**) extension in the data FITS file
+    :type ext: :python:`int`
+    :param int ext2: (**Optional**) extension in the data squared FITS file
+    :type ext2: :python:`int`
+    :param int extErr: (**Optional**) extension in the error FITS file
+    :type extErr: :python:`int`
+    :param bool verbose: (**Optional**) whether to print info messages or not
+    :type verbose: :python:`bool`
+    
+    :raises TypeError:
             
-        Initialise filter object.
-
-        :param str filt: filter name
-        :param str file: data file name. File must exist and be a loadable FITS file.
-        :param str file2: file name for the square of data. File must exist and be a loadable FITS file.
-        :param str errFile: error file name. File must exist and be a loadable FITS file. Error file is assumed to be the variance map.
-        :param float zeropoint: filter AB magnitude zeropoint
-        
-        :param int ext: (**Optional**) extension in the data FITS file
-        :param int ext2: (**Optional**) extension in the data squared FITS file
-        :param int extErr: (**Optional**) extension in the error FITS file
-        
-        :raises TypeError:
-            
-            * if **filt** is not of type str
-            * if **zeropoint** is neither an int nor a float
-        '''
+        * if **filt** is not of type :python:`str`
+        * if **zeropoint** is neither :python:`int` nor :python:`float`
+    '''
+    
+    def __init__(self, filt: str, file: str, file2: Optional[str], errFile: str, zeropoint: float, 
+                 ext: int = 0, ext2: int = 0, extErr: int = 0,
+                 verbose: bool = True) -> None:
+        r'''Initialise method.'''
         
         if not isinstance(filt, str):
             raise TypeError(f'filt parameter has type {type(filt)} but it must be of type list.')
@@ -60,28 +71,37 @@ class Filter:
         if not isinstance(zeropoint, (int, float)):
             raise TypeError(f'zeropoint parameter has type {type(zeropoint)} but it must be of type int or float.')
             
-        self.filter          = filt
-        self.zpt             = zeropoint
-        self.fname           = file
-        self.fname2          = file2
-        self.ename           = errFile
+        self.verbose              = verbose
+        self.filter               = filt
+        self.zpt                  = zeropoint
+        self.fname                = file
+        self.fname2               = file2
+        self.ename                = errFile
         
-        self.hdr,  self.data  = self._loadFits(self.fname,  ext=ext)
-        self.hdr2, self.data2 = self._loadFits(self.fname2, ext=ext2)
-        self.ehdr, self.var   = self._loadFits(self.ename,  ext=extErr)
+        self.hdr,  self.data      = self._loadFits(self.fname,  ext=ext)
+        self.ehdr, self.var       = self._loadFits(self.ename,  ext=extErr)
+        
+        if self.fname2 is None:
+            self.hdr2             = None
+            self.data2            = None
+            
+            if self.verbose: print(f'{WARNING} No data convnlved by PSF2 provided. Poisson noise is assumed to be already contained in the variance map.')
+        else:
+            self.hdr2, self.data2 = self._loadFits(self.fname2, ext=ext2)
         
         if self.data.shape != self.var.shape:
             raise ShapeError(self.data, self.var, msg=f' in filter {self.filter}')
-            
-        if self.data.shape != self.data2.shape:
+         
+        if self.data2 is not None and self.data.shape != self.data2.shape:
             raise ShapeError(self.data, self.data2, msg=f' in filter {self.filter}')
             
         # Check that exposure time is in the header (otherwise Poisson noise cannot be computed)
         try:
-            self.texp        = self.hdr['TEXPTIME']
+            self.texp             = self.hdr['TEXPTIME']
         except KeyError:
-            self.texp        = None
-            print(f'{WARNING}data header in {filt.filter} does not have TEXPTIME key.')
+            self.texp             = None
+            
+            if self.verbose: print(f'{WARNING} data header in {filt.filter} does not have TEXPTIME key.')
             
             
     ###############################
@@ -96,10 +116,12 @@ class Filter:
         Apply the given mask by placing NaN values onto the array.
         
         :param ndarary arr: array to mask
+        :type arr: `ndarray`_
         :param ndarary[bool] mask: mask with boolean values
+        :type mask: `ndarray`_ [:python:`bool`]
         
         :returns: array with masked values
-        :rtype: ndarray
+        :rtype: `ndarray`_
         '''
         
         # We make a deep copy to be sure we do not modify the input arrays
@@ -114,13 +136,15 @@ class Filter:
             
         Check whether a file exists.
         
-        :param str file: file name
+        :param file: file name
+        :type file: :python:`str`
         
         :returns: 
-            * True if the file exists
-            * False otherwise
             
-        :raises TypeError: if **file** is not of type str
+            * :python:`True` if **file** exists
+            * :python:`False` otherwise
+            
+        :raises TypeError: if **file** is not of type :python:`str`
         '''
         
         if not isinstance(file, str):
@@ -137,15 +161,18 @@ class Filter:
         
         Load data and header from a FITS file at the given extension.
 
-        :param str file: file name
-        :param int ext: (**Optional**) extension to load data from
+        :param file: file name
+        :type file: :python:`str`
+        :param ext: (**Optional**) extension to load data from
+        :type ext: :python:`str`
 
         :returns: 
-            * None, None if the file cannot be loaded as a FITS file or if the hdu extension is too large
-            * header, data
-        :rtype: astropy Header, ndarray
+            * (None, None) if the file cannot be loaded as a FITS file or if the hdu extension is too large
+            * (header, data)
+            
+        :rtype: (`Astropy Header`_, `ndarray`_)
         
-        :raises TypeError: if **ext** is not an int
+        :raises TypeError: if **ext** is not an :python:`int`
         :raises ValueError: if **ext** is negative
         '''
         
@@ -170,29 +197,32 @@ class Filter:
 
 
 class FilterList:
-    r'''Base class implementing the object used to stored SED fitting into.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Base class implementing the object used to stored SED fitting into.
+    
+    :param filters: filters used to perform the SED fitting
+    :type filters: :python:`list` [Filter]
+    :param mask: mask for bad pixels (:python:`True` for bad pixels, :python:`False` for good ones)
+    :type mask: `ndarray`_ [:python:`bool`]
+    
+    :param SEDcode code: (**Optional**) code used to perform the SED fitting. Either :py:attr:`~.SEDcode.LEPHARE` or :py:attr:`~.SEDcode.CIGALE` are accepted.
+    :param redshift: (**Optional**) redshift of the galaxy
+    :type redshift: :python:`int` or :python:`float`
+    
+    :param \**kwargs: additional parameters to pass to :py:meth:`~.FilterList.setCode` and :py:meth:`~.FilterList.genTable`
+    
+    :raises TypeError:
+        
+        * if **filters** is not a :python:`list`
+        * if **redshift** is neither an :python:`int` nor a :python:`float`
+        * if one of the **filters** is not of type :py:class:`~.Filter`
+    '''
     
     def __init__(self, filters: List[Filter], mask: ndarray,
                  code: SEDcode = SEDcode.LEPHARE, redshift: Union[int, float] = 0, **kwargs) -> None:
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-            
-        Initialise filter list object.
-
-        :param list[Filter] filters: filters used to perform the SED fitting
-        :param ndarray[bool] mask: mask for bad pixels (True for bad pixels, False for good ones)
-        
-        :param SEDcode code: (**Optional**) code used to perform the SED fitting. Either SEDcode.LEPHARE or SEDcode.CIGALE or accepted.
-        :param redshift: (**Optional**) redshift of the galaxy
-        :type redshift: int or float
-        
-        :param **kwargs: additional parameters to pass to :py:method:`setCode` and :py:method:`genTable`
-        
-        :raises TypeError: 
-            * if **filters** is not a list
-            * if **redshift** is neither an int nor a float
-            * if one of the filters is not of type Filter
-        '''
+        r'''Init method.'''
             
         if not isinstance(redshift, (int, float)):
             raise TypeError(f'redshift parameter has type {type(redshift)} but it must be of type int or float.')
@@ -238,11 +268,12 @@ class FilterList:
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         :param list[Filter] filters: list of Filter objects
+        :type filters: :python:`list` [:py:class:`~.Filter`]
         
         :returns: list of checked Filter objects
-        :rtype: List[Filter]
+        :rtype: :python:`list` [:py:class:`~.Filter`]
         
-        :raises TypeError: if one of the filters is not of type Filter
+        :raises TypeError: if one of the **filters** is not of type :py:class:`~.Filter`
         '''
         
         out = []
@@ -267,7 +298,8 @@ class FilterList:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
-        :param str msg: (**Optional**) message to append to the error message
+        :param msg: (**Optional**) message to append to the error message
+        :type msg: :python:`str`
         
         :raises ShapeError: if at least one filter has a different shape
         '''
@@ -292,16 +324,17 @@ class FilterList:
         
         .. note::
             
-            This function should always be used instead of :py:meth:`_toLePhareCat` or :py:meth:`_toCigaleCat` private methods as it automatically builds the correct catalogue object.
+            This function should always be used instead of :py:meth:`~._toLePhareCat` or :py:meth:`~._toCigaleCat` private methods as it automatically builds the correct catalogue object.
             
             See their definition to know which parameters to pass.
         
-        :param str fname: name of the output file containing the catalogue when it is saved
+        :param fname: name of the output file containing the catalogue when it is saved
+        :type fname: :python:`str`
         
-        :param *args: (**Optional**) arguments to pass to the private method building the catalogue
-        :param **kwargs: (**Optional**) keyword aguments to pass to the private method building the catalogue
+        :param \*args: (**Optional**) arguments to pass to the private method building the catalogue
+        :param \**kwargs: (**Optional**) keyword aguments to pass to the private method building the catalogue
         
-        :raises ValueError: if code is not recognised
+        :raises ValueError: if **self.code** is not recognised
         '''
         
         if self.code is SEDcode.LEPHARE:        
@@ -311,13 +344,17 @@ class FilterList:
         else:
             raise ValueError(f'Code {self.code} not recognised.')
             
-    def _toCigaleCat(self, fname: str) -> CigaleCat: # XXX to be completed
+    def _toCigaleCat(self, fname: str) -> CigaleCat:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
-        Construct a :class:`catalogues.CigaleCat` instance given the table associated to the filter list.
+        Construct a :py:class:`~.CigaleCat` instance given the table associated to the filter list.
         
-        :param str fname: name of the output file containing the catalogue when it is saved
+        :param fname: name of the output file containing the catalogue when it is saved
+        :type fname: :python:`str`
+        
+        :returns: a Cigale catalogue instance
+        :rtype: :py:class:`~.CigaleCat`
         '''
         
         if self.code is not SEDcode.CIGALE:
@@ -333,17 +370,18 @@ class FilterList:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
-        Construct a LePhareCat instance given the table associated to the filter list.
+        Construct a :py:class:`~.LePhareCat` instance given the table associated to the filter list.
         
-        :param str fname: name of the output file containing the catalogue when it is saved
+        :param fname: name of the output file containing the catalogue when it is saved
+        :type fname: :python:`str`
         
-        :param TableUnit tunit: (**Optional**) unit of the table data. Must either be TableUnit.MAG for magnitude or TableUnit.FLUX for flux.
-        :param MagType magtype: (**Optional**) magnitude type if data are in magnitude unit. Must either be MagType.AB or MagType.VEGA.
-        :param TableFormat tformat: (**Optional**) format of the table. Must either be TableFormat.MEME if data and error columns are intertwined or TableFormat.MMEE if columns are first data and then errors.
-        :param TableType ttype: (**Optional**) data type. Must either be TableType.SHORT or TableType.LONG.
+        :param TableUnit tunit: (**Optional**) unit of the table data. Must either be :py:attr:`~.TableUnit.MAG` for magnitude or :py:attr:`~.TableUnit.FLUX` for flux.
+        :param MagType magtype: (**Optional**) magnitude type if data are in magnitude unit. Must either be :py:attr:`~.MagType.AB` or :py:attr:`~.MagType.VEGA`.
+        :param TableFormat tformat: (**Optional**) format of the table. Must either be :py:attr:`~.TableFormat.MEME` if data and error columns are intertwined or :py:attr:`~.TableFormat.MMEE` if columns are first data and then errors.
+        :param TableType ttype: (**Optional**) data type. Must either be :py:attr:`~.TableType.SHORT` or :py:attr:`~.TableType.LONG`.
         
-        :returns: LePhare catalogue object
-        :rtype: LePhareCat
+        :returns: a LePhare catalogue instance
+        :rtype: :py:class:`~.LePhareCat`
         '''
         
         if self.code is not SEDcode.LEPHARE:
@@ -362,13 +400,14 @@ class FilterList:
          
          Factory function used to build a data table for LePhare SED fitting code.
          
-         :param CleanMethod cleanMethod: (**Optional**) method used to clean pixel with negative values. Accepted values are CleanMethod.ZERO or CleanMethod.MIN.
+         :param CleanMethod cleanMethod: (**Optional**) method used to clean pixel with negative values. Accepted values are :py:attr:`~.CleanMethod.ZERO` or :py:attr:`~.CleanMethod.MIN`.
          :param scaleFactor: (**Optional**) factor used to multiply data and std map
-         :type scaleFactor: int or float
-         :param int texpFac: (**Optional**) exposure factor used to divide the exposure time when computing Poisson noise. A value of 0 means no Poisson noise is added to the variance map.
+         :type scaleFactor: :python:`int` or :python:`float`
+         :param texpFac: (**Optional**) exposure factor used to divide the exposure time when computing Poisson noise. A value of :python:`0` means no Poisson noise is added to the variance map.
+         :type texpFac: :python:`int`
          
-         :returns: columns, column names and column types
-         :rtype: list[int/float/str], list[str], list[data type]
+         :returns: (columns, column names and column types)
+         :rtype: (:python:`list[int/float/str], list[str], list[Any]`)
          '''
          
         # Compute mean map to scale data
@@ -426,11 +465,12 @@ class FilterList:
         
         Factory function used to build a data table for Cigale SED fitting code.
         
-        :param CleanMethod cleanMethod: (**Optional**) method used to clean pixel with negative values. Accepted values are CleanMethod.ZERO or CleanMethod.MIN.
-        :param int texpFac: (**Optional**) exposure factor used to divide the exposure time when computing Poisson noise. A value of 0 means no Poisson noise is added to the variance map.
+        :param CleanMethod cleanMethod: (**Optional**) method used to clean pixel with negative values. Accepted values are :py:attr:`~.CleanMethod.ZERO` or :py:attr:`~.CleanMethod.MIN`.
+        :param texpFac: (**Optional**) exposure factor used to divide the exposure time when computing Poisson noise. A value of :python:`0` means no Poisson noise is added to the variance map.
+        :type texpFac: :python:`int`
         
-        :returns: columns, column names and column types
-        :rtype: list[int/float/str], list[str], list[data type]
+        :returns: (columns, column names and column types)
+        :rtype: (:python:`list[int/float/str], list[str], list[Any]`)
         '''
        
         dataList                   = []
@@ -471,13 +511,14 @@ class FilterList:
         
         Generate an input table for the SED fitting codes.
         
-        :param CleanMethod cleanMethod: (**Optional**) method used to clean pixel with negative values. Accepted values are CleanMethod.ZERO or CleanMethod.MIN.
+        :param CleanMethod cleanMethod: (**Optional**) method used to clean pixel with negative values. Accepted values are :py:attr:`~.CleanMethod.ZERO` or :py:attr:`~.CleanMethod.MIN`.
         :param scaleFactor: (**Optional**) factor used to multiply data and std map. Only used if SED fitting code is LePhare.
-        :type scaleFactor: int or float
-        :param int texpFac: (**Optional**) exposure factor used to divide the exposure time when computing Poisson noise. A value of 0 means no Poisson noise is added to the variance map.
+        :type scaleFactor: :python:`int` or :python:`float`
+        :param texpFac: (**Optional**) exposure factor used to divide the exposure time when computing Poisson noise. A value of :python:`0` means no Poisson noise is added to the variance map.
+        :type texpFac: :python:`int`
         
-        :returns: output table
-        :rtype: Astropy Table
+        :returns: an output table
+        :rtype: `Astropy Table`_
         
         :raises ValueError: if there are no filters in the filter list
         '''
@@ -509,17 +550,21 @@ class FilterList:
             
             Provide indices = True to get the indices of the non-NaN pixels in the 1D array (brefore NaN are removed).
             
-        :param ndarray data: data map
-        :param ndarray var: variance map
+        :param data: data map
+        :type data: `ndarray`_
+        :param var: variance map
+        :type var: `ndarray`_
         
-        :param bool indices: (**Optional**) whether to return the list of indices of non-NaN values or not
+        :param indices: (**Optional**) whether to return the list of indices of non-NaN values or not
+        :type indices: :python:`bool`
         
-        :returns: 1D data, 1D variance (and the indices if **indices** is True)
+        :returns: (1D data, 1D variance (and the indices if **indices** is :python:`True`))
+        :rtype: (`ndarray`_, `ndarray`_) or (`ndarray`_, `ndarray`_, `ndarray`_ [:python:`int`])
         
         :raises TypeError:
             
-            * if **data** or **var** are not ndarray
-            * if **indices** is not a bool
+            * if **data** or **var** are not `ndarray`_
+            * if **indices** is not a :python:`bool`
         '''
         
         if not any((isinstance(i, ndarray) for i in [data, var])):
@@ -557,18 +602,20 @@ class FilterList:
         
         .. note::
                 
-            * If **method** is CleanMethod.ZERO, negative values in the data and error maps are set to 0
-            * If **method** is CleanMethod.MIN, negative values in the data and error maps are set to the minimum value in the array
-            * If **method** is neither, 'zero' is used as default
+            * If **method** is :py:attr:`~.CleanMethod.ZERO`, negative values in the data and error maps are set to 0
+            * If **method** is :py:attr:`~.CleanMethod.MIN`, negative values in the data and error maps are set to the minimum value in the array
             
-        :param ndarray data: data map
-        :param ndarray var: variance map
-        :param ndarray[bool] mask: mask used to apply NaN values
+        :param data: data map
+        :type data: `ndarray`_
+        :param var: variance map
+        :type var: `ndarray`_
+        :param mask: mask used to apply NaN values
+        :type mask: `ndarray`_ [:python:`bool`]
         
-        :param CleanMethod method: (**Optional**) method to deal with negative values
+        :param CleanMethod method: (**Optional**) method to deal with negative values. Possible values are: :py:attr:`~.CleanMethod.ZERO` or :py:attr:`~.CleanMethod.MIN`.
         
         :returns: cleaned data and variance maps
-        :rtype: ndarray, ndarray
+        :rtype: (`ndarray`_, `ndarray`_)
         '''
         
         if not isinstance(method, CleanMethod):
@@ -605,27 +652,32 @@ class FilterList:
         
         .. note::
             
-            If **texpFac** is 0 or **texp** is None, no Poisson noise is added to the variance map
+            If **texpFac** is :python:`0` or **texp** is :python:`None`, no Poisson noise is added to the variance map
             
-        :param ndarray data: data map
-        :param ndarray data2: square of data map used to add Poisson noise
-        :param ndarray var: variance map
-        :param ndarray[bool] mask: mask map
+        :param data: data map
+        :type data: `ndarray`_
+        :param data2: square of data map used to add Poisson noise
+        :type data2: `ndarray`_
+        :param var: variance map
+        :type var: `ndarray`_
+        :param mask: mask map
+        :type mask: `ndarray`_ [:python:`bool`]
         
         :param CleanMethod cleanMethod: (**Optional**) method used for the cleaning process
         :param texp: (**Optional**) exposition time
-        :type texp: int or float
-        :param int texpFac: (**Optional**) factor used to divide the exposition time
+        :type texp: :python:`int` or :python:`float`
+        :param texpFac: (**Optional**) factor used to divide the exposition time
+        :type texpFac: :python:`int`
         
         :returns: cleaned data and cleaned variance map with Poisson noise added
-        :rtype: ndarray, ndarray
+        :rtype: (`ndarray`_, `ndarray`_)
         '''
         
         # Clean data and error maps of bad pixels and pixels with negative values
         data, var = self.clean(data, var, mask, method=cleanMethod)
             
         # Add Poisson noise to the variance map
-        if texp is not None:
+        if texp is not None or data2 is None:
             var  += self.poissonVar(data2, texp=texp, texpFac=texpFac)
         
         return data, var
@@ -637,12 +689,12 @@ class FilterList:
         Compute the averaged data and error maps over the spectral dimension for non masked pixels.
         
         :param maskVal: (**Optional**) value to put into masked pixels
-        :type maskVal: int or float
+        :type maskVal: :python:`int` or :python:`float`
         
         :returns: averaged data and averaged error map
-        :rtype: ndarray, ndarray
+        :rtype: (`ndarray`_, `ndarray`_)
         
-        :raises TypeError: if **maskVal** is neither int nor float
+        :raises TypeError: if **maskVal** is neither :python:`int` nor :python:`float`
         '''
         
         if not isinstance(maskVal, (int, float)):
@@ -688,18 +740,19 @@ class FilterList:
         
         where :math:`\rm{TEXP}` is the exposure time and :math:`\rm{TEXPFAC}` is a coefficient used to scale it down.
         
-        :param ndarray data2: square of flux map
+        :param data2: square of flux map
+        :type data2: `ndarray`_
         
         :param texp: (**Optional**) exposure time in seconds
-        :type text: int or float
+        :type texp: :python:`int` or :python:`float`
         :param texpFac: (**Optional**) exposure factor
-        :type texpFac: int or float
+        :type texpFac: :python:`int` or :python:`float`
         
-        :raises TypeError: if **texp** or **texpFac** are not both int or float
+        :raises TypeError: if **texp** or **texpFac** are not both :python:`int` or :python:`float`
         :raises ValueError:
             
-            * if **texp** is less than or equal to 0
-            * if **texpFac** is less than 0
+            * if :python:`texp <= 0`
+            * if :python:`texpFac < 0`
         '''
         
         if not all([isinstance(i, (int, float)) for i in [texp, texpFac]]):
@@ -719,15 +772,18 @@ class FilterList:
         
         Normalise given data and error maps using a norm map and scale by a certain amount. Necessary for LePhare SED fitting code.
         
-        :param ndarray data: data map
-        :param ndarray var: variance map
-        :param ndarray norm: normalisation map which divides data and error maps
+        :param data: data map
+        :type data: `ndarray`_
+        :param var: variance map
+        :type var: `ndarray`_
+        :param norm: normalisation map which divides data and error maps
+        :type norm: `ndarray`_
         
         :param factor: (**Optional**) scale factor which multiplies the output array
-        :type factor: int or float
+        :type factor: :python:`int` or :python:`float`
         
         :returns: scaled data and variance maps
-        :rtype: ndarray, ndarray
+        :rtype: (`ndarray`_, `ndarray`_)
         
         :raises ValueError: if **data** and **norm** do not have the same shapes
         '''
@@ -762,7 +818,7 @@ class FilterList:
         .. warning::
             
             This function also recomputes and rewrites the output table used for the SED fitting.
-            If you want a table with different parameters you must run :py:meth:`FilterList.genTable` again, for e.g.
+            If you want a table with different parameters you must run :py:meth:`~FilterList.genTable` again, for e.g.
             
             >>> from SED.misc import SEDcode, CleanMethod
             >>> flist = FilterList(filters, mask)          # setCode and genTable methods are called with default SED fitting code name
@@ -770,9 +826,9 @@ class FilterList:
                               cleanMethod=CleanMethod.MIN, # Additional parameters are passed to genTable
                               scaleFactor=50)                             
         
-        :param SEDcode code: code used for SED fitting. Acceptable values are SEDcode.CIGALE and SEDcode.LEPHARE.
+        :param SEDcode code: code used for SED fitting. Acceptable values are :py:attr:`~.SEDcode.CIGALE` and :py:attr:`~.SEDcode.LEPHARE`.
         
-        :raises TypeError: if **code** is not of type str
+        :raises TypeError: if **code** is not of type :py:class:`~.SEDcode`
         '''
         
         if not isinstance(code, SEDcode):

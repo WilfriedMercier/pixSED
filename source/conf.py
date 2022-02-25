@@ -24,13 +24,14 @@ highlight_options  = {'default': {'lexers.python.PythonLexer'},
                      }
 
 extensions         = ['sphinx.ext.autodoc',
-                      'sphinx.ext.imgmath',
+#                      'sphinx.ext.imgmath',
+                      'sphinx.ext.mathjax',
                       'sphinx.ext.viewcode',
                       'sphinx.ext.autosummary',
                       'matplotlib.sphinxext.plot_directive',
                       #'sphinx_copybutton',
                       'sphinx_execute_code',
-                      'sphinx.ext.intersphinx'
+                      'sphinx.ext.intersphinx',
                      ]
 
 # The full version, including alpha/beta/rc tags
@@ -44,8 +45,20 @@ exclude_patterns   = []
 #               Options for HTML output               #
 #######################################################
 
-html_theme         = 'karma_sphinx_theme'
+#html_theme         = 'karma_sphinx_theme'
+html_theme = "sphinxawesome_theme"
 # html_logo          = "path/to/my/logo.png"
-'''
-html_theme_options = {'navigation_depth': 1}
-'''
+
+html_theme_options = {'extra_header_links' : {
+                      "GitHub": "https://github.com/WilfriedMercier/SED"
+                     },
+    }
+
+html_collapsible_definitions = True
+
+rst_prolog = """
+.. role:: python(code)
+  :language: python
+  :class: highlight
+"""
+

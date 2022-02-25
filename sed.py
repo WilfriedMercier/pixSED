@@ -31,7 +31,11 @@ ERROR   = errorMessage('Error:')
 WARNING = warningMessage('Warning:')
 
 class SED(ABC):
-    r'''Abstract SED object used for inheritance.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Abstract SED object used for inheritance.
+    '''
     
     def __init__(self, *args, **kwargs) -> None:
         r'''Init SED oject.'''

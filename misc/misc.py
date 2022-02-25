@@ -16,19 +16,22 @@ from   typing        import Any
 ##############################################
       
 class ShapeError(Exception):
-    r'''Error which is caught when two arrays do not share the same shape.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Error which is caught when two arrays do not share the same shape.
+    
+    :param arr1: first array
+    :type arr1: `ndarray`_
+    :param arr2: second array
+    :type arr2: `ndarray`_
+    
+    :param msg: (**Optional**) message to append at the end
+    :type msg: :python:`str`
+    '''
     
     def __init__(self, arr1: ndarray, arr2: ndarray, msg: str = '', **kwargs) -> None:
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init method for this exception.
-        
-        :param ndarray arr1: first array
-        :param ndarray arr2: second array
-        
-        :param str msg: (**Optional**) message to append at the end
-        '''
+        r'''Init method.'''
         
         if not isinstance(msg, str):
             msg = ''
@@ -104,26 +107,26 @@ def check_type_in_list(dtype):
 ##########################
 
 class NamedColumn:
-   r'''A general named column to assicate to an Enum object.'''
+   r'''
+   .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
    
-   def __init__(self, name: str, unit: Unit, end: str = '', log=False) -> None:
-      r'''
-      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-      
-      Init named column.
-      
-      :param str name: name of the column when included in a Table
-      :param Unit unit: unit of the column
-      
-      :param str end: (**Optional**) end string to append to the associate enum name
-      :param bool log: (**Optional**) whether this column holds log values. This will trigger a conversion to the power of 10 if True.
-      
-      :raises TypeError: 
-         
-         * if **name** is not of type str
-         * if **unit** is not of type Astropy Unit
-         * if **end** is not of type str
-      '''
+   A general named column to assicate to an Enum object.
+   
+   :param name: name of the column when included in a Table
+   :type name: :python:`str`
+   :param unit: unit of the column
+   :type unit: :python:`str`
+   
+   :param end: (**Optional**) end string to append to the associate enum name
+   :type end: :python:`str`
+   :param log: (**Optional**) whether this column holds log values. This will trigger a conversion to the power of 10 if True.
+   :type log: :python:`bool`
+   
+   :raises TypeError: if **name**, **unit** and **end** are not of type :python:`str`
+   '''
+   
+   def __init__(self, name: str, unit: str, end: str = '', log=False) -> None:
+      r'''Init method.'''
       
       if any((not isinstance(i, str) for i in [name, unit, end])):
          raise TypeError('one of the parameters does not have type str.')
@@ -135,16 +138,19 @@ class NamedColumn:
       
       
 class PhysicalLogQuantity:
-   r'''Implement an Astropy Quantity which can have log of physical values.'''
+   r'''
+   .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+   
+   Implement an Astropy Quantity which can have log of physical values.
+   
+   :param value: value to pass to the constructor
+   
+   :param unit: data unit
+   :type unit: :python:`str`
+   '''
    
    def __init__(self, value: Any, *args, unit: str = '', **kwargs) -> None:
-      r'''
-      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-      
-      Init the physical log quantity object.
-      
-      :param value: value to pass to the constructor
-      '''
+      r'''Init method.'''
       
       # Get unit for data when it is not in log form
       if 'unit' in kwargs:

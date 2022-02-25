@@ -18,31 +18,36 @@ import os.path as     opath
         
 class Property(ABC):
     r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
     Abstract class which defines a property object used by SED objects to store SED parameters.
     
     You must subclass it with __str__ and set methods or used a default subclass in order to use it.
+    
+    :param default: default value used at init
+
+    :param minBound: (**Optional**) minimum value for the property. If None, it is ignored.
+    :param maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
+    :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+    :type testFunc: :python:`Callable`
+    :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
+    :type testMsg: :python:`str`
+    
+    :raises TypeError: 
+        
+        * if **testFunc** is not a :python:`Callable`
+        * if **testMsg** is not of type :python:`str`
+        
+    :raises ValueError: if **minBound** is larger than **maxBound** and both are not :python:`None`
     '''
     
     def __init__(self, default: Any,
                  minBound: Optional[Any] = None, 
                  maxBound: Optional[Any] = None, 
                  testFunc: Callable[[Any], bool] = lambda value: False, 
-                 testMsg: str ='', **kwargs) -> None:
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init the property object.
-
-        :param default: default value used at init
-
-        :param minBound: (**Optional**) minimum value for the property. If None, it is ignored.
-        :param maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
-        :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
-        
-        :raises TypeError: if **testFunc** is not callable or **testMsg** is not of type str
-        :raises ValueError: if **minBound** is larger than **maxBound** and both are not None
-        '''
+                 testMsg: str ='', 
+                 **kwargs) -> None:
+        r'''Init method.'''
         
         if not callable(testFunc) or not isinstance(testMsg, str):
             raise TypeError('test function and test message must be a callable object and of type str respectively.')
@@ -66,6 +71,9 @@ class Property(ABC):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class.
+        
+        :returns: the string representation
+        :rtype: :python:`str`
         '''
         
         return
@@ -82,13 +90,15 @@ class Property(ABC):
         :param value: value to check
         :param mini: minimum value
         :param maxi: maximum value
-        :param function func: test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :param str msg: test message used to throw an error if testFunc returns False
+        :param func: test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+        :type func: :python:`Callable`
+        :param msg: test message used to throw an error if testFunc returns False
+        :type msg: :python:`str`
         
         :raises ValueError:
             
-            * if the **value** is below the minimum bound
-            * if the **value** is above the maximum bound
+            * if :python:`value < mini`
+            * if :python:`value > maxi`
             * if the test function is not passed
         '''
         
@@ -122,10 +132,13 @@ class BoolProperty(Property):
     
     Define a property object which stores a single boolean.
     
-    :param bool default: default value used at init
+    :param default: default value used at init
+    :type default: :python:`bool`
     
     :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-    :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
+    :type testFunc: :python:`Callable`
+    :param testMsg: (**Optional**) a test message used to throw an error if **testFunc** returns :python:`False`
+    :type testMsg: :python:`str`
     '''
     
     def __init__(self, default: bool,
@@ -144,6 +157,9 @@ class BoolProperty(Property):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class.
+        
+        :returns: the string representation
+        :rtype: :python:`str`
         '''
         
         return f'{self.value}'
@@ -155,7 +171,8 @@ class BoolProperty(Property):
         
         Set the current value.
 
-        :param bool value: new value
+        :param value: new value
+        :type value: :python:`bool`
         '''
         
         self.check_bounds(value, None, None, self._testFunc, self._testMsg)
@@ -171,10 +188,14 @@ class IntProperty(Property):
     
     :param int default: default value used at init
 
-    :param int minBound: (**Optional**) minimum value for the property. If None, it is ignored.
-    :param int maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
+    :param minBound: (**Optional**) minimum value for the property. If None, it is ignored.
+    :type minBound: :python:`int`
+    :param maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
+    :type maxBound: :python:`int`
     :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-    :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
+    :type testFunc: :python:`Callable`
+    :param testMsg: (**Optional**) a test message used to throw an error if **testFunc** returns :python:`False`
+    :type testMsg: :python:`str`
     '''
     
     def __init__(self, default: int,
@@ -195,6 +216,9 @@ class IntProperty(Property):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class.
+        
+        :returns: the string representation
+        :rtype: :python:`str`
         '''
         
         return f'{self.value}'
@@ -205,7 +229,8 @@ class IntProperty(Property):
         
         Set the current value.
 
-        :param int value: new value. Must be within bounds.
+        :param value: new value. Must be within bounds.
+        :type value: :python:`int`
         '''
         
         self.check_bounds(value, self.min, self.max, self._testFunc, self._testMsg)
@@ -213,7 +238,23 @@ class IntProperty(Property):
         return
     
 class FloatProperty(Property):
-    r'''Define a property object which stores a single float.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Define a property object which stores a single float.
+    
+    :param default: default value used at init
+    :type default: :python:`float`
+
+    :param minBound: (**Optional**) minimum value for the property. If None, it is ignored.
+    :type minBound: :python:`float`
+    :param maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
+    :type maxBound: :python:`float`
+    :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+    :type testFunc: :python:`Callable`
+    :param testMsg: (**Optional**) a test message used to throw an error if **testFunc** returns :python:`False`
+    :type testMsg: :python:`str`
+    '''
     
     def __init__(self, default: float,
                  minBound: float = None, 
@@ -221,18 +262,7 @@ class FloatProperty(Property):
                  testFunc: Callable[[float], bool] = lambda value: False, 
                  testMsg: str ='', **kwargs) -> None:
         
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init the float property object.
-
-        :param float default: default value used at init
-
-        :param float minBound: (**Optional**) minimum value for the property. If None, it is ignored.
-        :param float maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
-        :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
-        '''
+        r'''Init method.'''
         
         super().__init__(default, minBound=minBound, maxBound=maxBound, testFunc=testFunc, testMsg=testMsg)
         
@@ -244,6 +274,9 @@ class FloatProperty(Property):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class.
+        
+        :returns: the string representation
+        :type: :python:`str`
         '''
         
         # -1 is the value which indicates no value in LePhare
@@ -256,11 +289,13 @@ class FloatProperty(Property):
     
     @check_type(float)
     def set(self, value: float, *args, **kwargs) -> None:
-        r'''.. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Set the current value.
 
-        :param float value: new value. Must be within bounds.
+        :param value: new value. Must be within bounds.
+        :type value: :python:`float`
         '''
         
         if value != '-1':
@@ -269,23 +304,26 @@ class FloatProperty(Property):
         self.value = value
         return
     
-class StrProperty(Property):
-    r'''Define a property which stores a single str object.'''
+class StrProperty(Property): # XXX to be continued
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Define a property which stores a single str object.
+    
+    :param default: default value used at init
+    :type default: :python:`str`
+
+    :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+    :type testFunc: :python:`Callable`
+    :param testMsg: (**Optional**) a test message used to throw an error if **testFunc** returns :python:`False`
+    :type testMsg: :python:`str`
+    '''
     
     def __init__(self, default: str,
                  testFunc: Callable[[str], bool] = lambda value: False, 
                  testMsg: str ='', **kwargs) -> None:
         
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init the string property object.
-
-        :param str default: default value used at init
-
-        :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
-        '''
+        r'''Init method.'''
         
         super().__init__(default, minBound=None, maxBound=None, testFunc=testFunc, testMsg=testMsg)
         
@@ -297,6 +335,9 @@ class StrProperty(Property):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class.
+        
+        :returns: the string representatin
+        :rtype: :python:`str`
         '''
         
         return self.value
@@ -308,7 +349,8 @@ class StrProperty(Property):
         
         Set the current value.
 
-        :param str value: new value. Must be within bounds.
+        :param value: new value. Must be within bounds.
+        :type value: :python:`str`
         
         :raises ValueError: if the test function does not pass
         '''
@@ -325,9 +367,20 @@ class StrProperty(Property):
     
 class ListProperty(Property):
     r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
     An abstract class which defines a property which stores a list object.
     
     You must subclass it with __str__ and set methods or use a default subclass in order to use it.
+    
+    :param default: default value used at init
+
+    :param minBound: (**Optional**) minimum value for the property. If None, it is ignored.
+    :param maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
+    :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+    :type testFunc: :python:`Callable`
+    :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
+    :type testMsg: :python:`str`
     '''
         
     def __init__(self, default: List[Any],
@@ -336,18 +389,7 @@ class ListProperty(Property):
                  testFunc: Callable[[List[Any]], bool] = lambda value: False, 
                  testMsg: str ='', **kwargs) -> None:
         
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init the list property object.
-
-        :param default: default value used at init
-
-        :param minBound: (**Optional**) minimum value for the property. If None, it is ignored.
-        :param maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
-        :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
-        '''
+        r'''Init method.'''
         
         super().__init__(default, minBound=minBound, maxBound=maxBound, testFunc=testFunc, testMsg=testMsg)
         
@@ -360,11 +402,14 @@ class ListProperty(Property):
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
-        :param list value: value to check
+        :param value: value to check
+        :type value: :python:`list`
         :param mini: minimum value
         :param maxi: maximum value
-        :param function func: test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :param str msg: test message used to throw an error if testFunc returns False
+        :param func: test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+        :type func: :python:`Callable`
+        :param msg: test message used to throw an error if testFunc returns False
+        :type msg: :python:`str`
         
         :raises ValueError:
             
@@ -391,32 +436,39 @@ class ListProperty(Property):
         
         Set the current value.
 
-        :param list value: new value. Must be of correct type, and within bounds.
+        :param value: new value. Must be of correct type, and within bounds.
+        :type value: :python:`list`
         '''
         
         return
     
 class ListIntProperty(ListProperty):
-    r'''Define a property which stores an int list object.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Define a property which stores an int list object.
+    
+    :param default: default value used at init
+    :type default: :python:`list[int]`
+
+    :param minBound: (**Optional**) minimum value for the property. If :python:`None`, it is ignored.
+    :type minBound: :python:`int`
+    :param maxBound: (**Optional**) maximum value for the property. If :python:`None`, it is ignored.
+    :type maxBound: :python:`int`
+    :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+    :type testFunc: :python:`Callable`
+    :param testMsg: (**Optional**) a test message used to throw an error if **testFunc** returns :python:`False`
+    :type testMsg: :python:`str`
+    '''
     
     def __init__(self, default: List[int],
                  minBound: int = None, 
                  maxBound: int = None, 
                  testFunc: Callable[[List[int]], bool] = lambda value: False, 
-                 testMsg: str ='', **kwargs) -> None:
+                 testMsg: str ='', 
+                 **kwargs) -> None:
         
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init the int list property object.
-
-        :param list[int] default: default value used at init
-
-        :param int minBound: (**Optional**) minimum value for the property. If None, it is ignored.
-        :param int maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
-        :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
-        '''
+        r'''Init method.'''
         
         super().__init__(default, minBound=minBound, maxBound=maxBound, testFunc=testFunc, testMsg=testMsg)
         
@@ -428,6 +480,9 @@ class ListIntProperty(ListProperty):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class.
+        
+        :returns: the string representation
+        :rtype :python:`str`
         '''
         
         return ','.join([f'{i}' for i in self.value])
@@ -440,7 +495,8 @@ class ListIntProperty(ListProperty):
         
         Set the current value.
 
-        :param list[int] value: new value. Must be of correct type, and within bounds.
+        :param value: new value. Must be of correct type, and within bounds.
+        :type value: :python:`list[int]`
         '''
         
         self.check_bounds(value, self.min, self.max, self._testFunc, self._testMsg)
@@ -448,26 +504,32 @@ class ListIntProperty(ListProperty):
         return
     
 class ListFloatProperty(ListProperty):
-    r'''Define a property which stores an int list object.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Define a property which stores an int list object.
+    
+    :param default: default value used at init
+    :type default: :python:`list[float]`
+
+    :param minBound: (**Optional**) minimum value for the property. If None, it is ignored.
+    :type minBound: :python:`float`
+    :param maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
+    :type maxBound: :python:`float`
+    :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+    :type testFunc: :python:`Callable`
+    :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
+    :type testMsg: :python:`str`
+    '''
     
     def __init__(self, default: List[float],
                  minBound: float = None, 
                  maxBound: float = None, 
                  testFunc: Callable[[List[float]], bool] = lambda value: False, 
-                 testMsg: str ='', **kwargs) -> None:
+                 testMsg: str ='', 
+                 **kwargs) -> None:
         
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init the float list property object.
-
-        :param list[float] default: default value used at init
-
-        :param float minBound: (**Optional**) minimum value for the property. If None, it is ignored.
-        :param float maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
-        :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
-        '''
+        r'''Init method.'''
         
         super().__init__(default, minBound=minBound, maxBound=maxBound, testFunc=testFunc, testMsg=testMsg)
         
@@ -491,7 +553,8 @@ class ListFloatProperty(ListProperty):
         
         Set the current value.
 
-        :param list[float] value: new value. Must be of correct type, and within bounds.
+        :param value: new value. Must be of correct type, and within bounds.
+        :type value: :python:`list[float]`
         '''
         
         self.check_bounds(value, self.min, self.max, self._testFunc, self._testMsg)
@@ -510,10 +573,13 @@ class ListStrProperty(ListProperty):
         
         Init the str list property object.
 
-        :param list[str] default: default value used at init
+        :param default: default value used at init
+        :type default: :python:`list[str]`
 
         :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+        :type testFunc: :python:`Callable`
         :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
+        :type testMsg: :python:`str`
         '''
         
         super().__init__(default, minBound=None, maxBound=None, testFunc=testFunc, testMsg=testMsg)
@@ -526,6 +592,9 @@ class ListStrProperty(ListProperty):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class.
+        
+        :returns: the string representation
+        :rtype: :python:`str`
         '''
         
         return ','.join(self.value)
@@ -538,7 +607,8 @@ class ListStrProperty(ListProperty):
         
         Set the current value.
 
-        :param list[str] value: new value. Must be of correct type, and within bounds.
+        :param value: new value. Must be of correct type, and within bounds.
+        :type value: :python:`list[str]`
         
         :raises ValueError: if the test function does not pass
         '''
@@ -555,7 +625,25 @@ class ListStrProperty(ListProperty):
 #############################################
 
 class PathProperty(Property):
-    r'''Define a property which stores a str object which includes additional checks for paths.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Define a property which stores a str object which includes additional checks for paths.
+    
+    :param default: default value used at init
+    :type default: :python:`str`
+
+    :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+    :type testFunc: :python:`Callable`
+    :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
+    :type testMsg: :python:`str`
+    :param str path: (**Optional**) path to append each time to the new value
+    :type path: :python:`str`
+    :param str ext: (**Optional**) extension to append at the end of the file name when checking the path
+    :type ext: :python:`str`
+    
+    :raises TypeError: if neither **path** nor **ext** are :python:`str`
+    '''
 
     def __init__(self, default: str,
                  testFunc: Callable[[str], bool] = lambda value: False, 
@@ -563,20 +651,7 @@ class PathProperty(Property):
                  path: str = '', 
                  ext: str = '', **kwargs) -> None:
         
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init the path property object.
-
-        :param str default: default value used at init
-
-        :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
-        :param str path: (**Optional**) path to append each time to the new value
-        :param str ext: (**Optionall**) extension to append at the end of the file name when checking the path
-        
-        :raises TypeError: if neither **path** nor **ext** are str
-        '''
+        r'''Init method.'''
         
         if not isinstance(path, str):
             raise TypeError(f'path has type {type(path)} but it must have type str.')
@@ -600,6 +675,9 @@ class PathProperty(Property):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class.
+        
+        :returns: the string representation
+        :type: :python:`str`
         '''
         
         return self.value
@@ -611,7 +689,8 @@ class PathProperty(Property):
         
         Set the current value.
 
-        :param str value: new value. Must be within bounds.
+        :param value: new value. Must be within bounds.
+        :type value: :python:`str`
         
         :raises OSError: if the path does not exist
         :raises ValueError: if the test function does not pass
@@ -629,28 +708,34 @@ class PathProperty(Property):
         return
 
 class ListPathProperty(ListProperty):
-    r'''Define a property which stores a str list object which includes additional checks for paths.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Define a property which stores a str list object which includes additional checks for paths.
+    
+    :param default: default value used at init
+    :type default: :python:`list[str]`
+
+    :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+    :type testFunc: :python:`Callable`
+    :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
+    :type testMsg: :python:`str
+    :param path: (**Optional**) path to append each time to the new value
+    :type path: :python:`str`
+    :param ext: (**Optional**) extension to append at the end of the file name when checking the path
+    :type ext: :python:`str`
+    
+    :raises TypeError: if neither **path** nor **ext** are :python:`str`
+    '''
 
     def __init__(self, default: List[str],
                  testFunc: Callable[[List[str]], bool] = lambda value: False, 
                  testMsg: str ='', 
                  path: str = '', 
-                 ext: str = '', **kwargs) -> None:
+                 ext: str = '', 
+                 **kwargs) -> None:
         
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init the path list property object.
-
-        :param list[str] default: default value used at init
-
-        :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
-        :param str path: (**Optional**) path to append each time to the new value
-        :param str ext: (**Optionall**) extension to append at the end of the file name when checking the path
-        
-        :raises TypeError: if neither **path** nor **ext** are str
-        '''
+        r'''Init method.'''
         
         if not isinstance(path, str):
             raise TypeError(f'path has type {type(path)} but it must have type str.')
@@ -674,6 +759,9 @@ class ListPathProperty(ListProperty):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class.
+        
+        :returns: the string representation
+        :rtype: :python:`str`
         '''
         
         return ','.join(self.value)
@@ -686,7 +774,8 @@ class ListPathProperty(ListProperty):
         
         Set the current value.
 
-        :param list[str] value: new value. Must be of correct type, and within bounds.
+        :param value: new value. Must be of correct type, and within bounds.
+        :type value: :python:`list[str]`
         
         :raises OSError: if at least one path does not exist
         :raises ValueError: if the test function does not pass
@@ -711,22 +800,26 @@ class ListPathProperty(ListProperty):
 #####################################
 
 class EnumProperty:
-    r'''Define a property which stores an Enum object.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Define a property which stores an Enum object.
+    
+    :param default: default value used at init
+    :type default: :python:`enum.Enum`
+
+    :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+    :type testFunc: :python:`Callable`
+    :param testMsg: (**Optional**) a test message used to throw an error if **testFunc** returns :python:`False`
+    :type testMsg: :python:`str`
+    '''
     
     def __init__(self, value: Enum, 
                  testFunc: Callable[[List[str]], bool] = lambda value: False, 
-                 testMsg: str ='', **kwargs) -> None:
+                 testMsg: str ='', 
+                 **kwargs) -> None:
     
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-            
-        Init the enum property object.
-    
-        :param Enum default: default value used at init
-    
-        :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
-        '''
+        r'''Init method.'''
         
         if not callable(testFunc) or not isinstance(testMsg, str):
             raise TypeError('test function and test message must be a callable object and of type str respectively.')
@@ -741,6 +834,9 @@ class EnumProperty:
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class.
+        
+        :returns: the string representation
+        :rtype: :python:`str`
         '''
         
         return self.value.value
@@ -753,8 +849,9 @@ class EnumProperty:
         Set the current value.
 
         :param value: new value
+        :type: :python:`enum.Enum`
         
-        :raises TypeError: if **value** is not of type Enum
+        :raises TypeError: if **value** is not of type :python:`enum.Enum`
         :raises ValueError: if the test function does not pass
         '''
             

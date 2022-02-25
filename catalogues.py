@@ -18,14 +18,15 @@ class Catalogue(ABC):
     
     Class implementing a catalogue consisting of as Astropy Table and additional information used by the SED fitting codes. This is supposed to be subclassed to account for specificities of LePhare or Cigale catalogues.
     
-    :param str fname: name of the catalogue file where the catalogue is written into when saving
+    :param fname: name of the catalogue file where the catalogue is written into when saving
+    :type fname: :python:`str`
     :param table: input table
-    :type table: Astropy Table
+    :type table: `Astropy Table`_
     
     :raises TypeError:
          
-        * if **table** is not an astropy Table
-        * if **fname** is not of type str
+        * if **table** is not an `Astropy Table`_
+        * if **fname** is not of type :python:`str`
     '''
     
     def __init__(self, fname: str, table: Table, *args, **kwargs) -> None:
@@ -46,10 +47,11 @@ class Catalogue(ABC):
         
         Save the catalogue into the given file.
         
-        :param str path:(**Optional**) a path to append to the file name
-        :param kwargs: optional parameters passed to Astropy.table.Table.writeto method
+        :param path: (**Optional**) a path to append to the file name
+        :type path: :python:`str`
+        :param \**kwargs: optional parameters passed to `Table.write()`_
         
-        :raises TypeError: if **path** is not of type str
+        :raises TypeError: if **path** is not of type :python:`str`
         '''
 
         if not isinstance(path, str):
@@ -65,6 +67,9 @@ class Catalogue(ABC):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Return a text representation of the catalogue used when making the parameter files.
+        
+        :returns: output representation
+        :rtype: :python:`str`
         '''
         
         return
@@ -76,9 +81,10 @@ class CigaleCat(Catalogue):
     
     Class implementing a catalogue compatible with Cigale SED fitting code.
     
-    :param str fname: name of the output file containing the catalogue when it is saved (without any extension, e.g. galaxy1 instead of galaxy1.mag)
+    :param fname: name of the output file containing the catalogue when it is saved (without any extension, e.g. galaxy1 instead of galaxy1.mag)
+    :type fname: :python:`str`
     :param table: input table
-    :type table: Astropy Table
+    :type table: `Astropy Table`_
     '''
 
     def __init__(self, fname: str, table: Table) -> None:
@@ -92,10 +98,11 @@ class CigaleCat(Catalogue):
         
         Save LePhare catalogue into the given file.
         
-        :param str path:(**Optional**) a path to append to the file name
-        :param kwargs: optional parameters passed to Astropy.table.Table.writeto method
+        :param path: (**Optional**) a path to append to the file name
+        :type path: :python:`str`
+        :param \**kwargs: optional parameters passed to `Table.write()`_ method
         
-        :raises TypeError: if **path** is not of type str
+        :raises TypeError: if **path** is not of type :python:`str`
         '''
             
         if not isinstance(path, str):
@@ -112,23 +119,29 @@ class LePhareCat(Catalogue):
     
     Class implementing a catalogue compatible with LePhare SED fitting code.
     
-    :param str fname: name of the output file containing the catalogue when it is saved (without any extension, e.g. galaxy1 instead of galaxy1.in)
+    :param fname: name of the output file containing the catalogue when it is saved (without any extension, e.g. galaxy1 instead of galaxy1.in)
+    :type fname: :python:`str`
     :param table: input table
-    :type table: Astropy Table
+    :type table: `Astropy Table`_
     
     :param TableUnit tunit: (**Optional**) unit of the table data. Must either be TableUnit.MAG for magnitude or TableUnit.FLUX for flux.
     :param MagType magtype: (**Optional**) magnitude type if data are in magnitude unit. Must either be MagType.AB or MagType.VEGA.
     :param TableFormat tformat: (**Optional**) format of the table. Must either be TableFormat.MEME if data and error columns are intertwined or TableFormat.MMEE if columns are first data and then errors.
     :param TableType ttype: (**Optional**) data type. Must either be TableType.SHORT or TableType.LONG.
-    :param list[int] nlines: (**Optional**) first and last line of the catalogue to be used during the SED fitting
+    :param nlines: (**Optional**) first and last line of the catalogue to be used during the SED fitting
+    :type nlines: :python:`list[int]`
     
     :raises TypeError:
          
-        * if **table** is not an astropy Table
-        * if **fname** is not of type str
-        * if **nlines** is not a list
+        * if **table** is not an `Astropy Table`_
+        * if **fname** is not of type :python:`str`
+        * if **nlines** is not a :python:`list[int]`
         
-    :raises ValueError: if **nlines** values are not int, or if first value is less than 0, or if second value is less than the first one
+    :raises ValueError: 
+        
+        * if **nlines** values are not :python:`int`
+        * if the first value is less than 0
+        * if the second value is less than the first one
     '''
     
     def __init__(self, fname: str, table: Table, 
@@ -173,7 +186,7 @@ class LePhareCat(Catalogue):
         Return a text representation of the catalogue used when making the parameter files.
         
         :returns: output representation
-        :rtype: str
+        :rtype: :python:`str`
         '''
         
         text =  f'''
@@ -195,10 +208,11 @@ class LePhareCat(Catalogue):
         
         Save LePhare catalogue into the given file.
         
-        :param str path:(**Optional**) a path to append to the file name
-        :param kwargs: optional parameters passed to Astropy.table.Table.writeto method
+        :param path:(**Optional**) a path to append to the file name
+        :type path: :python:`str`
+        :param \**kwargs: optional parameters passed to `Table.write()`_ method
         
-        :raises TypeError: if **path** is not of type str
+        :raises TypeError: if **path** is not of type :python:`str`
         '''
             
         if not isinstance(path, str):
