@@ -4,9 +4,11 @@ Installation and setup
 .. _Astropy: https://www.astropy.org/>
 .. _colorama: https://pypi.org/project/colorama/
 .. _numpy: https://numpy.org/
-.. _LePhare: https://www.cfht.hawaii.edu/~arnouts/LEPHARE/lephare.html
-.. _Cigale: https://cigale.lam.fr/
 .. _gfortran: http://gcc.gnu.org/fortran/
+.. _LePhare: https://www.cfht.hawaii.edu/~arnouts/LEPHARE/download.html
+.. _LePhare documentation: https://www.cfht.hawaii.edu/~arnouts/LEPHARE/install.html
+.. _Cigale: https://gitlab.lam.fr/gyang/cigale/tree/xray
+.. _Cigale documentation: https://cigale.lam.fr/documentation
 
 .. role:: bash(code)
 
@@ -57,7 +59,11 @@ Here we provide links and information on how to properly setup the environment o
 LePhare_
 ########
 
-You can download LePhare SED fitting code `here <https://www.cfht.hawaii.edu/~arnouts/LEPHARE/download.html>`_ along with other SED libraries. Follow the `installation instructions <https://www.cfht.hawaii.edu/~arnouts/LEPHARE/install.html>`_ to properly install LePhare. 
+You can download LePhare SED fitting code `LePhare`_ along with other SED libraries. Follow `LePhare documentation`_ to properly install LePhare. 
+
+.. note::
+
+    This SED library uses by default Bruzual and Charlot 2003 SSP library. It is recommended to install it along LePhare in order to run the examples.
 
 In order to compile LePhare, you need to have Fortran installed on your machine (e.g. gfortran_).
 
@@ -81,11 +87,26 @@ In order to compile LePhare, you need to have Fortran installed on your machine 
     
         . ~/.bashrc
 
+.. note::
+
+    This library uses by default custom HST filters. These are provided in :file:`additional_files/{lephare}/filters` directory. It is recommended to add them into LePhare filters list in order to run the examples. On Linux and MacOS, this can be done using :file:`additional_files/lephare/{addFilters.sh}` with the command lines
+    
+    .. code:: bash
+    
+        cd additional_files/lephare
+        ./addFilters.sh
+
 
 Cigale_
 #######
 
-.. warning::
-
-    Cigale not implemented yet.
+You can download the latest version of X-Cigale `Cigale`_. Follow `Cigale documentation`_ to properly install Cigale.
     
+.. note::
+
+    This library uses by default custom HST filters. These are provided in :file:`additional_files/{cigale}/filters` directory. It is recommended to add them into LePhare filters list in order to run the examples. On Linux and MacOS, this can be done using :file:`additional_files/cigale/{addFilters.sh}` with the command lines
+    
+    .. code:: bash
+    
+        cd additional_files/cigale
+        ./addFilters.sh

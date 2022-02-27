@@ -1,273 +1,414 @@
 
-
 <!DOCTYPE html>
+
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>SED classes &mdash; Resolved SED-fitting wrapper 0.5 documentation</title>
-  
-
-  
-  
-  
-  
-
-  
-
-  
-  
-    
-
-  
-
-  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="SED fitting code output classes" href="outputs.html" /> 
-
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
+<title>SED classes | Resolved SED-fitting wrapper 0.5 documentation</title>
+<link href="../_static/pygments.css" rel="stylesheet"/>
+<link href="../_static/theme.313ea551d1799b2102b1.css" rel="stylesheet"/>
+<link href="../_static/plot_directive.css" rel="stylesheet"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="outputs.html" rel="prev" title="SED fitting code output classes"/>
 </head>
-
-<body>
-    <header>
-        <div class="container">
-            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
-            <a class="site-title" href="../index.html">
-                Resolved SED-fitting wrapper
-            </a>
-        </div>
-    </header>
-
-
-<div class="breadcrumbs-outer hidden-xs-down">
-    <div class="container">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a></li>
-        
-          <li><a href="index.html">API</a></li>
-        
-      <li>SED classes</li>
-    
-    
-      <li class="breadcrumbs-aside">
-        
-            
-            <a href="../_sources/API/sed.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
+<body class="antialiased text-gray">
+<div class="h-screen xl:grid xl:grid-layout" data-action="keydown@window-&gt;search#focus" data-controller="sidebar search" id="page">
+<a class="block text-xl bg-white py-4 z-20 absolute top-0 h-18 inset-x-0 text-center transform -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75" href="#sed-classes" title="Skip navigation links">Skip to content</a>
+<header class="grid-area-header z-10 h-14 sm:h-18">
+<div class="bg-gray-dark shadow-md flex items-center h-full xl:px-2 relative"><div class="flex items-center">
+<button class="xl:hidden h-14 w-14 sm:h-18 sm:w-18 leading-14 sm:leading-18 text-gray-100 hover:bg-gray-700 hover:text-brand focus:outline-none focus:bg-gray-700 focus:text-brand" data-action="sidebar#open" data-sidebar-target="hamburger">
+<span class="sr-only">Open navigation menu</span>
+<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
+</button><a aria-label="Back to homepage" class="hover:bg-gray-700 focus:bg-gray-700 focus:outline-none tooltipped tooltipped-sw" href="../index.html"><span class="hidden lg:inline-block shrink-0 font-medium text-gray-100 mx-5 leading-14 sm:leading-18 tracking-wider">Resolved SED-fitting wrapper 0.5 documentation</span>
+</a></div><div class="flex justify-end items-center flex-1"><form action="../search.html" class="flex print:hidden justify-between items-center leading-14 sm:leading-18 md:ml-4 bg-gray-dark text-gray-300 focus-within:bg-gray-50 focus-within:text-gray-800 focus-within:absolute focus-within:inset-x-0 focus-within:top-0 md:focus-within:w-full md:focus-within:static" data-action="click-&gt;search#focusSearchInput" id="searchbox" method="get">
+<button aria-label="Get search results" class="text-inherit h-14 w-14 sm:h-18 sm:w-18" tabindex="-1">
+<svg aria-hidden="true" class="fill-current stroke-current h-8 w-8" stroke-width="0.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+</button>
+<input aria-label="Search the docs" class="pr-2 bg-transparent text-inherit focus:outline-none w-0 md:w-auto focus:w-full transition-all duration-100" data-search-target="searchInput" id="search-input" name="q" placeholder="Search the docs" type="search"/>
+</form><div class="shrink-0"><a class="h-14 sm:h-18 inline-block leading-14 sm:leading-18 text-gray-100 bg-transparent tracking-wide font-medium hover:text-brand focus:bg-gray-700 focus:outline-none hover:no-underline focus:text-brand px-4" href="../https%3A//github.com/WilfriedMercier/SED.html">GitHub</a></div></div>
 </div>
-    </div>
-</div>
-    <div class="main-outer">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-3 site-nav">
-                    
-<div role="search">
-    <form class="search" action="../search.html" method="get">
-        <div class="icon-input">
-            <input type="text" name="q" placeholder="Search" />
-            <span class="icon-search"></span>
-        </div>
-        <input type="submit" value="Go" class="d-hidden" />
-        <input type="hidden" name="check_keywords" value="yes" />
-        <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-                    <div class="site-nav-tree">
-                        
-                            
-                            
-                                <ul>
-<li class="toctree-l1"><a class="reference internal" href="../setup.html">Installation and setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../setup.html#required-dependencies">Required dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></li>
+</header>
+<aside class="grid-area-sidebar h-full fixed xl:relative inset-y-0 left-0 z-20 xl:z-0 print:hidden overflow-y-auto transition-all transform transform-gpu -translate-x-full opacity-0 duration-300 xl:translate-x-0 xl:opacity-100" data-sidebar-target="sidebar">
+<nav class="h-full overflow-y-auto bg-white text-gray-600 pt-8 flex flex-col" role="navigation">
+<div class="nav-toc flex-1 pl-6"><ul>
+<li class="toctree-l1"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../setup.html">Installation and setup</a></div><ul>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../setup.html#required-dependencies">Required dependencies</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></div><ul>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../setup.html#id1">LePhare</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../setup.html#id2">Cigale</a></div></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/lephare.html">LePhare</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/cigale.html">Cigale</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#nomenclature">Nomenclature</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#pre-processing-step">Pre-processing step</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code> objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code> object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code> object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial/index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></li>
+<li class="toctree-l1"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html">Tutorial introduction</a></div><ul>
+<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html">LePhare</a></div><ul>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate">Filter</code> and <code class="xref py py-class docutils literal notranslate">FilterList</code> objects</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html#step-2-generate-a-lepharecat-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate">LePhareCat</code> object</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html#step-3-create-a-lepharesed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate">LePhareSED</code> object</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html#step-4-bis-extract-output-data-from-output-file">Step 4-bis: Extract output data from output file</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html#step-5-generate-a-resolved-map">Step 5: Generate a resolved map</a></div></li>
+</ul>
+</li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/cigale.html">Cigale</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#nomenclature">Nomenclature</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#pre-processing-step">Pre-processing step</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate">Filter</code> and <code class="xref py py-class docutils literal notranslate">FilterList</code> objects</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate">Catalogue</code> object</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate">SED</code> object</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></div></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../examples/example1.html">1. Resolved stellar mass map with LePhare</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/example2.html">2. Resolved SFR map from an already existing LePhare output file</a></li>
+<li class="toctree-l1"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../examples/example1.html">1. Resolved stellar mass map with LePhare</a></div></li>
+<li class="toctree-l1"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../examples/example2.html">2. Resolved SFR map from an already existing LePhare output file</a></div></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">----------------------------------------</span></p>
+<p class="caption" role="heading"><span class="caption-text">―――――――――――――――</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="catalogues.html">Catalogue classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="filters.html">Filter classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="misc/index.html">Miscellaneous</a></li>
-<li class="toctree-l2"><a class="reference internal" href="outputs.html">SED fitting code output classes</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">SED classes</a></li>
+<li class="toctree-l1 current expanded"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="index.html">API</a></div><ul class="current">
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="catalogues.html">Catalogue classes</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="filters.html">Filter classes</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="misc/index.html">Miscellaneous</a></div><ul>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="misc/enum.html">Enumeration classes</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="misc/misc.html">Miscellaneous classes and functions</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="misc/properties.html">Property classes</a></div></li>
+</ul>
+</li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="outputs.html">SED fitting code output classes</a></div></li>
+<li class="toctree-l2 current expanded"><div class="nav-link"><a class="current reference internal" data-action="click-&gt;sidebar#close" href="#">SED classes</a></div></li>
 </ul>
 </li>
 </ul>
-
-                            
-                        
-                    </div>
-                </div>
-                <div class="col-12 col-lg-9">
-                    <div class="document">
-                        
-                            
-  <section id="module-SED.sed">
-<span id="sed-classes"></span><h1>SED classes<a class="headerlink" href="#module-SED.sed" title="Permalink to this headline">¶</a></h1>
-<p><em>Code author: Hugo Plombat - LUPM &lt;<a class="reference external" href="mailto:hugo&#46;plombat&#37;&#52;&#48;umontpellier&#46;fr">hugo<span>&#46;</span>plombat<span>&#64;</span>umontpellier<span>&#46;</span>fr</a>&gt; &amp; Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
+</div>
+<button class="text-4xl text-gray-800 p-4 bottom-0 hover:text-brand xl:hidden focus:text-brand self-center" data-action="" title="Close navigation menu">
+<span class="sr-only">Close navigation menu</span>
+<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</aside>
+<main class="px-10 xl:ml-fluid grid-area-main overflow-y-auto flex flex-col h-full mx-0 md:mx-auto xl:mr-0" data-action="scroll-&gt;scroll#showButton" data-controller="scroll"><nav aria-label="breadcrumbs" class="print:hidden mt-12 text-sm text-gray-light" role="navigation">
+<a class="text-gray-light text-sm hover:text-gray-dark font-medium focus:text-gray-dark" href="../index.html">Resolved SED-fitting wrapper 0.5 documentation</a>
+<span class="mr-1">/</span><a class="text-gray-light text-sm hover:text-gray-dark" href="index.html">API</a>
+<span class="mr-1">/</span><span aria-current="page">SED classes</span>
+</nav>
+<article class="flex-1" role="main">
+<section id="sed-classes">
+<h1>SED classes<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#sed-classes">¶</a></h1>
+<span class="target" id="module-SED.sed"></span><p><em>Code author: Hugo Plombat - LUPM &lt;<a class="reference external" href="mailto:hugo.plombat%40umontpellier.fr" rel="nofollow noopener">hugo<span>.</span>plombat<span>@</span>umontpellier<span>.</span>fr<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt; &amp; Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
 <p>Utilties related to generating 2D mass and SFR maps using LePhare SED fitting codes.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="SED.sed.CigaleSED">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">SED.sed.</span></span><span class="sig-name descname"><span class="pre">CigaleSED</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/sed.html#CigaleSED"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.sed.CigaleSED" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#SED.sed.SED" title="SED.sed.SED"><code class="xref py py-class docutils literal notranslate"><span class="pre">SED.sed.SED</span></code></a></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="SED.sed.CigaleSED.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/sed.html#CigaleSED.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.sed.CigaleSED.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Init SED oject.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="SED.sed.LePhareSED">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">SED.sed.</span></span><span class="sig-name descname"><span class="pre">LePhareSED</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/sed.html#LePhareSED"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.sed.LePhareSED" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#SED.sed.SED" title="SED.sed.SED"><code class="xref py py-class docutils literal notranslate"><span class="pre">SED.sed.SED</span></code></a></p>
-<p>Implements LePhare SED object.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="SED.sed.LePhareSED.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ID</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/SED/sed.html#LePhareSED.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.sed.LePhareSED.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
-<p>Init LePhare object.</p>
+<dl class="py class code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">SED.sed.</code><code class="sig-name descname">CigaleSED</code><span class="sig-paren">(</span><em class="sig-param">ID: typing.Any, filters: typing.List[str], uncertainties: typing.Optional[typing.List[bool]] = None, SFH: typing.List[SED.misc.cigaleModules.SFHmodule] = [&lt;SED.misc.cigaleModules.SFH2EXPmodule object&gt;], SSP: typing.List[SED.misc.cigaleModules.SSPmodule] = [&lt;SED.misc.cigaleModules.BC03module object&gt;], nebular: typing.List[SED.misc.cigaleModules.NEBULARmodule] = [], attenuation: typing.List[SED.misc.cigaleModules.ATTENUATIONmodule] = [], dust: typing.List[SED.misc.cigaleModules.DUSTmodule] = [], agn: typing.List[SED.misc.cigaleModules.AGNmodule] = [], radio: typing.List[SED.misc.cigaleModules.RADIOmodule] = [], restframe: typing.List[SED.misc.cigaleModules.RESTFRAMEmodule] = [], redshifting: typing.List[SED.misc.cigaleModules.REDSHIFTmodule] = [&lt;SED.misc.cigaleModules.REDSHIFTmodule object&gt;], **kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/sed.html#CigaleSED"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED">¶</a></dt>
+<dd class="panel">
+<p>Bases: <a class="reference internal" href="#SED.sed.SED" title="SED.sed.SED"><code class="xref py py-class docutils literal notranslate">SED.sed.SED</code></a></p>
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<p>Implements Cigale SED object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ID</strong> – an identifier used to name the output files created during the SED fitting process</p></li>
-<li><p><strong>properties</strong> (<em>dict</em>) – (<strong>Optional</strong>) properties to be passed to LePhare to compute the models grid and perform the SED fitting</p></li>
+<li><p><strong>filters</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code>) – filters to use for the SED fitting</p></li>
+<li><p><strong>uncertainties</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span></code>) – (<strong>Optional</strong>) list of bool to specify which uncertainties to use. If provided, it must be same length as <strong>filters</strong>.</p></li>
+<li><p><strong>SFH</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code> [<code class="xref py py-class docutils literal notranslate">SFHmodule</code>]) – (<strong>Optional</strong>) star formation history modules to use. <strong>At least one module must be given.</strong></p></li>
+<li><p><strong>SSP</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code> [<code class="xref py py-class docutils literal notranslate">SSPmodule</code>]) – (<strong>Optional</strong>) single stellar population modules to use. <strong>At least one module must be given.</strong></p></li>
+<li><p><strong>nebular</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code> [<code class="xref py py-class docutils literal notranslate">NEBULARmodule</code>]) – (<strong>Optional</strong>) nebular emission modules to use. Empty list means no module is used.</p></li>
+<li><p><strong>attenuation</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code> [<code class="xref py py-class docutils literal notranslate">ATTENUATIONmodule</code>]) – (<strong>Optional</strong>) dust attenuation modules to use. Empty list means no module is used.</p></li>
+<li><p><strong>dust</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code> [<code class="xref py py-class docutils literal notranslate">DUSTmodule</code>]) – (<strong>Optional</strong>) dust emission modules to use. Empty list means no module is used.</p></li>
+<li><p><strong>agn</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code> [<code class="xref py py-class docutils literal notranslate">cigmod.AGNmodule</code>]) – (<strong>Optional</strong>) agn modules to use. Empty list means no module is used.</p></li>
+<li><p><strong>radio</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code> [<code class="xref py py-class docutils literal notranslate">cidmog.AGNmodule</code>]) – (<strong>Optional</strong>) synchrotron radiation modules to use. Empty list means no module is used.</p></li>
+<li><p><strong>restframe</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code> [<code class="xref py py-class docutils literal notranslate">cigmod.RESTFRAMEmodule</code>]) – (<strong>Optional</strong>) restframe parameters modules to use. Empty list means no module is used.</p></li>
+<li><p><strong>redshifting</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code> [<code class="xref py py-class docutils literal notranslate">cigmod.REDSHIFTINGmodule</code>]) – (<strong>Optional</strong>) redshifitng+IGM modules to use. Empty list means no module is used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>TypeError</strong> – if one of the properties items is not of type str</p></li>
+<li><p><strong>TypeError</strong> – if any of the keyword parameters if not a <code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code></p></li>
+<li><p><strong>ValueError</strong> – if no <strong>SFH</strong>, <strong>SSP</strong> and <strong>redshifting</strong> modules are provided</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.SFH">
+<code class="sig-name descname">SFH</code><em class="property"><span class="p">:</span><span class="w"> </span>SED.misc.cigaleModules.SFHmodule</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.SFH">¶</a></dt>
+<dd class="panel">
+<p>SFH modules to use</p>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.SSP">
+<code class="sig-name descname">SSP</code><em class="property"><span class="p">:</span><span class="w"> </span>SED.misc.cigaleModules.SSPmodule</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.SSP">¶</a></dt>
+<dd class="panel">
+<p>SSP modules to use</p>
+</dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED._checkModule">
+<em class="property">static<span class="w"> </span></em><code class="sig-name descname">_checkModule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">modules</span><span class="p">:</span><span class="w"> </span><span class="n">List<span class="p">[</span>Any<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">inheritedClass</span><span class="p">:</span><span class="w"> </span><span class="n">Any</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">bool</span></span><a class="reference internal" href="../_modules/SED/sed.html#CigaleSED._checkModule"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED._checkModule">¶</a></dt>
+<dd class="panel">
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<p>Check that the given list of Cigale modules belong to the correct class they should inherit from.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>modules</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code>) – modules to check the inheritance</p></li>
+<li><p><strong>inheritedClass</strong> – class to check against for inheritance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the list of modules if all the modules inherit from the given class</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – if one of the modules in <strong>modules</strong> does not inherit from <strong>inheritedClass</strong></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.agn">
+<code class="sig-name descname">agn</code><em class="property"><span class="p">:</span><span class="w"> </span>SED.misc.cigaleModules.AGNmodule</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.agn">¶</a></dt>
+<dd class="panel">
+<p>AGN modules to use</p>
+</dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.analysisParamsModule">
+<code class="sig-name descname">analysisParamsModule</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">physical_properties</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">bands</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">save_best_sed</span><span class="p">:</span><span class="w"> </span><span class="n">bool</span></em>, <em class="sig-param"><span class="n">save_chi2</span><span class="p">:</span><span class="w"> </span><span class="n">bool</span></em>, <em class="sig-param"><span class="n">lim_flag</span><span class="p">:</span><span class="w"> </span><span class="n">bool</span></em>, <em class="sig-param"><span class="n">mock_flag</span><span class="p">:</span><span class="w"> </span><span class="n">bool</span></em>, <em class="sig-param"><span class="n">redshift_decimals</span><span class="p">:</span><span class="w"> </span><span class="n">int</span></em>, <em class="sig-param"><span class="n">blocks</span><span class="p">:</span><span class="w"> </span><span class="n">int</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">str</span></span><a class="reference internal" href="../_modules/SED/sed.html#CigaleSED.analysisParamsModule"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.analysisParamsModule">¶</a></dt>
+<dd class="panel">
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<p>Generate the analysis_params module text for Cigale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>physical_properties</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>) – physical properties to estimate at the end of the SED fitting. If <code class="code highlight python docutils literal notranslate"><span class="kc">None</span></code>, all properties are computed.</p></li>
+<li><p><strong>bands</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>) – list of bands for which to estimate the fluxes. Note that this is independent from the fluxes actually fitted to estimate the physical properties. If <code class="code highlight python docutils literal notranslate"><span class="kc">None</span></code>, the same bands as the ones provided in <strong>filters</strong> will be used.</p></li>
+<li><p><strong>save_best_sed</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">bool</span></code>) – whether to save the best SED for each observation into a file or not</p></li>
+<li><p><strong>save_chi2</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">bool</span></code>) – whether to save the raw chi2 or not. It occupies ~15 MB/million models/variable.</p></li>
+<li><p><strong>lim_flag</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">bool</span></code>) – if <code class="code highlight python docutils literal notranslate"><span class="kc">True</span></code>, for each object check whether upper limits are present and analyse them</p></li>
+<li><p><strong>mock_flag</strong> – if <code class="code highlight python docutils literal notranslate"><span class="kc">True</span></code>, for each object we create a mock object and analyse them</p></li>
+<li><p><strong>redshift_decimals</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>) – when redshifts are not given explicitly in the redshifting module, number of decimals to round the observed redshifts to compute the grid of models. To disable rounding give <code class="code highlight python docutils literal notranslate"><span class="o">-</span><span class="mi">1</span></code>. Do not round if you use narrow-band filters.</p></li>
+<li><p><strong>blocks</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>) – number of blocks to compute the models and analyse the observations. If there is enough memory, we strongly recommend this to be set to <code class="code highlight python docutils literal notranslate"><span class="mi">1</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>module text for the analysis parameters</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.attenuation">
+<code class="sig-name descname">attenuation</code><em class="property"><span class="p">:</span><span class="w"> </span>SED.misc.cigaleModules.ATTENUATIONmodule</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.attenuation">¶</a></dt>
+<dd class="panel">
+<p>Dust attenuation modules to use</p>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.dust">
+<code class="sig-name descname">dust</code><em class="property"><span class="p">:</span><span class="w"> </span>SED.misc.cigaleModules.DUSTmodule</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.dust">¶</a></dt>
+<dd class="panel">
+<p>Dust emission modules to use</p>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.filters">
+<code class="sig-name descname">filters</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="misc/properties.html#SED.misc.properties.ListStrProperty" title="SED.misc.properties.ListStrProperty">SED.misc.properties.ListStrProperty</a></em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.filters">¶</a></dt>
+<dd class="panel">
+<p>Filters to use for the SED fitting</p>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.id">
+<code class="sig-name descname">id</code><em class="property"><span class="p">:</span><span class="w"> </span>Any</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.id">¶</a></dt>
+<dd class="panel">
+<p>Will be used to generate a custom directory</p>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.moduleNames">
+<code class="sig-name descname">moduleNames</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="misc/properties.html#SED.misc.properties.ListStrProperty" title="SED.misc.properties.ListStrProperty">SED.misc.properties.ListStrProperty</a></em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.moduleNames">¶</a></dt>
+<dd class="panel">
+<p>Modules names list</p>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.modulesSpec">
+<code class="sig-name descname">modulesSpec</code><em class="property"><span class="p">:</span><span class="w"> </span>str</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.modulesSpec">¶</a></dt>
+<dd class="panel">
+<p>Modules spec parameters in str format</p>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.modulesStr">
+<code class="sig-name descname">modulesStr</code><em class="property"><span class="p">:</span><span class="w"> </span>str</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.modulesStr">¶</a></dt>
+<dd class="panel">
+<p>Modules parameters in str format</p>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.nebular">
+<code class="sig-name descname">nebular</code><em class="property"><span class="p">:</span><span class="w"> </span>SED.misc.cigaleModules.NEBULARmodule</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.nebular">¶</a></dt>
+<dd class="panel">
+<p>Nebular emission modules to use</p>
+</dd></dl>
+<dl class="py property code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.parameters">
+<em class="property">property<span class="w"> </span></em><code class="sig-name descname">parameters</code><em class="property"><span class="p">:</span><span class="w"> </span>str</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.parameters">¶</a></dt>
+<dd class="panel">
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<p>Generate a parameter file text used by the SED fitting code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the text</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.radio">
+<code class="sig-name descname">radio</code><em class="property"><span class="p">:</span><span class="w"> </span>SED.misc.cigaleModules.RADIOmodule</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.radio">¶</a></dt>
+<dd class="panel">
+<p>Synchrotron radiation modules to use</p>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.redshifting">
+<code class="sig-name descname">redshifting</code><em class="property"><span class="p">:</span><span class="w"> </span>SED.misc.cigaleModules.REDSHIFTmodule</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.redshifting">¶</a></dt>
+<dd class="panel">
+<p>Redshifting modules to use</p>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.restframe">
+<code class="sig-name descname">restframe</code><em class="property"><span class="p">:</span><span class="w"> </span>SED.misc.cigaleModules.RESTFRAMEmodule</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.restframe">¶</a></dt>
+<dd class="panel">
+<p>Rest-frame parameters modules to use</p>
+</dd></dl>
+<dl class="py property code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.specParameters">
+<em class="property">property<span class="w"> </span></em><code class="sig-name descname">specParameters</code><em class="property"><span class="p">:</span><span class="w"> </span>str</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.specParameters">¶</a></dt>
+<dd class="panel">
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<p>Generate the spec parameter file text associated to the given sed modules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>spec parameter file text</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.CigaleSED.startCigale">
+<code class="sig-name descname">startCigale</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">log</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>io.TextIOBase<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/sed.html#CigaleSED.startCigale"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.CigaleSED.startCigale">¶</a></dt>
+<dd class="panel">
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<p>Wrapper around default <a class="reference internal" href="#SED.sed.SED.startProcess" title="SED.sed.SED.startProcess"><code class="xref py py-meth docutils literal notranslate">SED.startProcess()</code></a> which allows to run Cigale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>log</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOBase" rel="nofollow noopener">TextIOBase<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>) – (<strong>Optional</strong>) oppened log file</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.LePhareSED">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">SED.sed.</code><code class="sig-name descname">LePhareSED</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ID</span><span class="p">:</span><span class="w"> </span><span class="n">Any</span></em>, <em class="sig-param"><span class="n">properties</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/sed.html#LePhareSED"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.LePhareSED">¶</a></dt>
+<dd class="panel">
+<p>Bases: <a class="reference internal" href="#SED.sed.SED" title="SED.sed.SED"><code class="xref py py-class docutils literal notranslate">SED.sed.SED</code></a></p>
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<p>Implements LePhare SED object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ID</strong> – an identifier used to name the output files created during the SED fitting process</p></li>
+<li><p><strong>properties</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span></code>) – (<strong>Optional</strong>) properties to be passed to LePhare to compute the models grid and perform the SED fitting</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – if one of the properties keys is not of type <code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p></li>
 <li><p><strong>ValueError</strong> – if one of the properties does not have a valid name (see list below)</p></li>
 </ul>
 </dd>
 </dl>
-<p>Accepted properties are:</p>
+<p><strong>Accepted properties are:</strong></p>
 <blockquote>
 <div><ul class="simple">
-<li><p><strong>STAR_SED</strong> [str]: stellar library list file (full path)</p></li>
-<li><p><strong>STAR_FSCALE</strong> [float]: stellar flux scale</p></li>
-<li><p><strong>STAR_LIB</strong> [str]: stellar library to use (default libraries found at $LEPHAREWORK/lib_bin). To not use a stellar library, provide ‘NONE’.</p></li>
-<li><p><strong>QSO_SED</strong> [str]: QSO list file (full path)</p></li>
-<li><p><strong>QSO_FSCALE</strong> [float]: QSO flux scale</p></li>
-<li><p><strong>QSO_LIB</strong> [str]: QSO library to use (default libraries found at $LEPHAREWORK/lib_bin). To not use a QSO library, provide ‘NONE’.</p></li>
-<li><p><strong>GAL_SED</strong> [str]: galaxy library list file (full path)</p></li>
-<li><p><strong>GAL_FSCALE</strong> [float]: galaxy flux scale</p></li>
-<li><p><strong>GAL_LIB</strong> [str]: galaxy library to use (default libraries found at $LEPHAREWORK/lib_bin). To not use a galaxy library, provide ‘NONE’.</p></li>
-<li><p><strong>SEL_AGE</strong> [str]: stellar ages list (full path)</p></li>
-<li><p><strong>AGE_RANGE</strong> [list[float]]: minimum and maximum ages in years</p></li>
-<li><p><strong>FILTER_LIST</strong> [list[str]]: list of filter names used for the fit (must all be located in $LEPHAREDIR/filt directory)</p></li>
-<li><p><strong>TRANS_TYPE</strong> [int]: transmission type (0 for Energy, 1 for photons)</p></li>
-<li><p><strong>FILTER_CALIB</strong> [int]: filter calibration (0 for fnu=ctt, 1 for nu.fnu=ctt, 2 for fnu=nu, 3=fnu=Black Body &#64; T=10000K, 4 for MIPS (leff with nu fnu=ctt and flux with BB &#64; 10000K)</p></li>
-<li><p><strong>FILTER_FILE</strong> [str]: filter file (must be located in $LEPHAREWORK/filt directory)</p></li>
-<li><p><strong>STAR_LIB_IN</strong> [str]: input stellar library (dupplicate with <strong>STAR_LIB</strong> ?)</p></li>
-<li><p><strong>STAR_LIB_OUT</strong> [str]: output stellar magnitudes</p></li>
-<li><p><strong>QSO_LIB_IN</strong> [str]: input QSO library (dupplicate with <strong>QSO_LIB</strong> ?)</p></li>
-<li><p><strong>QSO_LIB_OUT</strong> [str]: output QSO magnitudes</p></li>
-<li><p><strong>GAL_LIB_IN</strong> [str]: input galaxy library (dupplicate with <strong>GAL_LIB</strong> ?)</p></li>
-<li><p><strong>GAL_LIB_OUT</strong> [str]: output galaxy magnitudes</p></li>
-<li><p><strong>MAGTYPE</strong> [str]: magnitude system used (AB or VEGA)</p></li>
-<li><p><strong>Z_STEP</strong> [list[int/float]]: redshift step properties. Values are: redshift step, max redshift, redshift step for redshifts above 6 (coarser sampling).</p></li>
-<li><p><strong>COSMOLOGY</strong> [list[int/float]]: cosmology parameters. Values are: Hubble constant H0, baryon fraction Omegam0, cosmological constant fraction Omegalambda0.</p></li>
-<li><p><strong>MOD_EXTINC</strong> [list[int/float]]: minimum and maximum model extinctions</p></li>
-<li><p><strong>EXTINC_LAW</strong> [str]: extinction law file (in $LEPHAREDIR/ext)</p></li>
-<li><p><strong>EB_V</strong> [list[int/float]]: color excess E(B-V). It must contain less than 50 values.</p></li>
-<li><p><strong>EM_LINES</strong> [str]: whether to consider emission lines or not. Accepted values are ‘YES’ or ‘NO’.</p></li>
-<li><p><strong>BD_SCALE</strong> [int]: number of bands used for scaling (0 means all bands). See LePhare documentation for more details.</p></li>
-<li><p><strong>GLB_CONTEXT</strong> [int]: context number (0 means all bands). See LePhare documentation for more details.</p></li>
-<li><p><strong>ERR_SCALE</strong> [list[int/float]]: magnitude errors per band to add in quadrature</p></li>
-<li><p><strong>ERR_FACTOR</strong> [int/float]: scaling factor to apply to the errors</p></li>
-<li><p><strong>ZPHOTLIB</strong> [list[str]]: librairies used to compute the Chi2. Maximum number is 3.</p></li>
-<li><p><strong>ADD_EMLINES</strong> [str]: whether to add emission lines or not (dupplicate with <strong>EM_LINES</strong> ?). Accepted values are ‘YES’ or ‘NO’.</p></li>
-<li><p><strong>FIR_LIB</strong> [str]: far IR library</p></li>
-<li><p><strong>FIR_LMIN</strong> [int/float]: minimum wavelength (in microns) for the far IR analysis</p></li>
-<li><p><strong>FIR_CONT</strong> [int/float]: far IR continuum. Use -1 for no continuum.</p></li>
-<li><p><strong>FIR_SCALE</strong> [int/float]: far IR flux scale. Use -1 to skip flux scale.</p></li>
-<li><p><strong>FIR_FREESCALE</strong> [str]: whether to let the far IR spectrum freely scale</p></li>
-<li><p><strong>FIR_SUBSTELLAR</strong> [str]: ???</p></li>
-<li><p><strong>PHYS_LIB</strong> [str]: physical stochastic library</p></li>
-<li><p><strong>PHYS_CONT</strong> [int/float]: physical continuum. Use -1 for no continuum.</p></li>
-<li><p><strong>PHYS_SCALE</strong> [int/float]: physical flux scale. Use -1 to skip flux scale.</p></li>
-<li><p><strong>PHYS_NMAX</strong> [int]: ???</p></li>
-<li><p><strong>MAG_ABS</strong> [list[int/float]]: minimum and maximum values for the magnitudes.</p></li>
-<li><p><strong>MAG_REF</strong> [int]: reference band used by <strong>MAG_ABS</strong></p></li>
-<li><p><strong>Z_RANGE</strong> [list[int/float]]: minimum and maximum redshifts used by the galaxy library</p></li>
-<li><p><strong>EBV_RANGE</strong> [list[int/float]]: minimum and maximum colour excess E(B-V)</p></li>
-<li><p><strong>ZFIX</strong> [str]: whether to fix the redshift or let it free. Accepted values are ‘YES’ or ‘NO’.</p></li>
-<li><p><strong>Z_INTERP</strong> [str]: whether to perform an interpolation to find the redshift. Accepted values are ‘YES’ or ‘NO’.</p></li>
-<li><p><strong>DZ_WIN</strong> [int/float]: window search for second peak. Must be between 0 and 5.</p></li>
-<li><p><strong>MIN_THRES</strong> [int/float]: minimum threshold for second peak. Must be between 0 and 1.</p></li>
-<li><p><strong>MABS_METHOD</strong> [int]: method used to compute magnitudes (0 : obs-&gt;Ref, 1 : best obs-&gt;Ref, 2 : fixed obs-&gt;Ref, 3 : mag from best SED, 4 : Zbin). See LePhare documentation for more details.</p></li>
-<li><p><strong>MABS_CONTEXT</strong> [int]: context for absolute magnitudes. See LePhare documentation for more details.</p></li>
-<li><p><strong>MABS_REF</strong> [int]: reference band used to compute the absolute magnitudes. This is only used if <strong>MABS_METHOD</strong> = 2.</p></li>
-<li><p><strong>MABS_FILT</strong> [list[int]]: filters used in each redshift bin (see <strong>MABS_ZBIN</strong>). This is only used if <strong>MABS_METHOD</strong> = 4.</p></li>
-<li><p><strong>MABS_ZBIN</strong> [list[int/float]]: redshift bins (must be an even number). This is only used if <strong>MABS_METHOD</strong> = 4.</p></li>
-<li><p><strong>SPEC_OUT</strong> [str]: whether to output the spectrum of each object or not. Accepted values are ‘YES’ or ‘NO’.</p></li>
-<li><p><strong>CHI2_OUT</strong> [str]: whether to generate an output file with all the values or not. Accepted values are ‘YES’ or ‘NO’.</p></li>
-<li><p><strong>PDZ_OUT</strong> [str]: output file name for the PDZ analysis. To not do the pdz analysis, provide ‘NONE’.</p></li>
-<li><p><strong>PDZ_MABS_FILT</strong> [list[int]]: absolute magnitude for reference filters to be extracted. See LePhare documentation for more details.</p></li>
-<li><p><strong>FAST_MODE</strong> [str]: whether to perform a fast computation or not. Accepted values are ‘YES’ or ‘NO’.</p></li>
-<li><p><strong>COL_NUM</strong> [int]: number of colors used</p></li>
-<li><p><strong>COL_SIGMA</strong> [int/float]: quantity by which to enlarge the errors on the colors</p></li>
-<li><p><strong>COL_SEL</strong> [str]: operation used to combine colors. Accepted values are ‘AND’ or ‘OR’.</p></li>
-<li><p><strong>AUTO_ADAPT</strong> [str]: whether to use an adaptive method with a z-spec sample. Accepted values are ‘YES’ or ‘NO’.</p></li>
-<li><p><strong>ADAPT_BAND</strong> [list[int]]: reference band, band1 and band2 for colors</p></li>
-<li><p><strong>ADAPT_LIM</strong> [list[int/float]]: magnitude limit for spectro in reference band</p></li>
-<li><p><strong>ADAPT_POLY</strong> [int]: number of coefficients in polynomial. Maximum is 4.</p></li>
-<li><p><strong>ADAPT_METH</strong> [int]: fit method, 1 for color model, 2 for redshift, 3 for models. See LePhare documentation for more details.</p></li>
-<li><p><strong>ADAPT_CONTEXT</strong> [int]: context for the bands used for training. See LePhare documentation for more details.</p></li>
-<li><p><strong>ADAPT_ZBIN</strong> [list[int/float]]: minimum and maximum redshift interval used for training.</p></li>
+<li><p><strong>STAR_SED</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: stellar library list file (full path)</p></li>
+<li><p><strong>STAR_FSCALE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">float</span></code>]: stellar flux scale</p></li>
+<li><p><strong>STAR_LIB</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: stellar library to use (default libraries found at <code class="file docutils literal notranslate">$LEPHAREWORK/lib_bin</code>). To not use a stellar library, provide <code class="code highlight python docutils literal notranslate"><span class="s1">'NONE'</span></code>.</p></li>
+<li><p><strong>QSO_SED</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: QSO list file (full path)</p></li>
+<li><p><strong>QSO_FSCALE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">float</span></code>]: QSO flux scale</p></li>
+<li><p><strong>QSO_LIB</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: QSO library to use (default libraries found at <code class="file docutils literal notranslate">LEPHAREWORK/lib_bin</code>). To not use a QSO library, provide <code class="code highlight python docutils literal notranslate"><span class="s1">'NONE'</span></code>.</p></li>
+<li><p><strong>GAL_SED</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: galaxy library list file (full path)</p></li>
+<li><p><strong>GAL_FSCALE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">float</span></code>]: galaxy flux scale</p></li>
+<li><p><strong>GAL_LIB</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: galaxy library to use (default libraries found at <code class="file docutils literal notranslate">$LEPHAREWORK/lib_bin</code>). To not use a galaxy library, provide <code class="code highlight python docutils literal notranslate"><span class="s1">'NONE'</span></code>.</p></li>
+<li><p><strong>SEL_AGE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: stellar ages list (full path)</p></li>
+<li><p><strong>AGE_RANGE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>]: minimum and maximum ages in years</p></li>
+<li><p><strong>FILTER_LIST</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>]: list of filter names used for the fit (must all be located in <code class="file docutils literal notranslate">$LEPHAREDIR/filt directory</code>)</p></li>
+<li><p><strong>TRANS_TYPE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: transmission type (<code class="code highlight python docutils literal notranslate"><span class="mi">0</span></code> for Energy, <code class="code highlight python docutils literal notranslate"><span class="mi">1</span></code> for photons)</p></li>
+<li><p><strong>FILTER_CALIB</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: filter calibration (<code class="code highlight python docutils literal notranslate"><span class="mi">0</span></code> for fnu=ctt, <code class="code highlight python docutils literal notranslate"><span class="mi">1</span></code> for nu.fnu=ctt, <code class="code highlight python docutils literal notranslate"><span class="mi">2</span></code> for fnu=nu, <code class="code highlight python docutils literal notranslate"><span class="mi">3</span></code> for fnu=Black Body @ T=10000K, <code class="code highlight python docutils literal notranslate"><span class="mi">4</span></code> for MIPS (leff with nu fnu=ctt and flux with BB @ 10000K)</p></li>
+<li><p><strong>FILTER_FILE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: filter file (must be located in <code class="file docutils literal notranslate">$LEPHAREWORK/filt</code> directory)</p></li>
+<li><p><strong>STAR_LIB_IN</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: input stellar library (dupplicate with <strong>STAR_LIB</strong> ?)</p></li>
+<li><p><strong>STAR_LIB_OUT</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: output stellar magnitudes</p></li>
+<li><p><strong>QSO_LIB_IN</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: input QSO library (dupplicate with <strong>QSO_LIB</strong> ?)</p></li>
+<li><p><strong>QSO_LIB_OUT</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: output QSO magnitudes</p></li>
+<li><p><strong>GAL_LIB_IN</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: input galaxy library (dupplicate with <strong>GAL_LIB</strong> ?)</p></li>
+<li><p><strong>GAL_LIB_OUT</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: output galaxy magnitudes</p></li>
+<li><p><strong>MAGTYPE</strong> [<a class="reference internal" href="misc/enum.html#SED.misc.enum.MagType" title="SED.misc.enum.MagType"><code class="xref py py-class docutils literal notranslate">MagType</code></a>]: magnitude system used (<a class="reference internal" href="misc/enum.html#SED.misc.enum.MagType.AB" title="SED.misc.enum.MagType.AB"><code class="xref py py-attr docutils literal notranslate">AB</code></a> or <a class="reference internal" href="misc/enum.html#SED.misc.enum.MagType.VEGA" title="SED.misc.enum.MagType.VEGA"><code class="xref py py-attr docutils literal notranslate">VEGA</code></a>)</p></li>
+<li><p><strong>Z_STEP</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="o">/</span><span class="nb">float</span><span class="p">]</span></code>]: redshift step properties. Values are in this order: redshift step, max redshift, redshift step for redshifts above 6 (coarser sampling).</p></li>
+<li><p><strong>COSMOLOGY</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="o">/</span><span class="nb">float</span><span class="p">]</span></code>]: cosmology parameters. Values are in this order: Hubble constant <span class="math notranslate nohighlight">\(H_0\)</span>, baryon fraction <span class="math notranslate nohighlight">\(\Omega_{m, 0}\)</span>, cosmological constant fraction <span class="math notranslate nohighlight">\(\Omega_{\lambda, 0}\)</span>.</p></li>
+<li><p><strong>MOD_EXTINC</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="o">/</span><span class="nb">float</span><span class="p">]</span></code>]: minimum and maximum model extinctions</p></li>
+<li><p><strong>EXTINC_LAW</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: extinction law file (in <code class="file docutils literal notranslate">$LEPHAREDIR/ext</code>)</p></li>
+<li><p><strong>EB_V</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="o">/</span><span class="nb">float</span><span class="p">]</span></code>]: color excess <span class="math notranslate nohighlight">\(E(B-V)\)</span>. It must contain less than 50 values.</p></li>
+<li><p><strong>EM_LINES</strong> [<a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO" title="SED.misc.enum.YESNO"><code class="xref py py-class docutils literal notranslate">YESNO</code></a>]: whether to consider emission lines or not. Accepted values are <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.YES" title="SED.misc.enum.YESNO.YES"><code class="xref py py-attr docutils literal notranslate">YES</code></a> or <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.NO" title="SED.misc.enum.YESNO.NO"><code class="xref py py-attr docutils literal notranslate">NO</code></a>.</p></li>
+<li><p><strong>BD_SCALE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: number of bands used for scaling (<code class="code highlight python docutils literal notranslate"><span class="mi">0</span></code> means all bands). See LePhare documentation for more details.</p></li>
+<li><p><strong>GLB_CONTEXT</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: context number (<code class="code highlight python docutils literal notranslate"><span class="mi">0</span></code> means all bands). See LePhare documentation for more details.</p></li>
+<li><p><strong>ERR_SCALE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="o">/</span><span class="nb">float</span><span class="p">]</span></code>]: magnitude errors per band to add in quadrature</p></li>
+<li><p><strong>ERR_FACTOR</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span><span class="o">/</span><span class="nb">float</span></code>]: scaling factor to apply to the errors</p></li>
+<li><p><strong>ZPHOTLIB</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>]: librairies used to compute the <span class="math notranslate nohighlight">\(\chi^2\)</span>. Maximum number is <code class="code highlight python docutils literal notranslate"><span class="mi">3</span></code>.</p></li>
+<li><p><strong>ADD_EMLINES</strong> [<a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO" title="SED.misc.enum.YESNO"><code class="xref py py-class docutils literal notranslate">YESNO</code></a>]: whether to add emission lines or not (dupplicate with <strong>EM_LINES</strong> ?). Accepted values are <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.YES" title="SED.misc.enum.YESNO.YES"><code class="xref py py-attr docutils literal notranslate">YES</code></a> or <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.NO" title="SED.misc.enum.YESNO.NO"><code class="xref py py-attr docutils literal notranslate">NO</code></a>.</p></li>
+<li><p><strong>FIR_LIB</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: far IR library</p></li>
+<li><p><strong>FIR_LMIN</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span><span class="o">/</span><span class="nb">float</span></code>]: minimum wavelength (in microns) for the far IR analysis</p></li>
+<li><p><strong>FIR_CONT</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span><span class="o">/</span><span class="nb">float</span></code>]: far IR continuum. Use <code class="code highlight python docutils literal notranslate"><span class="o">-</span><span class="mi">1</span></code> for no continuum.</p></li>
+<li><p><strong>FIR_SCALE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span><span class="o">/</span><span class="nb">float</span></code>]: far IR flux scale. Use <code class="code highlight python docutils literal notranslate"><span class="o">-</span><span class="mi">1</span></code> to skip flux scale.</p></li>
+<li><p><strong>FIR_FREESCALE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: whether to let the far IR spectrum freely scale</p></li>
+<li><p><strong>FIR_SUBSTELLAR</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: ???</p></li>
+<li><p><strong>PHYS_LIB</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: physical stochastic library</p></li>
+<li><p><strong>PHYS_CONT</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span><span class="o">/</span><span class="nb">float</span></code>]: physical continuum. Use <code class="code highlight python docutils literal notranslate"><span class="o">-</span><span class="mi">1</span></code> for no continuum.</p></li>
+<li><p><strong>PHYS_SCALE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span><span class="o">/</span><span class="nb">float</span></code>]: physical flux scale. Use <code class="code highlight python docutils literal notranslate"><span class="o">-</span><span class="mi">1</span></code> to skip flux scale.</p></li>
+<li><p><strong>PHYS_NMAX</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: ???</p></li>
+<li><p><strong>MAG_ABS</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="o">/</span><span class="nb">float</span><span class="p">]</span></code>]: minimum and maximum values for the magnitudes.</p></li>
+<li><p><strong>MAG_REF</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: reference band used by <strong>MAG_ABS</strong></p></li>
+<li><p><strong>Z_RANGE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="o">/</span><span class="nb">float</span><span class="p">]</span></code>]: minimum and maximum redshifts used by the galaxy library</p></li>
+<li><p><strong>EBV_RANGE</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="o">/</span><span class="nb">float</span><span class="p">]</span></code>]: minimum and maximum colour excess <span class="math notranslate nohighlight">\(E(B-V)\)</span></p></li>
+<li><p><strong>ZFIX</strong> [<a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO" title="SED.misc.enum.YESNO"><code class="xref py py-class docutils literal notranslate">YESNO</code></a>]: whether to fix the redshift or let it free. Accepted values are <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.YES" title="SED.misc.enum.YESNO.YES"><code class="xref py py-attr docutils literal notranslate">YES</code></a> or <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.NO" title="SED.misc.enum.YESNO.NO"><code class="xref py py-attr docutils literal notranslate">NO</code></a>.</p></li>
+<li><p><strong>Z_INTERP</strong> [<a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO" title="SED.misc.enum.YESNO"><code class="xref py py-class docutils literal notranslate">YESNO</code></a>]: whether to perform an interpolation to find the redshift. Accepted values are <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.YES" title="SED.misc.enum.YESNO.YES"><code class="xref py py-attr docutils literal notranslate">YES</code></a> or <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.NO" title="SED.misc.enum.YESNO.NO"><code class="xref py py-attr docutils literal notranslate">NO</code></a>.</p></li>
+<li><p><strong>DZ_WIN</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span><span class="o">/</span><span class="nb">float</span></code>]: window search for second peak. Must be between <code class="code highlight python docutils literal notranslate"><span class="mi">0</span></code> and <code class="code highlight python docutils literal notranslate"><span class="mi">5</span></code>.</p></li>
+<li><p><strong>MIN_THRES</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span><span class="o">/</span><span class="nb">float</span></code>]: minimum threshold for second peak. Must be between <code class="code highlight python docutils literal notranslate"><span class="mi">0</span></code> and <code class="code highlight python docutils literal notranslate"><span class="mi">1</span></code>.</p></li>
+<li><p><strong>MABS_METHOD</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: method used to compute magnitudes (<code class="code highlight python docutils literal notranslate"><span class="mi">0</span></code> : obs-&gt;Ref, <code class="code highlight python docutils literal notranslate"><span class="mi">1</span></code> : best obs-&gt;Ref, <code class="code highlight python docutils literal notranslate"><span class="mi">2</span></code> : fixed obs-&gt;Ref, <code class="code highlight python docutils literal notranslate"><span class="mi">3</span></code> : mag from best SED, <code class="code highlight python docutils literal notranslate"><span class="mi">4</span></code> : Zbin). See LePhare documentation for more details.</p></li>
+<li><p><strong>MABS_CONTEXT</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: context for absolute magnitudes. See LePhare documentation for more details.</p></li>
+<li><p><strong>MABS_REF</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: reference band used to compute the absolute magnitudes. This is only used if <code class="code highlight python docutils literal notranslate"><span class="n">MABS_METHOD</span> <span class="o">=</span> <span class="mi">2</span></code>.</p></li>
+<li><p><strong>MABS_FILT</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></code>]: filters used in each redshift bin (see <strong>MABS_ZBIN</strong>). This is only used if <code class="code highlight python docutils literal notranslate"><span class="n">MABS_METHOD</span> <span class="o">=</span> <span class="mi">4</span></code>.</p></li>
+<li><p><strong>MABS_ZBIN</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="o">/</span><span class="nb">float</span><span class="p">]</span></code>]: redshift bins (must be an even number). This is only used if <code class="code highlight python docutils literal notranslate"><span class="n">MABS_METHOD</span> <span class="o">=</span> <span class="mi">4</span></code>.</p></li>
+<li><p><strong>SPEC_OUT</strong> [<a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO" title="SED.misc.enum.YESNO"><code class="xref py py-class docutils literal notranslate">YESNO</code></a>]: whether to output the spectrum of each object or not. Accepted values are <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.YES" title="SED.misc.enum.YESNO.YES"><code class="xref py py-attr docutils literal notranslate">YES</code></a> or <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.NO" title="SED.misc.enum.YESNO.NO"><code class="xref py py-attr docutils literal notranslate">NO</code></a>.</p></li>
+<li><p><strong>CHI2_OUT</strong> [<a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO" title="SED.misc.enum.YESNO"><code class="xref py py-class docutils literal notranslate">YESNO</code></a>]: whether to generate an output file with all the values or not. Accepted values are <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.YES" title="SED.misc.enum.YESNO.YES"><code class="xref py py-attr docutils literal notranslate">YES</code></a> or <code class="xref py py-attr docutils literal notranslate">NO</code>.</p></li>
+<li><p><strong>PDZ_OUT</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>]: output file name for the PDZ analysis. To not do the pdz analysis, provide <code class="code highlight python docutils literal notranslate"><span class="s1">'NONE'</span></code>.</p></li>
+<li><p><strong>PDZ_MABS_FILT</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></code>]: absolute magnitude for reference filters to be extracted. See LePhare documentation for more details.</p></li>
+<li><p><strong>FAST_MODE</strong> [<a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO" title="SED.misc.enum.YESNO"><code class="xref py py-class docutils literal notranslate">YESNO</code></a>]: whether to perform a fast computation or not. Accepted values are <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.YES" title="SED.misc.enum.YESNO.YES"><code class="xref py py-attr docutils literal notranslate">YES</code></a> or <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.NO" title="SED.misc.enum.YESNO.NO"><code class="xref py py-attr docutils literal notranslate">NO</code></a>.</p></li>
+<li><p><strong>COL_NUM</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: number of colors used</p></li>
+<li><p><strong>COL_SIGMA</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span><span class="o">/</span><span class="nb">float</span></code>]: quantity by which to enlarge the errors on the colors</p></li>
+<li><p><strong>COL_SEL</strong> [<a class="reference internal" href="misc/enum.html#SED.misc.enum.ANDOR" title="SED.misc.enum.ANDOR"><code class="xref py py-class docutils literal notranslate">ANDOR</code></a>]: operation used to combine colors. Accepted values are <a class="reference internal" href="misc/enum.html#SED.misc.enum.ANDOR.AND" title="SED.misc.enum.ANDOR.AND"><code class="xref py py-attr docutils literal notranslate">AND</code></a> or <a class="reference internal" href="misc/enum.html#SED.misc.enum.ANDOR.OR" title="SED.misc.enum.ANDOR.OR"><code class="xref py py-attr docutils literal notranslate">OR</code></a>.</p></li>
+<li><p><strong>AUTO_ADAPT</strong> [<a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO" title="SED.misc.enum.YESNO"><code class="xref py py-class docutils literal notranslate">YESNO</code></a>]: whether to use an adaptive method with a z-spec sample. Accepted values are <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.YES" title="SED.misc.enum.YESNO.YES"><code class="xref py py-attr docutils literal notranslate">YES</code></a> or <a class="reference internal" href="misc/enum.html#SED.misc.enum.YESNO.NO" title="SED.misc.enum.YESNO.NO"><code class="xref py py-attr docutils literal notranslate">NO</code></a>.</p></li>
+<li><p><strong>ADAPT_BAND</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></code>]: reference band, band1 and band2 for colors</p></li>
+<li><p><strong>ADAPT_LIM</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="o">/</span><span class="nb">float</span><span class="p">]</span></code>]: magnitude limit for spectro in reference band</p></li>
+<li><p><strong>ADAPT_POLY</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: number of coefficients in polynomial. Maximum is <code class="code highlight python docutils literal notranslate"><span class="mi">4</span></code>.</p></li>
+<li><p><strong>ADAPT_METH</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: fit method, <code class="code highlight python docutils literal notranslate"><span class="mi">1</span></code> for color model, <code class="code highlight python docutils literal notranslate"><span class="mi">2</span></code> for redshift, <code class="code highlight python docutils literal notranslate"><span class="mi">3</span></code> for models. See LePhare documentation for more details.</p></li>
+<li><p><strong>ADAPT_CONTEXT</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code>]: context for the bands used for training. See LePhare documentation for more details.</p></li>
+<li><p><strong>ADAPT_ZBIN</strong> [<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="o">/</span><span class="nb">float</span><span class="p">]</span></code>]: minimum and maximum redshift interval used for training.</p></li>
 </ul>
 </div></blockquote>
 <div class="admonition warning">
@@ -275,161 +416,160 @@
 <p>It is mandatory to define on your OS two environment variables:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>$LEPHAREWORK which points to LePhare working directory</p></li>
-<li><p>$LEPHAREDIR which points to LePhare main directory</p></li>
+<li><p><code class="file docutils literal notranslate">$LEPHAREWORK</code> which points to LePhare working directory</p></li>
+<li><p><code class="file docutils literal notranslate">$LEPHAREDIR</code> which points to LePhare main directory</p></li>
 </ul>
 </div></blockquote>
 <p>These paths may be expanded to check whether the given files exist and can be used by the user to shorten some path names when providing the SED properties.</p>
 </div>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.LePhareSED.id">
+<code class="sig-name descname">id</code><em class="property"><span class="p">:</span><span class="w"> </span>Any</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.LePhareSED.id">¶</a></dt>
+<dd class="panel">
+<p>Will be used to generate a custom directory</p>
 </dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="SED.sed.LePhareSED.output_parameters">
-<span class="sig-name descname"><span class="pre">output_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/SED/sed.html#LePhareSED.output_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.sed.LePhareSED.output_parameters" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
+<dl class="py method code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.LePhareSED.output_parameters">
+<code class="sig-name descname">output_parameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">params</span><span class="p">:</span><span class="w"> </span><span class="n">List<span class="p">[</span>str<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">str</span></span><a class="reference internal" href="../_modules/SED/sed.html#LePhareSED.output_parameters"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.LePhareSED.output_parameters">¶</a></dt>
+<dd class="panel">
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<p>Generate an output parameter file used by the SED fitting code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>params</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – list of parameters to activate in the ouput parameters file</p>
+<dd class="field-odd"><p><strong>params</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>) – list of parameters to activate in the ouput parameters file</p>
 </dd>
 </dl>
-<p>Generate an output parameter file used by the SED fitting code.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>To know which output parameters can be passed print outParam property, i.e.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sed</span> <span class="o">=</span> <span class="n">LePhareSED</span><span class="p">(</span><span class="s1">&#39;identifier&#39;</span><span class="p">)</span>
+<div class="code-wrapper" data-controller="code">
+<div class="code-header">
+<span class="code-lang">python</span></div>
+<div class="highlight"><pre><code><span class="gp">&gt;&gt;&gt; </span><span class="n">sed</span> <span class="o">=</span> <span class="n">LePhareSED</span><span class="p">(</span><span class="s1">'identifier'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sed</span><span class="o">.</span><span class="n">outParams</span><span class="p">)</span>
-</pre></div>
-</div>
+</code></pre></div></div>
 </div>
 </dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="SED.sed.LePhareSED.parameters">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#SED.sed.LePhareSED.parameters" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
-<p>Generate a parameter file used by the SED fitting code.</p>
+<dl class="py property code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.LePhareSED.parameters">
+<em class="property">property<span class="w"> </span></em><code class="sig-name descname">parameters</code><em class="property"><span class="p">:</span><span class="w"> </span>str</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.LePhareSED.parameters">¶</a></dt>
+<dd class="panel">
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<p>Generate a parameter file text used by the SED fitting code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the text</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p>
+</dd>
+</dl>
 </dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="SED.sed.LePhareSED.runScript">
-<span class="sig-name descname"><span class="pre">runScript</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commands</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">io.TextIOBase</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errMsg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="outputs.html#SED.outputs.LePhareOutput" title="SED.outputs.LePhareOutput"><span class="pre">SED.outputs.LePhareOutput</span></a></span></span><a class="reference internal" href="../_modules/SED/sed.html#LePhareSED.runScript"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.sed.LePhareSED.runScript" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
-<p>Wrapper around default <a class="reference internal" href="#SED.sed.SED.startProcess" title="SED.sed.SED.startProcess"><code class="xref py py-meth docutils literal notranslate"><span class="pre">SED.startProcess()</span></code></a> which allows to separately provide the commands and the file.</p>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.LePhareSED.prop">
+<code class="sig-name descname">prop</code><em class="property"><span class="p">:</span><span class="w"> </span>Dict<span class="p">[</span>str<span class="p">,</span><span class="w"> </span>Any<span class="p">]</span></em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.LePhareSED.prop">¶</a></dt>
+<dd class="panel">
+<p>Allowed keys and corresponding allowed types</p>
+</dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.LePhareSED.runScript">
+<code class="sig-name descname">runScript</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">commands</span><span class="p">:</span><span class="w"> </span><span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">file</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">log</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>io.TextIOBase<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errMsg</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/sed.html#LePhareSED.runScript"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.LePhareSED.runScript">¶</a></dt>
+<dd class="panel">
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<p>Wrapper around default <a class="reference internal" href="#SED.sed.SED.startProcess" title="SED.sed.SED.startProcess"><code class="xref py py-meth docutils literal notranslate">startProcess()</code></a> which allows to separately provide the commands and the file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>commands</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – list of commands to use with Popen</p></li>
-<li><p><strong>file</strong> (<em>str</em>) – (<strong>Optional</strong>) file to run the process or script against</p></li>
-<li><p><strong>log</strong> (<em>TextIOBase</em>) – (<strong>Optional</strong>) oppened log file</p></li>
-<li><p><strong>errMsg</strong> (<em>str</em>) – (<strong>Optional</strong>) message error to show if the process failed</p></li>
+<li><p><strong>commands</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>) – list of commands to use with Popen</p></li>
+<li><p><strong>file</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>) – (<strong>Optional</strong>) file to run the process or script against</p></li>
+<li><p><strong>log</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOBase" rel="nofollow noopener">TextIOBase<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>) – (<strong>Optional</strong>) oppened log file</p></li>
+<li><p><strong>errMsg</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>) – (<strong>Optional</strong>) message error to show if the process failed</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
-
 </dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="SED.sed.SED">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">SED.sed.</span></span><span class="sig-name descname"><span class="pre">SED</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/sed.html#SED"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.sed.SED" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<dl class="py class code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.SED">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">SED.sed.</code><code class="sig-name descname">SED</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/sed.html#SED"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.SED">¶</a></dt>
+<dd class="panel">
+<p>Bases: <code class="xref py py-class docutils literal notranslate">abc.ABC</code></p>
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
 <p>Abstract SED object used for inheritance.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="SED.sed.SED.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/SED/sed.html#SED.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.sed.SED.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Init SED oject.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="SED.sed.SED.appendLog">
-<span class="sig-name descname"><span class="pre">appendLog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">io.TextIOBase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/SED/sed.html#SED.appendLog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.sed.SED.appendLog" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
+<dl class="py method code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.SED.appendLog">
+<code class="sig-name descname">appendLog</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="n">str</span></em>, <em class="sig-param"><span class="n">f</span><span class="p">:</span><span class="w"> </span><span class="n">io.TextIOBase</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span><span class="w"> </span><span class="n">bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/SED/sed.html#SED.appendLog"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.SED.appendLog">¶</a></dt>
+<dd class="panel">
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
 <p>Append a new text line to the log file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> (<em>str</em>) – text to append</p></li>
-<li><p><strong>f</strong> (<em>file-like</em>) – file-like opened obect to write into</p></li>
-<li><p><strong>verbose</strong> (<em>bool</em>) – (<strong>Optional</strong>) whether to also print the log line or not</p></li>
+<li><p><strong>text</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>) – text to append</p></li>
+<li><p><strong>f</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOBase" rel="nofollow noopener">TextIOBase<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>) – file-like opened obect to write into</p></li>
+<li><p><strong>verbose</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">bool</span></code>) – (<strong>Optional</strong>) whether to also print the log line or not</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>TypeError</strong> – <ul class="simple">
-<li><p>if <strong>text</strong> is not of type str</p></li>
-<li><p>if <strong>verbose</strong> is not of type bool</p></li>
-<li><p>if <strong>f</strong> is not of type TextIOBase</p></li>
+<li><p>if <strong>text</strong> is not of type <code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p></li>
+<li><p>if <strong>verbose</strong> is not of type <code class="code highlight python docutils literal notranslate"><span class="nb">bool</span></code></p></li>
+<li><p>if <strong>f</strong> is not of type <a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOBase" rel="nofollow noopener">TextIOBase<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a></p></li>
 </ul>
 </p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="SED.sed.SED.startProcess">
-<span class="sig-name descname"><span class="pre">startProcess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">commands</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">io.TextIOBase</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errMsg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/sed.html#SED.startProcess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SED.sed.SED.startProcess" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.SED.log">
+<code class="sig-name descname">log</code><em class="property"><span class="p">:</span><span class="w"> </span>List</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.SED.log">¶</a></dt>
+<dd class="panel">
+<p>Log file</p>
+</dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.sed.SED.startProcess">
+<code class="sig-name descname">startProcess</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">commands</span><span class="p">:</span><span class="w"> </span><span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">log</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>io.TextIOBase<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errMsg</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/sed.html#SED.startProcess"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.sed.SED.startProcess">¶</a></dt>
+<dd class="panel">
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
 <p>Start a process.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>commands</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – list of commands to use with Popen</p></li>
-<li><p><strong>log</strong> (<em>TextIOBase</em>) – (<strong>Optional</strong>) oppened log file</p></li>
-<li><p><strong>errMsg</strong> (<em>str</em>) – (<strong>Optional</strong>) message error to show if the process failed</p></li>
+<li><p><strong>commands</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></code>) – list of commands to use with Popen</p></li>
+<li><p><strong>log</strong> (<a class="reference external" href="https://docs.python.org/3/library/io.html#io.TextIOBase" rel="nofollow noopener">TextIOBase<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>) – (<strong>Optional</strong>) oppened log file</p></li>
+<li><p><strong>errMsg</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>) – (<strong>Optional</strong>) message error to show if the process failed</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>TypeError</strong> – <ul>
-<li><p>if <strong>errMsg</strong> is not of type str</p></li>
-<li><p>if <strong>commands</strong> is not of type list</p></li>
-<li><p>if one of the commands in <strong>commands</strong> is not of type str</p></li>
+<li><p>if <strong>errMsg</strong> is not of type <code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p></li>
+<li><p>if <strong>commands</strong> is not of type <code class="code highlight python docutils literal notranslate"><span class="nb">list</span></code></p></li>
+<li><p>if one of the commands in <strong>commands</strong> is not of type <code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p></li>
 </ul>
 </p></li>
 <li><p><strong>OSError</strong> – if the first command in <strong>commands</strong> is not a valid file/script name</p></li>
-<li><p><strong>ValueError</strong> – if <strong>log</strong> is None</p></li>
+<li><p><strong>ValueError</strong> – if <strong>log</strong> is <code class="code highlight python docutils literal notranslate"><span class="kc">None</span></code></p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
-
 </dd></dl>
-
 </section>
-
-
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>    
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-    <div class="footer" role="contentinfo">
-        <div class="container">
-            &#169; Copyright 2021, Wilfried Mercier.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.
-        </div>
-    </div>  
-
+</article>
+<footer>
+<div class="mt-20 mb-4 text-sm text-gray-700">© 2021, Wilfried Mercier Made with <a href="https://www.sphinx-doc.org">Sphinx 4.4.0</a></div>
+</footer></main>
+<button class="fixed bottom-0 right-0 z-20 opacity-0 p-4 m-4 tracking-wide bg-gray-900 text-gray-100 transition transform transform-gpu duration-500 translate-y-full" data-action="search#hideSnackbar" data-search-target="snackbar">
+  Clear highlights
+</button><div class="fixed hidden inset-0 bg-black bg-opacity-50" data-action="click-&gt;sidebar#close" data-sidebar-target="screen">
+</div>
+</div>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="../_static/theme.3666d2347a4c66e5d7a8.js"></script>
 </body>
 </html>

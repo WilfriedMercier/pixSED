@@ -1,160 +1,111 @@
 
-
 <!DOCTYPE html>
+
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>SED.misc.misc &mdash; Resolved SED-fitting wrapper 0.5 documentation</title>
-  
-
-  
-  
-  
-  
-
-  
-
-  
-  
-    
-
-  
-
-  <link rel="stylesheet" href="../../../_static/css/theme.min.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css/theme.min.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
-
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<title>SED.misc.misc | Resolved SED-fitting wrapper 0.5 documentation</title>
+<link href="../../../_static/pygments.css" rel="stylesheet"/>
+<link href="../../../_static/theme.313ea551d1799b2102b1.css" rel="stylesheet"/>
+<link href="../../../_static/plot_directive.css" rel="stylesheet"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="../../../genindex.html" rel="index" title="Index"/>
 </head>
-
-<body>
-    <header>
-        <div class="container">
-            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
-            <a class="site-title" href="../../../index.html">
-                Resolved SED-fitting wrapper
-            </a>
-        </div>
-    </header>
-
-
-<div class="breadcrumbs-outer hidden-xs-down">
-    <div class="container">
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="breadcrumbs">
-    
-      <li><a href="../../../index.html">Docs</a></li>
-        
-          <li><a href="../../index.html">Module code</a></li>
-        
-      <li>SED.misc.misc</li>
-    
-    
-      <li class="breadcrumbs-aside">
-        
-      </li>
-    
-  </ul>
+<body class="antialiased text-gray">
+<div class="h-screen xl:grid xl:grid-layout" data-action="keydown@window-&gt;search#focus" data-controller="sidebar search" id="page">
+<a class="block text-xl bg-white py-4 z-20 absolute top-0 h-18 inset-x-0 text-center transform -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75" href="#sed-misc-misc" title="Skip navigation links">Skip to content</a>
+<header class="grid-area-header z-10 h-14 sm:h-18">
+<div class="bg-gray-dark shadow-md flex items-center h-full xl:px-2 relative"><div class="flex items-center">
+<button class="xl:hidden h-14 w-14 sm:h-18 sm:w-18 leading-14 sm:leading-18 text-gray-100 hover:bg-gray-700 hover:text-brand focus:outline-none focus:bg-gray-700 focus:text-brand" data-action="sidebar#open" data-sidebar-target="hamburger">
+<span class="sr-only">Open navigation menu</span>
+<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
+</button><a aria-label="Back to homepage" class="hover:bg-gray-700 focus:bg-gray-700 focus:outline-none tooltipped tooltipped-sw" href="../../../index.html"><span class="hidden lg:inline-block shrink-0 font-medium text-gray-100 mx-5 leading-14 sm:leading-18 tracking-wider">Resolved SED-fitting wrapper 0.5 documentation</span>
+</a></div><div class="flex justify-end items-center flex-1"><form action="../../../search.html" class="flex print:hidden justify-between items-center leading-14 sm:leading-18 md:ml-4 bg-gray-dark text-gray-300 focus-within:bg-gray-50 focus-within:text-gray-800 focus-within:absolute focus-within:inset-x-0 focus-within:top-0 md:focus-within:w-full md:focus-within:static" data-action="click-&gt;search#focusSearchInput" id="searchbox" method="get">
+<button aria-label="Get search results" class="text-inherit h-14 w-14 sm:h-18 sm:w-18" tabindex="-1">
+<svg aria-hidden="true" class="fill-current stroke-current h-8 w-8" stroke-width="0.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+</button>
+<input aria-label="Search the docs" class="pr-2 bg-transparent text-inherit focus:outline-none w-0 md:w-auto focus:w-full transition-all duration-100" data-search-target="searchInput" id="search-input" name="q" placeholder="Search the docs" type="search"/>
+</form><div class="shrink-0"><a class="h-14 sm:h-18 inline-block leading-14 sm:leading-18 text-gray-100 bg-transparent tracking-wide font-medium hover:text-brand focus:bg-gray-700 focus:outline-none hover:no-underline focus:text-brand px-4" href="../../../https%3A//github.com/WilfriedMercier/SED.html">GitHub</a></div></div>
 </div>
-    </div>
-</div>
-    <div class="main-outer">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-3 site-nav">
-                    
-<div role="search">
-    <form class="search" action="../../../search.html" method="get">
-        <div class="icon-input">
-            <input type="text" name="q" placeholder="Search" />
-            <span class="icon-search"></span>
-        </div>
-        <input type="submit" value="Go" class="d-hidden" />
-        <input type="hidden" name="check_keywords" value="yes" />
-        <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-                    <div class="site-nav-tree">
-                        
-                            
-                            
-                                <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../setup.html">Installation and setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../setup.html#required-dependencies">Required dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></li>
+</header>
+<aside class="grid-area-sidebar h-full fixed xl:relative inset-y-0 left-0 z-20 xl:z-0 print:hidden overflow-y-auto transition-all transform transform-gpu -translate-x-full opacity-0 duration-300 xl:translate-x-0 xl:opacity-100" data-sidebar-target="sidebar">
+<nav class="h-full overflow-y-auto bg-white text-gray-600 pt-8 flex flex-col" role="navigation">
+<div class="nav-toc flex-1 pl-6"><ul>
+<li class="toctree-l1"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../setup.html">Installation and setup</a></div><ul>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../setup.html#required-dependencies">Required dependencies</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></div><ul>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../setup.html#id1">LePhare</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../setup.html#id2">Cigale</a></div></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/lephare.html">LePhare</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/cigale.html">Cigale</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#nomenclature">Nomenclature</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#pre-processing-step">Pre-processing step</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code> objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code> object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code> object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../tutorial/index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></li>
+<li class="toctree-l1"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/index.html">Tutorial introduction</a></div><ul>
+<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/lephare.html">LePhare</a></div><ul>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/lephare.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate">Filter</code> and <code class="xref py py-class docutils literal notranslate">FilterList</code> objects</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/lephare.html#step-2-generate-a-lepharecat-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate">LePhareCat</code> object</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/lephare.html#step-3-create-a-lepharesed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate">LePhareSED</code> object</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/lephare.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/lephare.html#step-4-bis-extract-output-data-from-output-file">Step 4-bis: Extract output data from output file</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/lephare.html#step-5-generate-a-resolved-map">Step 5: Generate a resolved map</a></div></li>
+</ul>
+</li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/cigale.html">Cigale</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/index.html#nomenclature">Nomenclature</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/index.html#pre-processing-step">Pre-processing step</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate">Filter</code> and <code class="xref py py-class docutils literal notranslate">FilterList</code> objects</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate">Catalogue</code> object</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate">SED</code> object</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../tutorial/index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></div></li>
 </ul>
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../examples/example1.html">1. Generate a LePhare configuration file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../examples/example2.html">2. Resolved stellar mass map with LePhare</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../examples/example3.html">3. Resolved SFR map from an already existing LePhare output file</a></li>
+<li class="toctree-l1"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../examples/example1.html">1. Resolved stellar mass map with LePhare</a></div></li>
+<li class="toctree-l1"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../examples/example2.html">2. Resolved SFR map from an already existing LePhare output file</a></div></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">----------------------------------------</span></p>
+<p class="caption" role="heading"><span class="caption-text">―――――――――――――――</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../API/index.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../API/catalogues.html">Catalogue classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../API/filters.html">Filter classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../API/outputs.html">SED fitting code output classes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../API/sed.html">SED classes</a></li>
+<li class="toctree-l1"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../API/index.html">API</a></div><ul>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../API/catalogues.html">Catalogue classes</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../API/filters.html">Filter classes</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../API/misc/index.html">Miscellaneous</a></div><ul>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../API/misc/enum.html">Enumeration classes</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../API/misc/misc.html">Miscellaneous classes and functions</a></div></li>
+<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../API/misc/properties.html">Property classes</a></div></li>
+</ul>
+</li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../API/outputs.html">SED fitting code output classes</a></div></li>
+<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../../../API/sed.html">SED classes</a></div></li>
 </ul>
 </li>
 </ul>
-
-                            
-                        
-                    </div>
-                </div>
-                <div class="col-12 col-lg-9">
-                    <div class="document">
-                        
-                            
-  <h1>Source code for SED.misc.misc</h1><div class="highlight"><pre>
-<span></span><span class="ch">#!/usr/bin/env python3</span>
+</div>
+<button class="text-4xl text-gray-800 p-4 bottom-0 hover:text-brand xl:hidden focus:text-brand self-center" data-action="" title="Close navigation menu">
+<span class="sr-only">Close navigation menu</span>
+<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</aside>
+<main class="px-10 xl:ml-fluid grid-area-main overflow-y-auto flex flex-col h-full mx-0 md:mx-auto xl:mr-0" data-action="scroll-&gt;scroll#showButton" data-controller="scroll"><nav aria-label="breadcrumbs" class="print:hidden mt-12 text-sm text-gray-light" role="navigation">
+<a class="text-gray-light text-sm hover:text-gray-dark font-medium focus:text-gray-dark" href="../../../index.html">Resolved SED-fitting wrapper 0.5 documentation</a>
+<span class="mr-1">/</span><a class="text-gray-light text-sm hover:text-gray-dark" href="../../index.html">Module code</a>
+<span class="mr-1">/</span><span aria-current="page">SED.misc.misc</span>
+</nav>
+<article class="flex-1" role="main">
+<h1>Source code for SED.misc.misc</h1><div class="highlight"><pre>
+<code><span class="ch">#!/usr/bin/env python3</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">.. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
 
 <span class="sd">Miscellaneous, quite general objects used by the SED fitting classes.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span>         <span class="k">as</span>     <span class="nn">np</span>
 <span class="kn">from</span>   <span class="nn">numpy</span>         <span class="kn">import</span> <span class="n">ndarray</span>
@@ -166,24 +117,27 @@
 <span class="c1">##############################################</span>
       
 <div class="viewcode-block" id="ShapeError"><a class="viewcode-back" href="../../../API/misc/misc.html#SED.misc.misc.ShapeError">[docs]</a><span class="k">class</span> <span class="nc">ShapeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Error which is caught when two arrays do not share the same shape.&#39;&#39;&#39;</span>
+    <span class="sa">r</span><span class="sd">'''</span>
+<span class="sd">    .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">    </span>
+<span class="sd">    Error which is caught when two arrays do not share the same shape.</span>
+<span class="sd">    </span>
+<span class="sd">    :param arr1: first array</span>
+<span class="sd">    :type arr1: `ndarray`_</span>
+<span class="sd">    :param arr2: second array</span>
+<span class="sd">    :type arr2: `ndarray`_</span>
+<span class="sd">    </span>
+<span class="sd">    :param msg: (**Optional**) message to append at the end</span>
+<span class="sd">    :type msg: :python:`str`</span>
+<span class="sd">    '''</span>
     
-<div class="viewcode-block" id="ShapeError.__init__"><a class="viewcode-back" href="../../../API/misc/misc.html#SED.misc.misc.ShapeError.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr1</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">arr2</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
-<span class="sd">        </span>
-<span class="sd">        Init method for this exception.</span>
-<span class="sd">        </span>
-<span class="sd">        :param ndarray arr1: first array</span>
-<span class="sd">        :param ndarray arr2: second array</span>
-<span class="sd">        </span>
-<span class="sd">        :param str msg: (**Optional**) message to append at the end</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr1</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">arr2</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">'''Init method.'''</span>
         
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">''</span>
         
-        <span class="nb">super</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Array 1 has shape </span><span class="si">{</span><span class="n">arr1</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> but array 2 has shape </span><span class="si">{</span><span class="n">arr2</span><span class="o">.</span><span class="n">shape</span><span class="si">}{</span><span class="n">msg</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span></div></div>
+        <span class="nb">super</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Array 1 has shape </span><span class="si">{</span><span class="n">arr1</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s1"> but array 2 has shape </span><span class="si">{</span><span class="n">arr2</span><span class="o">.</span><span class="n">shape</span><span class="si">}{</span><span class="n">msg</span><span class="si">}</span><span class="s1">.'</span><span class="p">)</span></div>
         
 
 <span class="c1">###################################</span>
@@ -191,7 +145,7 @@
 <span class="c1">###################################</span>
 
 <div class="viewcode-block" id="check_type"><a class="viewcode-back" href="../../../API/misc/misc.html#SED.misc.misc.check_type">[docs]</a><span class="k">def</span> <span class="nf">check_type</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+    <span class="sa">r</span><span class="sd">'''</span>
 <span class="sd">    .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
 <span class="sd">    </span>
 <span class="sd">    A decorator which check data type of the first mandatory parameter of the function.</span>
@@ -200,27 +154,27 @@
 <span class="sd">    </span>
 <span class="sd">    :raises TypeError: if data has the wrong type.</span>
 <span class="sd">    :raises ValueError: if there is no data to check the type</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">'''</span>
 <span class="sd">        :param function func: function to be decorated</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        '''</span>
     
         <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot check type for data with length 0.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Cannot check type for data with length 0.'</span><span class="p">)</span>
             
             <span class="n">value</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="s1">&#39;-1&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must have type </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="s1">'-1'</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'parameter has type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s1"> but it must have type </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s1">.'</span><span class="p">)</span>
                 
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">wrap</span>
     <span class="k">return</span> <span class="n">decorator</span></div>
         
 <div class="viewcode-block" id="check_type_in_list"><a class="viewcode-back" href="../../../API/misc/misc.html#SED.misc.misc.check_type_in_list">[docs]</a><span class="k">def</span> <span class="nf">check_type_in_list</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+    <span class="sa">r</span><span class="sd">'''</span>
 <span class="sd">    .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
 <span class="sd">    </span>
 <span class="sd">    A decorator which check data type of the first mandatory parameter of the function.</span>
@@ -229,21 +183,21 @@
 <span class="sd">    </span>
 <span class="sd">    :raises TypeError: if data has the wrong type.</span>
 <span class="sd">    :raises ValueError: if there is no data to check the type</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     
     <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">'''</span>
 <span class="sd">        :param function func: function to be decorated</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        '''</span>
         
         <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot check type for data with length 0.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Cannot check type for data with length 0.'</span><span class="p">)</span>
             
             <span class="n">value</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;at least one parameter element does not have type </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">'at least one parameter element does not have type </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s1">.'</span><span class="p">)</span>
                 
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">wrap</span>
@@ -254,51 +208,54 @@
 <span class="c1">##########################</span>
 
 <div class="viewcode-block" id="NamedColumn"><a class="viewcode-back" href="../../../API/misc/misc.html#SED.misc.misc.NamedColumn">[docs]</a><span class="k">class</span> <span class="nc">NamedColumn</span><span class="p">:</span>
-   <span class="sa">r</span><span class="sd">&#39;&#39;&#39;A general named column to assicate to an Enum object.&#39;&#39;&#39;</span>
+   <span class="sa">r</span><span class="sd">'''</span>
+<span class="sd">   .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">   </span>
+<span class="sd">   A general named column to assicate to an Enum object.</span>
+<span class="sd">   </span>
+<span class="sd">   :param name: name of the column when included in a Table</span>
+<span class="sd">   :type name: :python:`str`</span>
+<span class="sd">   :param unit: unit of the column</span>
+<span class="sd">   :type unit: :python:`str`</span>
+<span class="sd">   </span>
+<span class="sd">   :param end: (**Optional**) end string to append to the associate enum name</span>
+<span class="sd">   :type end: :python:`str`</span>
+<span class="sd">   :param log: (**Optional**) whether this column holds log values. This will trigger a conversion to the power of 10 if True.</span>
+<span class="sd">   :type log: :python:`bool`</span>
+<span class="sd">   </span>
+<span class="sd">   :raises TypeError: if **name**, **unit** and **end** are not of type :python:`str`</span>
+<span class="sd">   '''</span>
    
-<div class="viewcode-block" id="NamedColumn.__init__"><a class="viewcode-back" href="../../../API/misc/misc.html#SED.misc.misc.NamedColumn.__init__">[docs]</a>   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">Unit</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-      <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">      .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
-<span class="sd">      </span>
-<span class="sd">      Init named column.</span>
-<span class="sd">      </span>
-<span class="sd">      :param str name: name of the column when included in a Table</span>
-<span class="sd">      :param Unit unit: unit of the column</span>
-<span class="sd">      </span>
-<span class="sd">      :param str end: (**Optional**) end string to append to the associate enum name</span>
-<span class="sd">      :param bool log: (**Optional**) whether this column holds log values. This will trigger a conversion to the power of 10 if True.</span>
-<span class="sd">      </span>
-<span class="sd">      :raises TypeError: </span>
-<span class="sd">         </span>
-<span class="sd">         * if **name** is not of type str</span>
-<span class="sd">         * if **unit** is not of type Astropy Unit</span>
-<span class="sd">         * if **end** is not of type str</span>
-<span class="sd">      &#39;&#39;&#39;</span>
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="sa">r</span><span class="sd">'''Init method.'''</span>
       
       <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">name</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">end</span><span class="p">])):</span>
-         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;one of the parameters does not have type str.&#39;</span><span class="p">)</span>
+         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">'one of the parameters does not have type str.'</span><span class="p">)</span>
       
       <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">end</span>  <span class="o">=</span> <span class="n">end</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">log</span>  <span class="o">=</span> <span class="n">log</span></div></div>
+      <span class="bp">self</span><span class="o">.</span><span class="n">log</span>  <span class="o">=</span> <span class="n">log</span></div>
       
       
 <div class="viewcode-block" id="PhysicalLogQuantity"><a class="viewcode-back" href="../../../API/misc/misc.html#SED.misc.misc.PhysicalLogQuantity">[docs]</a><span class="k">class</span> <span class="nc">PhysicalLogQuantity</span><span class="p">:</span>
-   <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Implement an Astropy Quantity which can have log of physical values.&#39;&#39;&#39;</span>
+   <span class="sa">r</span><span class="sd">'''</span>
+<span class="sd">   .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">   </span>
+<span class="sd">   Implement an Astropy Quantity which can have log of physical values.</span>
+<span class="sd">   </span>
+<span class="sd">   :param value: value to pass to the constructor</span>
+<span class="sd">   </span>
+<span class="sd">   :param unit: data unit</span>
+<span class="sd">   :type unit: :python:`str`</span>
+<span class="sd">   '''</span>
    
-<div class="viewcode-block" id="PhysicalLogQuantity.__init__"><a class="viewcode-back" href="../../../API/misc/misc.html#SED.misc.misc.PhysicalLogQuantity.__init__">[docs]</a>   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-      <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">      .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
-<span class="sd">      </span>
-<span class="sd">      Init the physical log quantity object.</span>
-<span class="sd">      </span>
-<span class="sd">      :param value: value to pass to the constructor</span>
-<span class="sd">      &#39;&#39;&#39;</span>
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">''</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="sa">r</span><span class="sd">'''Init method.'''</span>
       
       <span class="c1"># Get unit for data when it is not in log form</span>
-      <span class="k">if</span> <span class="s1">&#39;unit&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-         <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;unit&#39;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="s1">'unit'</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+         <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'unit'</span><span class="p">)</span>
          
       <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
          <span class="n">value</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
@@ -308,66 +265,45 @@
          
       <span class="c1"># Used when printing</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_args</span>   <span class="o">=</span> <span class="n">args</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span></div>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
       
       
       
 <div class="viewcode-block" id="PhysicalLogQuantity.__str__"><a class="viewcode-back" href="../../../API/misc/misc.html#SED.misc.misc.PhysicalLogQuantity.__str__">[docs]</a>   <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-      <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+      <span class="sa">r</span><span class="sd">'''</span>
 <span class="sd">      .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
 <span class="sd">       </span>
 <span class="sd">      Slightly modified string representation.</span>
-<span class="sd">      &#39;&#39;&#39;</span>
+<span class="sd">      '''</span>
    
-      <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">)</span><span class="si">}</span><span class="s1"> [log(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s1">)]&#39;</span></div>
+      <span class="k">return</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">)</span><span class="si">}</span><span class="s1"> [log(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s1">)]'</span></div>
    
 <div class="viewcode-block" id="PhysicalLogQuantity.toPhysical"><a class="viewcode-back" href="../../../API/misc/misc.html#SED.misc.misc.PhysicalLogQuantity.toPhysical">[docs]</a>   <span class="k">def</span> <span class="nf">toPhysical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Quantity</span><span class="p">:</span>
-      <span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+      <span class="sa">r</span><span class="sd">'''</span>
 <span class="sd">      .. codeauthor:: Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
 <span class="sd">      </span>
 <span class="sd">      Go to physical unit by raising to the power of 10 and converting to the right unit.</span>
-<span class="sd">      &#39;&#39;&#39;</span>
+<span class="sd">      '''</span>
       
       <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span></div></div>
       
    
    
    
-</pre></div>
-
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>    
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../../',
-            VERSION:'0.5',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-    <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-  
-    <div class="footer" role="contentinfo">
-        <div class="container">
-            &#169; Copyright 2021, Wilfried Mercier.
-        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.
-        </div>
-    </div>  
-
+</code></pre></div>
+</article>
+<footer>
+<div class="mt-20 mb-4 text-sm text-gray-700">© 2021, Wilfried Mercier Made with <a href="https://www.sphinx-doc.org">Sphinx 4.4.0</a></div>
+</footer></main>
+<button class="fixed bottom-0 right-0 z-20 opacity-0 p-4 m-4 tracking-wide bg-gray-900 text-gray-100 transition transform transform-gpu duration-500 translate-y-full" data-action="search#hideSnackbar" data-search-target="snackbar">
+  Clear highlights
+</button><div class="fixed hidden inset-0 bg-black bg-opacity-50" data-action="click-&gt;sidebar#close" data-sidebar-target="screen">
+</div>
+</div>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/theme.3666d2347a4c66e5d7a8.js"></script>
 </body>
 </html>
