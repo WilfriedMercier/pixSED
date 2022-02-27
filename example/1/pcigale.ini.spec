@@ -1,0 +1,43 @@
+data_file = string()
+parameters_file = string()
+sed_modules = cigale_string_list()
+analysis_method = string()
+cores = integer(min=1)
+bands = cigale_string_list()
+properties = cigale_string_list()
+[sed_modules_params]
+   [[sfhdelayedbq]]
+     tau_main = cigale_list()
+     age_main = cigale_list(dtype=int, minvalue=0.)
+     age_bq = cigale_list(dtype=int)
+     r_sfr = cigale_list(minvalue=0.)
+     sfr_A = cigale_list(minvalue=0.)
+     normalise = boolean()        
+   [[bc03]]
+     imf = cigale_list(dtype=int, options=0. & 1.)
+     metallicity = cigale_list(options=0.0001 & 0.0004 & 0.004 & 0.008 & 0.02 & 0.05)
+     separation_age = cigale_list(dtype=int, minvalue=0)        
+   [[nebular]]
+     logU = cigale_list(options=-4.0 & -3.9 & -3.8 & -3.7 & -3.6 & -3.5 & -3.4 & -3.3 & -3.2 & -3.1 & -3.0 & -2.9 & -2.8 & -2.7 & -2.6 & -2.5 & -2.4 & -2.3 & -2.2 & -2.1 & -2.0 & -1.9 & -1.8 & -1.7 & -1.6 & -1.5 & -1.4 & -1.3 & -1.2 & -1.1 & -1.0)
+     f_esc = cigale_list(minvalue=0., maxvalue=1.)
+     f_dust = cigale_list(minvalue=0., maxvalue=1.)
+     lines_width = cigale_list(minvalue=0.)
+     emission = boolean()        
+   [[dustatt_powerlaw]]
+     Av_young = cigale_list(minvalue=0.)
+     Av_old_factor = cigale_list(minvalue=0., maxvalue=1.)
+     uv_bump_wavelength = cigale_list(minvalue=0.)
+     uv_bump_width = cigale_list(minvalue=0.)
+     uv_bump_amplitude = cigale_list(minvalue=0.)
+     powerlaw_slope = cigale_list()
+     filters = string()        
+   [[redshifting]]
+     redshift = cigale_list(minvalue=0.)        
+[analysis_params]
+  variables = cigale_string_list()
+  save_best_sed = boolean()
+  save_chi2 = boolean()
+  lim_flag = boolean()
+  mock_flag = boolean()
+  redshift_decimals = integer()
+  blocks = integer(min=1)
