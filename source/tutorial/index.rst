@@ -3,7 +3,6 @@ Tutorial introduction
 
 .. _LePhare: lephare.html
 .. _Cigale: cigale.html
-.. _Astropy Table: https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table
 
 This page gives a general overview of the behaviour of this library. For using a specific SED fitting code, please visit the following pages
 

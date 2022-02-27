@@ -60,5 +60,10 @@ rst_prolog = """
 .. role:: python(code)
   :language: python
   :class: highlight
+  
+.. _Astropy Table: https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table
+.. _Astropy Quantity: https://docs.astropy.org/en/stable/units/quantity.html
+.. _Astropy Header: https://docs.astropy.org/en/stable/io/fits/api/headers.html
+.. _ndarray: https://numpy.org/doc/stable/reference/generated/numpy.array.html
 """
 

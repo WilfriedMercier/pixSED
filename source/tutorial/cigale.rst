@@ -5,4 +5,4 @@ This tutorial is specific to using Cigale SED fitting code.
 
 .. warning::
 
-    Cigale is not implemented yet.
+    Tutorial not written yet.

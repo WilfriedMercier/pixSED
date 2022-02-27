@@ -1,8 +1,9 @@
 SED classes
 ===========
 
+.. _TextIOBase: https://docs.python.org/3/library/io.html#io.TextIOBase
+
 .. automodule:: SED.sed
-    :special-members: __init__
     :members:
     :private-members:
     :show-inheritance:

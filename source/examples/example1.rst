@@ -5,10 +5,6 @@ Example 1: Generating a resolved stellar mass map with LePhare
 .. _SED: https://github.com/WilfriedMercier/SED
 .. _astropy.io.fits: https://docs.astropy.org/en/stable/io/fits/index.html
 
-.. role:: python(code)
-  :language: python
-  :class: highlight
-
 We start by importing `os.path`_ module (useful to deal with paths between different OS), this library (`SED`_) and `astropy.io.fits`_ to open the mask file.
 
 We define the galaxy name, the bands used, their zeropoints and the absolute path of the flux and variance maps. Note that in this case our variance maps do not include Poisson noise so we need to add it. To do so, we also provide the flux maps convolved with the square of the PSF.

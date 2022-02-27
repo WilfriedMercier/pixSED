@@ -33,6 +33,7 @@ We provide a few complete code examples below using the galaxy given in the :cod
 
     1. Resolved stellar mass map with LePhare <examples/example1>
     2. Resolved SFR map from an already existing LePhare output file <examples/example2>
+    3. Resolved stellar mass map with Cigale <examples/example3>
 
 .. toctree::
     :caption: ―――――――――――――――
