@@ -11,7 +11,7 @@ import astropy.io.ascii as     asci
 import numpy            as     np
 from   numpy            import ndarray
 from   abc              import ABC, abstractmethod
-from   typing           import Tuple, Union, Optional, Dict
+from   typing           import Tuple, Union, Optional, Dict, Any
 from   astropy.io       import fits
 from   astropy.table    import Table
 from   astropy.units    import Quantity
@@ -24,7 +24,8 @@ class Output(ABC):
    
    Abstract SED fitting code output class.
    
-   :param str file: name of the SED fitting outut file
+   :param file: name of the SED fitting outut file
+   :type file: :python:`str`
    '''
 
    def __init__(self, file: str, *args, **kwargs) -> None:
@@ -33,28 +34,35 @@ class Output(ABC):
       if not isinstance(file, str):
          raise TypeError(f'file parameter has type {type(file)} but it must have type str.')
          
-      fullFile = opath.expandvars(file)
+      fullFile                    = opath.expandvars(file)
       if not opath.isfile(fullFile):
          raise ValueError(f'file {file} (expanded as {fullFile}) not found.')
          
       #: SED fitting code output file name used
-      self.file   = fullFile
+      self.file: str              = fullFile
       
       #: Image properties corresponding to the output table (keys are None by default, update using the link method with a FilterList object)
-      self.imProp = {'shape'   : None,
-                     'scale'   : None,
-                     'meanMap' : None
-                    }
+      self.imProp: Dict[str, Any] = {'shape'   : None,
+                                     'scale'   : None,
+                                     'meanMap' : None
+                                     }
       
       #: Configuration dictionary with info from the header
-      self.config = {}
+      self.config: str            = {}
       
       #: Table gathering data
-      self.table  = None
+      self.table: Table           = None
       
    @abstractmethod
    def load(self, *args, **kwargs) -> Table:
-      r'''Load data from a file into an astropy Table object.'''
+      r'''
+      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      
+      Load data from a file into an astropy Table object.
+      
+      :returns: the astropy table
+      :rtype: `Astropy Table`_
+      '''
    
       return
   
@@ -66,7 +74,7 @@ class Output(ABC):
       
       :param FilterList filterList: FilterList object from which the image properties are retrieved
       
-      :raises TypeError: if **filterList** is not of type FilterList
+      :raises TypeError: if **filterList** is not of type :py:class:`~.FilterList`
       '''
       
       if not isinstance(filterList, FilterList):
@@ -79,8 +87,15 @@ class Output(ABC):
       return
   
    @abstractmethod
-   def toImage(self, *args, **kwargs):
-       r'''Generate a resolved map.'''
+   def toImage(self, *args, **kwargs) -> Quantity:
+       r'''
+       .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+       
+       Generate a resolved map.
+       
+       :returns: the image
+       :rtype: `Astropy Quantity`_
+       '''
        
        return
 
@@ -90,7 +105,8 @@ class CigaleOutput(Output):
     
     Init the output class.
     
-    :param str file: name of the SED fitting outut file
+    :param file: name of the SED fitting outut file
+    :type file: :python:`str`
     '''
     
     def __init__(self, file: str, *args, **kwargs):
@@ -109,10 +125,11 @@ class CigaleOutput(Output):
         
         Get and return the units from a Cigale output fits file header and map them to their column names.
         
-        :param fits.Header hdr: header to read the units from
+        :param hdr: header to read the units from
+        :type hdr: `Astropy Header`_
         
         :returns: mapping between column names and units
-        :rtype: dict
+        :rtype: :python:`dict[str, str]`
         '''
         
         self.units = {hdr[f'TTYPE{i}'] : hdr[f'TUNIT{i}'] if f'TUNIT{i}' in hdr else '' for i in range(1, hdr['TFIELDS']+1)}
@@ -127,7 +144,7 @@ class CigaleOutput(Output):
        
        :param FilterList filterList: FilterList object from which the image properties are retrieved
        
-       :raises TypeError: if **filterList** is not of type FilterList
+       :raises TypeError: if **filterList** is not of type :py:class:`~.FilterList`
        '''
        
        if not isinstance(filterList, FilterList):
@@ -156,17 +173,19 @@ class CigaleOutput(Output):
        
        Generate an image from the Astropy Table given column name.
        
-       :param str name: name of the column to generate the image from
+       :param name: name of the column to generate the image from
+       :type name: :python:`str`
        
-       :param tuple[int] shape: (**Optional**) shape of the output image. The shape must be such that shape[0]*shape[1] == len(self.table). If None, the default value provided in the :py:meth:`LePhareOutput.link` method is used.
+       :param tuple[int] shape: (**Optional**) shape of the output image. The shape must be such that :python:`shape[0]*shape[1] == len(self.table)`. If :python:`None`, the default value provided in the :py:meth:`~.CigaleOutput.link` method is used.
+       :type shape: :python:`tuple[int]`
        
-       :returns: output image as an Astropy Quantity. Use .data method to only get the array.
-       :rtype: Quantity
+       :returns: output image as an `Astropy Quantity`_. Use .data method to only get the array.
+       :rtype: `Astropy Quantity`_
        
        :raises TypeError:
            
-           * if **name** is not of type str
-           * if **shape** is neither a tuple nor a list
+           * if **name** is not of type :python:`str`
+           * if **shape** is neither a :python:`tuple` nor a :python:`list`
            
        :raises ValueError: if **shape** is not of length 2
        '''
@@ -206,7 +225,8 @@ class LePhareOutput(Output):
    
    Implement an output class for LePhare.
    
-   :param str file: name of the SED fitting outut file
+   :param file: name of the SED fitting outut file
+   :type file: :python:`str`
    '''
    
    def __init__(self, file: str, *args, **kwargs) -> None:
@@ -221,6 +241,9 @@ class LePhareOutput(Output):
       .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
       
       Load data from LePhare output file.
+      
+      :returns: the astropy table
+      :rtype: `Astropy Table`_
       '''
       
       # Read header first
@@ -267,13 +290,14 @@ class LePhareOutput(Output):
       
       return table
   
-   def readHeader(self, *args, **kwargs) -> dict:
+   def readHeader(self, *args, **kwargs) -> Dict[str, str]:
       r'''
       .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
       
       Read the header of LePhare output file.
       
       :returns: dict mapping between column names and column number
+      :rtype: :python:`dict[str, str]`
       '''
       
       with open(self.file, 'r') as f:
@@ -326,33 +350,38 @@ class LePhareOutput(Output):
           Depending on the type of output quantity one wants to generate an image from, **scaleFactor** can have different values:
               
               * if the output quantity is extensive, then this is the same scaleFactor which was used to scale down the filters data
-              * if the output quantity is intensive, then it must be 1
+              * if the output quantity is intensive, then it must be :python:`1`
               
           The **shape**, **scaleFactor** and **meanMap** parameters can also be passed as default values using
           
-          >>> output = LePhareOutput('someFileName.out')
-          >>> output.link(filterList)
+          .. code:: python
+              
+              output = LePhareOutput('someFileName.out')
+              output.link(filterList)
           
-          where filterList is the FilterList object used to perform the SED fitting.
+          where filterList is the :py:class:`~.FilterList` object used to perform the SED fitting.
           
           These parameters always override the default values if provided.
       
-      :param str name: name of the column to generate the image from
+      :param name: name of the column to generate the image from
+      :type name: :python:`str`
       
-      :param tuple[int] shape: (**Optional**) shape of the output image. The shape must be such that shape[0]*shape[1] == len(self.table). If None, the default value provided in the :py:meth:`LePhareOutput.link` method is used.
-      :param scaleFactor: (**Optional**) scale factor used to scale up the image. If None, the default value provided in the :py:meth:`LePhareOutput.link` method is used.
-      :type scaleFactor: int or float
-      :param ndarray meanMap: (**Optional**) mean map used during the filterList table creation to normalise the data. If None, the default value provided in the :py:meth:`LePhareOutput.link` method is used.
+      :param shape: (**Optional**) shape of the output image. The shape must be such that :python:`shape[0]*shape[1] == len(self.table)`. If :python:`None`, the default value provided in the :py:meth:`~.LePhareOutput.link` method is used.
+      :type shape: :python:`tuple[int]`
+      :param scaleFactor: (**Optional**) scale factor used to scale up the image. If :python:`None`, the default value provided in the :py:meth:`~.Output.link` method is used.
+      :type scaleFactor: :python:`int/float`
+      :param meanMap: (**Optional**) mean map used during the filterList table creation to normalise the data. If :python:`None`, the default value provided in the :py:meth:`~.Output.link` method is used.
+      :type meanMap: `ndarray`_
       
       :returns: output image as an Astropy Quantity. Use .data method to only get the array.
-      :rtype: Quantity
+      :rtype: `Astropy Quantity`_
       
-      :raises TypeError: if
-        
-      * **name** is not of type str
-      * **shape** is neither a tuple nor a list
-      * **scaleFactor** is neither an int nor a float
-      * **meanMap** is not a ndarray 
+      :raises TypeError:
+            
+          * if **name** is not of type :python:`str`
+          * if **shape** is neither a :python:`tuple` nor a :python:`list`
+          * if **scaleFactor** is neither an :python:`int` nor a :python:`float`
+          * if **meanMap** is not a `ndarray`_
           
       :raises ValueError: if **shape** is not of length 2
       '''

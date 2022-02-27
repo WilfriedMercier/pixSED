@@ -26,11 +26,11 @@ class Property(ABC):
     
     :param default: default value used at init
 
-    :param minBound: (**Optional**) minimum value for the property. If None, it is ignored.
-    :param maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
+    :param minBound: (**Optional**) minimum value for the property. If :python:`None`, it is ignored.
+    :param maxBound: (**Optional**) maximum value for the property. If :python:`None`, it is ignored.
     :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
     :type testFunc: :python:`Callable`
-    :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
+    :param testMsg: (**Optional**) a test message used to throw an error if **testFunc** returns :python:`False`
     :type testMsg: :python:`str`
     
     :raises TypeError: 
@@ -186,11 +186,12 @@ class IntProperty(Property):
     
     Define a property object which stores a single integer.
     
-    :param int default: default value used at init
+    :param default: default value used at init
+    :type default: :python:`int`
 
-    :param minBound: (**Optional**) minimum value for the property. If None, it is ignored.
+    :param minBound: (**Optional**) minimum value for the property. If :python:`None`, it is ignored.
     :type minBound: :python:`int`
-    :param maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
+    :param maxBound: (**Optional**) maximum value for the property. If :python:`None`, it is ignored.
     :type maxBound: :python:`int`
     :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
     :type testFunc: :python:`Callable`
@@ -246,9 +247,9 @@ class FloatProperty(Property):
     :param default: default value used at init
     :type default: :python:`float`
 
-    :param minBound: (**Optional**) minimum value for the property. If None, it is ignored.
+    :param minBound: (**Optional**) minimum value for the property. If :python:`None`, it is ignored.
     :type minBound: :python:`float`
-    :param maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
+    :param maxBound: (**Optional**) maximum value for the property. If :python:`None`, it is ignored.
     :type maxBound: :python:`float`
     :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
     :type testFunc: :python:`Callable`
@@ -304,7 +305,7 @@ class FloatProperty(Property):
         self.value = value
         return
     
-class StrProperty(Property): # XXX to be continued
+class StrProperty(Property):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     
@@ -375,8 +376,8 @@ class ListProperty(Property):
     
     :param default: default value used at init
 
-    :param minBound: (**Optional**) minimum value for the property. If None, it is ignored.
-    :param maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
+    :param minBound: (**Optional**) minimum value for the property. If :python:`None`, it is ignored.
+    :param maxBound: (**Optional**) maximum value for the property. If :python:`None`, it is ignored.
     :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
     :type testFunc: :python:`Callable`
     :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
@@ -482,7 +483,7 @@ class ListIntProperty(ListProperty):
         Implement a string representation of the class.
         
         :returns: the string representation
-        :rtype :python:`str`
+        :rtype: :python:`str`
         '''
         
         return ','.join([f'{i}' for i in self.value])
@@ -512,9 +513,9 @@ class ListFloatProperty(ListProperty):
     :param default: default value used at init
     :type default: :python:`list[float]`
 
-    :param minBound: (**Optional**) minimum value for the property. If None, it is ignored.
+    :param minBound: (**Optional**) minimum value for the property. If :python:`None`, it is ignored.
     :type minBound: :python:`float`
-    :param maxBound: (**Optional**) maximum value for the property. If None, it is ignored.
+    :param maxBound: (**Optional**) maximum value for the property. If :python:`None`, it is ignored.
     :type maxBound: :python:`float`
     :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
     :type testFunc: :python:`Callable`
@@ -541,6 +542,9 @@ class ListFloatProperty(ListProperty):
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
         Implement a string representation of the class.
+        
+        :returns: the string representation
+        :rtype: :python:`str`
         '''
         
         return ','.join([f'{i:.3f}' if i == 0 or (i > 1e-3 and i < 1e3) else f'{i:.3e}' for i in self.value])
@@ -562,25 +566,25 @@ class ListFloatProperty(ListProperty):
         return
 
 class ListStrProperty(ListProperty):
-    r'''Define a property which stores an int list object.'''
+    r'''
+    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Define a property which stores an int list object.
+    
+    :param default: default value used at init
+    :type default: :python:`list[str]`
+
+    :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
+    :type testFunc: :python:`Callable`
+    :param testMsg: (**Optional**) a test message used to throw an error if **testFunc** returns :python:`False`
+    :type testMsg: :python:`str`
+    '''
     
     def __init__(self, default: List[str],
                  testFunc: Callable[[List[str]], bool] = lambda value: False, 
                  testMsg: str ='', **kwargs) -> None:
         
-        r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
-        
-        Init the str list property object.
-
-        :param default: default value used at init
-        :type default: :python:`list[str]`
-
-        :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
-        :type testFunc: :python:`Callable`
-        :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
-        :type testMsg: :python:`str`
-        '''
+        r'''Init method.'''
         
         super().__init__(default, minBound=None, maxBound=None, testFunc=testFunc, testMsg=testMsg)
         
@@ -635,7 +639,7 @@ class PathProperty(Property):
 
     :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
     :type testFunc: :python:`Callable`
-    :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
+    :param testMsg: (**Optional**) a test message used to throw an error if **testFunc** returns :python:`False`
     :type testMsg: :python:`str`
     :param str path: (**Optional**) path to append each time to the new value
     :type path: :python:`str`
@@ -718,8 +722,8 @@ class ListPathProperty(ListProperty):
 
     :param testFunc: (**Optional**) a test function with the value to test as argument which must not be passed in order to set a value. This can be used to add additional checks which are not taken into account by default.
     :type testFunc: :python:`Callable`
-    :param testMsg: (**Optional**) a test message used to throw an error if testFunc returns False
-    :type testMsg: :python:`str
+    :param testMsg: (**Optional**) a test message used to throw an error if **testFunc** returns :python:`False`
+    :type testMsg: :python:`str`
     :param path: (**Optional**) path to append each time to the new value
     :type path: :python:`str`
     :param ext: (**Optional**) extension to append at the end of the file name when checking the path
@@ -799,7 +803,7 @@ class ListPathProperty(ListProperty):
 #       Enum property objects       #
 #####################################
 
-class EnumProperty:
+class EnumProperty(Property):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     

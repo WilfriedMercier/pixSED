@@ -11,3 +11,4 @@ from .sed        import LePhareSED, CigaleSED
 from .catalogues import LePhareCat, CigaleCat
 from .outputs    import LePhareOutput, CigaleOutput
 from .misc       import SEDcode, CleanMethod, MagType, TableFormat, TableType, TableUnit, YESNO, ANDOR, IMF
+from .misc       import cigaleModules as cigmod

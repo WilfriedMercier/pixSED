@@ -38,7 +38,7 @@ class Filter:
     :type filt: :python:`str`
     :param file: data file name. File must exist and be a loadable FITS file.
     :type file: :python:`str`
-    :param file2: file name for the data convolved by the square of the PSF. File must exist and be a loadable FITS file. If None, no file is loaded and Poisson noise will not be added to the variance map.
+    :param file2: file name for the data convolved by the square of the PSF. File must exist and be a loadable FITS file. If :python:`None`, no file is loaded and Poisson noise will not be added to the variance map.
     :type file2: :python:`str`
     :param errFile: error file name. File must exist and be a loadable FITS file. Error file is assumed to be the variance map.
     :type errFile: :python:`str`
