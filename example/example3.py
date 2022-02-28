@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+.. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+
+Generate a resolved stellar mass map using Cigale SED fitting code.
+"""
+
 import os.path           as     opath
 from   astropy.io        import fits
 import SED
