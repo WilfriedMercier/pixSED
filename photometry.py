@@ -10,7 +10,7 @@ from   typing        import Union, Tuple
 import numpy         as     np
 import astropy.units as     u
 
-def countToMag(data: Union[float, np.ndaray], err: Union[float, np.ndarray], zeropoint: float) -> Tuple[Union[float, np.ndarray], Union[float, np.ndarray]]:
+def countToMag(data: Union[float, np.ndarray], err: Union[float, np.ndarray], zeropoint: float) -> Tuple[Union[float, np.ndarray], Union[float, np.ndarray]]:
     r'''
     .. codeauthor:: Hugo Plombat - LUPM <hugo.plombat@umontpellier.fr> & Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     
