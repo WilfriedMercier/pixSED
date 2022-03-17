@@ -16,7 +16,7 @@ def countToMag(data: Union[float, np.ndarray], err: Union[float, np.ndarray], ze
     
     Convert data counts and their associated error into AB magnitudes using the formula
     
-    .. math:: python
+    .. math::
         
         d [{\rm{mag}}] = -2.5 \log_{10} d [{\rm{e^{-}/s}}] + {\rm{zpt}}
         
@@ -51,11 +51,11 @@ def countToFlux(data: Union[float, np.ndarray], err: Union[float, np.ndarray], z
     :param data: data in :math:`electron/s`
     :type data: :python:`float` or `ndarray`_ [:python:`float`]
     :param err: std errors in :math:`\rm{e^{-1}/s}`
-    :type err: :python:`float` or `ndarray`_ [:python`float`]
+    :type err: :python:`float` or `ndarray`_ [:python:`float`]
     :param zeropoint: zeropoint associated to the data
     :type zeropoint: :python:`float`
     
-    :returns: AB magnitude and associated error
+    :returns: flux in :math:`\rm{erg/cm^2/s/Hz}` and associated error
     :rtype: (`Astropy Quantity`_, `Astropy Quantity`_)
     '''
 
@@ -63,6 +63,33 @@ def countToFlux(data: Union[float, np.ndarray], err: Union[float, np.ndarray], z
     eflux = u.Quantity(err  * 10**(-(zeropoint+48.6)/2.5), unit='erg/(s*Hz*cm^2)')
     
     return flux, eflux
+
+def FluxToCount(flux: Union[float, np.ndarray, u.Quantity], eflux: Union[float, np.ndarray, u.Quantity], zeropoint: float) -> Tuple[Union[float, np.ndarray], Union[float, np.ndarray]]:
+    r'''
+    .. codeauthor:: Hugo Plombat - LUPM <hugo.plombat@umontpellier.fr> & Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    
+    Convert flux values and their associated error into dta count in :math:`\rm{e^{-}/s}`.
+    
+    :param flux: flux in :math:`\rm{erg/cm^2/s/Hz}`. If provided as an Astropy Quantity it will be parsed to this unit.
+    :type flux: :python:`float`, `ndarray`_ [:python:`float`] or `Astropy Quantity`_
+    :param eflux: std errors in :math:`\rm{erg/cm^2/s/Hz}`. If provided as an Astropy Quantity it will be parsed to this unit.
+    :type eflux: :python:`float`, `ndarray`_ [:python:`float`] or `Astropy Quantity`_
+    :param zeropoint: zeropoint associated to the data
+    :type zeropoint: :python:`float`
+    
+    :returns: data count in :math:`\rm{e^{-}/s}` and associated error
+    :rtype: (:python:`float` or `ndarray`_ [:python:`float`], :python:`float` or `ndarray`_ [:python:`float`])
+    '''
+    
+    if isinstance(flux, u.Quantity):
+        flux  = flux.to( 'erg/(s*Hz*cm^2)').value
+        eflux = eflux.to('erg/(s*Hz*cm^2)').value
+        
+    fac   = 10**((zeropoint+48.6)/2.5)
+    count = flux * fac
+    err   = flux * fac
+    
+    return count, err
 
 def MagTocount(mag: Union[float, np.ndarray], emag: Union[float, np.ndarray], zeropoint: float) -> Tuple[Union[float, np.ndarray], Union[float, np.ndarray]]:
     r'''
