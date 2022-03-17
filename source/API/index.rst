@@ -7,4 +7,5 @@ API
     filters
     misc/index
     outputs
+    photometry
     sed
