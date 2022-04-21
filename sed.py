@@ -13,7 +13,7 @@ import os.path          as     opath
 
 from   distutils.spawn  import find_executable
 from   copy             import deepcopy
-from   typing           import List, Any, Optional, Dict
+from   typing           import List, Any, Optional, Dict, Union
 from   io               import TextIOBase
 from   abc              import ABC, abstractmethod
 from   textwrap         import dedent, indent
@@ -181,6 +181,8 @@ class CigaleSED(SED):
     :type restframe: :python:`list` [:py:class:`cigmod.RESTFRAMEmodule`]
     :param redshifting: (**Optional**) redshifitng+IGM modules to use. Empty list means no module is used.
     :type redshifting: :python:`list` [:py:class:`cigmod.REDSHIFTINGmodule`]
+    :param flux_uncertainty: additional uncertainty to add to the flux, given as a fraction of the flux (i.e. 0.1 means 10% of flux added to the uncertainty in quadrature)
+    :type flux_uncertainty: :python:`int` or :python:`float`
     
     :raises TypeError: if any of the keyword parameters if not a :python:`list`
     :raises ValueError: if no **SFH**, **SSP** and **redshifting** modules are provided
@@ -197,6 +199,7 @@ class CigaleSED(SED):
                  radio: List[cigmod.RADIOmodule]             = [],
                  restframe: List[cigmod.RESTFRAMEmodule]     = [],
                  redshifting: List[cigmod.REDSHIFTmodule]    = [cigmod.REDSHIFTmodule()],
+                 flux_uncertainty: Union[int, float]         = 0,
                  **kwargs) -> None:
         
         super().__init__(**kwargs)
@@ -221,16 +224,26 @@ class CigaleSED(SED):
             raise TypeError('one of the values in uncertainties is not a bool.')
                 
         if len(SFH) < 1:
-            raise ValueError('at least one SFH module must be provided')
+            raise ValueError('at least one SFH module must be provided.')
             
         if len(SSP) < 1:
-            raise ValueError('at least one SSP module must be provided')
+            raise ValueError('at least one SSP module must be provided.')
             
         if len(redshifting) < 1:
-            raise ValueError('at least one redshifting module must be provided')
+            raise ValueError('at least one redshifting module must be provided.')
+            
+        if not isinstance(flux_uncertainty, (int, float)):
+            raise TypeError(f'flux uncertainty has type {type(flux_uncertainty)} but it must have type int or float.')
+            
+        if flux_uncertainty < 0:
+            raise ValueError('flux uncertainty must be positive.')
+            
             
         #: Will be used to generate a custom directory
         self.id: Any                               = ID
+        
+        # Flux uncertainty
+        self.flux_uncertainty                      = flux_uncertainty
         
         #: Filters to use for the SED fitting
         self.filters: ListStrProperty              = ListStrProperty(filters + [f'{filt}_err' for filt, uncertainty in zip(filters, uncertainties) if uncertainty])
@@ -451,6 +464,9 @@ class CigaleSED(SED):
         # instance the equivalent widths and for luminosity densities.
         properties = {self.properties}
         
+        # Relative error added in quadrature to the uncertainties of the fluxes
+        # and the extensive properties.
+        additionalerror = {self.flux_uncertainty}
         
         # Configuration of the SED creation modules.
         [sed_modules_params]
