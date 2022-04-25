@@ -495,6 +495,7 @@ class CigaleSED(SED):
         cores = integer(min=1)
         bands = cigale_string_list()
         properties = cigale_string_list()
+        additionalerror = float()
         [sed_modules_params]
         %MODULESSPEC%
         [analysis_params]
