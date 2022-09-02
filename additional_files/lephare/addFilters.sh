@@ -2,5 +2,5 @@
 # MERCIER Wilfried - IRAP
 # A bash wrapper to automatically add the filters in filter directory into LePhare database
 
-cp -r hst_filters "$LEPHAREDIR"/filt
+cp -r filters "$LEPHAREDIR"/filt/hst_filters
 exit 0
