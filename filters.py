@@ -656,7 +656,7 @@ class FilterList:
             
         :param data: data map
         :type data: `ndarray`_
-        :param data2: square of data map used to add Poisson noise
+        :param data2: data map convolved by the square of the PSF used to add Poisson noise
         :type data2: `ndarray`_
         :param var: variance map
         :type var: `ndarray`_
@@ -677,7 +677,7 @@ class FilterList:
         data, var = self.clean(data, var, mask, method=cleanMethod)
             
         # Add Poisson noise to the variance map
-        if texp is not None or data2 is None:
+        if texp is not None and data2 is not None:
             var  += self.poissonVar(data2, texp=texp, texpFac=texpFac)
         
         return data, var
@@ -731,7 +731,8 @@ class FilterList:
             (\Delta F)^2 = | \alpha F |
         
         
-        where :math:`F` is the square of the flux map and :math:`\alpha` is a scale factor defined as
+        #where :math:`F` is the square of the flux map and :math:`\alpha` is a scale factor defined as
+        where :math:`F` is the flux map and :math:`\alpha` is a scale factor defined as
         
         .. math::
                 
@@ -740,7 +741,7 @@ class FilterList:
         
         where :math:`\rm{TEXP}` is the exposure time and :math:`\rm{TEXPFAC}` is a coefficient used to scale it down.
         
-        :param data2: square of flux map
+        :param data2: flux map convolved by the square of the PSF
         :type data2: `ndarray`_
         
         :param texp: (**Optional**) exposure time in seconds
