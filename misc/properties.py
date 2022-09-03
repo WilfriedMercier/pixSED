@@ -632,7 +632,7 @@ class PathProperty(Property):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     
-    Define a property which stores a str object which includes additional checks for paths.
+    Define a property which stores a str object and can include additional checks for paths.
     
     :param default: default value used at init
     :type default: :python:`str`
@@ -641,19 +641,23 @@ class PathProperty(Property):
     :type testFunc: :python:`Callable`
     :param testMsg: (**Optional**) a test message used to throw an error if **testFunc** returns :python:`False`
     :type testMsg: :python:`str`
-    :param str path: (**Optional**) path to append each time to the new value
+    :param path: (**Optional**) path to append each time to the new value
     :type path: :python:`str`
-    :param str ext: (**Optional**) extension to append at the end of the file name when checking the path
+    :param ext: (**Optional**) extension to append at the end of the file name when checking the path
     :type ext: :python:`str`
+    :param skipCheckPath: (**Optional**) whether to skip the check of the existence of the path. It can be useful for paths that have not been created yet.
+    :type skipCheckPath: :python:`bool`
     
     :raises TypeError: if neither **path** nor **ext** are :python:`str`
     '''
 
     def __init__(self, default: str,
                  testFunc: Callable[[str], bool] = lambda value: False, 
-                 testMsg: str ='', 
-                 path: str = '', 
-                 ext: str = '', **kwargs) -> None:
+                 testMsg: str                    ='', 
+                 path: str                       = '', 
+                 ext: str                        = '', 
+                 skipCheckPath: bool             = False,
+                 **kwargs) -> None:
         
         r'''Init method.'''
         
@@ -672,7 +676,7 @@ class PathProperty(Property):
         self.path    = path
         
         # Set the value to check data type (default property has already been set)
-        self.set(default)
+        self.set(default, skipCheckPath=skipCheckPath)
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
@@ -686,24 +690,46 @@ class PathProperty(Property):
         
         return self.value
     
-    @check_type(str)
-    def set(self, value: str, *args, **kwargs) -> None:
+    def _checkPath(self, value: str, *args, **kwargs) -> bool:
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
-        Set the current value.
+        Check whether the path exists or not.
 
-        :param value: new value. Must be within bounds.
+        :param value: new value
         :type value: :python:`str`
+        
+        :returns: :python:`True` if the path is ok and :python:`False` otherwise
+        :rtype: :python:`bool`
+        '''
+        
+        path  = opath.join(self.path, value) + self.ext
+        epath = opath.expandvars(path)
+        if value.upper() != 'NONE' and (not opath.exists(epath) or not opath.isfile(epath)):
+            return False
+        
+        return True
+        
+    
+    @check_type(str)
+    def set(self, value: str, skipCheckPath: bool = False, **kwargs) -> None:
+        r'''
+        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        
+        Set the current value if the tests are passed.
+
+        :param value: new value
+        :type value: :python:`str`
+        :param skipCheckPath: (**Optional**) whether to skip the check of the existence of the path. It can be useful for paths that have not been created yet.
+        :type skipCheckPath: :python:`bool`
         
         :raises OSError: if the path does not exist
         :raises ValueError: if the test function does not pass
         '''
         
-        path       = opath.join(self.path, value) + self.ext
-        epath      = opath.expandvars(path)
-        if value.upper() != 'NONE' and not opath.exists(epath) and not opath.isfile(epath):
-            raise OSError(f'path {path} (expanded as {epath}) does not exist.')
+        if not skipCheckPath and not self._checkPath(value):
+            path   = opath.join(self.path, value) + self.ext
+            raise OSError(f'path {path} (expanded as {opath.expandvars(path)}) does not exist.')
         
         if self._testFunc(value):
             raise ValueError(self._testMsg)

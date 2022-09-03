@@ -13,7 +13,7 @@ import os.path          as     opath
 
 from   distutils.spawn  import find_executable
 from   copy             import deepcopy
-from   typing           import List, Any, Optional, Dict, Union
+from   typing           import List, Any, Optional, Dict, Union, Callable
 from   io               import TextIOBase
 from   abc              import ABC, abstractmethod
 from   textwrap         import dedent, indent
@@ -749,19 +749,19 @@ class LePhareSED(SED):
                      
                      'STAR_FSCALE'    : FloatProperty(3.432e-09, minBound=0),
                      
-                     'STAR_LIB'       : PathProperty('LIB_STAR_bc03', path=opath.join('$LEPHAREWORK', 'lib_bin'), ext='.bin'),
+                     'STAR_LIB'       : PathProperty('LIB_STAR_bc03', path=opath.join('$LEPHAREWORK', 'lib_bin'), ext='.bin', skipCheckPath=True),
                      
                      'QSO_SED'        : PathProperty(opath.join('$LEPHAREDIR', 'sed', 'QSO', 'QSO_MOD.list')),
                      
                      'QSO_FSCALE'     : FloatProperty(1.0, minBound=0),
                      
-                     'QSO_LIB'        : PathProperty('LIB_QSO_bc03', path=opath.join('$LEPHAREWORK', 'lib_bin'), ext='.bin'),
+                     'QSO_LIB'        : PathProperty('LIB_QSO_bc03', path=opath.join('$LEPHAREWORK', 'lib_bin'), ext='.bin', skipCheckPath=True),
                      
                      'GAL_SED'        : PathProperty(opath.join('$LEPHAREDIR', 'sed', 'GAL', 'BC03_CHAB', 'BC03_MOD.list')),
                      
                      'GAL_FSCALE'     : FloatProperty(1.0, minBound=0),
                      
-                     'GAL_LIB'        : PathProperty('LIB_bc03', path=opath.join('$LEPHAREWORK', 'lib_bin'), ext='.bin'),
+                     'GAL_LIB'        : PathProperty('LIB_bc03', path=opath.join('$LEPHAREWORK', 'lib_bin'), ext='.bin', skipCheckPath=True),
                      
                      'SEL_AGE'        : PathProperty(opath.join('$LEPHAREDIR', 'sed', 'GAL', 'BC03_CHAB', 'BC03_AGE.list')),
                      
@@ -776,17 +776,17 @@ class LePhareSED(SED):
                      
                      'FILTER_CALIB'   : IntProperty(0, minBound=0, maxBound=4),
                      
-                     'FILTER_FILE'    : PathProperty('HDF_bc03.filt', path=opath.join('$LEPHAREWORK', 'filt')),
+                     'FILTER_FILE'    : PathProperty('HDF_bc03.filt', path=opath.join('$LEPHAREWORK', 'filt'), skipCheckPath=True),
                      
-                     'STAR_LIB_IN'    : PathProperty('LIB_STAR_bc03', path=opath.join('$LEPHAREWORK', 'lib_bin'), ext='.bin'),
+                     'STAR_LIB_IN'    : PathProperty('LIB_STAR_bc03', path=opath.join('$LEPHAREWORK', 'lib_bin'), ext='.bin', skipCheckPath=True),
                      
                      'STAR_LIB_OUT'   : StrProperty('STAR_HDF_bc03'),
                      
-                     'QSO_LIB_IN'     : PathProperty('LIB_QSO_bc03', path=opath.join('$LEPHAREWORK', 'lib_bin'), ext='.bin'),
+                     'QSO_LIB_IN'     : PathProperty('LIB_QSO_bc03', path=opath.join('$LEPHAREWORK', 'lib_bin'), ext='.bin', skipCheckPath=True),
                      
                      'QSO_LIB_OUT'    : StrProperty('QSO_HDF_bc03'),
                      
-                     'GAL_LIB_IN'     : PathProperty('LIB_bc03', path=opath.join('$LEPHAREWORK', 'lib_bin'), ext='.bin'),
+                     'GAL_LIB_IN'     : PathProperty('LIB_bc03', path=opath.join('$LEPHAREWORK', 'lib_bin'), ext='.bin', skipCheckPath=True),
                      
                      'GAL_LIB_OUT'    : StrProperty('HDF_bc03'),
                      
@@ -1181,7 +1181,13 @@ class LePhareSED(SED):
     #        Run methods        #
     #############################
     
-    def runScript(self, commands: List[str], file: str = '', log: TextIOBase = None, errMsg: str = ''):
+    def runScript(self, commands: List[str], 
+                  file: str       = '', 
+                  log: TextIOBase = None, 
+                  errMsg: str     = '',
+                  test: bool      = True,
+                  testMsg: str    = ''
+                 ):
         r'''
         .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
         
@@ -1196,12 +1202,24 @@ class LePhareSED(SED):
         :type log: `TextIOBase`_
         :param errMsg: (**Optional**) message error to show if the process failed
         :type errMsg: :python:`str`
+        :param test: (**Optional**) a test that must be passed at the end of the command for the program to continue
+        :type test: :python:`bool`
+        :param testMsg: (**Optional**) a test that must be passed at the end of the command for the program to continue
+        :type testMsg: :python:`str`
+        
+        :raises TypeError: if **commands* if not of type :python:`list`
+        :raises ValueError: if **testFunc** returns :python:`False`
         '''
         
         if not isinstance(commands, list):
             raise TypeError(f'commands parameter has type {type(commands)} but it must have type list.')
-        print('XXX:', file)
-        return self.startProcess(commands + [file], log=log, errMsg=errMsg)
+        
+        res = self.startProcess(commands + [file], log=log, errMsg=errMsg)
+        
+        if not test:
+            raise ValueError(testMsg)
+        
+        return res
     
     genQSOModel  = partialmethod(runScript, ['$LEPHAREDIR/source/sedtolib', '-t', 'QSO',     '-c'], errMsg='QSO models generation failed.')
     genGalModel  = partialmethod(runScript, ['$LEPHAREDIR/source/sedtolib', '-t', 'Galaxy',  '-c'], errMsg='Galaxy models generation failed.')
@@ -1298,15 +1316,15 @@ class LePhareSED(SED):
             
             # QSO magnitudes
             if not skipMagQSO:
-                self.genMagQSO(file=pfile, log=log)
+                self.genMagQSO(file=pfile, log=log, test=self.prop['QSO_LIB' ]._checkPath(self.prop['QSO_LIB'].value ), testMsg=f'{ERROR} QSO library {opath.expandvars(opath.join(self.prop["QSO_LIB"].path, self.prop["QSO_LIB"].value) + self.prop["QSO_LIB"].ext)} not found.')
                 
             # Star magnitudes
             if not skipMagStar:
-                self.genMagStar(file=pfile, log=log)
+                self.genMagStar(file=pfile, log=log, test=self.prop['STAR_LIB']._checkPath(self.prop['STAR_LIB'].value), testMsg=f'{ERROR} STAR library {opath.expandvars(opath.join(self.prop["STAR_LIB"].path, self.prop["STAR_LIB"].value) + self.prop["STAR_LIB"].ext)} not found.')
                     
             # Galaxy magnitudes
             if not skipMagGal:
-                self.genMagGal(file=pfile, log=log)
+                self.genMagGal(file=pfile, log=log, test=self.prop['GAL_LIB' ]._checkPath(self.prop['GAL_LIB'].value ), testMsg=f'{ERROR} GAL library {opath.expandvars(opath.join(self.prop["GAL_LIB"].path, self.prop["GAL_LIB"].value) + self.prop["GAL_LIB"].ext)} not found.')
             
             ###################################
             #         Run SED fitting         #
