@@ -30,53 +30,89 @@ ERROR   = errorMessage('Error:')
 
 class Filter:
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@irap.omp.eu>
     
-    Base class implementing data related to a single filter.
+    Class implementing all data related to a single filter.
     
-    :param str filt: filter name
+    .. note::
+        
+        Data and variance maps can be given in any units, but the **unit of the variance map is expected to be the square of that of the data map**. No unit check is performed using header information.
+        
+        The code will convert the data map using the **zeropoint** following the expression:
+        
+        .. math::
+            
+            d_{\rm{new}} = d_{\rm{original}} \times 10^{-(zpt + 48.6)/2.5}
+            
+        where :math:`d_{\rm{original}}` is the original data map in any arbitrary unit and :math:`d_{\rm{new}}` is the new data map converted in :math:`\rm erg\,s^{-1}\,Hz^{-1}\,cm^{-2}`. Thus, the **zeropoint** must be chosen so that the conversion is properly done to that unit.
+    
+        The variance map will be converted by first taking the square root to have the std and then performing the same conversion as above.
+        
+    .. important::
+        
+        The code assumes by default that all noise types are included in the variance map. If the Poisson noise is missing, one can provide the **file2** parameter which is the file containing the data map convolved by the square of the PSF. The code will then use that file to compute its own Poisson noise that will be added in quadrature to the given variance map.
+    
+    :param str filt: filter name. This name must be compatible with the filter names availble in the chosen SED fitting code.
     :type filt: :python:`str`
-    :param file: data file name. File must exist and be a loadable FITS file.
+    :param file: file name of the data flux map. File must exist and be a loadable FITS file.
     :type file: :python:`str`
-    :param file2: file name for the data convolved by the square of the PSF. File must exist and be a loadable FITS file. If :python:`None`, no file is loaded and Poisson noise will not be added to the variance map.
-    :type file2: :python:`str`
-    :param errFile: error file name. File must exist and be a loadable FITS file. Error file is assumed to be the variance map.
-    :type errFile: :python:`str`
-    :param float zeropoint: filter AB magnitude zeropoint
+    :param varFile: file name of the variance flux map. File must exist and be a loadable FITS file.
+    :type varFile: :python:`str`
+    :param zeropoint: magnitude zeropoint (see note above)
     :type zeropoint: :python:`float`
     
-    :param int ext: (**Optional**) extension in the data FITS file
+    :param ext: (**Optional**) extension number in the data FITS file
     :type ext: :python:`int`
-    :param int ext2: (**Optional**) extension in the data squared FITS file
+    :param ext2: (**Optional**) extension number in the data squared FITS file
     :type ext2: :python:`int`
-    :param int extErr: (**Optional**) extension in the error FITS file
+    :param extErr: (**Optional**) extension number in the variance FITS file
     :type extErr: :python:`int`
-    :param bool verbose: (**Optional**) whether to print info messages or not
+    :param file2: (**Optional**) file name for the data convolved by the square of the PSF. File must exist and be a loadable FITS file. If :python:`None`, no file is loaded and Poisson noise will not be added to the variance map.
+    :type file2: :python:`str`
+    :param verbose: (**Optional**) whether to print info messages or not
     :type verbose: :python:`bool`
     
     :raises TypeError:
             
         * if **filt** is not of type :python:`str`
+        * if **file** is not of type :python:`str`
+        * if **varFile** is not of type :python:`str`
+        * if **file2** is not :python:`None` and not of type :python:`str`
         * if **zeropoint** is neither :python:`int` nor :python:`float`
     '''
     
-    def __init__(self, filt: str, file: str, file2: Optional[str], errFile: str, zeropoint: float, 
-                 ext: int = 0, ext2: int = 0, extErr: int = 0,
-                 verbose: bool = True) -> None:
-        r'''Initialise method.'''
+    def __init__(self, filt: str, file: str, varFile: str, zeropoint: float, 
+                 ext    : int           = 0, 
+                 ext2   : int           = 0, 
+                 extErr : int           = 0,
+                 file2  : Optional[str] = None,
+                 verbose: bool          = True) -> None:
+        r'''Init method.'''
         
         if not isinstance(filt, str):
             raise TypeError(f'filt parameter has type {type(filt)} but it must be of type list.')
             
+        if not isinstance(file, str):
+            raise TypeError(f'file parameter has type {type(file)} but it must be of type str.')
+            
+        if not isinstance(varFile, str):
+            raise TypeError(f'varFile parameter has type {type(varFile)} but it must be of type str.')
+            
+        if file2 is not None and not isinstance(file2, str):
+            raise TypeError(f'file2 parameter has type {type(file2)} but it must be either of type str or None.')
+            
         if not isinstance(zeropoint, (int, float)):
             raise TypeError(f'zeropoint parameter has type {type(zeropoint)} but it must be of type int or float.')
+            
+        if not isinstance(verbose, bool):
+            raise TypeError(f'verbose parameter has type {type(verbose)} but it must be of type bool.')
             
         self.verbose              = verbose
         self.filter               = filt
         self.zpt                  = zeropoint
         self.fname                = file
         self.fname2               = file2
-        self.ename                = errFile
+        self.ename                = varFile
         
         self.hdr,  self.data      = self._loadFits(self.fname,  ext=ext)
         self.ehdr, self.var       = self._loadFits(self.ename,  ext=extErr)
@@ -84,8 +120,9 @@ class Filter:
         if self.fname2 is None:
             self.hdr2             = None
             self.data2            = None
-            
-            if self.verbose: print(f'{WARNING} No data convnlved by PSF2 provided. Poisson noise is assumed to be already contained in the variance map.')
+            self.texp             = None
+        
+            if self.verbose: print(f'{WARNING} No data convolved with the square of the PSF was provided. Poisson noise is assumed to be already contained in the variance map.')
         else:
             self.hdr2, self.data2 = self._loadFits(self.fname2, ext=ext2)
         
@@ -96,12 +133,14 @@ class Filter:
             raise ShapeError(self.data, self.data2, msg=f' in filter {self.filter}')
             
         # Check that exposure time is in the header (otherwise Poisson noise cannot be computed)
-        try:
-            self.texp             = self.hdr['TEXPTIME']
-        except KeyError:
-            self.texp             = None
+        if self.fname2 is not None:
             
-            if self.verbose: print(f'{WARNING} data header in {filt.filter} does not have TEXPTIME key.')
+            try:
+                self.texp         = self.hdr['TEXPTIME']
+            except KeyError:
+                self.texp         = None
+                
+                if self.verbose: print(f'{WARNING} data header in {self.filter} does not have TEXPTIME key. Poisson noise cannot be computed...')
             
             
     ###############################
@@ -189,16 +228,16 @@ class Filter:
                     
             # If an error is triggered, we always return None, None
             except OSError:
-                print(f'{ERROR} file file could not be loaded as a FITS file.')
+                print(f'{ERROR} file {file} could not be loaded as a FITS file.')
             except IndexError:
-                print(f'{ERROR} extension number {ext} too large.')
+                print(f'{ERROR} extension number {ext} for file {file} too large.')
                 
         return None, None
 
 
 class FilterList:
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@irap.omp.eu>
     
     Base class implementing the object used to stored SED fitting into.
     
@@ -221,7 +260,9 @@ class FilterList:
     '''
     
     def __init__(self, filters: List[Filter], mask: ndarray,
-                 code: SEDcode = SEDcode.LEPHARE, redshift: Union[int, float] = 0, **kwargs) -> None:
+                 code    : SEDcode           = SEDcode.CIGALE,
+                 redshift: Union[int, float] = 0, 
+                 **kwargs) -> None:
         r'''Init method.'''
             
         if not isinstance(redshift, (int, float)):
@@ -473,34 +514,39 @@ class FilterList:
         :rtype: (:python:`list[int/float/str], list[str], list[Any]`)
         '''
        
-        dataList                   = []
-        stdList                    = []
+        data               = []
+        var                = []
+       
         for pos, filt in enumerate(self.filters):
 
             # Clean and add noise to variance map
-            data, var              = self.cleanAndNoise(filt.data, filt.data2, filt.var, self.mask, cleanMethod=cleanMethod, texp=filt.texp, texpFac=texpFac)
-            
-            # Go to 1D version
-            if pos==0:
-                data, var, indices = self.arrayTo1D(data, var, indices=True)
-            else:
-                data, var          = self.arrayTo1D(data, var, indices=False)
+            d, v           = self.cleanAndNoise(filt.data, filt.data2, filt.var, self.mask, cleanMethod=cleanMethod, texp=filt.texp, texpFac=texpFac)
+            data.append(d)
+            var.append( v)
         
-            # Compute std and convert std and data to mJy unit
-            data, std              = [i.to('mJy').value for i in countToFlux(data, np.sqrt(var), filt.zpt)]
+        # Go to 1D version
+        data, var, indices = self.arraysTo1D(data, var, indices=True)
+        
+        # Compute std and convert std and data to mJy unit
+        dataList           = []
+        stdList            = []
+        
+        for d, err, filt in zip(data, np.sqrt(var), self.filters):
+            
+            data, std      = countToFlux(d, err, filt.zpt)
             
             # Append data and std to list
-            dataList.append(data)
-            stdList.append( std)
+            dataList.append(data.to('mJy').value)
+            stdList.append( std.to( 'mJy').value)
             
         # Redshift column
-        ll                         = len(self.filters)
-        ld                         = len(data)
-        zs                         = [self.redshift]*ld
+        ll                 = len(self.filters)
+        ld                 = len(data)
+        zs                 = [self.redshift]*ld
         
-        dtypes                     = [int, float]       + [float]*2*ll
-        colnames                   = ['id', 'redshift'] + [val for f in self.filters for val in [f.filter, f'{f.filter}_err']]
-        columns                    = [indices, zs]      + [val for d, s in zip(dataList, stdList) for val in [d, s]]
+        dtypes             = [int, float]       + [float]*2*ll
+        colnames           = ['id', 'redshift'] + [val for f in self.filters for val in [f.filter, f'{f.filter}_err']]
+        columns            = [indices, zs]      + [val for d, s in zip(dataList, stdList) for val in [d, s]]
         
         return columns, colnames, dtypes
         
@@ -542,13 +588,13 @@ class FilterList:
     #############################
     
     @staticmethod
-    def arrayTo1D(data: ndarray, var: ndarray, indices: bool = False):
+    def arraysTo1D(data: List[ndarray], var: List[ndarray], indices: bool = False):
         '''
-        Convert data and variance maps into 1D vectors and remove nan values.
+        Convert list of data and variance maps into 1D vectors and remove nan values.
         
         .. note::
             
-            Provide indices = True to get the indices of the non-NaN pixels in the 1D array (brefore NaN are removed).
+            Provide indices = True to get the indices of the non-NaN pixels in the 1D array (before NaN are removed).
             
         :param data: data map
         :type data: `ndarray`_
@@ -563,30 +609,43 @@ class FilterList:
         
         :raises TypeError:
             
-            * if **data** or **var** are not `ndarray`_
+            * if **data** or **var** are not :python:`list`
+            * if one element of **data** or **var** is not a `ndarray`_
             * if **indices** is not a :python:`bool`
         '''
         
-        if not any((isinstance(i, ndarray) for i in [data, var])):
-            raise TypeError('either data or variance maps is not a ndarray.')
+        if not isinstance(data, list):
+            raise TypeError(f'data has type {type(data)} but it must be a list of numpy.ndarray.')
+        
+        if not isinstance(var, list):
+            raise TypeError(f'var has type {type(var)} but it must be a list of numpy.ndarray.')
+            
+        if any((not isinstance(i, ndarray) for i in data)):
+            raise TypeError('One element of data is not a numpy.ndarray.')
+        
+        if any((not isinstance(i, ndarray) for i in var)):
+            raise TypeError('One element of var is not a numpy.ndarray.')
             
         if not isinstance(indices, bool):
             raise TypeError(f'indices parameter has type {type(indices)} but it must of type bool.')
         
         # Avoid to overwrite original arrays
-        data    = deepcopy(data)
-        var     = deepcopy(var)
+        data        = deepcopy(data)
+        var         = deepcopy(var)
         
-        shp     = data.shape        
-        
+        length      = np.prod(data[0].shape)
+    
         # Transform data and error maps into 1D vectors
-        data    = data.reshape(shp[0]*shp[1])
-        var     = var.reshape( shp[0]*shp[1])
+        data        = [i.reshape(length) for i in data]
+        var         = [i.reshape(length) for i in var ]
         
-        # Get rid of NaN values
-        nanMask = ~(np.isnan(data) | np.isnan(var))
-        data    = data[nanMask]
-        var     = var[ nanMask]
+        # Compute mask of non-NaN values that is the intersection of the masks in all the bands
+        nanMask = True
+        for d, v in zip(data, var):
+            nanMask = nanMask & ~(np.isnan(d) | np.isnan(v))
+            
+        data        = [i[nanMask] for i in data]
+        var         = [i[nanMask] for i in var ]
         
         if indices:
             return data, var, np.where(nanMask)[0]
@@ -678,6 +737,7 @@ class FilterList:
             
         # Add Poisson noise to the variance map
         if texp is not None and data2 is not None:
+            print('Adding Poisson noise...')
             var  += self.poissonVar(data2, texp=texp, texpFac=texpFac)
         
         return data, var
