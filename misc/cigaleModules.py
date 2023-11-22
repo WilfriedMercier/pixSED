@@ -1244,7 +1244,7 @@ class DUSTATT_MODIFIED_CF00module(ATTENUATIONmodule):
         
         return text
     
-class DUSTATT_MODIFIED_STARBUSTmodule(ATTENUATIONmodule):
+class DUSTATT_MODIFIED_STARBURSTmodule(ATTENUATIONmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
     
@@ -1580,7 +1580,7 @@ class DALEmodule(DUSTmodule):
     
     Class implementing Dale et al. 2014 dust emission module.
     
-    :param list fracAGN: (**Optional**) AGN fraction. It is not recommended to combine this AGN emission with the of Fritz et al. (2006) models.
+    :param list fracAGN: (**Optional**) AGN fraction. It is not recommended to combine this AGN emission with the models of Fritz et al. (2006).
     :param list alpha: (**Optional**) mid-infrared powerlaw slope
     '''
     

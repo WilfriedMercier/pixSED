@@ -103,10 +103,10 @@ class Property(ABC):
         '''
         
         if mini is not None and value < mini:
-            raise ValueError('value is {value} but minimum acceptable bound is {mini}.')
+            raise ValueError(f'value is {value} but minimum acceptable bound is {mini}.')
         
         if maxi is not None and value > maxi:
-            raise ValueError('value is {value} but maximum acceptable bound is {maxi}.')
+            raise ValueError(f'value is {value} but maximum acceptable bound is {maxi}.')
             
         if func(value):
             raise ValueError(msg)
@@ -420,10 +420,10 @@ class ListProperty(Property):
         '''
         
         if mini is not None and any((i < mini for i in value)):
-            raise ValueError('value is {value} but minimum acceptable bound is {mini}.')
+            raise ValueError(f'value is {value} but minimum acceptable bound is {mini}.')
         
         if maxi is not None and any((i > maxi for i in value)):
-            raise ValueError('value is {value} but maximum acceptable bound is {maxi}.')
+            raise ValueError(f'value is {value} but maximum acceptable bound is {maxi}.')
             
         if func(value):
             raise ValueError(msg)
