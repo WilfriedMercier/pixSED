@@ -353,9 +353,9 @@ class FilterList:
         return
         
         
-    ################################
-    #       Calogue creation       #
-    ################################
+    ##################################
+    #       Catalogue creation       #
+    ##################################
     
     def toCatalogue(self, fname: str, *args, **kwargs) -> Catalogue:
         r'''

@@ -160,26 +160,28 @@ class CigaleSED(SED):
     :param ID: an identifier used to name the output files created during the SED fitting process
     :param filters: filters to use for the SED fitting
     :type filters: :python:`list`
+
+    **Keyword arguments**
     
-    :param uncertainties: (**Optional**) list of bool to specify which uncertainties to use. If provided, it must be same length as **filters**.
+    :param uncertainties: list of bool to specify which uncertainties to use. If provided, it must be same length as **filters**.
     :type uncertainties: :python:`list[bool]`
-    :param SFH: (**Optional**) star formation history modules to use. **At least one module must be given.**
+    :param SFH: star formation history modules to use. **At least one module must be given.**
     :type SFH: :python:`list` [:py:class:`~.cigmod.SFHmodule`]
-    :param SSP: (**Optional**) single stellar population modules to use. **At least one module must be given.**
+    :param SSP: single stellar population modules to use. **At least one module must be given.**
     :type SSP: :python:`list` [:py:class:`~.cigmod.SSPmodule`]
-    :param nebular: (**Optional**) nebular emission modules to use. Empty list means no module is used.
+    :param nebular: nebular emission modules to use. Empty list means no module is used.
     :type nebular: :python:`list` [:py:class:`~.cigmod.NEBULARmodule`]
-    :param attenuation: (**Optional**) dust attenuation modules to use. Empty list means no module is used.
+    :param attenuation: dust attenuation modules to use. Empty list means no module is used.
     :type attenuation: :python:`list` [:py:class:`~.cigmod.ATTENUATIONmodule`]
-    :param dust: (**Optional**) dust emission modules to use. Empty list means no module is used.
+    :param dust: dust emission modules to use. Empty list means no module is used.
     :type dust: :python:`list` [:py:class:`~.cigmod.DUSTmodule`]
-    :param agn: (**Optional**) agn modules to use. Empty list means no module is used.
+    :param agn: agn modules to use. Empty list means no module is used.
     :type agn: :python:`list` [:py:class:`cigmod.AGNmodule`]
-    :param radio: (**Optional**) synchrotron radiation modules to use. Empty list means no module is used.
+    :param radio: synchrotron radiation modules to use. Empty list means no module is used.
     :type radio: :python:`list` [:py:class:`cidmog.AGNmodule`]
-    :param restframe: (**Optional**) restframe parameters modules to use. Empty list means no module is used.
+    :param restframe: restframe parameters modules to use. Empty list means no module is used.
     :type restframe: :python:`list` [:py:class:`cigmod.RESTFRAMEmodule`]
-    :param redshifting: (**Optional**) redshifitng+IGM modules to use. Empty list means no module is used.
+    :param redshifting: redshifitng+IGM modules to use. Empty list means no module is used.
     :type redshifting: :python:`list` [:py:class:`cigmod.REDSHIFTINGmodule`]
     :param flux_uncertainty: additional uncertainty to add to the flux, given as a fraction of the flux (i.e. 0.1 means 10% of flux added to the uncertainty in quadrature)
     :type flux_uncertainty: :python:`int` or :python:`float`
