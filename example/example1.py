@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-.. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+.. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
 
-Generate a resolved stellar mass map using LePhare SED fitting code.
+Generate a resolved stellar mass map using LePhare SED fitting code (Fortran version only).
 """
 
 import os.path           as     opath
@@ -47,7 +47,7 @@ with fits.open(mfile) as hdul:
 ###   1. Generate a FilterList object   ###
 filts      = []
 for band, data, data2, var, zpt in zip(bands, dataFiles, data2Files, varFiles, zeropoints):
-   filts.append(SED.Filter(band, data, data2, var, zpt))
+   filts.append(SED.Filter(band, data, var, zpt, file2=data2))
 
 flist      = SED.FilterList(filts, mask, code=SED.SEDcode.LEPHARE, redshift=redshift)
 
