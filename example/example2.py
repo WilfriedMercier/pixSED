@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+.. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
 
 Load and show a SFR map from an already existing output of a LePhare run.
 """
@@ -44,7 +44,7 @@ with fits.open(mfile) as hdul:
 # Generate filters list
 filts      = []
 for band, data, data2, var, zpt in zip(bands, dataFiles, data2Files, varFiles, zeropoints):
-   filts.append(sed.Filter(band, file, file2, var, zpt))
+   filts.append(sed.Filter(band, file, var, zpt, file2=file2))
 
 flist      = sed.FilterList(filts, mask, code=sed.SEDcode.LEPHARE, redshift=redshift)
 flist.genTable(cleanMethod=sed.CleanMethod.ZERO, scaleFactor=100, texpFac=4)
