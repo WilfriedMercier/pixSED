@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-.. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+.. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
 
 Generate a resolved stellar mass map using Cigale SED fitting code.
 """
@@ -45,7 +45,7 @@ with fits.open(mfile) as hdul:
 ###   1. Generate a FilterList object   ###
 filts      = []
 for band, data, data2, var, zpt in zip(band_names, dataFiles, data2Files, varFiles, zeropoints):
-   filts.append(SED.Filter(band, data, data2, var, zpt))
+   filts.append(SED.Filter(band, data, var, zpt, file2=data2))
 
 flist      = SED.FilterList(filts, mask, 
                             code        = SED.SEDcode.CIGALE, 
@@ -104,7 +104,7 @@ sedobj     = SED.CigaleSED(galName, band_names,
 
 ###   4. Run SED fitting   ###
 output     = sedobj(catalogue,
-                    ncores              = 8,           # Number of threads to use (to be updated)
+                    ncores              = 10,          # Number of threads to use (to be updated)
                     physical_properties = None,        # None means all properties will be computed
                     bands               = band_names,  # We estimate the flux for all the bands
                     save_best_sed       = False,
