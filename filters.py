@@ -454,41 +454,53 @@ class FilterList:
         # Compute mean map to scale data
         meanMap, _                 = self.computeMeanMap(maskVal=0)
         
-        dataList                   = []
-        stdList                    = []
+        data               = []
+        var                = []
+       
         for pos, filt in enumerate(self.filters):
-                  
+
             # Clean and add noise to variance map
-            data, var              = self.cleanAndNoise(filt.data, filt.data2, filt.var, self.mask, cleanMethod=cleanMethod, texp=filt.texp, texpFac=texpFac)
-           
+            d, v           = self.cleanAndNoise(filt.data, filt.data2, filt.var, self.mask, 
+                                                cleanMethod = cleanMethod, 
+                                                texp        = filt.texp, 
+                                                texpFac     = texpFac,
+                                                verbose     = filt.verbose
+                                               )
+            
             # Scale data to have compatible values with LePhare for the flux
-            data, var              = self.scale(data, var, meanMap, factor=scaleFactor)
+            d, v           = self.scale(d, v, meanMap, factor=scaleFactor)
             
-            # Go to 1D version
-            if pos==0:
-                data, var, indices = self.arrayTo1D(data, var, indices=True)
-            else:
-                data, var          = self.arrayTo1D(data, var, indices=False)
-                
+            data.append(d)
+            var.append( v)
+        
+        # Go to 1D version
+        data, var, indices = self.arraysTo1D(data, var, indices=True)
+        
+        # Compute std and convert std and data to mJy unit
+        dataList           = []
+        stdList            = []
+        
+        mask0              = True
+        for d, err, filt in zip(data, np.sqrt(var), self.filters):
+            
             # 0 values are cast to NaN otherwise corresponding magnitude would be infinite
-            mask0                  = (np.asarray(data == 0) | np.asarray(var == 0))
-            data[mask0]            = np.nan
-            var[ mask0]            = np.nan
+            mask0          = mask0 | (np.asarray(data == 0) | np.asarray(var == 0))
+            d[  mask0]     = np.nan
+            err[mask0]     = np.nan
             
-            # Compute std instead of variance and go to mag
-            data, std              = countToMag(data, np.sqrt(var), filt.zpt)
+            # Go to mag
+            d, err         = countToMag(d, err, filt.zpt)
             
             # Cast back pixels with NaN values to -99 mag to specify they are not to be used in the SED fitting
-            data[mask0]            = -99
-            std[ mask0]            = -99
+            d[  mask0]     = -99
+            err[mask0]     = -99
             
-            # Append data and std to list
-            dataList.append(data)
-            stdList.append( std)
+            dataList.append(d)
+            stdList.append( err)
             
         # Redshift column
         lf                         = len(self.filters)
-        ld                         = len(data)
+        ld                         = len(d)
         zs                         = [self.redshift]*ld
         
         # Compute context (number of filters used - see LePhare documentation) and redshift columns
@@ -520,7 +532,12 @@ class FilterList:
         for pos, filt in enumerate(self.filters):
 
             # Clean and add noise to variance map
-            d, v           = self.cleanAndNoise(filt.data, filt.data2, filt.var, self.mask, cleanMethod=cleanMethod, texp=filt.texp, texpFac=texpFac)
+            d, v           = self.cleanAndNoise(filt.data, filt.data2, filt.var, self.mask, 
+                                                cleanMethod = cleanMethod, 
+                                                texp        = filt.texp, 
+                                                texpFac     = texpFac,
+                                                verbose     = filt.verbose
+                                               )
             data.append(d)
             var.append( v)
         
@@ -533,15 +550,15 @@ class FilterList:
         
         for d, err, filt in zip(data, np.sqrt(var), self.filters):
             
-            data, std      = countToFlux(d, err, filt.zpt)
+            d, err         = countToFlux(d, err, filt.zpt)
             
             # Append data and std to list
-            dataList.append(data.to('mJy').value)
-            stdList.append( std.to( 'mJy').value)
+            dataList.append(d.to(  'mJy').value)
+            stdList.append( err.to('mJy').value)
             
         # Redshift column
         ll                 = len(self.filters)
-        ld                 = len(data)
+        ld                 = len(d)
         zs                 = [self.redshift]*ld
         
         dtypes             = [int, float]       + [float]*2*ll
@@ -701,11 +718,13 @@ class FilterList:
         return data, var
     
     def cleanAndNoise(self, data, data2, var, mask, 
-                      cleanMethod: CleanMethod = CleanMethod.ZERO, 
-                      texp: Optional[Union[int, float]] = None, 
-                      texpFac: int = 0, **kwargs) -> Tuple[ndarray]:
+                      cleanMethod: CleanMethod                 = CleanMethod.ZERO, 
+                      texp       : Optional[Union[int, float]] = None, 
+                      texpFac    : int                         = 0,
+                      verbose    : bool                        = False,
+                      **kwargs) -> Tuple[ndarray]:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Clean data and variance maps from bad pixels and add Poisson noise to the variance map.
         
@@ -727,10 +746,17 @@ class FilterList:
         :type texp: :python:`int` or :python:`float`
         :param texpFac: (**Optional**) factor used to divide the exposition time
         :type texpFac: :python:`int`
+        :param verbose: (**Optional**) whether to print info text or not
+        :type verbose: :python:`bool`
         
-        :returns: cleaned data and cleaned variance map with Poisson noise added
+        :returns: cleaned data and cleaned variance map (with potentially Poisson noise added)
         :rtype: (`ndarray`_, `ndarray`_)
+        
+        :raises: TypeError if :python:`not isinstance(verbose, bool)`
         '''
+        
+        if not isinstance(verbose, bool):
+            raise TypeError(f'verbose has type {type(verbose)} but it should be a bool.')
         
         # Clean data and error maps of bad pixels and pixels with negative values
         data, var = self.clean(data, var, mask, method=cleanMethod)
