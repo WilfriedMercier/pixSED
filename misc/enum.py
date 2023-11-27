@@ -55,6 +55,9 @@ class IMF(Enum):
     #: Salpeter IMF
     SALPETER = '0'
     
+    #: Kroupa IMF
+    KROUPA   = '1'
+    
 ###################################
 #        LePhare only Enum        #
 ###################################

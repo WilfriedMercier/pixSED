@@ -13,7 +13,7 @@ import os.path          as     opath
 
 from   distutils.spawn  import find_executable
 from   copy             import deepcopy
-from   typing           import List, Any, Optional, Dict, Union, Callable
+from   typing           import List, Any, Optional, Dict, Union
 from   io               import TextIOBase
 from   abc              import ABC, abstractmethod
 from   textwrap         import dedent, indent
@@ -32,7 +32,7 @@ WARNING = warningMessage('Warning:')
 
 class SED(ABC):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Abstract SED object used for inheritance.
     '''
@@ -55,7 +55,7 @@ class SED(ABC):
     
     def appendLog(self, text: str, f: TextIOBase, verbose: bool = False, **kwargs) -> None:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Append a new text line to the log file.
         
@@ -64,7 +64,9 @@ class SED(ABC):
         :param f: file-like opened obect to write into
         :type f: `TextIOBase`_
         
-        :param verbose: (**Optional**) whether to also print the log line or not
+        **Keyword arguments**
+        
+        :param verbose: whether to also print the log line or not
         :type verbose: :python:`bool`
         
         :raises TypeError:
@@ -89,18 +91,24 @@ class SED(ABC):
         f.write(text)
         return
     
-    def startProcess(self, commands: List[str], log: TextIOBase = None, errMsg: str = ''):
+    def startProcess(self, 
+                     commands : List[str], 
+                     log      : Optional[TextIOBase] = None, 
+                     errMsg   : str                  = ''
+                    ) -> None:
         '''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
 
         Start a process.
         
         :param commands: list of commands to use with Popen
         :type commands: :python:`list[str]`
         
-        :param log: (**Optional**) oppened log file
+        **Keyword arguments**
+        
+        :param log: oppened log file
         :type log: `TextIOBase`_
-        :param errMsg: (**Optional**) message error to show if the process failed
+        :param errMsg: message error to show if the process failed
         :type errMsg: :python:`str`
         
         :raises TypeError: 
@@ -143,7 +151,7 @@ class SED(ABC):
 
 class CigaleSED(SED):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Implements Cigale SED object.
     
@@ -296,9 +304,9 @@ class CigaleSED(SED):
             self.modulesSpec                       += indent(dedent(f'\n{module.spec}' if pos != 0 else f'{module.spec}'), '   ')
 
     @staticmethod
-    def _checkModule(modules: List[Any], inheritedClass: Any) -> bool:
+    def _checkModule(modules: List[Any], inheritedClass: Any) -> List[Any]:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Check that the given list of Cigale modules belong to the correct class they should inherit from.
         
@@ -326,7 +334,7 @@ class CigaleSED(SED):
                              save_chi2: bool, lim_flag: bool, mock_flag: bool, redshift_decimals: int, blocks: int, 
                              **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Generate the analysis_params module text for Cigale.
         
@@ -387,7 +395,7 @@ class CigaleSED(SED):
     @property
     def parameters(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Generate a parameter file text used by the SED fitting code.
         
@@ -481,7 +489,7 @@ class CigaleSED(SED):
     @property
     def specParameters(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Generate the spec parameter file text associated to the given sed modules.
         
@@ -516,13 +524,15 @@ class CigaleSED(SED):
     #        Run methods        #
     #############################
     
-    def startCigale(self, log: TextIOBase = None):
+    def startCigale(self, log: Optional[TextIOBase] = None):
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Wrapper around default :py:meth:`SED.startProcess` which allows to run Cigale.
         
-        :param log: (**Optional**) oppened log file
+        **Keyword arguments**
+        
+        :param log: oppened log file
         :type log: `TextIOBase`_
         '''
         
@@ -540,29 +550,31 @@ class CigaleSED(SED):
                  blocks: int                              = 1,
                  **kwargs) -> CigaleOutput:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Start the SED fitting on the given data using the built-in SED fitting parameters.
         
         :param CigaleCat catalogue: catalogue to use for the SED-fitting
         
-        :param ncores: (**Optional**) number of cores (technically threads) to use to generate the grid of parameters
+        **Keyword arguments**
+        
+        :param ncores: number of cores (technically threads) to use to generate the grid of parameters
         :type ncores: :python:`int`
-        :param physical_properties: (**Optional**) physical properties to estimate at the end of the SED fitting. If :python:`None`, all properties are computed.
+        :param physical_properties: physical properties to estimate at the end of the SED fitting. If :python:`None`, all properties are computed.
         :type physical_properties: :python:`list[str]`
-        :param bands: (**Optional**) list of bands for which to estimate the fluxes. Note that this is independent from the fluxes actually fitted to estimate the physical properties. If :python:`None`, the same bands as the ones provided in **filters** will be used.
+        :param bands: list of bands for which to estimate the fluxes. Note that this is independent from the fluxes actually fitted to estimate the physical properties. If :python:`None`, the same bands as the ones provided in **filters** will be used.
         :type bands: :python:`list[str]`
-        :param save_best_sed: (**Optional**) whether to save the best SED for each observation into a file or not
+        :param save_best_sed: whether to save the best SED for each observation into a file or not
         :type save_best_sed: :python:`bool`
-        :param save_chi2: (**Optional**) whether to save the raw chi2 or not. It occupies ~15 MB/million models/variable.
+        :param save_chi2: whether to save the raw chi2 or not. It occupies ~15 MB/million models/variable.
         :type save_chi2: :python:`bool`
-        :param lim_flag: (**Optional**) if :python:`True`, for each object check whether upper limits are present and analyse them
+        :param lim_flag: if :python:`True`, for each object check whether upper limits are present and analyse them
         :type lim_flag: :python:`bool`
-        :param mock_flag: (**Optional**) if :python:`True`, for each object we create a mock object and analyse them
+        :param mock_flag: if :python:`True`, for each object we create a mock object and analyse them
         :type mock_flag: :python:`bool`
-        :param redshift_decimals: (**Optional**) when redshifts are not given explicitly in the redshifting module, number of decimals to round the observed redshifts to compute the grid of models. To disable rounding give :python:`-1`. Do not round if you use narrow-band filters.
+        :param redshift_decimals: when redshifts are not given explicitly in the redshifting module, number of decimals to round the observed redshifts to compute the grid of models. To disable rounding give :python:`-1`. Do not round if you use narrow-band filters.
         :type redshift_decimals: :python:`int`
-        :param blocks: (**Optional**) number of blocks to compute the models and analyse the observations. If there is enough memory, we strongly recommend this to be set to :python:`1`.
+        :param blocks: number of blocks to compute the models and analyse the observations. If there is enough memory, we strongly recommend this to be set to :python:`1`.
         :type blocks: :python:`int`
         
         :returns: Cigale output file object with data from the loaded file
@@ -635,101 +647,105 @@ class CigaleSED(SED):
 
 class LePhareSED(SED):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Implements LePhare SED object.
     
+    .. important::
+        
+        It is mandatory to define on your OS two environment variables:
+        
+        * :file:`$LEPHAREWORK` which points to LePhare working directory
+        * :file:`$LEPHAREDIR` which points to LePhare main directory
+            
+        These paths may be expanded to check whether the given files exist and can be used by the user to shorten some path names when providing the SED properties.
+    
+    
     :param ID: an identifier used to name the output files created during the SED fitting process
     
-    :param properties: (**Optional**) properties to be passed to LePhare to compute the models grid and perform the SED fitting
+    **Keyword arguments**
+    
+    :param properties: properties to be passed to LePhare to compute the models grid and perform the SED fitting
     :type properties: :python:`dict[str, str]`
     
     :raises TypeError: if one of the properties keys is not of type :python:`str`
     :raises ValueError: if one of the properties does not have a valid name (see list below)
     
     **Accepted properties are:**
-    
-        * **STAR_SED** [:python:`str`]: stellar library list file (full path)
-        * **STAR_FSCALE** [:python:`float`]: stellar flux scale
-        * **STAR_LIB** [:python:`str`]: stellar library to use (default libraries found at :file:`$LEPHAREWORK/lib_bin`). To not use a stellar library, provide :python:`'NONE'`.
-        * **QSO_SED** [:python:`str`]: QSO list file (full path)
-        * **QSO_FSCALE** [:python:`float`]: QSO flux scale
-        * **QSO_LIB** [:python:`str`]: QSO library to use (default libraries found at :file:`LEPHAREWORK/lib_bin`). To not use a QSO library, provide :python:`'NONE'`.
-        * **GAL_SED** [:python:`str`]: galaxy library list file (full path)
-        * **GAL_FSCALE** [:python:`float`]: galaxy flux scale
-        * **GAL_LIB** [:python:`str`]: galaxy library to use (default libraries found at :file:`$LEPHAREWORK/lib_bin`). To not use a galaxy library, provide :python:`'NONE'`.
-        * **SEL_AGE** [:python:`str`]: stellar ages list (full path)
-        * **AGE_RANGE** [:python:`list[float]`]: minimum and maximum ages in years
-        * **FILTER_LIST** [:python:`list[str]`]: list of filter names used for the fit (must all be located in :file:`$LEPHAREDIR/filt directory`)
-        * **TRANS_TYPE** [:python:`int`]: transmission type (:python:`0` for Energy, :python:`1` for photons)
-        * **FILTER_CALIB** [:python:`int`]: filter calibration (:python:`0` for fnu=ctt, :python:`1` for nu.fnu=ctt, :python:`2` for fnu=nu, :python:`3` for fnu=Black Body @ T=10000K, :python:`4` for MIPS (leff with nu fnu=ctt and flux with BB @ 10000K) 
-        * **FILTER_FILE** [:python:`str`]: filter file (must be located in :file:`$LEPHAREWORK/filt` directory)
-        * **STAR_LIB_IN** [:python:`str`]: input stellar library (dupplicate with **STAR_LIB** ?)
-        * **STAR_LIB_OUT** [:python:`str`]: output stellar magnitudes
-        * **QSO_LIB_IN** [:python:`str`]: input QSO library (dupplicate with **QSO_LIB** ?)
-        * **QSO_LIB_OUT** [:python:`str`]: output QSO magnitudes
-        * **GAL_LIB_IN** [:python:`str`]: input galaxy library (dupplicate with **GAL_LIB** ?)
-        * **GAL_LIB_OUT** [:python:`str`]: output galaxy magnitudes
-        * **MAGTYPE** [:py:class:`~.MagType`]: magnitude system used (:py:attr:`~.MagType.AB` or :py:attr:`~.MagType.VEGA`)
-        * **Z_STEP** [:python:`list[int/float]`]: redshift step properties. Values are in this order: redshift step, max redshift, redshift step for redshifts above 6 (coarser sampling).
-        * **COSMOLOGY** [:python:`list[int/float]`]: cosmology parameters. Values are in this order: Hubble constant :math:`H_0`, baryon fraction :math:`\Omega_{m, 0}`, cosmological constant fraction :math:`\Omega_{\lambda, 0}`.
-        * **MOD_EXTINC** [:python:`list[int/float]`]: minimum and maximum model extinctions
-        * **EXTINC_LAW** [:python:`str`]: extinction law file (in :file:`$LEPHAREDIR/ext`)
-        * **EB_V** [:python:`list[int/float]`]: color excess :math:`E(B-V)`. It must contain less than 50 values.
-        * **EM_LINES** [:py:class:`~.YESNO`]: whether to consider emission lines or not. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
-        * **BD_SCALE** [:python:`int`]: number of bands used for scaling (:python:`0` means all bands). See LePhare documentation for more details.
-        * **GLB_CONTEXT** [:python:`int`]: context number (:python:`0` means all bands). See LePhare documentation for more details.
-        * **ERR_SCALE** [:python:`list[int/float]`]: magnitude errors per band to add in quadrature
-        * **ERR_FACTOR** [:python:`int/float`]: scaling factor to apply to the errors
-        * **ZPHOTLIB** [:python:`list[str]`]: librairies used to compute the :math:`\chi^2`. Maximum number is :python:`3`.
-        * **ADD_EMLINES** [:py:class:`~.YESNO`]: whether to add emission lines or not (dupplicate with **EM_LINES** ?). Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
-        * **FIR_LIB** [:python:`str`]: far IR library
-        * **FIR_LMIN** [:python:`int/float`]: minimum wavelength (in microns) for the far IR analysis
-        * **FIR_CONT** [:python:`int/float`]: far IR continuum. Use :python:`-1` for no continuum.
-        * **FIR_SCALE** [:python:`int/float`]: far IR flux scale. Use :python:`-1` to skip flux scale.
-        * **FIR_FREESCALE** [:python:`str`]: whether to let the far IR spectrum freely scale
-        * **FIR_SUBSTELLAR** [:python:`str`]: ???
-        * **PHYS_LIB** [:python:`str`]: physical stochastic library
-        * **PHYS_CONT** [:python:`int/float`]: physical continuum. Use :python:`-1` for no continuum.
-        * **PHYS_SCALE** [:python:`int/float`]: physical flux scale. Use :python:`-1` to skip flux scale.
-        * **PHYS_NMAX** [:python:`int`]: ???
-        * **MAG_ABS** [:python:`list[int/float]`]: minimum and maximum values for the magnitudes.
-        * **MAG_REF** [:python:`int`]: reference band used by **MAG_ABS**
-        * **Z_RANGE** [:python:`list[int/float]`]: minimum and maximum redshifts used by the galaxy library
-        * **EBV_RANGE** [:python:`list[int/float]`]: minimum and maximum colour excess :math:`E(B-V)`
-        * **ZFIX** [:py:class:`~.YESNO`]: whether to fix the redshift or let it free. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
-        * **Z_INTERP** [:py:class:`~.YESNO`]: whether to perform an interpolation to find the redshift. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
-        * **DZ_WIN** [:python:`int/float`]: window search for second peak. Must be between :python:`0` and :python:`5`.
-        * **MIN_THRES** [:python:`int/float`]: minimum threshold for second peak. Must be between :python:`0` and :python:`1`.
-        * **MABS_METHOD** [:python:`int`]: method used to compute magnitudes (:python:`0` : obs->Ref, :python:`1` : best obs->Ref, :python:`2` : fixed obs->Ref, :python:`3` : mag from best SED, :python:`4` : Zbin). See LePhare documentation for more details.
-        * **MABS_CONTEXT** [:python:`int`]: context for absolute magnitudes. See LePhare documentation for more details.
-        * **MABS_REF** [:python:`int`]: reference band used to compute the absolute magnitudes. This is only used if :python:`MABS_METHOD = 2`.
-        * **MABS_FILT** [:python:`list[int]`]: filters used in each redshift bin (see **MABS_ZBIN**). This is only used if :python:`MABS_METHOD = 4`.
-        * **MABS_ZBIN** [:python:`list[int/float]`]: redshift bins (must be an even number). This is only used if :python:`MABS_METHOD = 4`.
-        * **SPEC_OUT** [:py:class:`~.YESNO`]: whether to output the spectrum of each object or not. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
-        * **CHI2_OUT** [:py:class:`~.YESNO`]: whether to generate an output file with all the values or not. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~YESNO.NO`.
-        * **PDZ_OUT** [:python:`str`]: output file name for the PDZ analysis. To not do the pdz analysis, provide :python:`'NONE'`.
-        * **PDZ_MABS_FILT** [:python:`list[int]`]: absolute magnitude for reference filters to be extracted. See LePhare documentation for more details.
-        * **FAST_MODE** [:py:class:`~.YESNO`]: whether to perform a fast computation or not. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
-        * **COL_NUM** [:python:`int`]: number of colors used
-        * **COL_SIGMA** [:python:`int/float`]: quantity by which to enlarge the errors on the colors
-        * **COL_SEL** [:py:class:`~.ANDOR`]: operation used to combine colors. Accepted values are :py:attr:`~.ANDOR.AND` or :py:attr:`~.ANDOR.OR`.
-        * **AUTO_ADAPT** [:py:class:`~.YESNO`]: whether to use an adaptive method with a z-spec sample. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
-        * **ADAPT_BAND** [:python:`list[int]`]: reference band, band1 and band2 for colors
-        * **ADAPT_LIM** [:python:`list[int/float]`]: magnitude limit for spectro in reference band
-        * **ADAPT_POLY** [:python:`int`]: number of coefficients in polynomial. Maximum is :python:`4`.
-        * **ADAPT_METH** [:python:`int`]: fit method, :python:`1` for color model, :python:`2` for redshift, :python:`3` for models. See LePhare documentation for more details.
-        * **ADAPT_CONTEXT** [:python:`int`]: context for the bands used for training. See LePhare documentation for more details.
-        * **ADAPT_ZBIN** [:python:`list[int/float]`]: minimum and maximum redshift interval used for training.
+
+    * **STAR_SED** [:python:`str`]: stellar library list file (full path)
+    * **STAR_FSCALE** [:python:`float`]: stellar flux scale
+    * **STAR_LIB** [:python:`str`]: stellar library to use (default libraries found at :file:`$LEPHAREWORK/lib_bin`). To not use a stellar library, provide :python:`'NONE'`.
+    * **QSO_SED** [:python:`str`]: QSO list file (full path)
+    * **QSO_FSCALE** [:python:`float`]: QSO flux scale
+    * **QSO_LIB** [:python:`str`]: QSO library to use (default libraries found at :file:`LEPHAREWORK/lib_bin`). To not use a QSO library, provide :python:`'NONE'`.
+    * **GAL_SED** [:python:`str`]: galaxy library list file (full path)
+    * **GAL_FSCALE** [:python:`float`]: galaxy flux scale
+    * **GAL_LIB** [:python:`str`]: galaxy library to use (default libraries found at :file:`$LEPHAREWORK/lib_bin`). To not use a galaxy library, provide :python:`'NONE'`.
+    * **SEL_AGE** [:python:`str`]: stellar ages list (full path)
+    * **AGE_RANGE** [:python:`list[float]`]: minimum and maximum ages in years
+    * **FILTER_LIST** [:python:`list[str]`]: list of filter names used for the fit (must all be located in :file:`$LEPHAREDIR/filt directory`)
+    * **TRANS_TYPE** [:python:`int`]: transmission type (:python:`0` for Energy, :python:`1` for photons)
+    * **FILTER_CALIB** [:python:`int`]: filter calibration (:python:`0` for fnu=ctt, :python:`1` for nu.fnu=ctt, :python:`2` for fnu=nu, :python:`3` for fnu=Black Body @ T=10000K, :python:`4` for MIPS (leff with nu fnu=ctt and flux with BB @ 10000K) 
+    * **FILTER_FILE** [:python:`str`]: filter file (must be located in :file:`$LEPHAREWORK/filt` directory)
+    * **STAR_LIB_IN** [:python:`str`]: input stellar library (dupplicate with **STAR_LIB** ?)
+    * **STAR_LIB_OUT** [:python:`str`]: output stellar magnitudes
+    * **QSO_LIB_IN** [:python:`str`]: input QSO library (dupplicate with **QSO_LIB** ?)
+    * **QSO_LIB_OUT** [:python:`str`]: output QSO magnitudes
+    * **GAL_LIB_IN** [:python:`str`]: input galaxy library (dupplicate with **GAL_LIB** ?)
+    * **GAL_LIB_OUT** [:python:`str`]: output galaxy magnitudes
+    * **MAGTYPE** [:py:class:`~.MagType`]: magnitude system used (:py:attr:`~.MagType.AB` or :py:attr:`~.MagType.VEGA`)
+    * **Z_STEP** [:python:`list[int/float]`]: redshift step properties. Values are in this order: redshift step, max redshift, redshift step for redshifts above 6 (coarser sampling).
+    * **COSMOLOGY** [:python:`list[int/float]`]: cosmology parameters. Values are in this order: Hubble constant :math:`H_0`, baryon fraction :math:`\Omega_{m, 0}`, cosmological constant fraction :math:`\Omega_{\lambda, 0}`.
+    * **MOD_EXTINC** [:python:`list[int/float]`]: minimum and maximum model extinctions
+    * **EXTINC_LAW** [:python:`str`]: extinction law file (in :file:`$LEPHAREDIR/ext`)
+    * **EB_V** [:python:`list[int/float]`]: color excess :math:`E(B-V)`. It must contain less than 50 values.
+    * **EM_LINES** [:py:class:`~.YESNO`]: whether to consider emission lines or not. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
+    * **BD_SCALE** [:python:`int`]: number of bands used for scaling (:python:`0` means all bands). See LePhare documentation for more details.
+    * **GLB_CONTEXT** [:python:`int`]: context number (:python:`0` means all bands). See LePhare documentation for more details.
+    * **ERR_SCALE** [:python:`list[int/float]`]: magnitude errors per band to add in quadrature
+    * **ERR_FACTOR** [:python:`int/float`]: scaling factor to apply to the errors
+    * **ZPHOTLIB** [:python:`list[str]`]: librairies used to compute the :math:`\chi^2`. Maximum number is :python:`3`.
+    * **ADD_EMLINES** [:py:class:`~.YESNO`]: whether to add emission lines or not (dupplicate with **EM_LINES** ?). Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
+    * **FIR_LIB** [:python:`str`]: far IR library
+    * **FIR_LMIN** [:python:`int/float`]: minimum wavelength (in microns) for the far IR analysis
+    * **FIR_CONT** [:python:`int/float`]: far IR continuum. Use :python:`-1` for no continuum.
+    * **FIR_SCALE** [:python:`int/float`]: far IR flux scale. Use :python:`-1` to skip flux scale.
+    * **FIR_FREESCALE** [:python:`str`]: whether to let the far IR spectrum freely scale
+    * **FIR_SUBSTELLAR** [:python:`str`]: ???
+    * **PHYS_LIB** [:python:`str`]: physical stochastic library
+    * **PHYS_CONT** [:python:`int/float`]: physical continuum. Use :python:`-1` for no continuum.
+    * **PHYS_SCALE** [:python:`int/float`]: physical flux scale. Use :python:`-1` to skip flux scale.
+    * **PHYS_NMAX** [:python:`int`]: ???
+    * **MAG_ABS** [:python:`list[int/float]`]: minimum and maximum values for the magnitudes.
+    * **MAG_REF** [:python:`int`]: reference band used by **MAG_ABS**
+    * **Z_RANGE** [:python:`list[int/float]`]: minimum and maximum redshifts used by the galaxy library
+    * **EBV_RANGE** [:python:`list[int/float]`]: minimum and maximum colour excess :math:`E(B-V)`
+    * **ZFIX** [:py:class:`~.YESNO`]: whether to fix the redshift or let it free. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
+    * **Z_INTERP** [:py:class:`~.YESNO`]: whether to perform an interpolation to find the redshift. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
+    * **DZ_WIN** [:python:`int/float`]: window search for second peak. Must be between :python:`0` and :python:`5`.
+    * **MIN_THRES** [:python:`int/float`]: minimum threshold for second peak. Must be between :python:`0` and :python:`1`.
+    * **MABS_METHOD** [:python:`int`]: method used to compute magnitudes (:python:`0` : obs->Ref, :python:`1` : best obs->Ref, :python:`2` : fixed obs->Ref, :python:`3` : mag from best SED, :python:`4` : Zbin). See LePhare documentation for more details.
+    * **MABS_CONTEXT** [:python:`int`]: context for absolute magnitudes. See LePhare documentation for more details.
+    * **MABS_REF** [:python:`int`]: reference band used to compute the absolute magnitudes. This is only used if :python:`MABS_METHOD = 2`.
+    * **MABS_FILT** [:python:`list[int]`]: filters used in each redshift bin (see **MABS_ZBIN**). This is only used if :python:`MABS_METHOD = 4`.
+    * **MABS_ZBIN** [:python:`list[int/float]`]: redshift bins (must be an even number). This is only used if :python:`MABS_METHOD = 4`.
+    * **SPEC_OUT** [:py:class:`~.YESNO`]: whether to output the spectrum of each object or not. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
+    * **CHI2_OUT** [:py:class:`~.YESNO`]: whether to generate an output file with all the values or not. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~YESNO.NO`.
+    * **PDZ_OUT** [:python:`str`]: output file name for the PDZ analysis. To not do the pdz analysis, provide :python:`'NONE'`.
+    * **PDZ_MABS_FILT** [:python:`list[int]`]: absolute magnitude for reference filters to be extracted. See LePhare documentation for more details.
+    * **FAST_MODE** [:py:class:`~.YESNO`]: whether to perform a fast computation or not. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
+    * **COL_NUM** [:python:`int`]: number of colors used
+    * **COL_SIGMA** [:python:`int/float`]: quantity by which to enlarge the errors on the colors
+    * **COL_SEL** [:py:class:`~.ANDOR`]: operation used to combine colors. Accepted values are :py:attr:`~.ANDOR.AND` or :py:attr:`~.ANDOR.OR`.
+    * **AUTO_ADAPT** [:py:class:`~.YESNO`]: whether to use an adaptive method with a z-spec sample. Accepted values are :py:attr:`~.YESNO.YES` or :py:attr:`~.YESNO.NO`.
+    * **ADAPT_BAND** [:python:`list[int]`]: reference band, band1 and band2 for colors
+    * **ADAPT_LIM** [:python:`list[int/float]`]: magnitude limit for spectro in reference band
+    * **ADAPT_POLY** [:python:`int`]: number of coefficients in polynomial. Maximum is :python:`4`.
+    * **ADAPT_METH** [:python:`int`]: fit method, :python:`1` for color model, :python:`2` for redshift, :python:`3` for models. See LePhare documentation for more details.
+    * **ADAPT_CONTEXT** [:python:`int`]: context for the bands used for training. See LePhare documentation for more details.
+    * **ADAPT_ZBIN** [:python:`list[int/float]`]: minimum and maximum redshift interval used for training.
         
-    .. warning::
-        
-        It is mandatory to define on your OS two environment variables:
-            
-            * :file:`$LEPHAREWORK` which points to LePhare working directory
-            * :file:`$LEPHAREDIR` which points to LePhare main directory
-            
-        These paths may be expanded to check whether the given files exist and can be used by the user to shorten some path names when providing the SED properties.
     '''
     
     def __init__(self, ID: Any, properties: dict = {}, **kwargs) -> None:
@@ -747,7 +763,8 @@ class LePhareSED(SED):
         self.outParam        = {f'{i}' : False for i in LePhareOutputParam}
         
         #: Allowed keys and corresponding allowed types
-        self.prop: Dict[str, Any] = {'STAR_SED'       : PathProperty(opath.join('$LEPHAREDIR', 'sed', 'STAR', 'STAR_MOD.list')),
+        self.prop: Dict[str, Any] = {
+                     'STAR_SED'       : PathProperty(opath.join('$LEPHAREDIR', 'sed', 'STAR', 'STAR_MOD.list')),
                      
                      'STAR_FSCALE'    : FloatProperty(3.432e-09, minBound=0),
                      
@@ -943,9 +960,11 @@ class LePhareSED(SED):
     
     def output_parameters(self, params: List[str] = [], *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Generate an output parameter file used by the SED fitting code.
+        
+        **Keyword arguments**
         
         :param params: list of parameters to activate in the ouput parameters file
         :type params: :python:`list[str]`
@@ -979,7 +998,7 @@ class LePhareSED(SED):
     @property
     def parameters(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Generate a parameter file text used by the SED fitting code.
         
@@ -1183,33 +1202,36 @@ class LePhareSED(SED):
     #        Run methods        #
     #############################
     
-    def runScript(self, commands: List[str], 
-                  file: str       = '', 
-                  log: TextIOBase = None, 
-                  errMsg: str     = '',
-                  test: bool      = True,
-                  testMsg: str    = ''
+    def runScript(self, 
+                  commands : List[str], 
+                  file     : str        = '', 
+                  log      : TextIOBase = None, 
+                  errMsg   : str        = '',
+                  test     : bool       = True,
+                  testMsg  : str        = ''
                  ):
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Wrapper around default :py:meth:`~.SED.startProcess` which allows to separately provide the commands and the file.
         
         :param commands: list of commands to use with Popen
         :type commands: :python:`list[str]`
         
-        :param file: (**Optional**) file to run the process or script against
+        **Keyword arguments**
+        
+        :param file: file to run the process or script against
         :type file: :python:`str`
-        :param log: (**Optional**) oppened log file
+        :param log: oppened log file
         :type log: `TextIOBase`_
-        :param errMsg: (**Optional**) message error to show if the process failed
+        :param errMsg: message error to show if the process failed
         :type errMsg: :python:`str`
-        :param test: (**Optional**) a test that must be passed at the end of the command for the program to continue
+        :param test: a test that must be passed at the end of the command for the program to continue
         :type test: :python:`bool`
-        :param testMsg: (**Optional**) a test that must be passed at the end of the command for the program to continue
+        :param testMsg: a test that must be passed at the end of the command for the program to continue
         :type testMsg: :python:`str`
         
-        :raises TypeError: if **commands* if not of type :python:`list`
+        :raises TypeError: if **commands** if not of type :python:`list`
         :raises ValueError: if **testFunc** returns :python:`False`
         '''
         
@@ -1240,23 +1262,25 @@ class LePhareSED(SED):
                  skipMagStar: bool = False, 
                  skipMagGal: bool = False, **kwargs) -> LePhareOutput:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Start the SED fitting on the given data using the built-in SED fitting parameters.
         
         :param LePhareCat catalogue: catalogue to use for the SED-fitting
         
-        :param outputParams: (**Optional**) output parameters
+        **Keyword arguments**
+        
+        :param outputParams: output parameters
         :type outputParams: :python:`list[str]`
-        :param skipSEDgen: (**Optional**) whether to skip the SED models generation. Useful to gain time if the same SED are used for multiple sources.
+        :param skipSEDgen: whether to skip the SED models generation. Useful to gain time if the same SED are used for multiple sources.
         :type skipSEDgen: :python:`bool`
-        :param skipFilterGen: (**Optional**) whether to skip the filters generation. Useful to gain time if the same filters are used for multiple sources.
+        :param skipFilterGen: whether to skip the filters generation. Useful to gain time if the same filters are used for multiple sources.
         :type skipFilterGen: :python:`bool`
-        :param skipMagQSO: (**Optional**) whether to skip the predicted magnitude computations for the QS0. Useful to gain time if the same libraries/parameters are used for multiple sources.
+        :param skipMagQSO: whether to skip the predicted magnitude computations for the QS0. Useful to gain time if the same libraries/parameters are used for multiple sources.
         :type skipMagQSO: :python:`bool`
-        :param skipMagStar: (**Optional**) whether to skip the predicted magnitude computations for the stars. Useful to gain time if the same libraries/parameters are used for multiple sources.
+        :param skipMagStar: whether to skip the predicted magnitude computations for the stars. Useful to gain time if the same libraries/parameters are used for multiple sources.
         :type skipMagStar: :python`bool`
-        :param skipMagGal: (**Optional**) whether to skip the predicted magnitude computations for the galaxies. Useful to gain time if the same libraries/parameters are used for multiple sources.
+        :param skipMagGal: whether to skip the predicted magnitude computations for the galaxies. Useful to gain time if the same libraries/parameters are used for multiple sources.
         :type skipMagGal: :python:`bool`
 
         :returns: LePhare output file object with data from the file loaded

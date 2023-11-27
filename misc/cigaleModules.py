@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 r"""
-.. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+.. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
 
-Modules which can be used in Cigale.
+Modules which can be used with Cigale.
 """
 
 from   abc           import ABC, abstractmethod
@@ -17,12 +17,16 @@ from   typing        import List, Any
 
 class SFHmodule(ABC):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing a module to deal with SFH models.
+    Base class implementing a module to deal with SFH models.
     
     :param name: identifier for the class
-    :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
+    
+    **Keyword arguments**
+    
+    :param normalise: whether to normalise the SFH to produce one solar mass
+    :type normalise: :python:`bool`
     '''
     
     def __init__(self, name: Any, normalise: bool = True) -> None:
@@ -34,7 +38,7 @@ class SFHmodule(ABC):
     @abstractmethod
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@ilam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -45,7 +49,7 @@ class SFHmodule(ABC):
     @abstractmethod
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -54,26 +58,43 @@ class SFHmodule(ABC):
     
 class SFH2EXPmodule(SFHmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing a module for an exponential SFH with two stellar populations.
+    Class implementing a module for an SFH with two exponential components. Each component has an SFH of the form:
+        
+    .. math::
+        
+        {\rm SFH}(t) \propto \exp \lbrace -t/\tau \rbrace,
+        
+    with :math:`\tau` equal to **tau_main** for the first stellar population and **tau_burst** for the second one. The time :math:`t` starts at the age of the stellar populations, so **age_main** for the first one and **age_burst** for the second one. The final SFH is the sum of the two individual SFHs.
     
-    :param list tau_main: (**Optional**) e-folding time of the main stellar population model in Myr
-    :param list tau_burst: (**Optional**) e-folding time of the late starburst population model in Myr.
-    :param list f_burst: (**Optional**) mass fraction of the late burst population
-    :param list age: (**Optional**) age of the main stellar population in the galaxy in Myr
-    :param list burst_age: (**Optional**) age of the late burst in Myr
-    :param list sfr_0: (**Optional**) Value of SFR at t = 0 in M_sun/yr
-    :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
+    **Keyword arguments**
+    
+    :param tau_main: e-folding time of the main stellar population model in :math:`\rm Myr`. Minimum is :math:`0\,\rm Myr`.
+    :type tau_main: :python:`list[int]`
+    :param tau_burst: e-folding time of the late starburst population model in :math:`\rm Myr`. Minimum is :math:`0\,\rm Myr`.
+    :type tau_burst: :python:`list[int]`
+    :param f_burst: mass fraction of the late burst population. Minimum is :math:`0.0`, maximum is :math:`0.9999`.
+    :type f_burst: :python:`list[float]`
+    :param list age: age of the main stellar population in :math:`\rm Myr`. Minimum is :math:`0\,\rm Myr`.
+    :type age: :python:`list[int]`
+    :param list burst_age: age of the late burst in :math:`\rm Myr`. Minimum is :math:`0\,\rm Myr`.
+    :type burst_age: :python:`list[int]`
+    :param list sfr_0: value of SFR at t = 0 in :math:`\rm M_{\odot}\,yr^{-1}`. Minimum is :math:`0.0\,\rm M_{\odot}\,yr^{-1}`.
+    :type sfr_0: :python:`list[float]`
+    :param bool normalise: whether to normalise the SFH to produce one solar mass or not
+    :type normalise: :python:`bool`
     '''
     
-    def __init__(self, tau_main: List[int] = [6000], 
-                 tau_burst: List[int]      = [50],
-                 f_burst: List[float]      = [0.01], 
-                 age: List[int]            = [5000], 
-                 burst_age: List[int]      = [20], 
-                 sfr_0: List[float]        = [1.0],
-                 normalise: bool           = True) -> None:
+    def __init__(self, 
+                 tau_main:  List[int]   = [6000], 
+                 tau_burst: List[int]   = [50],
+                 f_burst:   List[float] = [0.01], 
+                 age:       List[int]   = [5000], 
+                 burst_age: List[int]   = [20], 
+                 sfr_0:     List[float] = [1.0],
+                 normalise: bool        = True
+                ) -> None:
         
         r'''Init method.'''
         
@@ -88,7 +109,7 @@ class SFH2EXPmodule(SFHmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -117,7 +138,7 @@ class SFH2EXPmodule(SFHmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -138,26 +159,50 @@ class SFH2EXPmodule(SFHmodule):
     
 class SFHDELAYEDmodule(SFHmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing a module for a delayed exponential SFH.
+    Class implementing a module for a delayed exponential SFH with a potential exponential burst. Without any burst, the SFH is equal to:
+        
+    .. math::
+        
+        {\rm SFH}(t) = {\rm SFR_A} \times \frac{t}{\tau_{\rm main}^2} \exp \lbrace -t/\tau_{\rm main} \rbrace.
+        
+    After that a time **age_burst** has elapsed and if **f_burst** is different from 0, the SFH is increased by an amount:
+        
+    .. math::
+        
+        {\rm SFH}(t) \propto \exp \lbrace -t/\tau_{\rm burst} \rbrace,
+        
+    where :math:`t` is counted starting from **age\_burst** and the amplitude of the burst is controlled by its mass fraction **f_burst**.
     
-    :param list tau_main: (**Optional**) e-folding time of the main stellar population model in Myr
-    :param list age_main: (**Optional**) age of the main stellar population in the galaxy in Myr
-    :param list tau_burst: (**Optional**) e-folding time of the late starburst population model in Myr
-    :param list age_burst: (**Optional**) age of the late burst in Myr
-    :param list f_burst: (**Optional**) mass fraction of the late burst population
-    :param list sfr_A: (**Optional**) multiplicative factor controlling the SFR if **normalise** is False. For instance without any burst: SFR(t)=sfr_A×t×exp(-t/τ)/τ²
-    :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
+    **Keyword arguments**
+    
+    :param tau_main: e-folding time of the main stellar population model in :math:`\rm Myr`. Minimum is :math:`0\,\rm Myr`.
+    :type tau_main: :python:`list[int]`
+    :param age_main: age of the main stellar population in the galaxy in :math:`\rm Myr`. Minimum is :math:`0\,\rm Myr`.
+    :type age_main: :python:`list[int]`
+    :param tau_burst: e-folding time of the late starburst population model in :math:`\rm Myr`. Minimum is :math:`0\,\rm Myr`.
+    :type tau_burst: :python:`list[int]`
+    :param age_burst: age of the late burst in :math:`\rm Myr`. Minimum is :math:`0\,\rm Myr`.
+    :type age_burst: :python:`list[int]`
+    :param f_burst: mass fraction of the late burst population. Minimum is :math:`0.0`, maximum is :math:`0.9999`.
+    :type f_burst: :python:`list[float]`
+    :param sfr_A: multiplicative factor controlling the amplitude of the SFR in :math:`\rm M_{\odot}\,yr^{-1}` if **normalise** is :python:`True`. Minimum is :math:`0.0\,\rm M_{\odot}\,yr^{-1}`. For instance without any burst: SFR(t)=sfr_A×t×exp(-t/τ)/τ².
+    :type sfr_A: :python:`list[float]`
+    :param normalise: whether to normalise the SFH to produce one solar mass or not
+    :type normalise: :python:`bool`
     '''
     
-    def __init__(self, tau_main: List[int] = [2000], 
-                 age_main: List[int]       = [5000],
-                 tau_burst: List[int]      = [50],
-                 age_burst: List[int]      = [20], 
-                 f_burst: List[float]      = [0.0],  
-                 sfr_A: List[float]        = [1.0],
-                 normalise: bool           = True) -> None:
+    def __init__(self, 
+                 tau_main:  List[int]   = [2000], 
+                 age_main:  List[int]   = [5000],
+                 tau_burst: List[int]   = [50],
+                 age_burst: List[int]   = [20], 
+                 f_burst:   List[float] = [0.0],  
+                 sfr_A:     List[float] = [1.0],
+                 normalise: bool        = True
+                ) -> None:
+        
         r'''Init method.'''
         
         super().__init__('sfhdelayed', normalise=normalise)
@@ -171,7 +216,7 @@ class SFHDELAYEDmodule(SFHmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -201,7 +246,7 @@ class SFHDELAYEDmodule(SFHmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -222,24 +267,47 @@ class SFHDELAYEDmodule(SFHmodule):
     
 class SFHDELAYEDBQmodule(SFHmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing a module for an exponential SFH with a burst/quench scenario.
+    Class implementing a module for a delayed exponential SFH with a burst/quench episode. Without any burst/quench episode, the SFH is equal to:
+        
+    .. math::
+        
+        {\rm SFH}(t) = {\rm SFR_A} \times \frac{t}{\tau_{\rm main}^2} \exp \lbrace -t/\tau_{\rm main} \rbrace.
+        
+    After that a time **age_bq** has elapsed and if **r_sfr** is different from 0, the SFH becomes a constant value equal to:
+        
+    .. math::
+        
+        {\rm SFH_{after}}(t) = {\rm SFH_{before}} \times r_{\rm SFR},
+        
+    where :math:`\rm SFH_{before}` is the value of the SFH just before the burst/quench episode.
     
-    :param list tau_main: (**Optional**) e-folding time of the main stellar population model in Myr
-    :param list age_main: (**Optional**) age of the main stellar population in the galaxy in Myr
-    :param list age_bq: (**Optional**) age of the burst/quench episode in Myr
-    :param list r_sfr: (**Optional**) ratio of the SFR after/before age_bq
-    :param list sfr_A: (**Optional**) multiplicative factor controlling the SFR if **normalise** is False. For instance without any burst: SFR(t)=sfr_A×t×exp(-t/τ)/τ²
-    :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
+    
+    **Keyword arguments**
+    
+    :param tau_main: e-folding time of the main stellar population model in :math:`\rm Myr`. Minimum is :math:`0\,\rm Myr`.
+    :type tau_main: :python:`list[int]`
+    :param age_main: age of the main stellar population in the galaxy in :math:`\rm Myr`. Minimum is :math:`0\,\rm Myr`.
+    :type age_main: :python:`list[int]`
+    :param age_bq: age of the burst/quench episode in :math:`\rm Myr`. Minimum is :math:`0\,\rm Myr`.
+    :type age_bq: :python:`list[int]`
+    :param r_sfr: ratio of the SFR after/before age_bq. Minimum is :math:`0.0`.
+    :type r_sfr: :python:`list[float]`
+    :param sfr_A: multiplicative factor controlling the SFR if **normalise** is False. Minimum is :math:`0.0`. For instance without any burst: SFR(t)=sfr_A×t×exp(-t/τ)/τ²
+    :type sfr_A: :python:`list[float]`
+    :param normalise: whether to normalise the SFH to produce one solar mass
+    :type normalise: :python:`bool`
     '''
     
-    def __init__(self, tau_main: List[int] = [2000], 
-                 age_main: List[int]       = [5000],
-                 age_bq: List[int]         = [500],
-                 r_sfr: List[float]        = [0.1], 
-                 sfr_A: List[float]        = [1.0],
-                 normalise: bool           = True) -> None:
+    def __init__(self, 
+                 tau_main:  List[int]   = [2000], 
+                 age_main:  List[int]   = [5000],
+                 age_bq:    List[int]   = [500],
+                 r_sfr:     List[float] = [0.1], 
+                 sfr_A:     List[float] = [1.0],
+                 normalise: bool        = True
+                ) -> None:
         
         r'''Init method.'''
         
@@ -301,20 +369,32 @@ class SFHDELAYEDBQmodule(SFHmodule):
     
 class SFHFROMFILEmodule(SFHmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing a module for a SFH from a file.
+    Class implementing a module for a SFH read from a FITS or VOtable file.
     
-    :param str filename: (**Optional**) name of the file containing the SFH. The first column must be the time in Myr, starting from 0 with a step of 1 Myr. The other columns must contain the SFR in Msun/yr.
-    :param list sfr_column: (**Optional**) list of column indices of the SFR. The first SFR column has the index 1.
-    :param list age: (**Optional**) age in Myr at which the SFH will be looked at
-    :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
+    .. note::
+        
+        The first column of the input file must be the time in :math:`\rm Myr`, starting from :math:`0\,\rm Myr` with a step of :math:`1\,\rm Myr`. Other columns contain the SFHs in :math:`\rm M_{\odot}\,yr^{-1}`.
+    
+    **Keyword arguments**
+    
+    :param filename: name of the input FITS or VOtable file containing the SFH
+    :type filename: :python:`str`
+    :param sfr_column: list of column indices where the SFHs are located in the input file. The first SFH column has the index 1.
+    :type sfr_column: :python:`list[int]`
+    :param age: age in :math:`\rm Myr` at which the SFHs start
+    :type age: :python:`list[int]`
+    :param normalise: whether to normalise the SFH to produce one solar mass or not
+    :type normalise: :python:`bool`
     '''
     
-    def __init__(self, filename: str   = '',
+    def __init__(self, 
+                 filename:   str       = '',
                  sfr_column: List[int] = [1],
-                 age: List[int]        = [1000],
-                 normalise: bool       = True) -> None:
+                 age:        List[int] = [1000],
+                 normalise:  bool      = True
+                ) -> None:
         
         r'''Init method.'''
         
@@ -326,7 +406,7 @@ class SFHFROMFILEmodule(SFHmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -351,7 +431,7 @@ class SFHFROMFILEmodule(SFHmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -369,23 +449,42 @@ class SFHFROMFILEmodule(SFHmodule):
     
 class SFHPERIODICmodule(SFHmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing a module for a SFH with periodic bursts.
+    Class implementing a module for a SFH with periodic bursts. The first burst will start at an age **age_burst**, and then each burst will follow the previous one after a time **delta_bursts** has elapsed. 
     
-    :param list type_bursts: (**Optional**) type of the individual star formation episodes. 0: exponential, 1: delayed, 2: rectangle
-    :param list delta_bursts: (**Optional**) elapsed time between the beginning of each burst in Myr
-    :param list age: (**Optional**) age of the main stellar population in the galaxy in Myr
-    :param list sfr_A: (**Optional**) multiplicative factor controlling the amplitude of SFR (valid for each event)
-    :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
+    Three burst SFHs are possible:
+    
+    * Exponential: :math:`{\rm SFH} (t) = {\rm SFR_A} \times \exp \lbrace - t / \tau_{\rm burst} \rbrace`
+    * Delayed exponential: :math:`{\rm SFH} (t) = {\rm SFR_A} \times \frac{t}{\tau_{\rm burst}^2} \exp \lbrace - t / \tau_{\rm burst} \rbrace`
+    * Rectangular: :math:`{\rm SFH} (t) = {\rm SFR_A}` for :math:`0 < t  < \tau_{\rm burst}` and :math:`{\rm SFH} (t) = 0\,\rm M_{\odot}\,yr^{-1}` otherwise. For each burst, :math:`t` is counted at the start of the burst.
+
+    The total SFH is simply the sum of all individual SFHs.
+    
+    **Keyword arguments**
+    
+    :param type_bursts: type of the individual star formation episodes. Options are 0 for exponential, 1 for delayed, and 2 for rectangle.
+    :type type_bursts: :python:`list[int]`
+    :param delta_bursts: elapsed time between the beginning of each burst in :math:`\rm Myr`
+    :type delta_bursts: :python:`list[int]`
+    :param tau_burst: duration of the bursts. For exponential and delayed types, this corresponds to the e-folding time and for rectangular bursts this corresponds to their duration.
+    :type tau_bursts: :python:`list[int]`
+    :param age: age of the main stellar population in the galaxy in :math:`\rm Myr`
+    :type age: :python:`list[int]`
+    :param sfr_A: multiplicative factor controlling the amplitude of SFR (valid for each event)
+    :type sfr_A: :python:`list[float]`
+    :param normalise: whether to normalise the SFH to produce one solar mass or not
+    :type normalise: :python:`bool`
     '''
     
-    def __init__(self, type_bursts: List[int] = [0],
-                 delta_bursts: List[int]      = [50],
-                 tau_bursts: List[int]        = [20],
-                 age: List[int]               = [1000],
-                 sfr_A: List[float]           = [1.0],
-                 normalise: bool              = True) -> None:
+    def __init__(self, 
+                 type_bursts:  List[int]   = [0],
+                 delta_bursts: List[int]   = [50],
+                 tau_bursts:   List[int]   = [20],
+                 age:          List[int]   = [1000],
+                 sfr_A:        List[float] = [1.0],
+                 normalise:    bool        = True
+                ) -> None:
         
         r'''Init method.'''
         
@@ -399,7 +498,7 @@ class SFHPERIODICmodule(SFHmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -430,7 +529,7 @@ class SFHPERIODICmodule(SFHmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -449,18 +548,35 @@ class SFHPERIODICmodule(SFHmodule):
     
 class SFH_BUATmodule(SFHmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing a module for a SFH from Buat et al. (2008).
+    Class implementing a module for a SFH from Buat et al. (2008). The SFH writes:
+        
+    .. math::
+        
+        \log_{10} {\rm SFH} (t) = a (V) + b (V) \times \log_{10} t + c (V) \times t^{1/2},
+        
+    where :math:`a`, :math:`b`, and :math:`c` are functions of the rotational velocity :math:`V` of the galaxy.
     
-    :param list velocity: (**Optional**) rotational velocity of the galaxy in km/s. Must be between 40 and 360 (included)
-    :param list age: (**Optional**) age of the oldest stars in the galaxy. The precision is 1 Myr.
-    :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
+    .. note::
+        
+        The functional forms of :math:`a`, :math:`b`, and :math:`c` only work for :math:`40 < V [{\rm km\,s^{-1}}] <360`.
+    
+    **Keyword arguments**
+    
+    :param velocity: rotational velocity of the galaxy in :math:`\rm km\,s^{-1}`. Must be between 40 :math:`\rm km\,s^{-1}` and 360 :math:`\rm km\,s^{-1}` (included).
+    :type velocity: :python:`list[float]`
+    :param age: age of the oldest stars in the galaxy in :math:`\rm Myr`
+    :type age: :python:`list[int]`
+    :param normalise: whether to normalise the SFH to produce one solar mass or not
+    :type normalise: :python:`bool`
     '''
     
-    def __init__(self, velocity: List[float] = [200.0],
-                 age: List[int]              = [5000],
-                 normalise: bool             = True) -> None:
+    def __init__(self, 
+                 velocity  : List[float] = [200.0],
+                 age       : List[int]   = [5000],
+                 normalise : bool        = True
+                ) -> None:
         
         r'''Init method.'''
         
@@ -471,7 +587,7 @@ class SFH_BUATmodule(SFHmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -492,7 +608,7 @@ class SFH_BUATmodule(SFHmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -508,18 +624,38 @@ class SFH_BUATmodule(SFHmodule):
     
 class SFH_QUENCHING_SMOOTHmodule(SFHmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing a module for a SFH with a smooth quenching. Below a given age, the Star Formation Rate becomes linear to be multiplied by 1-quenching_factor at the end of the history.
+    Class implementing a module that linearly quenches any SFH module by a factor **1 - quenching_factor**. If the SFH is equal to :math:`{\rm SFH} (t_{\rm before})` just before the quenching which is happening at the lookback time **quenching_time**, the SFH becomes after:
     
-    :param list quenching_time: (**Optional**) look-back time when the quenching starts in Myr
-    :param list quenching_factor: (**Optional**) quenching factor applied to the SFH. After the quenching time, the SFR s multiplied by 1 - quenching factor and made constant. The factor must be between 0.0 (no quenching) and 1.0 (no more star formation).
-    :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
+    .. math::
+        
+        {\rm SFH} (t) = {\rm SFH} (t_{\rm before}) \times \left ( 1 - f_{\rm q} \times \frac{t - t_{\rm main} + t_{\rm q}}{t_{\rm q}} \right ),
+        
+    where :math:`f_{\rm q}` is **quenching_factor**, :math:`t_{\rm main}` is the age of the main SFH, and :math:`t_{\rm q}` is **quenching_time**. Thus, 
+    
+    * right at the beginning of the quenching phase, :math:`t = t_{\rm main} - t_{\rm q}`, meaning that :math:`{\rm SFH} (t) = {\rm SFH} (t_{\rm before})`.
+    * at the end of the quenching phase, :math:`t = t_{\rm main}`, meaning that :math:`{\rm SFH} (t) = {\rm SFH} (t_{\rm before}) \times (1 - f_{\rm q})`
+    
+    .. important::
+        
+        This module does not work in standalone since it only quenches another SFH. Thus, at least one other SFH module must be provided for the main stellar populations in combination with this one.
+    
+    **Keyword arguments**
+    
+    :param quenching_time: look-back time when the quenching starts in :math:`\rm Myr`. Minimum is :math:`0\,\rm Myr`.
+    :type quenching_time: :python:`list[int]`
+    :param quenching_factor: quenching factor between 0 and 1 applied to the SFH when quenching starts. It must be between 0.0 (no quenching) and 1.0 (SFH equal to :math:`0\,\rm M_{\odot}\,yr^{-1}`).
+    :type quenching_factor: :python:`list[float]`
+    :param normalise: whether to normalise the SFH to produce one solar mass or not
+    :type normalise: :python:`bool`
     '''
     
-    def __init__(self, quenching_time: List[int] = [0],
-                 quenching_factor: List[float]   = [0.0],
-                 normalise: bool                 = True) -> None:
+    def __init__(self, 
+                 quenching_time   : List[int]   = [0],
+                 quenching_factor : List[float] = [0.0],
+                 normalise        : bool        = True
+                ) -> None:
         
         r'''Init method.'''
         
@@ -530,7 +666,7 @@ class SFH_QUENCHING_SMOOTHmodule(SFHmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -552,7 +688,7 @@ class SFH_QUENCHING_SMOOTHmodule(SFHmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -568,18 +704,35 @@ class SFH_QUENCHING_SMOOTHmodule(SFHmodule):
     
 class SFH_QUENCHING_TRUNKmodule(SFHmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing a module for a SFH with a smooth quenching. Below a given age, the Star Formation Rate is multiplied by 1-quenching_factor and is set constant.
+    Class implementing a module that quenches to a constant value any SFH module by multiplying it by a factor **1 - quenching_factor**. If the SFH is equal to :math:`{\rm SFH} (t_{\rm before})` just before the quenching which is happening at the lookback time **quenching_time**, the SFH becomes after:
+
+    .. math::
+        
+        {\rm SFH} (t) = {\rm SFH} (t_{\rm before}) \times ( 1 - f_{\rm q} ),
     
-    :param list quenching_age: (**Optional**) look-back time when the quenching happens in Myr
-    :param list quenching_factor: (**Optional**) quenching factor applied to the SFH. After the quenching time, the SFR s multiplied by 1 - quenching factor and made constant. The factor must be between 0.0 (no quenching) and 1.0 (no more star formation).
-    :param bool normalise: (**Optional**) whether to normalise the SFH to produce one solar mass
+    where :math:`f_{\rm q}` is **quenching_factor**.
+    
+    .. important::
+        
+        This module does not work in standalone since it only quenches another SFH. Thus, at least one other SFH module must be provided for the main stellar populations in combination with this one.
+    
+    **Keyword arguments**
+    
+    :param quenching_age: look-back time when the quenching happens in :math:`\rm Myr`
+    :type quenching_age: :python:`list[int]`
+    :param quenching_factor: quenching factor applied to the SFH.
+    :type quenching_factor: :python:`list[float]`
+    :param normalise: whether to normalise the SFH to produce one solar mass or not
+    :type normalise: :python:`bool`
     '''
     
-    def __init__(self, quenching_age: List[int] = [0],
-                 quenching_factor: List[float]  = [0.0],
-                 normalise: bool                = True) -> None:
+    def __init__(self, 
+                 quenching_age    : List[int]   = [0],
+                 quenching_factor : List[float] = [0.0],
+                 normalise        : bool        = True
+                ) -> None:
         
         r'''Init method.'''
         
@@ -590,7 +743,7 @@ class SFH_QUENCHING_TRUNKmodule(SFHmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -612,7 +765,7 @@ class SFH_QUENCHING_TRUNKmodule(SFHmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -632,19 +785,25 @@ class SFH_QUENCHING_TRUNKmodule(SFHmodule):
 
 class SSPmodule(ABC):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing a module to deal with SSP models.
+    Base class implementing a module to deal with SSP models.
     
     :param name: identifier for the class
     
-    :param list imf: (**Optional**) initial mass function. Options are either enum.IMF.CHABRIER or enum.IMF.SALPETER.
-    :param list separation_age: (**Optional**) age [Myr] of the separation between the young and the old star populations. The default value in 10^7 years (10 Myr). Set to 0 not to differentiate ages (only an old population).
+    **Keyword arguments**
+    
+    :param imf: initial mass function. Options are given in :class:`~SED.misc.enum.IMF`.
+    :type imf: :python:`list[SED.misc.enum.IMF]`
+    :param separation_age: age in :math:`\rm Myr` of the separation between the young and the old star populations. Set to 0 to not differentiate ages (only an old population).
+    :type separation_age: :python:`list[int]`
     '''
     
-    def __init__(self, name: Any,
-                 imf: IMF                  = IMF.SALPETER,
-                 separation_age: List[int] = [10]) -> None:
+    def __init__(self, 
+                 name           : Any,
+                 imf            : IMF       = IMF.SALPETER,
+                 separation_age : List[int] = [10]
+                ) -> None:
         
         r'''Init method.'''
         
@@ -655,7 +814,7 @@ class SSPmodule(ABC):
     @abstractmethod
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -666,7 +825,7 @@ class SSPmodule(ABC):
     @abstractmethod
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -675,18 +834,25 @@ class SSPmodule(ABC):
     
 class BC03module(SSPmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing a Bruzual et Charlot (2003) SSP module.
     
-    :param IMF imf: (**Optional**) initial mass function: 0 (Salpeter) or 1 (Chabrier)
-    :param list separation_age: (**Optional**) age [Myr] of the separation between the young and the old star populations. The default value in 10^7 years (10 Myr). Set to 0 not to differentiate ages (only an old population).
-    :param list metallicity: (**Optional**) metallicity. Possible values are: 0.0001, 0.0004, 0.004, 0.008, 0.02, 0.05
+    **Keyword arguments**
+    
+    :param imf: initial mass function. Options are :attr:`~SED.misc.enum.IMF.CHABRIER` or :attr:`~SED.misc.enum.IMF.SALPETER`.
+    :type imf: :python:`list[SED.misc.enum.IMF]`
+    :param separation_age: age in :math:`\rm Myr` of the separation between the young and the old star populations. Set to 0 to not differentiate ages (only an old population).
+    :type separation_age: :python:`list[int]`
+    :param list metallicity: possible values are 0.0001, 0.0004, 0.004, 0.008, 0.02, 0.05
+    :type metallicity: :python:`list[float]`
     '''
     
-    def __init__(self, imf: IMF            = IMF.SALPETER,
-                 separation_age: List[int] = [10],
-                 metallicity: List[float]  = [0.02]) -> None:
+    def __init__(self, 
+                 imf            : IMF         = IMF.SALPETER,
+                 separation_age : List[int]   = [10],
+                 metallicity    : List[float] = [0.02]
+                ) -> None:
         
         r'''Init method.'''
         
@@ -698,7 +864,7 @@ class BC03module(SSPmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -721,7 +887,7 @@ class BC03module(SSPmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -737,22 +903,29 @@ class BC03module(SSPmodule):
     
 class M2005module(SSPmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing a Maraston (2005) SSP module.
     
     .. warning:
         
-        This module cannot be combined with :class:`NEBULARmodule`.
+        This module cannot be combined with :class:`~SED.misc.cigaleModules.NEBULARmodule`.
     
-    :param IMF imf: (**Optional**) initial mass function: 0 (Salpeter) or 1 (Kroupa)
-    :param list separation_age: (**Optional**) age [Myr] of the separation between the young and the old star populations. The default value in 10^7 years (10 Myr). Set to 0 not to differentiate ages (only an old population).
-    :param list metallicity: (**Optional**) metallicity. Possible values are: 0.001, 0.01, 0.02, 0.04
+    **Keyword arguments**
+    
+    :param imf: initial mass function. Options are :attr:`~SED.misc.enum.IMF.SALPETER` or :attr:`~SED.misc.enum.IMF.KROUPA`.
+    :type imf: :python:`list[SED.misc.enum.IMF]`
+    :param separation_age: age in in :math:`\rm Myr` of the separation between the young and old stellar populations. Set to 0 not to differentiate ages (only an old population).
+    :type separation_age: :python:`list[int]`
+    :param metallicity: possible values are 0.001, 0.01, 0.02, 0.04
+    :type metallicity: :python:`list[float]`
     '''
     
-    def __init__(self, imf: IMF            = IMF.SALPETER,
-                 separation_age: List[int] = [10],
-                 metallicity: List[float]  = [0.02]) -> None:
+    def __init__(self, 
+                 imf            : IMF         = IMF.SALPETER,
+                 separation_age : List[int]   = [10],
+                 metallicity    : List[float] = [0.02]
+                ) -> None:
         
         r'''Init method.'''
         
@@ -764,7 +937,7 @@ class M2005module(SSPmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -786,7 +959,7 @@ class M2005module(SSPmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -806,26 +979,35 @@ class M2005module(SSPmodule):
 
 class NEBULARmodule:
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing a module to deal with nebular emission.
     
     .. warning:
         
-        This module cannot be combined with :class:`M2005module`.
+        This module cannot be combined with :class:`~SED.misc.cigaleModules.M2005module`.
     
-    :param list logU: (**Optional**) ionisation parameter. Minimum value is -4.0, maximum is -1.0 and steps of 0.1 only are accepted (i.e. -1.5 is ok but not -1.53).
-    :param list f_esc: (**Optional**) fraction of Lyman continuum photons escaping the galaxy
-    :param list f_dust: (**Optional**) fraction of Lyman continuum photons absorbed by dust
-    :param list lines_width: (**Optional**) Line width in km/s
-    :param bool include_emission: (**Optional**) whether to include the nebular emission or not
+    **Keyword arguments**
+    
+    :param logU: ionisation parameter. Minimum value is -4.0, maximum is -1.0 and steps of 0.1 only are accepted (i.e. -1.5 is ok but not -1.53).
+    :type logU: :python:`list[float]`
+    :param f_esc: fraction of Lyman continuum photons escaping the galaxy
+    :type f_esc: :python:`list[float]`
+    :param f_dust: fraction of Lyman continuum photons absorbed by dust
+    :type f_dust: :python:`list[float]`
+    :param lines_width: line width in in :math:`\rm km\,s^{-1}`
+    :type lines_width: :python:`list[float]`
+    :param include_emission: whether to include the nebular emission or not
+    :type include_emission: :python:`bool`
     '''
     
-    def __init__(self, logU: List[float]  = [-2.0],
-                 f_esc: List[float]       = [0.0],
-                 f_dust: List[float]      = [0.0],
-                 lines_width: List[float] = [300.0],
-                 include_emission: bool   = True) -> None:
+    def __init__(self, 
+                 logU             : List[float] = [-2.0],
+                 f_esc            : List[float] = [0.0],
+                 f_dust           : List[float] = [0.0],
+                 lines_width      : List[float] = [300.0],
+                 include_emission : bool        = True
+                ) -> None:
         
         r'''Init method.'''
         
@@ -844,7 +1026,7 @@ class NEBULARmodule:
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -868,7 +1050,7 @@ class NEBULARmodule:
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -890,12 +1072,16 @@ class NEBULARmodule:
 
 class ATTENUATIONmodule(ABC):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing a module to deal with dust attenuation.
+    Base class implementing a module to deal with dust attenuation.
     
     :param name: identifier for the class
-    :param str filters: (**Optional**) filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
+    
+    **Keyword arguments**
+    
+    :param filters: filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
+    :type filters: :python:`str`
     '''
     
     def __init__(self, name: Any, filters: str = 'V_B90 & FUV') -> None:
@@ -907,7 +1093,7 @@ class ATTENUATIONmodule(ABC):
     @abstractmethod
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -918,7 +1104,7 @@ class ATTENUATIONmodule(ABC):
     @abstractmethod
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -927,26 +1113,37 @@ class ATTENUATIONmodule(ABC):
     
 class DUSTATT_POWERLAWmodule(ATTENUATIONmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing a single powerlaw attenuation law module.
     
-    :param str filters: (**Optional**) filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
-    :param list Av_young: (**Optional**) V-band attenuation of the young population
-    :param list Av_old_factor: (**Optional**) reduction factor for the V-band attenuation of the old population compared to the young one (<1).
-    :param list uv_bump_wavelength: (**Optional**) central wavelength of the UV bump in nm
-    :param list uv_bump_width: (**Optional**) width (FWHM) of the UV bump in nm
-    :param list uv_bump_amplitude: (**Optional**) amplitude of the UV bump. For the Milky Way: 0.75.
-    :param list powerlaw_slope: (**Optional**) slope delta of the power law modifying the attenuation curve
+    **Keyword arguments**
+    
+    :param filters: filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
+    :type filters: :python:`str`
+    :param Av_young: V-band attenuation of the young stellar population
+    :type Av_young: :python:`list[float]`
+    :param list Av_old_factor: reduction factor for the V-band attenuation of the old population compared to the young one. It must be between 0 and 1.
+    :type Av_old_factor: :python:`list[float]`
+    :param uv_bump_wavelength: central wavelength of the UV bump in :math:`\rm nm`
+    :type uv_bump_wavelength: :python:`list[float]`
+    :param uv_bump_width: width (FWHM) of the UV bump in :math:`\rm nm`
+    :type uv_bump_width: :python:`list[float]`
+    :param uv_bump_amplitude: amplitude of the UV bump. For the Milky Way: 0.75.
+    :type uv_bump_amplitude: :python:`list[float]`
+    :param powerlaw_slope: slope delta of the power law modifying the attenuation curve
+    :type powerlaw_slope: :python:`list[float]`
     '''
     
-    def __init__(self, filters: str              = 'V_B90 & FUV',
-                 Av_young: List[float]           = [1.0],
-                 Av_old_factor: List[float]      = [0.44],
-                 uv_bump_wavelength: List[float] = [217.5],
-                 uv_bump_width: List[float]      = [35.0],
-                 uv_bump_amplitude: List[float]  = [0.0],
-                 powerlaw_slope: List[float]     = [-0.7]) -> None:
+    def __init__(self, 
+                 filters            : str         = 'V_B90 & FUV',
+                 Av_young           : List[float] = [1.0],
+                 Av_old_factor      : List[float] = [0.44],
+                 uv_bump_wavelength : List[float] = [217.5],
+                 uv_bump_width      : List[float] = [35.0],
+                 uv_bump_amplitude  : List[float] = [0.0],
+                 powerlaw_slope     : List[float] = [-0.7]
+                ) -> None:
         
         r'''Init method.'''
         
@@ -962,7 +1159,7 @@ class DUSTATT_POWERLAWmodule(ATTENUATIONmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -993,7 +1190,7 @@ class DUSTATT_POWERLAWmodule(ATTENUATIONmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -1013,22 +1210,31 @@ class DUSTATT_POWERLAWmodule(ATTENUATIONmodule):
     
 class DUSTATT_2POWERLAWSmodule(ATTENUATIONmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing a double powerlaw attenuation law module: a birth cloud power law applied only to the young star population and an ISM power law applied to both the young and the old star population.
+    Class implementing a double powerlaw attenuation law module: a birth cloud power law applied only to the young star population and an ISM power law applied to both the young and the old stellar populations.
     
-    :param str filters: (**Optional**) filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
-    :param list Av_BC: (**Optional**) V-band attenuation in the birth clouds
-    :param list slope_BC: (**Optional**) power law slope of the attenuation in the birth clouds
-    :param list BC_to_ISM_factor: (**Optional**) Av ISM / Av BC (<1)
-    :param list slope_ISM: (**optional**) power law slope of the attenuation in the ISM
+    **Keyword arguments**
+    
+    :param filters: filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
+    :type filters: :python:`str`
+    :param Av_BC: V-band attenuation in the birth clouds. Minimum is 0.
+    :type Av_BC: :python:`list[float]`
+    :param slope_BC: power law slope of the attenuation in the birth clouds
+    :type slope_BC: :python:`list[float]`
+    :param BC_to_ISM_factor: Av ISM / Av BC. Must be between 0 and 1.
+    :type BC_to_ISM_factor: :python:`list[float]`
+    :param slope_ISM: power law slope of the attenuation in the ISM
+    :type slope_ISM: :python:`list[float]`
     '''
     
-    def __init__(self, filters: str            = 'V_B90 & FUV',
-                 Av_BC: List[float]            = [1.0],
-                 slope_BC: List[float]         = [-1.3],
-                 BC_to_ISM_factor: List[float] = [0.44],
-                 slope_ISM: List[float]        = [-0.7]) -> None:
+    def __init__(self, 
+                 filters          : str         = 'V_B90 & FUV',
+                 Av_BC            : List[float] = [1.0],
+                 slope_BC         : List[float] = [-1.3],
+                 BC_to_ISM_factor : List[float] = [0.44],
+                 slope_ISM        : List[float] = [-0.7]
+                ) -> None:
         
         r'''Init method.'''
         
@@ -1042,7 +1248,7 @@ class DUSTATT_2POWERLAWSmodule(ATTENUATIONmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -1068,7 +1274,7 @@ class DUSTATT_2POWERLAWSmodule(ATTENUATIONmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -1086,26 +1292,37 @@ class DUSTATT_2POWERLAWSmodule(ATTENUATIONmodule):
     
 class DUSTATT_CALZLEITmodule(ATTENUATIONmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing a Calzetti et al. (2000) and  Leitherer et al. (2002) attenuation law module.
     
-    :param str filters: (**Optional**) filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
-    :param list E_BVs_young: (**Optional**) E(B-V)*, the colour excess of the stellar continuum light for the young population
-    :param list E_BVs_old_factor: (**Optional**) reduction factor for the E(B-V)* of the old population compared to the young one (<1)
-    :param list uv_bump_wavelength: (**Optional**) central wavelength of the UV bump in nm
-    :param list uv_bump_width: (**Optional**) width (FWHM) of the UV bump in nm
-    :param list uv_bump_amplitude: (**Optional**) amplitude of the UV bump. For the Milky Way: 3.
-    :param list powerlaw_slope: (**Optional**) slope delta of the power law modifying the attenuation curve
+    **Keyword arguments**
+    
+    :param filters: filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
+    :type filters: :python:`str`
+    :param E_BVs_young: E(B-V)*, the colour excess of the stellar continuum light for the young population. Minimum is 0.
+    :type E_BVs_young: :python:`list[float]`
+    :param E_BVs_old_factor: reduction factor for the E(B-V)* of the old population compared to the young one. Must be between 0 and 1.
+    :type E_BVs_old_factor: :python:`list[float]`
+    :param uv_bump_wavelength: central wavelength of the UV bump in :math:`\rm nm`. Minimum is :math:`0\,\rm nm`.
+    :type uv_bump_wavelength: :python:`list[float]`
+    :param uv_bump_width: width (FWHM) of the UV bump in :math:`\rm nm`. Minimum is :math:`0\,\rm nm`.
+    :type uv_bump_width: :python:`list[float]`
+    :param uv_bump_amplitude: amplitude of the UV bump. For the Milky Way: 3. Minimum is 0.
+    :type uv_bump_amplitude: :python:`list[float]`
+    :param powerlaw_slope: slope delta of the power law modifying the attenuation curve.
+    :type powerlaw_slope: :python:`list[float]`
     '''
     
-    def __init__(self, filters: str              = 'B_B90 & V_B90 & FUV',
-                 E_BVs_young: List[float]        = [0.3],
-                 E_BVs_old_factor: List[float]   = [1.0],
-                 uv_bump_wavelength: List[float] = [217.5],
-                 uv_bump_width: List[float]      = [35.0],
-                 uv_bump_amplitude: List[float]  = [0.0],
-                 powerlaw_slope: List[float]     = [0.0]) -> None:
+    def __init__(self, 
+                 filters            : str         = 'B_B90 & V_B90 & FUV',
+                 E_BVs_young        : List[float] = [0.3],
+                 E_BVs_old_factor   : List[float] = [1.0],
+                 uv_bump_wavelength : List[float] = [217.5],
+                 uv_bump_width      : List[float] = [35.0],
+                 uv_bump_amplitude  : List[float] = [0.0],
+                 powerlaw_slope     : List[float] = [0.0]
+                ) -> None:
         
         r'''Init method.'''
         
@@ -1121,7 +1338,7 @@ class DUSTATT_CALZLEITmodule(ATTENUATIONmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -1153,7 +1370,7 @@ class DUSTATT_CALZLEITmodule(ATTENUATIONmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -1173,22 +1390,31 @@ class DUSTATT_CALZLEITmodule(ATTENUATIONmodule):
     
 class DUSTATT_MODIFIED_CF00module(ATTENUATIONmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing a modified Charlot & Fall 2000 attenuation law module.
     
-    :param str filters: (**Optional**) filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
-    :param list Av_ISM: (**Optional**) V-band attenuation in the interstellar medium
-    :param list mu: (**Optional**) Av_ISM / (Av_BC+Av_ISM)
-    :param list slope_ISM: (**Optional**) power law slope of the attenuation in the ISM
-    :param list slope_BC: (**Optional**) power law slope of the attenuation in the birth clouds
+    **Keyword arguments**
+    
+    :param filters: filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
+    :type filters: :python:`str`
+    :param Av_ISM: V-band attenuation in the interstellar medium. Minimum is 0.
+    :type Av_ISM: :python:`list[float]`
+    :param mu: Av_ISM / (Av_BC+Av_ISM). Must be between 0.0001 and 1.
+    :type mu: :python:`list[float]`
+    :param list slope_ISM: power law slope of the attenuation in the ISM
+    :type slope_ISM: :python:`list[float]`
+    :param list slope_BC: power law slope of the attenuation in the birth clouds
+    :type slope_BC: :python:`list[float]`
     '''
     
-    def __init__(self, filters: str     = 'V_B90 & FUV',
-                 Av_ISM: List[float]    = [1.0],
-                 mu: List[float]        = [0.44],
-                 slope_ISM: List[float] = [-0.7],
-                 slope_BC: List[float]  = [-1.3]) -> None:
+    def __init__(self, 
+                 filters   : str         = 'V_B90 & FUV',
+                 Av_ISM    : List[float] = [1.0],
+                 mu        : List[float] = [0.44],
+                 slope_ISM : List[float] = [-0.7],
+                 slope_BC  : List[float] = [-1.3]
+                ) -> None:
         
         r'''Init method.'''
         
@@ -1202,7 +1428,7 @@ class DUSTATT_MODIFIED_CF00module(ATTENUATIONmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -1228,7 +1454,7 @@ class DUSTATT_MODIFIED_CF00module(ATTENUATIONmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -1246,30 +1472,43 @@ class DUSTATT_MODIFIED_CF00module(ATTENUATIONmodule):
     
 class DUSTATT_MODIFIED_STARBURSTmodule(ATTENUATIONmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing a modified Calzetti 2000 attenuation law module.
     
-    :param str filters: (**Optional**) filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
-    :param list E_BV_lines: (**Optional**) E(B-V)l, the colour excess of the nebular lines light for both the young and old population
-    :param list E_BV_factor: (**Optional**) reduction factor to apply on E_BV_lines to compute E(B-V)s the stellar continuum attenuation. Both young and old population are attenuated with E(B-V)s.
-    :param list uv_bump_wavelength: (**Optional**) central wavelength of the UV bump in nm
-    :param list uv_bump_width: (**Optional**) width (FWHM) of the UV bump in nm
-    :param list uv_bump_amplitude: (**Optional**) amplitude of the UV bump. For the Milky Way: 3.
-    :param list powerlaw_slope: (**Optional**) slope delta of the power law modifying the attenuation curve
-    :param list Ext_law_emission_lines: (**Optional**) extinction law to use for attenuating the emission lines flux. Possible values are: 1, 2, 3. 1: MW, 2: LMC, 3: SMC. MW is modelled using CCM89, SMC and LMC using Pei92.
-    :param list Rv: (**Optional**) ratio of total to selective extinction, A_V / E(B-V), for the extinction curve applied to emission lines. Standard value is 3.1 for MW using CCM89, but can be changed.F or SMC and LMC using Pei92 the value is automatically set to 2.93 and 3.16 respectively, no matter the value you write.
+    **Keyword arguments**
+    
+    :param filters: filters for which the attenuation will be computed and added to the SED information dictionary. You can give several filter names separated by a & (don't use commas).
+    :type filters: :python:`str`
+    :param E_BV_lines: E(B-V)l, the colour excess of the nebular lines light for both the young and old stellar population. Minimum is 0.
+    :type E_BV_lines: :python:`list[float]`
+    :param E_BV_factor: reduction factor to apply on E_BV_lines to compute E(B-V)s the stellar continuum attenuation. Both young and old population are attenuated with E(B-V)s. Must be between 0 and 1.
+    :type E_BV_factor: :python:`list[float]`
+    :param uv_bump_wavelength: central wavelength of the UV bump in :math:`\rm nm`. Minimum is :math:`0\,\rm nm`.
+    :type uv_bump_wavelength: :python:`list[float]`
+    :param uv_bump_width: width (FWHM) of the UV bump in :math:`\rm nm`. Minimum is :math:`0\,\rm nm`.
+    :type uv_bump_width: :python:`list[float]`
+    :param uv_bump_amplitude: amplitude of the UV bump. For the Milky Way: 3. Minimum is 0.
+    :type uv_bump_amplitude: :python:`list[float]`
+    :param powerlaw_slope: slope delta of the power law modifying the attenuation curve
+    :type powerlaw_slope: :python:`list[float]`
+    :param Ext_law_emission_lines: extinction law to use for attenuating the emission lines flux. Possible values are: 1, 2, 3. 1: Milky Way, 2: Large Magellanic Cloud, 3: Small Magellanic Cloud. MW is modelled using CCM89, SMC and LMC using Pei92.
+    :type Ext_law_emission_lines: :python:`list[int]`
+    :param Rv: ratio of total to selective extinction, A_V / E(B-V), for the extinction curve applied to emission lines. Standard value is 3.1 for MW using CCM89, but can be changed. For SMC and LMC, using Pei92, the value is automatically set to 2.93 and 3.16 respectively, no matter the value you provide.
+    :type Rv: :python:`list[float]`
     '''
     
-    def __init__(self, filters: str                = 'B_B90 & V_B90 & FUV',
-                 E_BV_lines: List[float]           = [0.3],
-                 E_BV_factor: List[float]          = [0.44],
-                 uv_bump_wavelength: List[float]   = [217.5],
-                 uv_bump_width: List[float]        = [35.0],
-                 uv_bump_amplitude: List[float]    = [0.0],
-                 powerlaw_slope: List[float]       = [0.0],
-                 Ext_law_emission_lines: List[int] = 1,
-                 Rv: List[float]                   = 3.1) -> None:
+    def __init__(self, 
+                 filters                : str         = 'B_B90 & V_B90 & FUV',
+                 E_BV_lines             : List[float] = [0.3],
+                 E_BV_factor            : List[float] = [0.44],
+                 uv_bump_wavelength     : List[float] = [217.5],
+                 uv_bump_width          : List[float] = [35.0],
+                 uv_bump_amplitude      : List[float] = [0.0],
+                 powerlaw_slope         : List[float] = [0.0],
+                 Ext_law_emission_lines : List[int]   = 1,
+                 Rv                     : List[float] = 3.1
+                ) -> None:
         
         r'''Init method.'''
         
@@ -1277,7 +1516,7 @@ class DUSTATT_MODIFIED_STARBURSTmodule(ATTENUATIONmodule):
         
         self.filters                = StrProperty(filters)
         self.E_BV_lines             = ListFloatProperty(E_BV_lines,           minBound=0.0)
-        self.E_BV_factor            = ListFloatProperty(E_BV_factor,          minBound=0.0, maxBound=0.0)
+        self.E_BV_factor            = ListFloatProperty(E_BV_factor,          minBound=0.0, maxBound=1.0)
         self.uv_bump_wavelength     = ListFloatProperty(uv_bump_wavelength,   minBound=0.0)
         self.uv_bump_width          = ListFloatProperty(uv_bump_width,        minBound=0.0)
         self.uv_bump_amplitude      = ListFloatProperty(uv_bump_amplitude,    minBound=0.0)
@@ -1287,7 +1526,7 @@ class DUSTATT_MODIFIED_STARBURSTmodule(ATTENUATIONmodule):
         
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -1330,7 +1569,7 @@ class DUSTATT_MODIFIED_STARBURSTmodule(ATTENUATIONmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -1356,7 +1595,7 @@ class DUSTATT_MODIFIED_STARBURSTmodule(ATTENUATIONmodule):
 
 class DUSTmodule(ABC):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing a module to deal with dust emission.
     
@@ -1373,7 +1612,7 @@ class DUSTmodule(ABC):
     @abstractmethod
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -1384,7 +1623,7 @@ class DUSTmodule(ABC):
     @abstractmethod
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -1393,20 +1632,28 @@ class DUSTmodule(ABC):
     
 class MBBmodule(DUSTmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing a modified black body dust emission module.
     
-    :param list epsilon_mbb: fraction [>= 0] of L_dust(energy balance) in the MBB
-    :param list t_mbb: temperature of black body in K
-    :param list beta_mbb: emissivity index of modified black body
-    :param bool energy_balance: Energy balance checked ? If False, Lum[MBB] not taken into account in energy balance.
+    **Keyword arguments**
+    
+    :param epsilon_mbb: fraction of L_dust(energy balance) in the MBB. Must be between 0 and 1.
+    :type epsilon_mbb: :python:`list[float]`
+    :param t_mbb: temperature of black body in :math:`\rm K`. Minimum is :math:`0\,\rm K`.
+    :type t_mbb: :python:`list[float]`
+    :param beta_mbb: emissivity index of modified black body
+    :type beta_mbb: :python:`list[float]`
+    :param energy_balance: whether to check for energy balance or not. If :python:`False`, Lum[MBB] is not taken into account in the energy balance.
+    :type energy_balance: :python:`bool`
     '''
     
-    def __init__(self, epsilon_mbb: List[float] = [0.5],
-                 t_mbb: List[float]             = [50.0],
-                 beta_mbb: List[float]          = [1.5],
-                 energy_balance: bool           = False) -> None:
+    def __init__(self, 
+                 epsilon_mbb    : List[float] = [0.5],
+                 t_mbb          : List[float] = [50.0],
+                 beta_mbb       : List[float] = [1.5],
+                 energy_balance : bool        = False
+                ) -> None:
         
         r'''Init method.'''
             
@@ -1419,7 +1666,7 @@ class MBBmodule(DUSTmodule):
             
     def __str__(self, *args, **kwargs):
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -1442,7 +1689,7 @@ class MBBmodule(DUSTmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -1459,16 +1706,22 @@ class MBBmodule(DUSTmodule):
     
 class SCHREIBERmodule(DUSTmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing Schreiber at al. (2016) dust emission module.
     
-    :param list tdust: temperature of the dust in K
-    :param list fpah: emissivity index of the dust
+    **Keyword arguments**
+    
+    :param tdust: temperature of the dust in :math:`\rm K`. Must be between :math:`15\,\rm K` and :math:`60\,\rm K`.
+    :type tdust: :python:`list[int]`
+    :param fpah: emissivity index of the dust. Must be between 0 and 1.
+    :type fpah: :python:`list[float]`
     '''
     
-    def __init__(self, tdust: List[int] = [20],
-                 fpah: List[float]      = [0.05]) -> None:
+    def __init__(self, 
+                 tdust : List[int]   = [20],
+                 fpah  : List[float] = [0.05]
+                ) -> None:
         
         r'''Init method.'''
             
@@ -1476,15 +1729,15 @@ class SCHREIBERmodule(DUSTmodule):
         
         tdustRange = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60]
             
-        self.tdust = ListFloatProperty(tdust, minBound=15, maxBound=60,
-                                       testFunc=lambda value: any((i not in tdustRange for i in value)),
-                                       testMsg=f'one of tdust values is not in the list {tdustRange}')
+        self.tdust = ListIntProperty(tdust, minBound=15, maxBound=60,
+                                     testFunc=lambda value: any((i not in tdustRange for i in value)),
+                                     testMsg=f'one of tdust values is not in the list {tdustRange}')
         
         self.fpah  = ListFloatProperty(fpah, minBound=0.0, maxBound=1.0)
             
     def __str__(self, *args, **kwargs):
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -1502,7 +1755,7 @@ class SCHREIBERmodule(DUSTmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -1517,18 +1770,25 @@ class SCHREIBERmodule(DUSTmodule):
     
 class CASEYmodule(DUSTmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing Casey 2012 dust emission module.
     
-    :param list temperature: temperature of the dust in K
-    :param list beta: emissivity index of the dust
-    :param list alpha: mid-infrared powerlaw slope
+    **Keyword arguments**
+    
+    :param temperature: temperature of the dust in in :math:`\rm K`. Minimum is :math:`0\,\rm K`.
+    :type temperature: :python:`list[float]`
+    :param beta: emissivity index of the dust. Minimum is 0.
+    :type beta: :python:`list[float]`
+    :param alpha: mid-infrared powerlaw slope. Minimum is 0.
+    :type alpha: :python:`list[float]`
     '''
     
-    def __init__(self, temperature: List[float] = [35.0],
-                 beta: List[float]              = [1.6],
-                 alpha: List[float]             = [2.0]) -> None:
+    def __init__(self, 
+                 temperature : List[float] = [35.0],
+                 beta        : List[float] = [1.6],
+                 alpha       : List[float] = [2.0]
+                ) -> None:
         
         r'''Init method.'''
             
@@ -1540,7 +1800,7 @@ class CASEYmodule(DUSTmodule):
             
     def __str__(self, *args, **kwargs):
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -1560,7 +1820,7 @@ class CASEYmodule(DUSTmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -1576,16 +1836,26 @@ class CASEYmodule(DUSTmodule):
     
 class DALEmodule(DUSTmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing Dale et al. 2014 dust emission module.
     
-    :param list fracAGN: (**Optional**) AGN fraction. It is not recommended to combine this AGN emission with the models of Fritz et al. (2006).
-    :param list alpha: (**Optional**) mid-infrared powerlaw slope
+    .. important::
+        
+        It is not recommended to combine this AGN emission with the models of Fritz et al. (2006).
+    
+    **Keyword arguments**
+    
+    :param fracAGN: AGN fraction. Must be between 0 and 1.
+    :type fracAGN: :python:`list[float]`
+    :param alpha: mid-infrared powerlaw slope. Accepted values are 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375, 0.5, 0.5625, 0.625, 0.6875, 0.75, 0.8125, 0.875, 0.9375, 1, 1.0625, 1.125, 1.1875, 1.25, 1.3125, 1.375, 1.4375, 1.5, 1.5625, 1.625, 1.6875, 1.75, 1.8125, 1.875, 1.9375, 2, 2.0625, 2.125, 2.1875, 2.25, 2.3125, 2.375, 2.4375, 2.5, 2.5625, 2.625, 2.6875, 2.75, 2.8125, 2.875, 2.9375, 3, 3.0625, 3.125, 3.1875, 3.25, 3.3125, 3.375, 3.4375, 3.5, 3.5625, 3.625, 3.6875, 3.75, 3.8125, 3.875, 3.9375, 4.
+    :type alpha: :python:`list[float]`
     '''
     
-    def __init__(self, fracAGN: List[float] = [0.0],
-                 alpha: List[float]         = [2.0]) -> None:
+    def __init__(self, 
+                 fracAGN : List[float] = [0.0],
+                 alpha   : List[float] = [2.0]
+                ) -> None:
     
         r'''Init method.'''
         
@@ -1606,7 +1876,7 @@ class DALEmodule(DUSTmodule):
         
     def __str__(self, *args, **kwargs):
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -1633,7 +1903,7 @@ class DALEmodule(DUSTmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -1648,20 +1918,28 @@ class DALEmodule(DUSTmodule):
     
 class DL07module(DUSTmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing Draine & Li 2007 dust emission module.
     
-    :param list qpah: (**Optional**) mass fraction of PAH. Possible values are: 0.47, 1.12, 1.77, 2.50, 3.19, 3.90, 4.58.
-    :param list umin: (**Optional**) minimum radiation field. Possible values are: 0.10, 0.15, 0.20, 0.30, 0.40, 0.50, 0.70, 0.80, 1.00, 1.20, 1.50, 2.00, 2.50, 3.00, 4.00, 5.00, 7.00, 8.00, 10.0, 12.0, 15.0, 20.0, 25.0.
-    :param list umax: (**Optional**) maximum radiation field. Possible values are: 1e3, 1e4, 1e5, 1e6.
-    :param list gamma: (**Optional**) fraction illuminated from Umin to Umax. Possible values between 0 and 1.
+    **Keyword arguments**
+    
+    :param qpah: mass fraction of PAH. Accepted values are 0.47, 1.12, 1.77, 2.5, 3.19, 3.9, 4.58.
+    :type qpah: :python:`list[float]`
+    :param umin: minimum radiation field. Accepted values are 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.7, 0.8, 1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 7, 8, 10, 12, 15, 20, 25.
+    :type umin: :python:`list[float]`
+    :param umax: maximum radiation field. Accepted values are 1e3, 1e4, 1e5, 1e6.
+    :type umax: :python:`list[float]`
+    :param gamma: fraction illuminated from Umin to Umax. Must be between 0 and 1.
+    :type gamma: :python:`list[float]`
     '''
     
-    def __init__(self, qpah: List[float] = [2.5],
-                 umin: List[float]       = [1.0],
-                 umax: List[float]       = [1000000.0],
-                 gamma: List[float]      = [0.1],) -> None:
+    def __init__(self, 
+                 qpah  : List[float] = [2.5],
+                 umin  : List[float] = [1.0],
+                 umax  : List[float] = [1000000.0],
+                 gamma : List[float] = [0.1]
+                ) -> None:
     
         r'''Init method.'''
         
@@ -1695,7 +1973,7 @@ class DL07module(DUSTmodule):
         
     def __str__(self, *args, **kwargs):
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -1721,7 +1999,7 @@ class DL07module(DUSTmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -1738,20 +2016,28 @@ class DL07module(DUSTmodule):
     
 class DL14module(DUSTmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing Draine et al. 2014 update dust emission module.
     
-    :param list qpah: (**Optional**) mass fraction of PAH. Possible values are: 0.47, 1.12, 1.77, 2.50, 3.19, 3.90, 4.58, 5.26, 5.95, 6.63, 7.32.
-    :param list umin: (**Optional**) minimum radiation field. Possible values are: 0.100, 0.120, 0.150, 0.170, 0.200, 0.250, 0.300, 0.350, 0.400, 0.500, 0.600, 0.700, 0.800, 1.000, 1.200, 1.500, 1.700, 2.000, 2.500, 3.000, 3.500, 4.000, 5.000, 6.000, 7.000, 8.000, 10.00, 12.00, 15.00, 17.00, 20.00, 25.00, 30.00, 35.00, 40.00, 50.00.
-    :param lsit alpha: (**Optional**) powerlaw slope dU/dM propto U^alpha. Possible values are: 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0
-    :param list gamma: (**Optional**) fraction illuminated from Umin to Umax. Possible values between 0 and 1.
+    **Keyword arguments**
+    
+    :param qpah: mass fraction of PAH. Accepted values are 0.47, 1.12, 1.77, 2.5, 3.19, 3.9, 4.58, 5.26, 5.95, 6.63, 7.32.
+    :type qpah: :python:`list[float]`
+    :param umin: minimum radiation field. Accepted values are 0.1, 0.12, 0.15, 0.17, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 0.6, 0.7, 0.8, 1, 1.2, 1.5, 1.7, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 10, 12, 15, 17, 20, 25, 30, 35, 40, 50.
+    :type umin: :python:`list[float]`
+    :param alpha: powerlaw slope dU/dM propto U^alpha. Accepted values are 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3
+    :type alpha: :python:`list[float]`
+    :param gamma: fraction illuminated from Umin to Umax. Must be between 0 and 1.
+    :type gamma: :python:`list[float]`
     '''
     
-    def __init__(self, qpah: List[float] = [2.5],
-                 umin: List[float]       = [1.0],
-                 gamma: List[float]      = [0.1],
-                 alpha: List[float]      = [2.0]) -> None:
+    def __init__(self, 
+                 qpah  : List[float] = [2.5],
+                 umin  : List[float] = [1.0],
+                 gamma : List[float] = [0.1],
+                 alpha : List[float] = [2.0]
+                ) -> None:
     
         r'''Init method.'''
         
@@ -1785,7 +2071,7 @@ class DL14module(DUSTmodule):
         
     def __str__(self, *args, **kwargs):
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -1815,7 +2101,7 @@ class DL14module(DUSTmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
@@ -1832,14 +2118,20 @@ class DL14module(DUSTmodule):
     
 class THEMISmodule(DUSTmodule):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Class implementing Themis dust emission models from Jones et al. 2017.
     
-    :param list qhac: (**Optional**) mass fraction of hydrocarbon solids i.e., a-C(:H) smaller than 1.5 nm, also known as HAC. Possible values are: 0.02, 0.06, 0.10, 0.14, 0.17, 0.20, 0.24, 0.28, 0.32, 0.36, 0.40.
-    :param list umin: (**Optional**) minimum radiation field. Possible values are: 0.100, 0.120, 0.150, 0.170, 0.200, 0.250, 0.300, 0.350, 0.400, 0.500, 0.600, 0.700, 0.800, 1.000, 1.200, 1.500, 1.700, 2.000, 2.500, 3.000, 3.500, 4.000, 5.000, 6.000, 7.000, 8.000, 10.00, 12.00, 15.00, 17.00, 20.00, 25.00, 30.00, 35.00, 40.00, 50.00.
-    :param lsit alpha: (**Optional**) powerlaw slope dU/dM propto U^alpha. Possible values are: 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0
-    :param list gamma: (**Optional**) fraction illuminated from Umin to Umax. Possible values between 0 and 1.
+    **Keyword arguments**
+    
+    :param qhac: mass fraction of hydrocarbon solids i.e., a-C(:H) smaller than :math:`1.5\,\rm nm`, also known as HAC. Accepted values are 0.02, 0.06, 0.1, 0.14, 0.17, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4.
+    :type qhac: :python:`list[float]`
+    :param umin: minimum radiation field. Accepted values are 0.1, 0.12, 0.15, 0.17, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 0.6, 0.7, 0.8, 1, 1.2, 1.5, 1.7, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 10, 12, 15, 17, 20, 25, 30, 35, 40, 50.
+    :type umin: :python:`list[float]`
+    :param alpha: powerlaw slope dU/dM propto U^alpha. Accepted values are 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3
+    :type alpha: :python:`list[float]`
+    :param gamma: fraction illuminated from Umin to Umax. Must be between 0 and 1.
+    :type gamma: :python:`list[float]`
     '''
     
     def __init__(self, qhac: List[float] = [0.17],
@@ -1879,7 +2171,7 @@ class THEMISmodule(DUSTmodule):
         
     def __str__(self, *args, **kwargs):
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation of the class used to make Cigale parameter files.
         '''
@@ -1910,7 +2202,7 @@ class THEMISmodule(DUSTmodule):
     @property
     def spec(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Implement a string representation for the .spec file of Cigale parameters.
         '''
