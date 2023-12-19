@@ -1,136 +1,432 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
-<head>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta charset="utf-8"/>
-<meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
-<title>Installation and setup | Resolved SED-fitting wrapper 0.5 documentation</title>
-<link href="_static/pygments.css" rel="stylesheet"/>
-<link href="_static/theme.313ea551d1799b2102b1.css" rel="stylesheet"/>
-<link href="_static/plot_directive.css" rel="stylesheet"/>
-<link href="search.html" rel="search" title="Search"/>
-<link href="genindex.html" rel="index" title="Index"/>
-<link href="tutorial/index.html" rel="next" title="Tutorial introduction"/>
-<link href="index.html" rel="prev" title="Home page"/>
-</head>
-<body class="antialiased text-gray">
-<div class="h-screen xl:grid xl:grid-layout" data-action="keydown@window-&gt;search#focus" data-controller="sidebar search" id="page">
-<a class="block text-xl bg-white py-4 z-20 absolute top-0 h-18 inset-x-0 text-center transform -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75" href="#installation-and-setup" title="Skip navigation links">Skip to content</a>
-<header class="grid-area-header z-10 h-14 sm:h-18">
-<div class="bg-gray-dark shadow-md flex items-center h-full xl:px-2 relative"><div class="flex items-center">
-<button class="xl:hidden h-14 w-14 sm:h-18 sm:w-18 leading-14 sm:leading-18 text-gray-100 hover:bg-gray-700 hover:text-brand focus:outline-none focus:bg-gray-700 focus:text-brand" data-action="sidebar#open" data-sidebar-target="hamburger">
-<span class="sr-only">Open navigation menu</span>
-<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
-</button><a aria-label="Back to homepage" class="hover:bg-gray-700 focus:bg-gray-700 focus:outline-none tooltipped tooltipped-sw" href="index.html"><span class="hidden lg:inline-block shrink-0 font-medium text-gray-100 mx-5 leading-14 sm:leading-18 tracking-wider">Resolved SED-fitting wrapper 0.5 documentation</span>
-</a></div><div class="flex justify-end items-center flex-1"><form action="search.html" class="flex print:hidden justify-between items-center leading-14 sm:leading-18 md:ml-4 bg-gray-dark text-gray-300 focus-within:bg-gray-50 focus-within:text-gray-800 focus-within:absolute focus-within:inset-x-0 focus-within:top-0 md:focus-within:w-full md:focus-within:static" data-action="click-&gt;search#focusSearchInput" id="searchbox" method="get">
-<button aria-label="Get search results" class="text-inherit h-14 w-14 sm:h-18 sm:w-18" tabindex="-1">
-<svg aria-hidden="true" class="fill-current stroke-current h-8 w-8" stroke-width="0.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-</button>
-<input aria-label="Search the docs" class="pr-2 bg-transparent text-inherit focus:outline-none w-0 md:w-auto focus:w-full transition-all duration-100" data-search-target="searchInput" id="search-input" name="q" placeholder="Search the docs" type="search"/>
-</form><div class="shrink-0"><a class="h-14 sm:h-18 inline-block leading-14 sm:leading-18 text-gray-100 bg-transparent tracking-wide font-medium hover:text-brand focus:bg-gray-700 focus:outline-none hover:no-underline focus:text-brand px-4" href="https%3A//github.com/WilfriedMercier/SED.html">GitHub</a></div></div>
+
+<html lang="en" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Installation and setup &#8212; pixSED</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mycss.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'setup';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Nomenclature" href="nomenclature.html" />
+    <link rel="prev" title="Introduction" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">Support for LePhare is currently deprecated as it relies on the old Fortran version. Please use Cigale instead.</div>
+  </div>
+
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+    
+    <img src="_static/logo1.png" class="logo__image only-light" alt="pixSED documentation - Home"/>
+    <script>document.write(`<img src="_static/logo1.png" class="logo__image only-dark" alt="pixSED documentation - Home"/>`);</script>
+  
+  
+    <p class="title logo__title">pixSED</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Installation and setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="nomenclature.html">
+                        Nomenclature
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="poisson.html">
+                        About Poisson noise
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="API/index.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/SED" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
-</header>
-<aside class="grid-area-sidebar h-full fixed xl:relative inset-y-0 left-0 z-20 xl:z-0 print:hidden overflow-y-auto transition-all transform transform-gpu -translate-x-full opacity-0 duration-300 xl:translate-x-0 xl:opacity-100" data-sidebar-target="sidebar">
-<nav class="h-full overflow-y-auto bg-white text-gray-600 pt-8 flex flex-col" role="navigation">
-<div class="nav-toc flex-1 pl-6"><ul class="current">
-<li class="toctree-l1 current expanded"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="current reference internal" data-action="click-&gt;sidebar#close" href="#">Installation and setup</a></div><ul>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="#required-dependencies">Required dependencies</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="#sed-fitting-codes-installation">SED fitting codes installation</a></div><ul>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="#id1">LePhare</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="#id2">Cigale</a></div></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li class="toctree-l1"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html">Tutorial introduction</a></div><ul>
-<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html">LePhare</a></div><ul>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate">Filter</code> and <code class="xref py py-class docutils literal notranslate">FilterList</code> objects</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html#step-2-generate-a-lepharecat-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate">LePhareCat</code> object</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html#step-3-create-a-lepharesed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate">LePhareSED</code> object</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html#step-4-bis-extract-output-data-from-output-file">Step 4-bis: Extract output data from output file</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html#step-5-generate-a-resolved-map">Step 5: Generate a resolved map</a></div></li>
-</ul>
-</li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/cigale.html">Cigale</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#nomenclature">Nomenclature</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#pre-processing-step">Pre-processing step</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate">Filter</code> and <code class="xref py py-class docutils literal notranslate">FilterList</code> objects</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate">Catalogue</code> object</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate">SED</code> object</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></div></li>
-</ul>
-</li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="examples/example1.html">1. Resolved stellar mass map with LePhare</a></div></li>
-<li class="toctree-l1"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="examples/example2.html">2. Resolved SFR map from an already existing LePhare output file</a></div></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">―――――――――――――――</span></p>
-<ul>
-<li class="toctree-l1"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/index.html">API</a></div><ul>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/catalogues.html">Catalogue classes</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/filters.html">Filter classes</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/misc/index.html">Miscellaneous</a></div><ul>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/misc/enum.html">Enumeration classes</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/misc/misc.html">Miscellaneous classes and functions</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/misc/properties.html">Property classes</a></div></li>
-</ul>
-</li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/outputs.html">SED fitting code output classes</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/sed.html">SED classes</a></div></li>
-</ul>
-</li>
-</ul>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Installation and setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="nomenclature.html">
+                        Nomenclature
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="poisson.html">
+                        About Poisson noise
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="API/index.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/SED" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Installation...</li>
+  </ul>
+</nav>
 </div>
-<button class="text-4xl text-gray-800 p-4 bottom-0 hover:text-brand xl:hidden focus:text-brand self-center" data-action="" title="Close navigation menu">
-<span class="sr-only">Close navigation menu</span>
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
-</button>
-</nav>
-</aside>
-<main class="px-10 xl:ml-fluid grid-area-main overflow-y-auto flex flex-col h-full mx-0 md:mx-auto xl:mr-0" data-action="scroll-&gt;scroll#showButton" data-controller="scroll"><nav aria-label="breadcrumbs" class="print:hidden mt-12 text-sm text-gray-light" role="navigation">
-<a class="text-gray-light text-sm hover:text-gray-dark font-medium focus:text-gray-dark" href="index.html">Resolved SED-fitting wrapper 0.5 documentation</a>
-<span class="mr-1">/</span><span aria-current="page">Installation and setup</span>
-</nav>
-<article class="flex-1" role="main">
-<section id="installation-and-setup">
-<h1>Installation and setup<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#installation-and-setup">¶</a></h1>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="installation-and-setup">
+<h1>Installation and setup<a class="headerlink" href="#installation-and-setup" title="Permalink to this heading">#</a></h1>
 <p>This guide is supposed to help the user in setting up the environment for this library to work.</p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>This library has been developed with <strong>Python 3.7</strong>. We list below the version used during developement for each required dependency.</p>
-<p>Note that it is possible that this library still works with older or more recent versions of these dependencies.</p>
-</div>
 <p>To install this library, just clone the repository directly into one of your python module paths</p>
-<div class="code-wrapper" data-controller="code">
-<div class="code-header">
-<span class="code-lang">bash</span></div>
-<div class="highlight"><pre><code>git clone https://github.com/WilfriedMercier/SED.git
-</code></pre></div></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/WilfriedMercier/SED.git
+</pre></div>
+</div>
 <p>If you do not know your module path names, you can list them from the terminal with</p>
-<div class="code-wrapper" data-controller="code">
-<div class="code-header">
-<span class="code-lang">bash</span></div>
-<div class="highlight"><pre><code>python -c <span class="s1">'import sys; print(sys.path)'</span>
-</code></pre></div></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import sys; print(sys.path)&#39;</span>
+</pre></div>
+</div>
 <p>Alternatively, one can clone the repository into another directory and then make a symbolic link of this directory into one of the module paths, or add this directory to the module paths list.</p>
 <section id="required-dependencies">
-<h2>Required dependencies<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#required-dependencies">¶</a></h2>
+<h2>Required dependencies<a class="headerlink" href="#required-dependencies" title="Permalink to this heading">#</a></h2>
 <p>A couple of third party dependencies are required in order for this library to work. See below for how to install them on Linux/Mac OS.</p>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 12%"/>
-<col style="width: 10%"/>
-<col style="width: 32%"/>
-<col style="width: 47%"/>
-</colgroup>
+<table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Library</p></th>
 <th class="head"><p>Version</p></th>
@@ -139,35 +435,56 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference external" href="https://www.astropy.org/&gt;" rel="nofollow noopener">Astropy<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://www.astropy.org/&gt;">Astropy</a></p></td>
 <td><p>4.2</p></td>
-<td><p><code class="code bash docutils literal notranslate">pip install astropy</code></p></td>
-<td><p><code class="code bash docutils literal notranslate">conda install astropy</code></p></td>
+<td><p><code class="code highlight bash docutils literal highlight-bash">pip<span class="w"> </span>install<span class="w"> </span>astropy</code></p></td>
+<td><p><code class="code highlight bash docutils literal highlight-bash">conda<span class="w"> </span>install<span class="w"> </span>astropy</code></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://pypi.org/project/colorama/" rel="nofollow noopener">colorama<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://pypi.org/project/colorama/">colorama</a></p></td>
 <td><p>0.4.4</p></td>
-<td><p><code class="code bash docutils literal notranslate">pip install colorama</code></p></td>
-<td><p><code class="code bash docutils literal notranslate">conda install -c anaconda colorama</code></p></td>
+<td><p><code class="code highlight bash docutils literal highlight-bash">pip<span class="w"> </span>install<span class="w"> </span>colorama</code></p></td>
+<td><p><code class="code highlight bash docutils literal highlight-bash">conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>anaconda<span class="w"> </span>colorama</code></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference external" href="https://numpy.org/" rel="nofollow noopener">numpy<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://numpy.org/">numpy</a></p></td>
 <td><p>1.19.5</p></td>
-<td><p><code class="code bash docutils literal notranslate">pip install numpy</code></p></td>
-<td><p><code class="code bash docutils literal notranslate">conda install numpy</code></p></td>
+<td><p><code class="code highlight bash docutils literal highlight-bash">pip<span class="w"> </span>install<span class="w"> </span>numpy</code></p></td>
+<td><p><code class="code highlight bash docutils literal highlight-bash">conda<span class="w"> </span>install<span class="w"> </span>numpy</code></p></td>
 </tr>
 </tbody>
 </table>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>This library has been developed with <strong>Python 3.7</strong> and was tested up to <strong>Python 3.10</strong>. We list below the version used during developement for each required dependency.</p>
+<p>This library might still work with older or newer versions of these dependencies.</p>
+</div>
 </section>
 <section id="sed-fitting-codes-installation">
-<h2>SED fitting codes installation<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#sed-fitting-codes-installation">¶</a></h2>
+<h2>SED fitting codes installation<a class="headerlink" href="#sed-fitting-codes-installation" title="Permalink to this heading">#</a></h2>
 <p>Here we provide links and information on how to properly setup the environment of these codes to work properly with this library.</p>
-<section id="id1">
-<h3><a class="reference external" href="https://www.cfht.hawaii.edu/~arnouts/LEPHARE/download.html" rel="nofollow noopener">LePhare<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#id1">¶</a></h3>
-<p>You can download LePhare SED fitting code <a class="reference external" href="https://www.cfht.hawaii.edu/~arnouts/LEPHARE/download.html" rel="nofollow noopener">LePhare<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a> along with other SED libraries. Follow <a class="reference external" href="https://www.cfht.hawaii.edu/~arnouts/LEPHARE/install.html" rel="nofollow noopener">LePhare documentation<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a> to properly install LePhare.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-0">
+Installing <a class="reference external" href="https://cigale.lam.fr/">Cigale</a></label><div class="sd-tab-content docutils">
+<p>You can download the latest version of <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> following <a class="reference external" href="https://cigale.lam.fr/documentation">Cigale documentation</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This library uses by default custom HST filters. These are provided in <code class="file docutils literal notranslate"><span class="pre">additional_files/</span><em><span class="pre">cigale</span></em><span class="pre">/filters</span></code> directory. It is recommended to add them into LePhare filters list in order to run the examples. On Linux and MacOS, this can be done using <code class="file docutils literal notranslate"><span class="pre">additional_files/cigale/</span><em><span class="pre">addFilters.sh</span></em></code> with the command lines</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>additional_files/cigale
+chmod<span class="w"> </span>u+x<span class="w"> </span>addFilters.sh
+./addFilters.sh
+</pre></div>
+</div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-1">
+Installing <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a></label><div class="sd-tab-content docutils">
+<p>You can download LePhare SED fitting code <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> along with other SED libraries. Follow <a class="reference external" href="https://www.cfht.hawaii.edu/~arnouts/LEPHARE/install.html">LePhare documentation</a> to properly install LePhare.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This SED library uses by default Bruzual and Charlot 2003 SSP library. It is recommended to install it along LePhare in order to run the examples.</p>
 </div>
-<p>In order to compile LePhare, you need to have Fortran installed on your machine (e.g. <a class="reference external" href="http://gcc.gnu.org/fortran/" rel="nofollow noopener">gfortran<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>).</p>
+<p>In order to compile LePhare, you need to have Fortran installed on your machine (e.g. <a class="reference external" href="http://gcc.gnu.org/fortran/">gfortran</a>).</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>In order for this python library to work, you must define <strong>two environment variables</strong>:</p>
@@ -175,60 +492,137 @@
 <li><p><strong>LEPHAREDIR</strong> : main LePhare directory</p></li>
 <li><p><strong>LEPHAREWORK</strong> : working LePhare directory</p></li>
 </ul>
-<p>Easiest way is to edit your <code class="code bash docutils literal notranslate">~/.bashrc</code> file in your <code class="code bash docutils literal notranslate"><span class="nv">$HOME</span></code> directory and write:</p>
-<div class="code-wrapper" data-controller="code">
-<div class="code-header">
-<span class="code-lang">bash</span></div>
-<div class="highlight"><pre><code><span class="nb">export</span> <span class="nv">LEPHAREDIR</span><span class="o">=</span>pathtoLEPHAREDIR
-<span class="nb">export</span> <span class="nv">LEPHAREWORK</span><span class="o">=</span>pathtoLEPHAREWOR
-</code></pre></div></div>
+<p>Easiest way is to edit your <code class="code highlight bash docutils literal highlight-bash">~/.bashrc</code> file in your <code class="code highlight bash docutils literal highlight-bash"><span class="nv">$HOME</span></code> directory and write:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">LEPHAREDIR</span><span class="o">=</span>pathtoLEPHAREDIR
+<span class="nb">export</span><span class="w"> </span><span class="nv">LEPHAREWORK</span><span class="o">=</span>pathtoLEPHAREWOR
+</pre></div>
+</div>
 <p>Do not forget to update it once saved</p>
-<div class="code-wrapper" data-controller="code">
-<div class="code-header">
-<span class="code-lang">bash</span></div>
-<div class="highlight"><pre><code>. ~/.bashrc
-</code></pre></div></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.<span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This library uses by default custom HST filters. These are provided in <code class="file docutils literal notranslate">additional_files/<var>lephare</var>/filters</code> directory. It is recommended to add them into LePhare filters list in order to run the examples. On Linux and MacOS, this can be done using <code class="file docutils literal notranslate">additional_files/lephare/<var>addFilters.sh</var></code> with the command lines</p>
-<div class="code-wrapper" data-controller="code">
-<div class="code-header">
-<span class="code-lang">bash</span></div>
-<div class="highlight"><pre><code><span class="nb">cd</span> additional_files/lephare
+<p>This library uses by default custom HST filters. These are provided in <code class="file docutils literal notranslate"><span class="pre">additional_files/</span><em><span class="pre">lephare</span></em><span class="pre">/filters</span></code> directory. It is recommended to add them into LePhare filters list in order to run the examples. On Linux and MacOS, this can be done using <code class="file docutils literal notranslate"><span class="pre">additional_files/lephare/</span><em><span class="pre">addFilters.sh</span></em></code> with the command lines</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>additional_files/lephare
+chmod<span class="w"> </span>u+x<span class="w"> </span>addFilters.sh
 ./addFilters.sh
-</code></pre></div></div>
+</pre></div>
 </div>
-</section>
-<section id="id2">
-<h3><a class="reference external" href="https://gitlab.lam.fr/gyang/cigale/tree/xray" rel="nofollow noopener">Cigale<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#id2">¶</a></h3>
-<p>You can download the latest version of X-Cigale <a class="reference external" href="https://gitlab.lam.fr/gyang/cigale/tree/xray" rel="nofollow noopener">Cigale<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>. Follow <a class="reference external" href="https://cigale.lam.fr/documentation" rel="nofollow noopener">Cigale documentation<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a> to properly install Cigale.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This library uses by default custom HST filters. These are provided in <code class="file docutils literal notranslate">additional_files/<var>cigale</var>/filters</code> directory. It is recommended to add them into LePhare filters list in order to run the examples. On Linux and MacOS, this can be done using <code class="file docutils literal notranslate">additional_files/cigale/<var>addFilters.sh</var></code> with the command lines</p>
-<div class="code-wrapper" data-controller="code">
-<div class="code-header">
-<span class="code-lang">bash</span></div>
-<div class="highlight"><pre><code><span class="nb">cd</span> additional_files/cigale
-./addFilters.sh
-</code></pre></div></div>
+</div>
+</div>
 </div>
 </section>
 </section>
-</section>
-</article>
-<footer>
-<div class="mt-20 mb-4 text-sm text-gray-700">© 2021, Wilfried Mercier Made with <a href="https://www.sphinx-doc.org">Sphinx 4.4.0</a></div>
-</footer></main>
-<button class="fixed bottom-0 right-0 z-20 opacity-0 p-4 m-4 tracking-wide bg-gray-900 text-gray-100 transition transform transform-gpu duration-500 translate-y-full" data-action="search#hideSnackbar" data-search-target="snackbar">
-  Clear highlights
-</button><div class="fixed hidden inset-0 bg-black bg-opacity-50" data-action="click-&gt;sidebar#close" data-sidebar-target="screen">
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Introduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nomenclature.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Nomenclature</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#required-dependencies">Required dependencies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sed-fitting-codes-installation">SED fitting codes installation</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/setup.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
 </div>
-<script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-<script src="_static/jquery.js"></script>
-<script src="_static/underscore.js"></script>
-<script src="_static/doctools.js"></script>
-<script src="_static/theme.3666d2347a4c66e5d7a8.js"></script>
-</body>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2022-2024, Wilfried Mercier.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
 </html>

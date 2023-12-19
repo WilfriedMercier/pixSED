@@ -1,7 +1,7 @@
 Photometry related fonctions
 ============================
 
-.. automodule:: SED.photometry
+.. automodule:: pixSED.photometry
     :members:
     :private-members:
     :show-inheritance:

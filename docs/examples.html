@@ -1,0 +1,897 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Examples &#8212; pixSED</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mycss.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="API/index.html" />
+    <link rel="prev" title="About Poisson noise" href="poisson.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">Support for LePhare is currently deprecated as it relies on the old Fortran version. Please use Cigale instead.</div>
+  </div>
+
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+    
+    <img src="_static/logo1.png" class="logo__image only-light" alt="pixSED documentation - Home"/>
+    <script>document.write(`<img src="_static/logo1.png" class="logo__image only-dark" alt="pixSED documentation - Home"/>`);</script>
+  
+  
+    <p class="title logo__title">pixSED</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="setup.html">
+                        Installation and setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="nomenclature.html">
+                        Nomenclature
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="poisson.html">
+                        About Poisson noise
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="API/index.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/SED" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="setup.html">
+                        Installation and setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="nomenclature.html">
+                        Nomenclature
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="poisson.html">
+                        About Poisson noise
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="API/index.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/SED" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Examples</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h1>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-0">
+Stellar mass map with <a class="reference external" href="https://cigale.lam.fr/">Cigale</a></label><div class="sd-tab-content docutils">
+<p>The goal of this example is to produce a resolved stellar mass map using <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> as backend. First, we start by importing <a class="reference external" href="https://docs.python.org/fr/3/library/os.path.html">os.path</a> module (to deal with paths independently of the OS), this library and <a class="reference external" href="https://docs.astropy.org/en/stable/io/fits/index.html">astropy.io.fits</a> to open the mask file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span>   <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">import</span> <span class="nn">pixSED</span>     <span class="k">as</span>     <span class="nn">SED</span>
+<span class="kn">import</span> <span class="nn">os.path</span>    <span class="k">as</span>     <span class="nn">opath</span>
+</pre></div>
+</div>
+<p>We define the galaxy name which will be used to make a directory, the bands used for the SED fitting, their zeropoints and the absolute paths of the files containing the flux and variance maps.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this example, the variance maps do not include Poisson noise so the code will add it in quadrature. To do so, we also provide the absolute paths of the files containing the flux maps convolved with the square of the PSF.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">galName</span>    <span class="o">=</span> <span class="s1">&#39;1&#39;</span>                                                                <span class="c1"># Galaxy name</span>
+<span class="n">zeropoints</span> <span class="o">=</span> <span class="p">[</span><span class="mf">25.68</span><span class="p">,</span> <span class="mf">26.51</span><span class="p">,</span> <span class="mf">25.69</span><span class="p">,</span> <span class="mf">25.94</span><span class="p">,</span> <span class="mf">24.87</span><span class="p">,</span> <span class="mf">26.27</span><span class="p">,</span> <span class="mf">26.23</span><span class="p">,</span> <span class="mf">26.45</span><span class="p">,</span> <span class="mf">25.94</span><span class="p">]</span>    <span class="c1"># HST zeropoints</span>
+<span class="n">redshift</span>   <span class="o">=</span> <span class="mf">0.622</span>                                                              <span class="c1"># Redshift of the galaxy</span>
+<span class="n">bands</span>      <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;435&#39;</span><span class="p">,</span> <span class="s1">&#39;606&#39;</span><span class="p">,</span> <span class="s1">&#39;775&#39;</span><span class="p">,</span> <span class="s1">&#39;814&#39;</span><span class="p">,</span> <span class="s1">&#39;850&#39;</span><span class="p">,</span> <span class="s1">&#39;105&#39;</span><span class="p">,</span> <span class="s1">&#39;125&#39;</span><span class="p">,</span> <span class="s1">&#39;140&#39;</span><span class="p">,</span> <span class="s1">&#39;160&#39;</span><span class="p">]</span>    <span class="c1"># Band name used in input file names</span>
+<span class="n">band_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;F</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">LP&#39;</span> <span class="k">if</span> <span class="n">band</span> <span class="o">==</span> <span class="s1">&#39;850&#39;</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;F</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">W&#39;</span> <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">]</span> <span class="c1"># Band names in Cigale</span>
+
+<span class="n">dataFiles</span>  <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Flux maps</span>
+<span class="n">data2Files</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Flux maps convolved by the square of the PSF</span>
+<span class="n">varFiles</span>   <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Variance maps</span>
+
+<span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">:</span>
+
+   <span class="n">file</span>    <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">.fits&#39;</span><span class="p">))</span>
+   <span class="n">dataFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+   <span class="n">file2</span>   <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">_PSF2.fits&#39;</span><span class="p">))</span>
+   <span class="n">data2Files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file2</span><span class="p">)</span>
+
+   <span class="n">vfile</span>   <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">_var.fits&#39;</span><span class="p">))</span>
+   <span class="n">varFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We also need to manually open the mask file. It must be an array of <code class="code highlight python docutils literal highlight-python"><span class="kc">True</span></code> and <code class="code highlight python docutils literal highlight-python"><span class="kc">False</span></code> values, with <code class="code highlight python docutils literal highlight-python"><span class="kc">True</span></code> for the pixels to mask.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mfile</span>   <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_mask.fits&#39;</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">mfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdul</span><span class="p">:</span>
+   <span class="n">mask</span> <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Then, we build the <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList" title="pixSED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a>, include Poisson noise to the variance map (by passing <code class="code highlight python docutils literal highlight-python"><span class="n">data2</span></code> and <code class="code highlight python docutils literal highlight-python"><span class="n">texpFac</span></code>) and we convert it to a catalogue.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For <a class="reference external" href="https://cigale.lam.fr/">Cigale</a>, no need to normalise the data. Thus, <code class="code highlight python docutils literal highlight-python"><span class="n">scaleFactor</span></code> will not be used and can be omitted.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">filts</span>      <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">band</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">zpt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bands</span><span class="p">,</span> <span class="n">dataFiles</span><span class="p">,</span> <span class="n">data2Files</span><span class="p">,</span> <span class="n">varFiles</span><span class="p">,</span> <span class="n">zeropoints</span><span class="p">):</span>
+   <span class="n">filts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SED</span><span class="o">.</span><span class="n">Filter</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">zpt</span><span class="p">))</span>
+
+<span class="n">flist</span>      <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">FilterList</span><span class="p">(</span><span class="n">filts</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span>
+                            <span class="n">code</span><span class="o">=</span><span class="n">SED</span><span class="o">.</span><span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span><span class="p">,</span>
+                            <span class="n">redshift</span><span class="o">=</span><span class="n">redshift</span><span class="p">,</span>
+                            <span class="n">cleanMethod</span><span class="o">=</span><span class="n">SED</span><span class="o">.</span><span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span>
+                            <span class="n">texpFac</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                            <span class="c1">#scaleFactor=1</span>
+                           <span class="p">)</span>
+
+<span class="n">catalogue</span>  <span class="o">=</span> <span class="n">flist</span><span class="o">.</span><span class="n">toCatalogue</span><span class="p">(</span><span class="n">galName</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We now have the catalogue. However, we are still missing the SED modules and parameters to start the SED fitting. Any number of modules can be given but <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> requires at least to provide one <a class="reference internal" href="API/misc/cigaleModules/SFH.html#pixSED.misc.cigaleModules.SFHmodule" title="pixSED.misc.cigaleModules.SFHmodule"><code class="xref py py-class docutils literal notranslate"><span class="pre">SFHmodule</span></code></a> and one <a class="reference internal" href="API/misc/cigaleModules/SSP.html#pixSED.misc.cigaleModules.SSPmodule" title="pixSED.misc.cigaleModules.SSPmodule"><code class="xref py py-class docutils literal notranslate"><span class="pre">SSPmodule</span></code></a>. We will use the following modules:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Star formation history module to use</span>
+<span class="n">SFH</span>        <span class="o">=</span> <span class="p">[</span><span class="n">SED</span><span class="o">.</span><span class="n">cigmod</span><span class="o">.</span><span class="n">SFHDELAYEDBQmodule</span><span class="p">(</span><span class="n">tau_main</span>  <span class="o">=</span> <span class="p">[</span><span class="mi">250</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="mi">6000</span><span class="p">,</span> <span class="mi">8000</span><span class="p">],</span>
+                                            <span class="n">age_main</span>  <span class="o">=</span> <span class="p">[</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">7500</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">12500</span><span class="p">],</span>
+                                            <span class="n">age_bq</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span>
+                                            <span class="n">r_sfr</span>     <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
+                                            <span class="n">sfr_A</span>     <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span>
+                                            <span class="n">normalise</span> <span class="o">=</span> <span class="kc">True</span>
+                                           <span class="p">)]</span>
+
+<span class="c1"># Single Stellar population module to use</span>
+<span class="n">SSP</span>        <span class="o">=</span> <span class="p">[</span><span class="n">SED</span><span class="o">.</span><span class="n">cigmod</span><span class="o">.</span><span class="n">BC03module</span><span class="p">(</span><span class="n">imf</span>            <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">IMF</span><span class="o">.</span><span class="n">CHABRIER</span><span class="p">,</span>
+                                    <span class="n">separation_age</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">],</span>
+                                    <span class="n">metallicity</span>    <span class="o">=</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">]</span>
+                               <span class="p">)]</span>
+
+<span class="c1"># Nebular emission module to use</span>
+<span class="n">nebular</span>    <span class="o">=</span> <span class="p">[</span><span class="n">SED</span><span class="o">.</span><span class="n">cigmod</span><span class="o">.</span><span class="n">NEBULARmodule</span><span class="p">(</span><span class="n">logU</span>             <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">2.0</span><span class="p">],</span>
+                                       <span class="n">f_esc</span>            <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span>
+                                       <span class="n">f_dust</span>           <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span>
+                                       <span class="n">lines_width</span>      <span class="o">=</span> <span class="p">[</span><span class="mf">300.0</span><span class="p">],</span>
+                                       <span class="n">include_emission</span> <span class="o">=</span> <span class="kc">True</span>
+                                     <span class="p">)]</span>
+
+<span class="c1"># Dust attenuation module to use</span>
+<span class="n">attenuation</span> <span class="o">=</span> <span class="p">[</span><span class="n">SED</span><span class="o">.</span><span class="n">cigmod</span><span class="o">.</span><span class="n">DUSTATT_POWERLAWmodule</span><span class="p">(</span><span class="n">Av_young</span>           <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">.75</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.25</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.75</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
+                                                 <span class="n">Av_old_factor</span>      <span class="o">=</span> <span class="p">[</span><span class="mf">0.44</span><span class="p">],</span>
+                                                 <span class="n">uv_bump_wavelength</span> <span class="o">=</span> <span class="p">[</span><span class="mf">217.5</span><span class="p">],</span>
+                                                 <span class="n">uv_bump_width</span>      <span class="o">=</span> <span class="p">[</span><span class="mf">35.0</span><span class="p">],</span>
+                                                 <span class="n">uv_bump_amplitude</span>  <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
+                                                 <span class="n">powerlaw_slope</span>     <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.7</span><span class="p">],</span>
+                                                 <span class="n">filters</span>            <span class="o">=</span> <span class="s1">&#39; &amp; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">band_names</span><span class="p">)</span>
+                                                <span class="p">)]</span>
+</pre></div>
+</div>
+<p>With all the modules stored in different variables, we can now build a <a class="reference internal" href="API/sed.html#pixSED.sed.CigaleSED" title="pixSED.sed.CigaleSED"><code class="xref py py-class docutils literal notranslate"><span class="pre">CigaleSED</span></code></a> object. This object will be used to start the SED fitting in the background and recover the output properties to reconstruct a stellar mass map.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sedobj</span> <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">CigaleSED</span><span class="p">(</span><span class="n">galName</span><span class="p">,</span> <span class="n">band_names</span><span class="p">,</span>
+                       <span class="n">uncertainties</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">band_names</span><span class="p">),</span>
+                       <span class="n">SFH</span>           <span class="o">=</span> <span class="n">SFH</span><span class="p">,</span>
+                       <span class="n">SSP</span>           <span class="o">=</span> <span class="n">SSP</span><span class="p">,</span>
+                       <span class="n">nebular</span>       <span class="o">=</span> <span class="n">nebular</span><span class="p">,</span>
+                       <span class="n">attenuation</span>   <span class="o">=</span> <span class="n">attenuation</span><span class="p">,</span>
+                      <span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="code highlight python docutils literal highlight-python"><span class="n">uncertainties</span></code> argument controls for which bands the uncertainty is used during the fit. We give <code class="code highlight python docutils literal highlight-python"><span class="kc">True</span></code> for all the bands since we want to use all the uncertainties. We can now run <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> by providing the catalogue built previously, as well as a list of extra parameters.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">sedobj</span><span class="p">(</span><span class="n">catalogue</span><span class="p">,</span>
+                <span class="n">ncores</span>              <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>           <span class="c1"># Number of threads to use (to be updated)</span>
+                <span class="n">physical_properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>        <span class="c1"># None means all properties will be computed</span>
+                <span class="n">bands</span>               <span class="o">=</span> <span class="n">band_names</span><span class="p">,</span>  <span class="c1"># We estimate the flux for all the bands</span>
+                <span class="n">save_best_sed</span>       <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>       <span class="c1"># Whether to save in output FITS files the best sed</span>
+                <span class="n">save_chi2</span>           <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>       <span class="c1"># Whether to save the chi2 for all models</span>
+                <span class="n">lim_flag</span>            <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">redshift_decimals</span>   <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">blocks</span>              <span class="o">=</span> <span class="mi">1</span>
+               <span class="p">)</span>
+</pre></div>
+</div>
+<p>Once the fit is complete, we can plot the stellar mass map. To do so, we can use the <code class="code highlight python docutils literal highlight-python"><span class="n">output</span></code> variable (of type <a class="reference internal" href="API/outputs.html#pixSED.outputs.CigaleOutput" title="pixSED.outputs.CigaleOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">CigaleOutput</span></code></a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For <a class="reference external" href="https://cigale.lam.fr/">Cigale</a>, we must provide only the shape of the map we want to reconstruct. This can be done either when using the <a class="reference internal" href="API/outputs.html#pixSED.outputs.CigaleOutput.toImage" title="pixSED.outputs.CigaleOutput.toImage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">toImage()</span></code></a> method or by linking the original <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList" title="pixSED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a> object to the <code class="code highlight python docutils literal highlight-python"><span class="n">output</span></code> variable using the <a class="reference internal" href="API/outputs.html#pixSED.outputs.CigaleOutput.link" title="pixSED.outputs.CigaleOutput.link"><code class="xref py py-meth docutils literal notranslate"><span class="pre">link()</span></code></a> method.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span>   <span class="nn">matplotlib</span>        <span class="kn">import</span> <span class="n">rc</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>        <span class="k">as</span>     <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span>     <span class="nn">plt</span>
+
+<span class="n">output</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">flist</span><span class="p">)</span>
+<span class="n">mass_star</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">toImage</span><span class="p">(</span><span class="s1">&#39;best.stellar.m_star&#39;</span><span class="p">)</span>
+
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s1">&#39;family&#39;</span><span class="p">:</span> <span class="s1">&#39;serif&#39;</span><span class="p">,</span> <span class="s1">&#39;serif&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Times&#39;</span><span class="p">]})</span>
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">usetex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.latex.preamble&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\usepackage</span><span class="si">{newtxmath}</span><span class="s1">&#39;</span>
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;figure&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mass_star</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;X [pixel]&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Y [pixel]&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$M_{\star}$ [M$_{\odot}$]&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+example/1/out/results.fits
+</pre></div>
+</div>
+<img alt="_images/examples_0_1.png" src="_images/examples_0_1.png" />
+</div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-1">
+Stellar mass map with <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a></label><div class="sd-tab-content docutils">
+<p>In this example, we want to generate a resolved stellar mass map using <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a>. We start by importing <a class="reference external" href="https://docs.python.org/fr/3/library/os.path.html">os.path</a> module (to deal with paths independently of the OS), this library and <a class="reference external" href="https://docs.astropy.org/en/stable/io/fits/index.html">astropy.io.fits</a> to open the mask file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span>   <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">import</span> <span class="nn">os.path</span>    <span class="k">as</span>     <span class="nn">opath</span>
+<span class="kn">import</span> <span class="nn">pixSED</span>     <span class="k">as</span>     <span class="nn">SED</span>
+</pre></div>
+</div>
+<p>We define the galaxy name, the bands used, their zeropoints and the absolute path of the flux and variance maps.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this example, the variance maps do not include Poisson noise so the code will add it in quadrature. To do so, we also provide the absolute paths of the files containing the flux maps convolved with the square of the PSF.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define data file names</span>
+<span class="n">galName</span>    <span class="o">=</span> <span class="s1">&#39;1&#39;</span>                                                             <span class="c1"># Galaxy number</span>
+<span class="n">zeropoints</span> <span class="o">=</span> <span class="p">[</span><span class="mf">25.68</span><span class="p">,</span> <span class="mf">26.51</span><span class="p">,</span> <span class="mf">25.69</span><span class="p">,</span> <span class="mf">25.94</span><span class="p">,</span> <span class="mf">24.87</span><span class="p">,</span> <span class="mf">26.27</span><span class="p">,</span> <span class="mf">26.23</span><span class="p">,</span> <span class="mf">26.45</span><span class="p">,</span> <span class="mf">25.94</span><span class="p">]</span> <span class="c1"># HST zeropoints</span>
+<span class="n">redshift</span>   <span class="o">=</span> <span class="mf">0.622</span>                                                           <span class="c1"># Redshift of the galaxy</span>
+<span class="n">bands</span>      <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;435&#39;</span><span class="p">,</span> <span class="s1">&#39;606&#39;</span><span class="p">,</span> <span class="s1">&#39;775&#39;</span><span class="p">,</span> <span class="s1">&#39;814&#39;</span><span class="p">,</span> <span class="s1">&#39;850&#39;</span><span class="p">,</span> <span class="s1">&#39;105&#39;</span><span class="p">,</span> <span class="s1">&#39;125&#39;</span><span class="p">,</span> <span class="s1">&#39;140&#39;</span><span class="p">,</span> <span class="s1">&#39;160&#39;</span><span class="p">]</span> <span class="c1"># Bands</span>
+<span class="n">band_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ACS_WFC.F435W&#39;</span><span class="p">,</span> <span class="s1">&#39;ACS_WFC.F606W&#39;</span><span class="p">,</span> <span class="s1">&#39;ACS_WFC.F775W&#39;</span><span class="p">,</span>             <span class="c1"># Names of the band for LePhare</span>
+              <span class="s1">&#39;ACS_WFC.F814W&#39;</span><span class="p">,</span> <span class="s1">&#39;ACS_WFC.F850LP&#39;</span><span class="p">,</span> <span class="s1">&#39;WFC3_IR.F105W&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;WFC3_IR.F125W&#39;</span><span class="p">,</span> <span class="s1">&#39;WFC3_IR.F140W&#39;</span><span class="p">,</span> <span class="s1">&#39;WFC3_IR.F160W&#39;</span><span class="p">]</span>
+
+<span class="n">dataFiles</span>  <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Flux maps</span>
+<span class="n">data2Files</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Flux maps convolved by the PSF squared</span>
+<span class="n">varFiles</span>   <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Variance maps</span>
+
+<span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">:</span>
+
+   <span class="n">file</span>    <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">.fits&#39;</span><span class="p">))</span>
+   <span class="n">dataFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+   <span class="n">file2</span>   <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">_PSF2.fits&#39;</span><span class="p">))</span>
+   <span class="n">data2Files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file2</span><span class="p">)</span>
+
+   <span class="n">vfile</span>   <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">_var.fits&#39;</span><span class="p">))</span>
+   <span class="n">varFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We also need to manually open the mask file. It must be an array of <code class="code highlight python docutils literal highlight-python"><span class="kc">True</span></code> and <code class="code highlight python docutils literal highlight-python"><span class="kc">False</span></code> values, with <code class="code highlight python docutils literal highlight-python"><span class="kc">True</span></code> for pixels to be masked.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mfile</span>      <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_mask.fits&#39;</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">mfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdul</span><span class="p">:</span>
+   <span class="n">mask</span>    <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Then, we build the filter list, update the table to include Poisson noise to the variance map and convert it to a catalogue</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">filts</span>      <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">band</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">zpt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bands</span><span class="p">,</span> <span class="n">dataFiles</span><span class="p">,</span> <span class="n">data2Files</span><span class="p">,</span> <span class="n">varFiles</span><span class="p">,</span> <span class="n">zeropoints</span><span class="p">):</span>
+   <span class="n">filts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SED</span><span class="o">.</span><span class="n">Filter</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">zpt</span><span class="p">))</span>
+
+<span class="n">flist</span>      <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">FilterList</span><span class="p">(</span><span class="n">filts</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">SED</span><span class="o">.</span><span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span><span class="p">,</span> <span class="n">redshift</span><span class="o">=</span><span class="n">redshift</span><span class="p">)</span>
+<span class="n">flist</span><span class="o">.</span><span class="n">genTable</span><span class="p">(</span><span class="n">cleanMethod</span><span class="o">=</span><span class="n">SED</span><span class="o">.</span><span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">scaleFactor</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">texpFac</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">catalogue</span>  <span class="o">=</span> <span class="n">flist</span><span class="o">.</span><span class="n">toCatalogue</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We also need to make a sed object. To do so, we provide a few parameters, namely the filters file names (relative to <code class="file docutils literal notranslate"><em><span class="pre">$LEPHAREDIR</span></em><span class="pre">/filt</span></code> directory) and the quadratic errors added to each filter</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hst_filt</span>   <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Filter names for LePhare</span>
+<span class="n">err</span>        <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Quadratic errors to add to the magnitudes of each band</span>
+
+<span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">band_names</span><span class="p">:</span>
+   <span class="n">filt</span>    <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;hst_perso&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;HST_</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+   <span class="n">hst_filt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filt</span><span class="p">)</span>
+   <span class="n">err</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.03</span><span class="p">)</span>
+
+<span class="n">properties</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;FILTER_LIST&#39;</span> <span class="p">:</span> <span class="n">hst_filt</span><span class="p">,</span> <span class="s1">&#39;ERR_SCALE&#39;</span> <span class="p">:</span> <span class="n">err</span><span class="p">}</span>
+<span class="n">sed</span>        <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">LePhareSED</span><span class="p">(</span><span class="n">galName</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="n">properties</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can now run LePhare linking the data catalogue and providing a list of parameters to extract from the SED fitting</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params</span>     <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MASS_BEST&#39;</span><span class="p">,</span> <span class="s1">&#39;MASS_INF&#39;</span><span class="p">,</span> <span class="s1">&#39;MASS_MED&#39;</span><span class="p">,</span> <span class="s1">&#39;MASS_SUP&#39;</span><span class="p">,</span> <span class="s1">&#39;SFR_BEST&#39;</span><span class="p">,</span> <span class="s1">&#39;SFR_INF&#39;</span><span class="p">,</span> <span class="s1">&#39;SFR_MED&#39;</span><span class="p">,</span> <span class="s1">&#39;SFR_SUP&#39;</span><span class="p">]</span>
+<span class="n">skip</span>       <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;skipSEDgen&#39;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;skipFilterGen&#39;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;skipMagGal&#39;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;skipMagQSO&#39;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;skipMagStar&#39;</span> <span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+<span class="n">output</span>     <span class="o">=</span> <span class="n">sed</span><span class="p">(</span><span class="n">catalogue</span><span class="p">,</span> <span class="n">outputParams</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">skip</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To generate a resolved stellar mass map we need to provide additional parameters. The simplest method is to link the filter list to the output object</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span>   <span class="nn">matplotlib</span>        <span class="kn">import</span> <span class="n">rc</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>        <span class="k">as</span>     <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span>     <span class="nn">plt</span>
+
+<span class="n">output</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">flist</span><span class="p">)</span>
+<span class="n">mass_star</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">toImage</span><span class="p">(</span><span class="s1">&#39;mass_med&#39;</span><span class="p">)</span>
+
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s1">&#39;family&#39;</span><span class="p">:</span> <span class="s1">&#39;serif&#39;</span><span class="p">,</span> <span class="s1">&#39;serif&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Times&#39;</span><span class="p">]})</span>
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">usetex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.latex.preamble&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\usepackage</span><span class="si">{newtxmath}</span><span class="s1">&#39;</span>
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;figure&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mass_star</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;X [pixel]&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Y [pixel]&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$M_{\star}$ [M$_{\odot}$]&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+</pre></div>
+</div>
+<img alt="_images/examples_1_1.png" src="_images/examples_1_1.png" />
+</div>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-2">
+Load a SFR map from an output file from <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a></label><div class="sd-tab-content docutils">
+<p>This example follows from the previous one. Thus, it is assumed that the SED fitting has already been performed with <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> and that there is an associated output file named <code class="file docutils literal notranslate"><span class="pre">example/1/</span><em><span class="pre">1.out</span></em></code>.</p>
+<p>Because fluxes had to be scaled up in order to be processed by <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a>, we will need the mean map, scale factor and exposure time in order to scale back the extensive output properties (including mass and SFR). First, we must start by building the <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList" title="pixSED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a> oject:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span>   <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">import</span> <span class="nn">os.path</span>    <span class="k">as</span>     <span class="nn">opath</span>
+<span class="kn">import</span> <span class="nn">pixSED</span>     <span class="k">as</span>     <span class="nn">SED</span>
+
+<span class="n">galName</span>    <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+<span class="n">zeropoints</span> <span class="o">=</span> <span class="p">[</span><span class="mf">25.68</span><span class="p">,</span> <span class="mf">26.51</span><span class="p">,</span> <span class="mf">25.69</span><span class="p">,</span> <span class="mf">25.94</span><span class="p">,</span> <span class="mf">24.87</span><span class="p">,</span> <span class="mf">26.27</span><span class="p">,</span> <span class="mf">26.23</span><span class="p">,</span> <span class="mf">26.45</span><span class="p">,</span> <span class="mf">25.94</span><span class="p">]</span>
+<span class="n">redshift</span>   <span class="o">=</span> <span class="mf">0.622</span>
+<span class="n">bands</span>      <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;435&#39;</span><span class="p">,</span> <span class="s1">&#39;606&#39;</span><span class="p">,</span> <span class="s1">&#39;775&#39;</span><span class="p">,</span> <span class="s1">&#39;814&#39;</span><span class="p">,</span> <span class="s1">&#39;850&#39;</span><span class="p">,</span> <span class="s1">&#39;105&#39;</span><span class="p">,</span> <span class="s1">&#39;125&#39;</span><span class="p">,</span> <span class="s1">&#39;140&#39;</span><span class="p">,</span> <span class="s1">&#39;160&#39;</span><span class="p">]</span>
+
+<span class="n">dataFiles</span>  <span class="o">=</span> <span class="p">[]</span>
+<span class="n">data2Files</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># flux maps convolved by the square of the PSF</span>
+<span class="n">varFiles</span>   <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="n">bands</span><span class="p">:</span>
+
+   <span class="n">file</span>    <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">.fits&#39;</span><span class="p">))</span>
+   <span class="n">dataFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+   <span class="n">file2</span>   <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">_PSF2.fits&#39;</span><span class="p">))</span>
+   <span class="n">data2Files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file2</span><span class="p">)</span>
+
+   <span class="n">vfile</span>   <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">band</span><span class="si">}</span><span class="s1">_var.fits&#39;</span><span class="p">))</span>
+   <span class="n">varFiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vfile</span><span class="p">)</span>
+
+<span class="n">mfile</span>      <span class="o">=</span> <span class="n">opath</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">opath</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">galName</span><span class="si">}</span><span class="s1">_mask.fits&#39;</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">mfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">hdul</span><span class="p">:</span>
+   <span class="n">mask</span>    <span class="o">=</span> <span class="n">hdul</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="n">filts</span>      <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">band</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">zpt</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">bands</span><span class="p">,</span> <span class="n">dataFiles</span><span class="p">,</span> <span class="n">data2Files</span><span class="p">,</span> <span class="n">varFiles</span><span class="p">,</span> <span class="n">zeropoints</span><span class="p">):</span>
+   <span class="n">filts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sed</span><span class="o">.</span><span class="n">Filter</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">file2</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">zpt</span><span class="p">))</span>
+
+<span class="n">flist</span>      <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">FilterList</span><span class="p">(</span><span class="n">filts</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">SED</span><span class="o">.</span><span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span><span class="p">,</span> <span class="n">redshift</span><span class="o">=</span><span class="n">redshift</span><span class="p">)</span>
+<span class="n">flist</span><span class="o">.</span><span class="n">genTable</span><span class="p">(</span><span class="n">cleanMethod</span><span class="o">=</span><span class="n">SED</span><span class="o">.</span><span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">,</span> <span class="n">scaleFactor</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">texpFac</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList" title="pixSED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a> object now contains all the information required to scale back the data to the right unit. So, we just have to recover the output from LePhare and link the <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList" title="pixSED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a> to this object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">sed</span><span class="o">.</span><span class="n">LePhareOutput</span><span class="p">(</span><span class="s1">&#39;1/1.out&#39;</span><span class="p">)</span>
+<span class="n">output</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">flist</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can now generate a resolved map for the median SFR</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span>   <span class="nn">matplotlib</span>        <span class="kn">import</span> <span class="n">rc</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>        <span class="k">as</span>     <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span>     <span class="nn">plt</span>
+
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s1">&#39;family&#39;</span><span class="p">:</span> <span class="s1">&#39;serif&#39;</span><span class="p">,</span> <span class="s1">&#39;serif&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Times&#39;</span><span class="p">]})</span>
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">usetex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.latex.preamble&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\usepackage</span><span class="si">{newtxmath}</span><span class="s1">&#39;</span>
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;figure&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+
+<span class="n">sfr</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">toImage</span><span class="p">(</span><span class="s1">&#39;sfr_med&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sfr</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;X [pixel]&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Y [pixel]&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;SFR [M$_{\odot}$ yr$^{-1}$]&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+</pre></div>
+</div>
+<img alt="_images/examples_2_1.png" src="_images/examples_2_1.png" />
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="poisson.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">About Poisson noise</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="API/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/examples.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2022-2024, Wilfried Mercier.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

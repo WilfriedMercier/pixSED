@@ -1,7 +1,7 @@
 SED fitting code output classes
 ===============================
 
-.. automodule:: SED.outputs
+.. automodule:: pixSED.outputs
     :members:
     :private-members:
     :show-inheritance:

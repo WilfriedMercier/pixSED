@@ -1,165 +1,983 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
-<head>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta charset="utf-8"/>
-<meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
-<title>Home page | Resolved SED-fitting wrapper 0.5 documentation</title>
-<link href="_static/pygments.css" rel="stylesheet"/>
-<link href="_static/theme.313ea551d1799b2102b1.css" rel="stylesheet"/>
-<link href="_static/plot_directive.css" rel="stylesheet"/>
-<link href="search.html" rel="search" title="Search"/>
-<link href="genindex.html" rel="index" title="Index"/>
-<link href="setup.html" rel="next" title="Installation and setup"/>
-</head>
-<body class="antialiased text-gray">
-<div class="h-screen xl:grid xl:grid-layout" data-action="keydown@window-&gt;search#focus" data-controller="sidebar search" id="page">
-<a class="block text-xl bg-white py-4 z-20 absolute top-0 h-18 inset-x-0 text-center transform -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75" href="#home-page" title="Skip navigation links">Skip to content</a>
-<header class="grid-area-header z-10 h-14 sm:h-18">
-<div class="bg-gray-dark shadow-md flex items-center h-full xl:px-2 relative"><div class="flex items-center">
-<button class="xl:hidden h-14 w-14 sm:h-18 sm:w-18 leading-14 sm:leading-18 text-gray-100 hover:bg-gray-700 hover:text-brand focus:outline-none focus:bg-gray-700 focus:text-brand" data-action="sidebar#open" data-sidebar-target="hamburger">
-<span class="sr-only">Open navigation menu</span>
-<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
-</button><a aria-label="Back to homepage" class="hover:bg-gray-700 focus:bg-gray-700 focus:outline-none tooltipped tooltipped-sw" href="#"><span class="hidden lg:inline-block shrink-0 font-medium text-gray-100 mx-5 leading-14 sm:leading-18 tracking-wider">Resolved SED-fitting wrapper 0.5 documentation</span>
-</a></div><div class="flex justify-end items-center flex-1"><form action="search.html" class="flex print:hidden justify-between items-center leading-14 sm:leading-18 md:ml-4 bg-gray-dark text-gray-300 focus-within:bg-gray-50 focus-within:text-gray-800 focus-within:absolute focus-within:inset-x-0 focus-within:top-0 md:focus-within:w-full md:focus-within:static" data-action="click-&gt;search#focusSearchInput" id="searchbox" method="get">
-<button aria-label="Get search results" class="text-inherit h-14 w-14 sm:h-18 sm:w-18" tabindex="-1">
-<svg aria-hidden="true" class="fill-current stroke-current h-8 w-8" stroke-width="0.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-</button>
-<input aria-label="Search the docs" class="pr-2 bg-transparent text-inherit focus:outline-none w-0 md:w-auto focus:w-full transition-all duration-100" data-search-target="searchInput" id="search-input" name="q" placeholder="Search the docs" type="search"/>
-</form><div class="shrink-0"><a class="h-14 sm:h-18 inline-block leading-14 sm:leading-18 text-gray-100 bg-transparent tracking-wide font-medium hover:text-brand focus:bg-gray-700 focus:outline-none hover:no-underline focus:text-brand px-4" href="https%3A//github.com/WilfriedMercier/SED.html">GitHub</a></div></div>
-</div>
-</header>
-<aside class="grid-area-sidebar h-full fixed xl:relative inset-y-0 left-0 z-20 xl:z-0 print:hidden overflow-y-auto transition-all transform transform-gpu -translate-x-full opacity-0 duration-300 xl:translate-x-0 xl:opacity-100" data-sidebar-target="sidebar">
-<nav class="h-full overflow-y-auto bg-white text-gray-600 pt-8 flex flex-col" role="navigation">
-<div class="nav-toc flex-1 pl-6"><ul>
-<li class="toctree-l1"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="setup.html">Installation and setup</a></div><ul>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="setup.html#required-dependencies">Required dependencies</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></div><ul>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="setup.html#id1">LePhare</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="setup.html#id2">Cigale</a></div></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li class="toctree-l1"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html">Tutorial introduction</a></div><ul>
-<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html">LePhare</a></div><ul>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate">Filter</code> and <code class="xref py py-class docutils literal notranslate">FilterList</code> objects</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html#step-2-generate-a-lepharecat-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate">LePhareCat</code> object</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html#step-3-create-a-lepharesed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate">LePhareSED</code> object</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html#step-4-bis-extract-output-data-from-output-file">Step 4-bis: Extract output data from output file</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/lephare.html#step-5-generate-a-resolved-map">Step 5: Generate a resolved map</a></div></li>
-</ul>
-</li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/cigale.html">Cigale</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#nomenclature">Nomenclature</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#pre-processing-step">Pre-processing step</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate">Filter</code> and <code class="xref py py-class docutils literal notranslate">FilterList</code> objects</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate">Catalogue</code> object</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate">SED</code> object</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="tutorial/index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></div></li>
-</ul>
-</li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="examples/example1.html">1. Resolved stellar mass map with LePhare</a></div></li>
-<li class="toctree-l1"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="examples/example2.html">2. Resolved SFR map from an already existing LePhare output file</a></div></li>
-<li class="toctree-l1"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="examples/example3.html">3. Resolved stellar mass map with Cigale</a></div></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">―――――――――――――――</span></p>
-<ul>
-<li class="toctree-l1"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/index.html">API</a></div><ul>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/catalogues.html">Catalogue classes</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/filters.html">Filter classes</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/misc/index.html">Miscellaneous</a></div><ul>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/misc/enum.html">Enumeration classes</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/misc/misc.html">Miscellaneous classes and functions</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/misc/properties.html">Property classes</a></div></li>
-</ul>
-</li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/outputs.html">SED fitting code output classes</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/photometry.html">Photometry related fonctions</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="API/sed.html">SED classes</a></div></li>
-</ul>
-</li>
-</ul>
-</div>
-<button class="text-4xl text-gray-800 p-4 bottom-0 hover:text-brand xl:hidden focus:text-brand self-center" data-action="" title="Close navigation menu">
-<span class="sr-only">Close navigation menu</span>
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
-</button>
-</nav>
-</aside>
-<main class="px-10 xl:ml-fluid grid-area-main overflow-y-auto flex flex-col h-full mx-0 md:mx-auto xl:mr-0" data-action="scroll-&gt;scroll#showButton" data-controller="scroll"><article class="flex-1" role="main">
-<section id="home-page">
-<h1>Home page<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#home-page">¶</a></h1>
-<p>This library provides an easy way to generate resolved SED-based parameters maps.</p>
-<section id="first-steps">
-<h2>First steps<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#first-steps">¶</a></h2>
-<p>Follow the links below to setup this library for the first time and install the SED fitting codes.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Installation and setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#required-dependencies">Required dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</section>
-<section id="tutorial">
-<h2>Tutorial<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#tutorial">¶</a></h2>
-<p>To understand how to use this library and how it is built, go to</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">Tutorial introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/lephare.html">LePhare</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/cigale.html">Cigale</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#nomenclature">Nomenclature</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#pre-processing-step">Pre-processing step</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate">Filter</code> and <code class="xref py py-class docutils literal notranslate">FilterList</code> objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate">Catalogue</code> object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate">SED</code> object</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</section>
-<section id="examples">
-<h2>Examples<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#examples">¶</a></h2>
-<p>We provide a few complete code examples below using the galaxy given in the <code class="code docutils literal notranslate">example</code> directory.</p>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/example1.html">1. Resolved stellar mass map with LePhare</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/example2.html">2. Resolved SFR map from an already existing LePhare output file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/example3.html">3. Resolved stellar mass map with Cigale</a></li>
-</ul>
+
+<html lang="en" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Introduction &#8212; pixSED</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mycss.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="_static/design-tabs.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation and setup" href="setup.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">Support for LePhare is currently deprecated as it relies on the old Fortran version. Please use Cigale instead.</div>
+  </div>
+
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+    
+    
+    
+    <img src="_static/logo1.png" class="logo__image only-light" alt="pixSED documentation - Home"/>
+    <script>document.write(`<img src="_static/logo1.png" class="logo__image only-dark" alt="pixSED documentation - Home"/>`);</script>
+  
+  
+    <p class="title logo__title">pixSED</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="setup.html">
+                        Installation and setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="nomenclature.html">
+                        Nomenclature
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="poisson.html">
+                        About Poisson noise
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="API/index.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/SED" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
 
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="setup.html">
+                        Installation and setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="nomenclature.html">
+                        Nomenclature
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="poisson.html">
+                        About Poisson noise
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="API/index.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/SED" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="toctree-wrapper compound">
+</div>
+<section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
+<p>This library provides an interface that allows to <strong>seamlessly perform resolved/pixel-per-pixel SED fitting</strong> using either <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> or <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> as backend. Thus, this code is not a new SED fitting package but instead relies on pre-installed SED fitting codes. It does however</p>
+<ol class="arabic simple">
+<li><p>significantly simplify the procedure to obtain spatially resolved maps of physical parameters (e.g. stellar mass) and</p></li>
+<li><p>retain the full flexibility of the underlying SED fitting codes to potentially perform complex modellings.</p></li>
+</ol>
+<p>For information on how to install the code and the SED backends, check the <a class="reference internal" href="setup.html"><span class="doc">Setup page</span></a>. The general workflow to perform resolved SED fitting with this library is as follows:</p>
+<ul class="simple">
+<li><p>For each band, load data into a <a class="reference internal" href="API/filters.html#pixSED.filters.Filter" title="pixSED.filters.Filter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code></a> object and then combine thoses objects together, along with shared information, into a single <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList" title="pixSED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a> object.</p></li>
+<li><p>Choose the SED fitting code backend.</p></li>
+<li><p>Transform this <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList" title="pixSED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a> object into a <a class="reference internal" href="API/catalogues.html#pixSED.catalogues.Catalogue" title="pixSED.catalogues.Catalogue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code></a> object. This new object will be used by this library to automatically parse the input data into a catalogue with the right format for the selected SED fitting code.</p></li>
+<li><p>Create a <a class="reference internal" href="API/sed.html#pixSED.sed.SED" title="pixSED.sed.SED"><code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code></a> object. Each backend has its own parameters that are specific to the selected SED fitting code. This object contains the SED models and parameters used during the fit.</p></li>
+<li><p>Run the SED fitting and recover an <a class="reference internal" href="API/outputs.html#pixSED.outputs.Output" title="pixSED.outputs.Output"><code class="xref py py-class docutils literal notranslate"><span class="pre">Output</span></code></a> object which contains the output data, as well as methods to reconstruct the spatially resolved maps.</p></li>
+<li><p>Plot the resulting resolved map.</p></li>
+<li><p>Optionally, if the SED fitting was performed previously, load the output data into an <a class="reference internal" href="API/outputs.html#pixSED.outputs.Output" title="pixSED.outputs.Output"><code class="xref py py-class docutils literal notranslate"><span class="pre">Output</span></code></a> object before plotting the results.</p></li>
+</ul>
 </section>
+<section id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this heading">#</a></h1>
+<p>Below we provide a step-by-step tutorial with both <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> and <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> as backend.</p>
+<section id="pre-processing">
+<h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Permalink to this heading">#</a></h2>
+<p>Independently of the backend used, a few assumptions are always made by the code when starting pixel-per-pixel SED fitting. Namely:</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3 sd-fade-in-slide-down">
+<summary class="sd-summary-title sd-card-header">
+The code is run on a single galaxy at a single redshift<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">To run the code on multiple galaxies, the only option that is currently available is to loop on those galaxies and perform resolved SED fitting onto them one by one.</p>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3 sd-fade-in-slide-down">
+<summary class="sd-summary-title sd-card-header">
+Data and variance maps are available in all bands<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Data and variance maps are <strong>mandatory</strong>. The variance map can exclude Poisson noise contribution, in which case the code will add it in quadrature if the relevant parameters are provided. Optionally, a mask/segmentation map can be provided to accelerate the fit by only fitting relevant pixels.</p>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3 sd-fade-in-slide-down">
+<summary class="sd-summary-title sd-card-header">
+Data, variance, and mask maps all have the same shape, WCS, pixel scale, and spatial resolution<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">The code will not perform any re-centering, frame rotation, pixel scale or resolution matching between bands. <strong>These steps must be manually performed beforehand</strong>.</p>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3 sd-fade-in-slide-down">
+<summary class="sd-summary-title sd-card-header">
+Spatial resolution is sufficiently high (i.e. small PSF) to fit each pixel separately<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">The code fits pixels one by one. In practice, the smearing of the PSF should be taken into account by fitting all pixels at once but this is not supported by any backend SED fitting code at the moment.</p>
+</div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3 sd-fade-in-slide-down">
+<summary class="sd-summary-title sd-card-header">
+Images can be parsed to <span class="math notranslate nohighlight">\(\,\rm erg\,s^{-1}\,Hz^{-1}\,cm^{-2}\)</span><div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">The backend SED fitting codes are designed to handle flux density units. So the images should have a corresponding zeropoint that allows to perform such a conversion. Variance maps should be parsable to <span class="math notranslate nohighlight">\(\,\rm erg^2\,s^{-2}\,Hz^{-2}\,cm^{-4}\)</span>.</p>
+</div>
+</details></section>
+<section id="loading-data">
+<h2>Loading data<a class="headerlink" href="#loading-data" title="Permalink to this heading">#</a></h2>
+<section id="creating-filter-objects">
+<h3>Creating <a class="reference internal" href="API/filters.html#pixSED.filters.Filter" title="pixSED.filters.Filter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code></a> objects<a class="headerlink" href="#creating-filter-objects" title="Permalink to this heading">#</a></h3>
+<p>Whatever the backend, the first step is to load the data. To do so, two classes must be used: <a class="reference internal" href="API/filters.html#pixSED.filters.Filter" title="pixSED.filters.Filter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code></a> and <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList" title="pixSED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a>. First, we start by creating one <a class="reference internal" href="API/filters.html#pixSED.filters.Filter" title="pixSED.filters.Filter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code></a> per band we want to fit:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pixSED</span> <span class="k">as</span> <span class="nn">SED</span>
+
+<span class="n">filt_435w</span> <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">Filter</span><span class="p">(</span><span class="s1">&#39;F435W&#39;</span><span class="p">,</span> <span class="s1">&#39;data_F435W.fits&#39;</span><span class="p">,</span> <span class="s1">&#39;var_F435W.fits&#39;</span><span class="p">,</span> <span class="mf">25.68</span><span class="p">,</span> <span class="n">file2</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, we consider the HST F435W band with the data stored in the file <code class="file docutils literal notranslate"><span class="pre">data_F435W.fits</span></code> and the variance map in the file <code class="file docutils literal notranslate"><span class="pre">var_F435W.fits</span></code>. In this example, the data are in units of <span class="math notranslate nohighlight">\(\rm e^{-}\,s^{-1}\)</span> and the zeropoint <span class="math notranslate nohighlight">\({\rm zpt} = 25.68\)</span> allows to convert the data to <span class="math notranslate nohighlight">\(\rm erg\,s^{-1}\,Hz^{-1}\,cm^{-2}\)</span> and the variance map to <span class="math notranslate nohighlight">\(\,\rm erg^2\,s^{-2}\,Hz^{-2}\,cm^{-4}\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The keyword argument <code class="code highlight python docutils literal highlight-python"><span class="n">file2</span></code> is optional and allows the user to provide a FITS file name that contains the data image squared. This image is used to compute the Poisson noise contribution if it is not already present in the given variance map.</p>
+<p><strong>To not add Poisson noise to the variance map, please use</strong> <code class="code highlight python docutils literal highlight-python"><span class="n">file2</span> <span class="o">=</span> <span class="kc">None</span></code>.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The input data can be given in any unit as long as the zeropoint allows to convert them to <span class="math notranslate nohighlight">\(\rm erg\,s^{-1}\,Hz^{-1}\,cm^{-2}\)</span>. The formal definition used by the code for the conversion is as follows:</p>
+<div class="math notranslate nohighlight">
+\[d_{\rm conv} = d_{\rm original} \times 10^{-({\rm zpt} + 48.6) / 2.5},\]</div>
+<p>where <span class="math notranslate nohighlight">\(d_{\rm conv}\)</span> is the data image converted to <span class="math notranslate nohighlight">\(\rm erg\,s^{-1}\,Hz^{-1}\,cm^{-2}\)</span>, <span class="math notranslate nohighlight">\(d_{\rm original}\)</span> is the original image given by the user, and <span class="math notranslate nohighlight">\(\rm zpt\)</span> is the zeropoint given by the user. The same zeropoint will be used to convert the variance map.</p>
+<p>Thus, <strong>the unit of the variance map must always be the square of the unit of the data image</strong>.</p>
+</div>
 </section>
-</article>
-<footer>
-<div class="mt-20 mb-4 text-sm text-gray-700">© 2021, Wilfried Mercier Made with <a href="https://www.sphinx-doc.org">Sphinx 4.4.0</a></div>
-</footer></main>
-<button class="fixed bottom-0 right-0 z-20 opacity-0 p-4 m-4 tracking-wide bg-gray-900 text-gray-100 transition transform transform-gpu duration-500 translate-y-full" data-action="search#hideSnackbar" data-search-target="snackbar">
-  Clear highlights
-</button><div class="fixed hidden inset-0 bg-black bg-opacity-50" data-action="click-&gt;sidebar#close" data-sidebar-target="screen">
+<section id="combining-filter-objects-into-a-filterlist">
+<span id="referencetofilterlist"></span><h3>Combining <a class="reference internal" href="API/filters.html#pixSED.filters.Filter" title="pixSED.filters.Filter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code></a> objects into a <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList" title="pixSED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a><a class="headerlink" href="#combining-filter-objects-into-a-filterlist" title="Permalink to this heading">#</a></h3>
+<p>Assuming, we have created the following HST filters <code class="code highlight python docutils literal highlight-python"><span class="n">filt_435w</span><span class="p">,</span> <span class="n">filt_606w</span><span class="p">,</span> <span class="n">filt_775w</span></code> as above, we can now combine them into a single <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList" title="pixSED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a> object.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-0">
+Using <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> as backend</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">flist</span> <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">FilterList</span><span class="p">([</span><span class="n">filt_435w</span><span class="p">,</span> <span class="n">filt_606w</span><span class="p">,</span> <span class="n">filt_775w</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">code</span>     <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">SEDcode</span><span class="o">.</span><span class="n">CIGALE</span><span class="p">,</span>
+                       <span class="n">redshift</span> <span class="o">=</span> <span class="mf">1.1</span>
+                      <span class="p">)</span>
+</pre></div>
+</div>
+<p>where the first argument is the list of <a class="reference internal" href="API/filters.html#pixSED.filters.Filter" title="pixSED.filters.Filter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code></a> objects, the second argument is a boolean mask (of type <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html">ndarray</a>) with the same shape as the input data that must contain <code class="code highlight python docutils literal highlight-python"><span class="kc">True</span></code> for bad pixels to mask and <code class="code highlight python docutils literal highlight-python"><span class="kc">False</span></code> for good pixels to fit. If <code class="code highlight python docutils literal highlight-python"><span class="kc">None</span></code>, no mask is applied (i.e. all pixels in the image are fitted).</p>
+<p>The <code class="code highlight python docutils literal highlight-python"><span class="n">redshift</span></code> keyword argument will be the same for all pixels.</p>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-1">
+Using <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> as backend</label><div class="sd-tab-content docutils">
+<p>Contrary to <a class="reference external" href="https://cigale.lam.fr/">Cigale</a>, <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> does not properly handle low fluxes. Thus, the data and the variance map must be scaled up before running the SED fitting and the extensive output properties from <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> will have to be scaled down afterwards. The code can handle that automatically with an additional keyword:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">flist</span> <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">FilterList</span><span class="p">([</span><span class="n">filt_435w</span><span class="p">,</span> <span class="n">filt_606w</span><span class="p">,</span> <span class="n">filt_775w</span><span class="p">],</span>
+                       <span class="n">code</span>        <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span><span class="p">,</span>
+                       <span class="n">redshift</span>    <span class="o">=</span> <span class="mf">1.1</span><span class="p">,</span>
+                       <span class="n">scaleFactor</span> <span class="o">=</span> <span class="mi">100</span>
+                      <span class="p">)</span>
+</pre></div>
+</div>
+<p>where the first argument is the list of <a class="reference internal" href="API/filters.html#pixSED.filters.Filter" title="pixSED.filters.Filter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code></a> objects, the second argument is a boolean mask (of type <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html">ndarray</a>) with the same shape as the input data that must contain <code class="code highlight python docutils literal highlight-python"><span class="kc">True</span></code> for bad pixels to mask and <code class="code highlight python docutils literal highlight-python"><span class="kc">False</span></code> for good pixels to fit. If <code class="code highlight python docutils literal highlight-python"><span class="kc">None</span></code>, no mask is applied (i.e. all pixels in the image are fitted).</p>
+<p>The <code class="code highlight python docutils literal highlight-python"><span class="n">redshift</span></code> keyword argument will be the same for all pixels.</p>
+<p>In the example above, the data and its standard deviation will be first normalised and then scaled up by a factor of 100.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In practice, the data are normalised as follows:</p>
+<ul class="simple">
+<li><p>a mean map is computed. This map is the average for each pixel along the spectral dimension.</p></li>
+<li><p>the data in each band is normalised by the mean map</p></li>
+<li><p>the normalised data are scaled up by the value of <code class="code highlight python docutils literal highlight-python"><span class="n">scaleFactor</span></code></p></li>
+</ul>
 </div>
 </div>
-<script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-<script src="_static/jquery.js"></script>
-<script src="_static/underscore.js"></script>
-<script src="_static/doctools.js"></script>
-<script src="_static/theme.3666d2347a4c66e5d7a8.js"></script>
-</body>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The keyword argument <code class="code highlight python docutils literal highlight-python"><span class="n">scaleFactor</span></code> will only be used if the SED fitting code is <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a>.</p>
+</div>
+<p>When the  <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList" title="pixSED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a> object is created, the <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList.setCode" title="pixSED.filters.FilterList.setCode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setCode()</span></code></a> method is automatically called with the given SED fitting code. This creates an intermediate <a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table">Astropy Table</a> where the input data are stored. This table will then have to be converted into a <a class="reference internal" href="API/catalogues.html#pixSED.catalogues.Catalogue" title="pixSED.catalogues.Catalogue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code></a> afterwards (see <a class="reference internal" href="#referencetocatalogue"><span class="std std-ref">here</span></a>).</p>
+</section>
+<section id="optional-adding-poisson-noise-in-quadrature">
+<h3>(Optional) Adding Poisson noise in quadrature<a class="headerlink" href="#optional-adding-poisson-noise-in-quadrature" title="Permalink to this heading">#</a></h3>
+<p>Some error maps (or related data products such as HST weight maps) do not contain Poisson noise, in which case it should be added in quadrature. This code can handle that automatically with a few important details to keep in mind.</p>
+<p>In practice, for Poisson noise to be added, the <code class="code highlight python docutils literal highlight-python"><span class="n">file2</span></code> keyword argument sould be provided to the relevant <a class="reference internal" href="API/filters.html#pixSED.filters.Filter" title="pixSED.filters.Filter"><code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code></a> objects. This keyword must be the name of a FITS file containing the input data convolved by the square of the PSF.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When loading the data, the code will look for the exposure time in the FITS header keyword <code class="code highlight python docutils literal highlight-python"><span class="s1">&#39;TEXPTIME&#39;</span></code>. If not found, a value of 1 will be assumed.</p>
+</div>
+<p>When the methods <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList.setCode" title="pixSED.filters.FilterList.setCode"><code class="xref py py-meth docutils literal notranslate"><span class="pre">setCode()</span></code></a> or <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList.genTable" title="pixSED.filters.FilterList.genTable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">genTable()</span></code></a> are called (either automatically or by the user), it is possible to pass an extra argument to divide the value of the exposure time:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">flist</span><span class="o">.</span><span class="n">genTable</span><span class="p">(</span><span class="n">texpFac</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example, the exposure time will be divided by a factor of 10 when computing the Poisson noise contribution to the total variance. If <code class="code highlight python docutils literal highlight-python"><span class="n">texpFac</span></code> is equal to 0, no Poisson noise will be added.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The user interested in adding Poisson noise to some of their variance maps is encouraged to read attentively this <a class="reference internal" href="poisson.html"><span class="doc">page</span></a>.</p>
+</div>
+</section>
+<section id="optional-recovering-and-updating-the-intermediate-table">
+<h3>(Optional) Recovering and updating the intermediate table<a class="headerlink" href="#optional-recovering-and-updating-the-intermediate-table" title="Permalink to this heading">#</a></h3>
+<p>The interested user can recover the intermediate <a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table">Astropy Table</a> as follows</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">table</span> <span class="o">=</span> <span class="n">flist</span><span class="o">.</span><span class="n">table</span>
+</pre></div>
+</div>
+<p>Furthermore, the values in this table can be updated using the <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList.genTable" title="pixSED.filters.FilterList.genTable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">genTable()</span></code></a> method. For instance to scale up the fluxes and uncertainties by a factor 100, one can do</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">flist</span><span class="o">.</span><span class="n">genTable</span><span class="p">(</span><span class="n">scaleFactor</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Similarly, to change the bad pixel cleaning method, one can do</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">flist</span><span class="o">.</span><span class="n">genTable</span><span class="p">(</span><span class="n">cleanMethod</span><span class="o">=</span><span class="n">SED</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">enum</span><span class="o">.</span><span class="n">CleanMethod</span><span class="o">.</span><span class="n">ZERO</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The code automatically cleans bad pixels which are identified as having either a negative flux or a negative variance. Two cleaning methods are proposed:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="API/misc/enum.html#pixSED.misc.enum.CleanMethod.ZERO" title="pixSED.misc.enum.CleanMethod.ZERO"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pixSED.misc.enum.CleanMethod.ZERO</span></code></a> which replaces bad pixels by a flux equal to 0 and</p></li>
+<li><p><a class="reference internal" href="API/misc/enum.html#pixSED.misc.enum.CleanMethod.MIN" title="pixSED.misc.enum.CleanMethod.MIN"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pixSED.misc.enum.CleanMethod.MIN</span></code></a> which replaces bad pixels with the minimum value in the masked image.</p></li>
+</ul>
+</div>
+<p>There is also the possibility to update the SED fitting code backend as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">flist</span><span class="o">.</span><span class="n">setCode</span><span class="p">(</span><span class="n">SED</span><span class="o">.</span><span class="n">SEDcode</span><span class="o">.</span><span class="n">LEPHARE</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="generate-a-catalogue-object">
+<span id="referencetocatalogue"></span><h2>Generate a <a class="reference internal" href="API/catalogues.html#pixSED.catalogues.Catalogue" title="pixSED.catalogues.Catalogue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code></a> object<a class="headerlink" href="#generate-a-catalogue-object" title="Permalink to this heading">#</a></h2>
+<p>Because each SED fitting code expects the input data to be parsed to different formats, each code as its own <a class="reference internal" href="API/catalogues.html#pixSED.catalogues.Catalogue" title="pixSED.catalogues.Catalogue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code></a> object that manages this parsing automatically. In each case, the catalogue creation is done as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">catalogue</span>  <span class="o">=</span> <span class="n">flist</span><span class="o">.</span><span class="n">toCatalogue</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where the first argument corresponds to the name of the output file (without extension) that will contain the catalogue used by the SED fitting code. For <a class="reference external" href="https://cigale.lam.fr/">Cigale</a>, this will create a <a class="reference internal" href="API/catalogues.html#pixSED.catalogues.CigaleCat" title="pixSED.catalogues.CigaleCat"><code class="xref py py-class docutils literal notranslate"><span class="pre">CigaleCat</span></code></a> object, whereas for <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> this will create a <a class="reference internal" href="API/catalogues.html#pixSED.catalogues.LePhareCat" title="pixSED.catalogues.LePhareCat"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareCat</span></code></a> object.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a>, other parameters can be given. Please refer to <a class="reference internal" href="API/catalogues.html#pixSED.catalogues.LePhareCat" title="pixSED.catalogues.LePhareCat"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareCat</span></code></a> init method for further details.</p>
+</div>
+</section>
+<section id="create-a-sed-object">
+<h2>Create a <a class="reference internal" href="API/sed.html#pixSED.sed.SED" title="pixSED.sed.SED"><code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code></a> object<a class="headerlink" href="#create-a-sed-object" title="Permalink to this heading">#</a></h2>
+<p>After creating the catalogue that will contain the input data, we need to initialise the parameters of the SED fitting code along with specifying the models used for the SED fitting. <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> and <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> have different models and ways to handle them, so each has its own <a class="reference internal" href="API/sed.html#pixSED.sed.SED" title="pixSED.sed.SED"><code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code></a> object to initialise:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-2">
+Using <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> as backend</label><div class="sd-tab-content docutils">
+<p><a class="reference external" href="https://cigale.lam.fr/">Cigale</a> works with modules that can be combined together. This includes modules such as star formation histories, single stellar populations, dust attenuation, dust emission, etc. The full list of modules that are supported by this library are listed <a class="reference internal" href="API/misc/cigaleModules/index.html"><span class="doc">here</span></a>.</p>
+<p>In this example, let us define a star-formation history, single stellar population, nebular emission, and dust attenuation as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Star formation history module to use</span>
+<span class="n">SFH</span>        <span class="o">=</span> <span class="p">[</span><span class="n">SED</span><span class="o">.</span><span class="n">cigmod</span><span class="o">.</span><span class="n">SFHDELAYEDBQmodule</span><span class="p">(</span><span class="n">tau_main</span>  <span class="o">=</span> <span class="p">[</span><span class="mi">250</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">,</span> <span class="mi">6000</span><span class="p">,</span> <span class="mi">8000</span><span class="p">],</span>
+                                            <span class="n">age_main</span>  <span class="o">=</span> <span class="p">[</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">7500</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">12500</span><span class="p">],</span>
+                                            <span class="n">age_bq</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span>
+                                            <span class="n">r_sfr</span>     <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">],</span>
+                                            <span class="n">sfr_A</span>     <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span>
+                                            <span class="n">normalise</span> <span class="o">=</span> <span class="kc">True</span>
+                                           <span class="p">)]</span>
+
+<span class="c1"># Single Stellar population module to use</span>
+<span class="n">SSP</span>        <span class="o">=</span> <span class="p">[</span><span class="n">SED</span><span class="o">.</span><span class="n">cigmod</span><span class="o">.</span><span class="n">BC03module</span><span class="p">(</span><span class="n">imf</span>            <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">IMF</span><span class="o">.</span><span class="n">CHABRIER</span><span class="p">,</span>
+                                    <span class="n">separation_age</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">],</span>
+                                    <span class="n">metallicity</span>    <span class="o">=</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">]</span>
+                               <span class="p">)]</span>
+
+<span class="c1"># Nebular emission module to use</span>
+<span class="n">nebular</span>    <span class="o">=</span> <span class="p">[</span><span class="n">SED</span><span class="o">.</span><span class="n">cigmod</span><span class="o">.</span><span class="n">NEBULARmodule</span><span class="p">(</span><span class="n">logU</span>             <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">2.0</span><span class="p">],</span>
+                                       <span class="n">f_esc</span>            <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span>
+                                       <span class="n">f_dust</span>           <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span>
+                                       <span class="n">lines_width</span>      <span class="o">=</span> <span class="p">[</span><span class="mf">300.0</span><span class="p">],</span>
+                                       <span class="n">include_emission</span> <span class="o">=</span> <span class="kc">True</span>
+                                     <span class="p">)]</span>
+
+<span class="c1"># Dust attenuation module to use</span>
+<span class="n">attenuation</span> <span class="o">=</span> <span class="p">[</span><span class="n">SED</span><span class="o">.</span><span class="n">cigmod</span><span class="o">.</span><span class="n">DUSTATT_POWERLAWmodule</span><span class="p">(</span><span class="n">Av_young</span>           <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">.75</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.25</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">2.75</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
+                                                 <span class="n">Av_old_factor</span>      <span class="o">=</span> <span class="p">[</span><span class="mf">0.44</span><span class="p">],</span>
+                                                 <span class="n">uv_bump_wavelength</span> <span class="o">=</span> <span class="p">[</span><span class="mf">217.5</span><span class="p">],</span>
+                                                 <span class="n">uv_bump_width</span>      <span class="o">=</span> <span class="p">[</span><span class="mf">35.0</span><span class="p">],</span>
+                                                 <span class="n">uv_bump_amplitude</span>  <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
+                                                 <span class="n">powerlaw_slope</span>     <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.7</span><span class="p">],</span>
+                                                 <span class="n">filters</span>            <span class="o">=</span> <span class="s1">&#39; &amp; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">band_names</span><span class="p">)</span>
+                                                <span class="p">)]</span>
+</pre></div>
+</div>
+<p>Then, we can initialise the <a class="reference internal" href="API/sed.html#pixSED.sed.CigaleSED" title="pixSED.sed.CigaleSED"><code class="xref py py-class docutils literal notranslate"><span class="pre">CigaleSED</span></code></a> object as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sedobj</span> <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">CigaleSED</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;F435W&#39;</span><span class="p">,</span> <span class="s1">&#39;F606W&#39;</span><span class="p">,</span> <span class="s1">&#39;F775W&#39;</span><span class="p">],</span>
+                       <span class="n">uncertainties</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">band_names</span><span class="p">),</span>
+                       <span class="n">SFH</span>           <span class="o">=</span> <span class="n">SFH</span><span class="p">,</span>
+                       <span class="n">SSP</span>           <span class="o">=</span> <span class="n">SSP</span><span class="p">,</span>
+                       <span class="n">nebular</span>       <span class="o">=</span> <span class="n">nebular</span><span class="p">,</span>
+                       <span class="n">attenuation</span>   <span class="o">=</span> <span class="n">attenuation</span><span class="p">,</span>
+                      <span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="code highlight python docutils literal highlight-python"><span class="s1">&#39;example&#39;</span></code> is the name of the directory within which the output files will be stored, <code class="code highlight python docutils literal highlight-python"><span class="p">[</span><span class="s1">&#39;F435W&#39;</span><span class="p">,</span> <span class="s1">&#39;F606W&#39;</span><span class="p">,</span> <span class="s1">&#39;F775W&#39;</span><span class="p">]</span></code> is the list of filters to use for the SED fitting. The argument <code class="code highlight python docutils literal highlight-python"><span class="n">uncertainties</span></code> can be used to define for which filters the uncertainties should be used in the fit.</p>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-3">
+Using <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> as backend</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">prop</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;FILTER_LIST&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;HST_ACS_WFC.F435W&#39;</span><span class="p">,</span> <span class="s1">&#39;HST_ACS_WFC.F606W&#39;</span><span class="p">,</span> <span class="s1">&#39;HST_ACS_WFC.F775W&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;ERR_SCALE&#39;</span>   <span class="p">:</span> <span class="p">[</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">]</span>
+       <span class="p">}</span>
+
+<span class="n">sed</span>  <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">LePhareSED</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">,</span> <span class="n">properties</span><span class="o">=</span><span class="n">prop</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="code highlight python docutils literal highlight-python"><span class="s1">&#39;example&#39;</span></code> is the name of the directory within which the output files will be stored. The keyword argument <code class="code highlight python docutils literal highlight-python"><span class="n">properties</span></code> must be a dictionary that stores the different SED parameters for <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a>. We give a brief list of the most useful ones below:</p>
+<ul class="simple">
+<li><p><strong>STAR_SED</strong> [<code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code>]: stellar library list file (full path)</p></li>
+<li><p><strong>QSO_SED</strong> [str]: QSO list file (full path)</p></li>
+<li><p><strong>GAL_SED</strong> [str]: galaxy library list file (full path)</p></li>
+<li><p><strong>AGE_RANGE</strong> [list[float]]: minimum and maximum ages in years</p></li>
+<li><p><strong>FILTER_LIST</strong> [list[str]]: list of filter names used for the fit (must all be located in $LEPHAREDIR/filt directory)</p></li>
+<li><p><strong>Z_STEP</strong> [list[int/float]]: redshift step properties. Values are: redshift step, max redshift, redshift step for redshifts above 6 (coarser sampling).</p></li>
+<li><p><strong>COSMOLOGY</strong> [list[int/float]]: cosmology parameters. Values are: Hubble constant H0, baryon fraction Omegam0, cosmological constant fraction Omegalambda0.</p></li>
+<li><p><strong>MOD_EXTINC</strong> [list[int/float]]: minimum and maximum model extinctions</p></li>
+<li><p><strong>EXTINC_LAW</strong> [str]: extinction law file (in $LEPHAREDIR/ext)</p></li>
+<li><p><strong>EB_V</strong> [list[int/float]]: color excess E(B-V). It must contain less than 50 values.</p></li>
+<li><p><strong>EM_LINES</strong> [str]: whether to consider emission lines or not. Accepted values are ‘YES’ or ‘NO’.</p></li>
+<li><p><strong>ERR_SCALE</strong> [list[int/float]]: magnitude errors per band to add in quadrature</p></li>
+<li><p><strong>ERR_FACTOR</strong> [int/float]: scaling factor to apply to the errors</p></li>
+<li><p><strong>ZPHOTLIB</strong> [list[str]]: librairies used to compute the Chi2. Maximum number is 3.</p></li>
+<li><p><strong>ADD_EMLINES</strong> [str]: whether to add emission lines or not (dupplicate with <strong>EM_LINES</strong> ?). Accepted values are ‘YES’ or ‘NO’.</p></li>
+</ul>
+<p>For the complete list of options, see <a class="reference internal" href="API/misc/enum.html#pixSED.misc.enum.LePhareOutputParam" title="pixSED.misc.enum.LePhareOutputParam"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareOutputParam</span></code></a> values (upper case names).</p>
+</div>
+</div>
+</section>
+<section id="resolved-sed-fitting">
+<h2>Resolved SED fitting<a class="headerlink" href="#resolved-sed-fitting" title="Permalink to this heading">#</a></h2>
+<section id="run-the-sed-fitting">
+<h3>Run the SED fitting<a class="headerlink" href="#run-the-sed-fitting" title="Permalink to this heading">#</a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-4">
+Using <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> as backend</label><div class="sd-tab-content docutils">
+<p><a class="reference external" href="https://cigale.lam.fr/">Cigale</a> can now be easily launched as follows</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">sedobj</span><span class="p">(</span><span class="n">catalogue</span><span class="p">,</span>
+                <span class="n">ncores</span>              <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+                <span class="n">physical_properties</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">bands</span>               <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;F435W&#39;</span><span class="p">,</span> <span class="s1">&#39;F606W&#39;</span><span class="p">,</span> <span class="s1">&#39;F775W&#39;</span><span class="p">],</span>
+                <span class="n">save_best_sed</span>       <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">save_chi2</span>           <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">lim_flag</span>            <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">blocks</span>              <span class="o">=</span> <span class="mi">1</span>
+               <span class="p">)</span>
+</pre></div>
+</div>
+<p>The first argument is the <a class="reference internal" href="API/catalogues.html#pixSED.catalogues.CigaleCat" title="pixSED.catalogues.CigaleCat"><code class="xref py py-class docutils literal notranslate"><span class="pre">CigaleCat</span></code></a> object created above. Then, additional keyword arguments can be passed:</p>
+<ul class="simple">
+<li><p><code class="code highlight python docutils literal highlight-python"><span class="n">ncores</span></code>: number of threads to use for parallelisation</p></li>
+<li><p><code class="code highlight python docutils literal highlight-python"><span class="n">physical_properties</span></code>: a list of physical property names to be computed. Providing <code class="code highlight python docutils literal highlight-python"><span class="n">physical_properties</span> <span class="o">=</span> <span class="kc">None</span></code> will result in all the physical properties being computed.</p></li>
+<li><p><code class="code highlight python docutils literal highlight-python"><span class="n">bands</span></code>: the bands for which to estimate the fluxes in the output file</p></li>
+<li><p><code class="code highlight python docutils literal highlight-python"><span class="n">save_best_sed</span></code>: whether to save the best-fit SED <strong>for each pixel being fitted</strong></p></li>
+<li><p><code class="code highlight python docutils literal highlight-python"><span class="n">save_chi2</span></code>: whether to save the chi2 <strong>for each pixel being fitted</strong></p></li>
+<li><p><code class="code highlight python docutils literal highlight-python"><span class="n">lim_flag</span></code>: whether to consider upper limits or not</p></li>
+<li><p><code class="code highlight python docutils literal highlight-python"><span class="n">blocks</span></code>: number of subdivisions for the data if there are too many pixels to be fitted</p></li>
+</ul>
+<p>This library automatically extracts output parameters and stores them into the <code class="code highlight python docutils literal highlight-python"><span class="n">output</span></code> variable as a <a class="reference internal" href="API/outputs.html#pixSED.outputs.CigaleOutput" title="pixSED.outputs.CigaleOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">CigaleOutput</span></code></a> object.</p>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-5">
+Using <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> as backend</label><div class="sd-tab-content docutils">
+<p>The <a class="reference internal" href="API/sed.html#pixSED.sed.LePhareSED" title="pixSED.sed.LePhareSED"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareSED</span></code></a> object can be directly called to run the SED fitting. In order to avoid to load all of LePhare parameters in the output file, a list of required parameter names (see <a class="reference internal" href="API/misc/enum.html#pixSED.misc.enum.LePhareOutputParam" title="pixSED.misc.enum.LePhareOutputParam"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareOutputParam</span></code></a> for accepted values) must be passed as follows</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MASS_INF&#39;</span><span class="p">,</span> <span class="s1">&#39;MASS_MED&#39;</span><span class="p">,</span> <span class="s1">&#39;MASS_SUP&#39;</span><span class="p">,</span> <span class="s1">&#39;SFR_INF&#39;</span><span class="p">,</span> <span class="s1">&#39;SFR_MED&#39;</span><span class="p">,</span> <span class="s1">&#39;SFR_SUP&#39;</span><span class="p">]</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">sed</span><span class="p">(</span><span class="n">catalogue</span><span class="p">,</span> <span class="n">outputParams</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The SED fitting code then executes in the background. When running, <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> generates various files:</p>
+<ul class="simple">
+<li><p>file.in: Input catalogue containing data</p></li>
+<li><p>file.para: Parameter files with all the SED fitting properties</p></li>
+<li><p>file.output_para: List of output parameters given in the output file</p></li>
+<li><p>file.out: Output data file</p></li>
+</ul>
+<p>This library automatically extracts those output parameters and stores them into the <code class="code highlight python docutils literal highlight-python"><span class="n">output</span></code> variable as a <a class="reference internal" href="API/outputs.html#pixSED.outputs.LePhareOutput" title="pixSED.outputs.LePhareOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareOutput</span></code></a> object.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Data given as log values in the <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> output parameter file are converted into physical units.</p>
+<p>For instance, <a class="reference internal" href="API/misc/enum.html#pixSED.misc.enum.LePhareOutputParam.MASS_MED" title="pixSED.misc.enum.LePhareOutputParam.MASS_MED"><code class="xref py py-attr docutils literal notranslate"><span class="pre">MASS_MED</span></code></a> parameter is given by <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> by default as the decimal logarithm of the median mass in solar masses. But, in the <a class="reference internal" href="API/outputs.html#pixSED.outputs.LePhareOutput" title="pixSED.outputs.LePhareOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareOutput</span></code></a> object it corresponds to the median mass in solar masses.</p>
+</div>
+<p>Before performing the SED fitting, <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> must generate a grid of models for the stars, galaxies and QSO. These models are saved into different files located in <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> directory, so in practice they only need to be generated once, unless one needs a new grids of models.</p>
+<p><strong>By default, calling the</strong> <a class="reference internal" href="API/sed.html#pixSED.sed.LePhareSED" title="pixSED.sed.LePhareSED"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareSED</span></code></a> <strong>object always generates all of the SED models and compute their magnitudes</strong>. To disable one or more or the SED generation and/or magnitude computation, optional parameters can be passed as</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">params</span>     <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MASS_INF&#39;</span><span class="p">,</span> <span class="s1">&#39;MASS_MED&#39;</span><span class="p">,</span> <span class="s1">&#39;MASS_SUP&#39;</span><span class="p">,</span> <span class="s1">&#39;SFR_INF&#39;</span><span class="p">,</span> <span class="s1">&#39;SFR_MED&#39;</span><span class="p">,</span> <span class="s1">&#39;SFR_SUP&#39;</span><span class="p">]</span>
+
+<span class="n">skipSED</span>    <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Skip SED generation</span>
+<span class="n">skipFilter</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Skip filters generations</span>
+<span class="n">skipGal</span>    <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Skip galaxy magnitude computation</span>
+<span class="n">skipQSO</span>    <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Skip QSO magnitude computation</span>
+<span class="n">skipStar</span>   <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Skip stellar magnitude computation</span>
+
+<span class="n">output</span>     <span class="o">=</span> <span class="n">sed</span><span class="p">(</span><span class="n">catalogue</span><span class="p">,</span> <span class="n">outputParams</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                 <span class="n">skipSEDgen</span>    <span class="o">=</span> <span class="n">skipSED</span><span class="p">,</span>
+                 <span class="n">skipFilterGen</span> <span class="o">=</span> <span class="n">skipFilter</span><span class="p">,</span>
+                 <span class="n">skipMagQSO</span>    <span class="o">=</span> <span class="n">skipQSO</span><span class="p">,</span>
+                 <span class="n">skipMagStar</span>   <span class="o">=</span> <span class="n">skipStar</span><span class="p">,</span>
+                 <span class="n">skipMagGal</span>    <span class="o">=</span> <span class="n">skipGal</span>
+                <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="extract-data-from-a-previous-run">
+<h3>Extract data from a previous run<a class="headerlink" href="#extract-data-from-a-previous-run" title="Permalink to this heading">#</a></h3>
+<p>Alternatively, if the SED fitting was already run beforehand, it is possible to directly load the data without doing the fit again by directly calling <a class="reference internal" href="API/outputs.html#pixSED.outputs.CigaleOutput" title="pixSED.outputs.CigaleOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">CigaleOutput</span></code></a> or <a class="reference internal" href="API/outputs.html#pixSED.outputs.LePhareOutput" title="pixSED.outputs.LePhareOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareOutput</span></code></a>:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-3" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-6">
+Using <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> as backend</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">CigaleOutput</span><span class="p">(</span><span class="s1">&#39;example/out/results.fits&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-3" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-7">
+Using <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> as backend</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="n">SED</span><span class="o">.</span><span class="n">LePhareOutput</span><span class="p">(</span><span class="s1">&#39;example/example.out&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="plot-a-resolved-map">
+<h2>Plot a resolved map<a class="headerlink" href="#plot-a-resolved-map" title="Permalink to this heading">#</a></h2>
+<p>Both <a class="reference internal" href="API/outputs.html#pixSED.outputs.CigaleOutput" title="pixSED.outputs.CigaleOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">CigaleOutput</span></code></a> and <a class="reference internal" href="API/outputs.html#pixSED.outputs.LePhareOutput" title="pixSED.outputs.LePhareOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareOutput</span></code></a> have a utility class that allows to reconstruct a 2D <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html">ndarray</a> with the same shape as the input images and with the mask applied.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-8" name="sd-tab-set-4" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-8">
+Using <a class="reference external" href="https://cigale.lam.fr/">Cigale</a> as backend</label><div class="sd-tab-content docutils">
+<p>For <a class="reference external" href="https://cigale.lam.fr/">Cigale</a>, the only arguments that need to be passed are the parameter name to produce the resolved map for (here <code class="code highlight python docutils literal highlight-python"><span class="s1">&#39;bayes.stellar.m_star&#39;</span></code>) and the shape of the image:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">toImage</span><span class="p">(</span><span class="s1">&#39;bayes.stellar.m_star&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-9" name="sd-tab-set-4" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-9">
+Using <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a> as backend</label><div class="sd-tab-content docutils">
+<p>For <a class="reference external" href="https://cesam.lam.fr/lephare/lephare.html">LePhare</a>, more arguments are required in order to scale back the resolved map to the right unit. The first argument is the parameter name to produce the resolved map for (here <code class="code highlight python docutils literal highlight-python"><span class="s1">&#39;mass_med&#39;</span></code>) and then one needs to provide</p>
+<ul class="simple">
+<li><p>the shape of the image,</p></li>
+<li><p>the scale factor used to normalise the data (in this example 100)</p></li>
+<li><p>the mean map used to normalise the data (which is stored in <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList.meanMap" title="pixSED.filters.FilterList.meanMap"><code class="xref py py-attr docutils literal notranslate"><span class="pre">meanMap</span></code></a>)</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">toImage</span><span class="p">(</span><span class="s1">&#39;mass_med&#39;</span><span class="p">,</span>
+                       <span class="n">shape</span>       <span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+                       <span class="n">scaleFactor</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+                       <span class="n">meanMap</span>     <span class="o">=</span> <span class="n">flist</span><span class="o">.</span><span class="n">meanMap</span>
+                      <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The variable <code class="code highlight python docutils literal highlight-python"><span class="n">image</span></code> is an <a class="reference external" href="https://docs.astropy.org/en/stable/units/quantity.html">Astropy Quantity</a>. Its unit can be recovered with <code class="code highlight python docutils literal highlight-python"><span class="n">image</span><span class="o">.</span><span class="n">unit</span></code> and its values in any unit (e.g. solar masses) as an <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html">ndarray</a> with <code class="code highlight python docutils literal highlight-python"><span class="n">image</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;Msun&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span></code></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since <code class="code highlight python docutils literal highlight-python"><span class="n">shape</span></code>, <code class="code highlight python docutils literal highlight-python"><span class="n">scaleFactor</span></code> and <code class="code highlight python docutils literal highlight-python"><span class="n">meanMap</span></code> are not straightforward to find, a utility method can be used to recover them automatically:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">output</span><span class="o">.</span><span class="n">link</span><span class="p">(</span><span class="n">flist</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">toImage</span><span class="p">(</span><span class="s1">&#39;bayes.stellar.m_star&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="code highlight python docutils literal highlight-python"><span class="n">output</span></code> is the <a class="reference internal" href="API/outputs.html#pixSED.outputs.CigaleOutput" title="pixSED.outputs.CigaleOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">CigaleOutput</span></code></a> or <a class="reference internal" href="API/outputs.html#pixSED.outputs.LePhareOutput" title="pixSED.outputs.LePhareOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">LePhareOutput</span></code></a> object from above and <code class="code highlight python docutils literal highlight-python"><span class="n">flist</span></code> is the <a class="reference internal" href="API/filters.html#pixSED.filters.FilterList" title="pixSED.filters.FilterList"><code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a> object created <a class="reference internal" href="#referencetofilterlist"><span class="std std-ref">here</span></a>.</p>
+</div>
+<p>We can now generate a resolved stellar mass map:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span>   <span class="nn">matplotlib</span>        <span class="kn">import</span> <span class="n">rc</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>        <span class="k">as</span>     <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span>     <span class="nn">plt</span>
+
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s1">&#39;family&#39;</span><span class="p">:</span> <span class="s1">&#39;serif&#39;</span><span class="p">,</span> <span class="s1">&#39;serif&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Times&#39;</span><span class="p">]})</span>
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">usetex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.latex.preamble&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;\usepackage</span><span class="si">{newtxmath}</span><span class="s1">&#39;</span>
+<span class="n">rc</span><span class="p">(</span><span class="s1">&#39;figure&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;Msun&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">),</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;X [pixel]&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Y [pixel]&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\log_</span><span class="si">{10}</span><span class="s1">$ M$_{\star}$ [M$_{\odot}$]&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+Adding Poisson noise...
+example/1/out/results.fits
+</pre></div>
+</div>
+<img alt="_images/index_0_1.png" src="_images/index_0_1.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="right-next"
+       href="setup.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Installation and setup</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Introduction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tutorial">Tutorial</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-processing">Pre-processing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-data">Loading data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-filter-objects">Creating <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> objects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-filter-objects-into-a-filterlist">Combining <code class="xref py py-class docutils literal notranslate"><span class="pre">Filter</span></code> objects into a <code class="xref py py-class docutils literal notranslate"><span class="pre">FilterList</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-adding-poisson-noise-in-quadrature">(Optional) Adding Poisson noise in quadrature</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-recovering-and-updating-the-intermediate-table">(Optional) Recovering and updating the intermediate table</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-catalogue-object">Generate a <code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code> object</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-sed-object">Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">SED</span></code> object</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resolved-sed-fitting">Resolved SED fitting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-sed-fitting">Run the SED fitting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-data-from-a-previous-run">Extract data from a previous run</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-a-resolved-map">Plot a resolved map</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2022-2024, Wilfried Mercier.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
 </html>

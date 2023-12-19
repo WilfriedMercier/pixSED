@@ -1,9 +1,7 @@
 Miscellaneous classes and functions
 ===================================
 
-.. _ndarray: https://numpy.org/doc/stable/reference/generated/numpy.array.html
-
-.. automodule:: SED.misc.misc
+.. automodule:: pixSED.misc.misc
     :special-members: __str__
     :members:
     :private-members:

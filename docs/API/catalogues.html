@@ -1,229 +1,571 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
-<head>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta charset="utf-8"/>
-<meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
-<title>Catalogue classes | Resolved SED-fitting wrapper 0.5 documentation</title>
-<link href="../_static/pygments.css" rel="stylesheet"/>
-<link href="../_static/theme.313ea551d1799b2102b1.css" rel="stylesheet"/>
-<link href="../_static/plot_directive.css" rel="stylesheet"/>
-<link href="../search.html" rel="search" title="Search"/>
-<link href="../genindex.html" rel="index" title="Index"/>
-<link href="filters.html" rel="next" title="Filter classes"/>
-<link href="index.html" rel="prev" title="API"/>
-</head>
-<body class="antialiased text-gray">
-<div class="h-screen xl:grid xl:grid-layout" data-action="keydown@window-&gt;search#focus" data-controller="sidebar search" id="page">
-<a class="block text-xl bg-white py-4 z-20 absolute top-0 h-18 inset-x-0 text-center transform -translate-y-full focus:translate-y-0 focus:outline-none transition-transform duration-75" href="#catalogue-classes" title="Skip navigation links">Skip to content</a>
-<header class="grid-area-header z-10 h-14 sm:h-18">
-<div class="bg-gray-dark shadow-md flex items-center h-full xl:px-2 relative"><div class="flex items-center">
-<button class="xl:hidden h-14 w-14 sm:h-18 sm:w-18 leading-14 sm:leading-18 text-gray-100 hover:bg-gray-700 hover:text-brand focus:outline-none focus:bg-gray-700 focus:text-brand" data-action="sidebar#open" data-sidebar-target="hamburger">
-<span class="sr-only">Open navigation menu</span>
-<svg aria-hidden="true" class="fill-current h-8 w-8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
-</button><a aria-label="Back to homepage" class="hover:bg-gray-700 focus:bg-gray-700 focus:outline-none tooltipped tooltipped-sw" href="../index.html"><span class="hidden lg:inline-block shrink-0 font-medium text-gray-100 mx-5 leading-14 sm:leading-18 tracking-wider">Resolved SED-fitting wrapper 0.5 documentation</span>
-</a></div><div class="flex justify-end items-center flex-1"><form action="../search.html" class="flex print:hidden justify-between items-center leading-14 sm:leading-18 md:ml-4 bg-gray-dark text-gray-300 focus-within:bg-gray-50 focus-within:text-gray-800 focus-within:absolute focus-within:inset-x-0 focus-within:top-0 md:focus-within:w-full md:focus-within:static" data-action="click-&gt;search#focusSearchInput" id="searchbox" method="get">
-<button aria-label="Get search results" class="text-inherit h-14 w-14 sm:h-18 sm:w-18" tabindex="-1">
-<svg aria-hidden="true" class="fill-current stroke-current h-8 w-8" stroke-width="0.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
-</button>
-<input aria-label="Search the docs" class="pr-2 bg-transparent text-inherit focus:outline-none w-0 md:w-auto focus:w-full transition-all duration-100" data-search-target="searchInput" id="search-input" name="q" placeholder="Search the docs" type="search"/>
-</form><div class="shrink-0"><a class="h-14 sm:h-18 inline-block leading-14 sm:leading-18 text-gray-100 bg-transparent tracking-wide font-medium hover:text-brand focus:bg-gray-700 focus:outline-none hover:no-underline focus:text-brand px-4" href="../https%3A//github.com/WilfriedMercier/SED.html">GitHub</a></div></div>
+
+<html lang="en" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Catalogue classes &#8212; pixSED</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mycss.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'API/catalogues';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Filter classes" href="filters.html" />
+    <link rel="prev" title="API" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">Support for LePhare is currently deprecated as it relies on the old Fortran version. Please use Cigale instead.</div>
+  </div>
+
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+    
+    <img src="../_static/logo1.png" class="logo__image only-light" alt="pixSED documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo1.png" class="logo__image only-dark" alt="pixSED documentation - Home"/>`);</script>
+  
+  
+    <p class="title logo__title">pixSED</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../setup.html">
+                        Installation and setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../nomenclature.html">
+                        Nomenclature
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../poisson.html">
+                        About Poisson noise
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/SED" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
-</header>
-<aside class="grid-area-sidebar h-full fixed xl:relative inset-y-0 left-0 z-20 xl:z-0 print:hidden overflow-y-auto transition-all transform transform-gpu -translate-x-full opacity-0 duration-300 xl:translate-x-0 xl:opacity-100" data-sidebar-target="sidebar">
-<nav class="h-full overflow-y-auto bg-white text-gray-600 pt-8 flex flex-col" role="navigation">
-<div class="nav-toc flex-1 pl-6"><ul>
-<li class="toctree-l1"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../setup.html">Installation and setup</a></div><ul>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../setup.html#required-dependencies">Required dependencies</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../setup.html#sed-fitting-codes-installation">SED fitting codes installation</a></div><ul>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../setup.html#id1">LePhare</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../setup.html#id2">Cigale</a></div></li>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../setup.html">
+                        Installation and setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../nomenclature.html">
+                        Nomenclature
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../poisson.html">
+                        About Poisson noise
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/SED" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Catalogue classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filters.html">Filter classes</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="misc/index.html">Miscellaneous</a><input checked class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="misc/cigaleModules/index.html">Modules for Cigale</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="misc/cigaleModules/SFH.html">Star formation histories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="misc/cigaleModules/SFH_quench.html">Star formation history quenching modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="misc/cigaleModules/SSP.html">Single stellar populations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="misc/cigaleModules/nebular.html">Nebular emission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="misc/cigaleModules/dust_attenuation.html">Dust attenuation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="misc/cigaleModules/dust_emission.html">Dust emission</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="misc/enum.html">Enumeration classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/misc.html">Miscellaneous classes and functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="misc/properties.html">Property classes</a></li>
 </ul>
 </li>
-</ul>
-<ul>
-<li class="toctree-l1"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html">Tutorial introduction</a></div><ul>
-<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html">LePhare</a></div><ul>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate">Filter</code> and <code class="xref py py-class docutils literal notranslate">FilterList</code> objects</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html#step-2-generate-a-lepharecat-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate">LePhareCat</code> object</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html#step-3-create-a-lepharesed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate">LePhareSED</code> object</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html#step-4-bis-extract-output-data-from-output-file">Step 4-bis: Extract output data from output file</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/lephare.html#step-5-generate-a-resolved-map">Step 5: Generate a resolved map</a></div></li>
-</ul>
-</li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/cigale.html">Cigale</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#nomenclature">Nomenclature</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#pre-processing-step">Pre-processing step</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#step-1-building-filter-and-filterlist-objects">Step 1: Building <code class="xref py py-class docutils literal notranslate">Filter</code> and <code class="xref py py-class docutils literal notranslate">FilterList</code> objects</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#step-2-generate-a-catalogue-object">Step 2: Generate a <code class="xref py py-class docutils literal notranslate">Catalogue</code> object</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#step-3-create-a-sed-object">Step 3: Create a <code class="xref py py-class docutils literal notranslate">SED</code> object</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#step-4-run-the-sed-fitting">Step 4: Run the SED fitting</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../tutorial/index.html#step-5-produce-a-resolved-map">Step 5: Produce a resolved map</a></div></li>
-</ul>
-</li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../examples/example1.html">1. Resolved stellar mass map with LePhare</a></div></li>
-<li class="toctree-l1"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="../examples/example2.html">2. Resolved SFR map from an already existing LePhare output file</a></div></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">―――――――――――――――</span></p>
-<ul class="current">
-<li class="toctree-l1 current expanded"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="index.html">API</a></div><ul class="current">
-<li class="toctree-l2 current expanded"><div class="nav-link"><a class="current reference internal" data-action="click-&gt;sidebar#close" href="#">Catalogue classes</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="filters.html">Filter classes</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><svg class="expand" data-action="click-&gt;sidebar#expand keydown-&gt;sidebar#expandKeyPressed" tabindex="0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg><a class="reference internal" data-action="click-&gt;sidebar#close" href="misc/index.html">Miscellaneous</a></div><ul>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="misc/enum.html">Enumeration classes</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="misc/misc.html">Miscellaneous classes and functions</a></div></li>
-<li class="toctree-l3"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="misc/properties.html">Property classes</a></div></li>
-</ul>
-</li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="outputs.html">SED fitting code output classes</a></div></li>
-<li class="toctree-l2"><div class="nav-link"><a class="reference internal" data-action="click-&gt;sidebar#close" href="sed.html">SED classes</a></div></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="outputs.html">SED fitting code output classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="photometry.html">Photometry related fonctions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sed.html">SED classes</a></li>
 </ul>
 </div>
-<button class="text-4xl text-gray-800 p-4 bottom-0 hover:text-brand xl:hidden focus:text-brand self-center" data-action="" title="Close navigation menu">
-<span class="sr-only">Close navigation menu</span>
-<svg aria-hidden="true" class="fill-current stroke-current h-6 w-6" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
-</button>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Catalogue classes</li>
+  </ul>
 </nav>
-</aside>
-<main class="px-10 xl:ml-fluid grid-area-main overflow-y-auto flex flex-col h-full mx-0 md:mx-auto xl:mr-0" data-action="scroll-&gt;scroll#showButton" data-controller="scroll"><nav aria-label="breadcrumbs" class="print:hidden mt-12 text-sm text-gray-light" role="navigation">
-<a class="text-gray-light text-sm hover:text-gray-dark font-medium focus:text-gray-dark" href="../index.html">Resolved SED-fitting wrapper 0.5 documentation</a>
-<span class="mr-1">/</span><a class="text-gray-light text-sm hover:text-gray-dark" href="index.html">API</a>
-<span class="mr-1">/</span><span aria-current="page">Catalogue classes</span>
-</nav>
-<article class="flex-1" role="main">
-<section id="catalogue-classes">
-<h1>Catalogue classes<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#catalogue-classes">¶</a></h1>
-<span class="target" id="module-SED.catalogues"></span><p><em>Code author: Hugo Plombat - LUPM &lt;<a class="reference external" href="mailto:hugo.plombat%40umontpellier.fr" rel="nofollow noopener">hugo<span>.</span>plombat<span>@</span>umontpellier<span>.</span>fr<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt; &amp; Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="catalogue-classes">
+<h1>Catalogue classes<a class="headerlink" href="#catalogue-classes" title="Permalink to this heading">#</a></h1>
+<span class="target" id="module-pixSED.catalogues"></span><p><em>Code author: Hugo Plombat - LUPM &lt;<a class="reference external" href="mailto:hugo&#46;plombat&#37;&#52;&#48;umontpellier&#46;fr">hugo<span>&#46;</span>plombat<span>&#64;</span>umontpellier<span>&#46;</span>fr</a>&gt; &amp; Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
 <p>Base classes used to generate catalogues for LePhare or Cigale SED fitting codes.</p>
-<dl class="py class code-definition">
-<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.catalogues.Catalogue">
-<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">SED.catalogues.</code><code class="sig-name descname">Catalogue</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span><span class="p">:</span><span class="w"> </span><span class="n">str</span></em>, <em class="sig-param"><span class="n">table</span><span class="p">:</span><span class="w"> </span><span class="n">astropy.table.table.Table</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/catalogues.html#Catalogue"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.catalogues.Catalogue">¶</a></dt>
-<dd class="panel">
-<p>Bases: <code class="xref py py-class docutils literal notranslate">abc.ABC</code></p>
-<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pixSED.catalogues.Catalogue">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pixSED.catalogues.</span></span><span class="sig-name descname"><span class="pre">Catalogue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Table</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pixSED/catalogues.html#Catalogue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.catalogues.Catalogue" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
 <p>Class implementing a catalogue consisting of as Astropy Table and additional information used by the SED fitting codes. This is supposed to be subclassed to account for specificities of LePhare or Cigale catalogues.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fname</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>) – name of the catalogue file where the catalogue is written into when saving</p></li>
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table" rel="nofollow noopener">Astropy Table<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>) – input table</p></li>
+<li><p><strong>fname</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code>) – name of the catalogue file where the catalogue is written into when saving</p></li>
+<li><p><strong>table</strong> (<a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table">Astropy Table</a>) – input table</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>TypeError</strong> – <ul class="simple">
-<li><p>if <strong>table</strong> is not an <a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table" rel="nofollow noopener">Astropy Table<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a></p></li>
-<li><p>if <strong>fname</strong> is not of type <code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p></li>
+<li><p>if <strong>table</strong> is not an <a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table">Astropy Table</a></p></li>
+<li><p>if <strong>fname</strong> is not of type <code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code></p></li>
 </ul>
 </p>
 </dd>
 </dl>
-<dl class="py method code-definition">
-<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.catalogues.Catalogue.save">
-<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">''</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/SED/catalogues.html#Catalogue.save"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.catalogues.Catalogue.save">¶</a></dt>
-<dd class="panel">
-<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pixSED.catalogues.Catalogue.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pixSED/catalogues.html#Catalogue.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.catalogues.Catalogue.save" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
 <p>Save the catalogue into the given file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>) – (<strong>Optional</strong>) a path to append to the file name</p></li>
-<li><p><strong>**kwargs</strong> – optional parameters passed to <a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table.write" rel="nofollow noopener">Table.write()<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a></p></li>
+<li><p><strong>path</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code>) – (<strong>Optional</strong>) a path to append to the file name</p></li>
+<li><p><strong>**kwargs</strong> – optional parameters passed to <a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table.write">Table.write()</a></p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>TypeError</strong> – if <strong>path</strong> is not of type <code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – if <strong>path</strong> is not of type <code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code></p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py property code-definition">
-<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.catalogues.Catalogue.text">
-<em class="property">property<span class="w"> </span></em><code class="sig-name descname">text</code><em class="property"><span class="p">:</span><span class="w"> </span>str</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.catalogues.Catalogue.text">¶</a></dt>
-<dd class="panel">
-<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pixSED.catalogues.Catalogue.text">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pixSED.catalogues.Catalogue.text" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
 <p>Return a text representation of the catalogue used when making the parameter files.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>output representation</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 </dd></dl>
-<dl class="py class code-definition">
-<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.catalogues.CigaleCat">
-<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">SED.catalogues.</code><code class="sig-name descname">CigaleCat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span><span class="p">:</span><span class="w"> </span><span class="n">str</span></em>, <em class="sig-param"><span class="n">table</span><span class="p">:</span><span class="w"> </span><span class="n">astropy.table.table.Table</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/catalogues.html#CigaleCat"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.catalogues.CigaleCat">¶</a></dt>
-<dd class="panel">
-<p>Bases: <a class="reference internal" href="#SED.catalogues.Catalogue" title="SED.catalogues.Catalogue"><code class="xref py py-class docutils literal notranslate">SED.catalogues.Catalogue</code></a></p>
-<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pixSED.catalogues.CigaleCat">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pixSED.catalogues.</span></span><span class="sig-name descname"><span class="pre">CigaleCat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pixSED/catalogues.html#CigaleCat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.catalogues.CigaleCat" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pixSED.catalogues.Catalogue" title="pixSED.catalogues.Catalogue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code></a></p>
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
 <p>Class implementing a catalogue compatible with Cigale SED fitting code.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fname</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>) – name of the output file containing the catalogue when it is saved (without any extension, e.g. galaxy1 instead of galaxy1.mag)</p></li>
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table" rel="nofollow noopener">Astropy Table<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>) – input table</p></li>
+<li><p><strong>fname</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code>) – name of the output file containing the catalogue when it is saved (without any extension, e.g. galaxy1 instead of galaxy1.mag)</p></li>
+<li><p><strong>table</strong> (<a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table">Astropy Table</a>) – input table</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method code-definition">
-<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.catalogues.CigaleCat.save">
-<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">''</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/SED/catalogues.html#CigaleCat.save"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.catalogues.CigaleCat.save">¶</a></dt>
-<dd class="panel">
-<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pixSED.catalogues.CigaleCat.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pixSED/catalogues.html#CigaleCat.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.catalogues.CigaleCat.save" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
 <p>Save LePhare catalogue into the given file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>) – (<strong>Optional</strong>) a path to append to the file name</p></li>
-<li><p><strong>**kwargs</strong> – optional parameters passed to <a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table.write" rel="nofollow noopener">Table.write()<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a> method</p></li>
+<li><p><strong>path</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code>) – (<strong>Optional</strong>) a path to append to the file name</p></li>
+<li><p><strong>**kwargs</strong> – optional parameters passed to <a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table.write">Table.write()</a> method</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>TypeError</strong> – if <strong>path</strong> is not of type <code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – if <strong>path</strong> is not of type <code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 </dd></dl>
-<dl class="py class code-definition">
-<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.catalogues.LePhareCat">
-<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">SED.catalogues.</code><code class="sig-name descname">LePhareCat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fname</span><span class="p">:</span><span class="w"> </span><span class="n">str</span></em>, <em class="sig-param"><span class="n">table</span><span class="p">:</span><span class="w"> </span><span class="n">astropy.table.table.Table</span></em>, <em class="sig-param"><span class="n">tunit</span><span class="p">:</span><span class="w"> </span><span class="n"><a class="reference internal" href="misc/enum.html#SED.misc.enum.TableUnit" title="SED.misc.enum.TableUnit">SED.misc.enum.TableUnit</a></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">TableUnit.MAG</span></em>, <em class="sig-param"><span class="n">magtype</span><span class="p">:</span><span class="w"> </span><span class="n"><a class="reference internal" href="misc/enum.html#SED.misc.enum.MagType" title="SED.misc.enum.MagType">SED.misc.enum.MagType</a></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">MagType.AB</span></em>, <em class="sig-param"><span class="n">tformat</span><span class="p">:</span><span class="w"> </span><span class="n"><a class="reference internal" href="misc/enum.html#SED.misc.enum.TableFormat" title="SED.misc.enum.TableFormat">SED.misc.enum.TableFormat</a></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">TableFormat.MEME</span></em>, <em class="sig-param"><span class="n">ttype</span><span class="p">:</span><span class="w"> </span><span class="n"><a class="reference internal" href="misc/enum.html#SED.misc.enum.TableType" title="SED.misc.enum.TableType">SED.misc.enum.TableType</a></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">TableType.LONG</span></em>, <em class="sig-param"><span class="n">nlines</span><span class="p">:</span><span class="w"> </span><span class="n">List<span class="p">[</span>int<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[0, 100000000]</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SED/catalogues.html#LePhareCat"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.catalogues.LePhareCat">¶</a></dt>
-<dd class="panel">
-<p>Bases: <a class="reference internal" href="#SED.catalogues.Catalogue" title="SED.catalogues.Catalogue"><code class="xref py py-class docutils literal notranslate">SED.catalogues.Catalogue</code></a></p>
-<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pixSED.catalogues.LePhareCat">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pixSED.catalogues.</span></span><span class="sig-name descname"><span class="pre">LePhareCat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tunit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="misc/enum.html#pixSED.misc.enum.TableUnit" title="pixSED.misc.enum.TableUnit"><span class="pre">TableUnit</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TableUnit.MAG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="misc/enum.html#pixSED.misc.enum.MagType" title="pixSED.misc.enum.MagType"><span class="pre">MagType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">MagType.AB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tformat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="misc/enum.html#pixSED.misc.enum.TableFormat" title="pixSED.misc.enum.TableFormat"><span class="pre">TableFormat</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TableFormat.MEME</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ttype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="misc/enum.html#pixSED.misc.enum.TableType" title="pixSED.misc.enum.TableType"><span class="pre">TableType</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">TableType.LONG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0,</span> <span class="pre">100000000]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pixSED/catalogues.html#LePhareCat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.catalogues.LePhareCat" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pixSED.catalogues.Catalogue" title="pixSED.catalogues.Catalogue"><code class="xref py py-class docutils literal notranslate"><span class="pre">Catalogue</span></code></a></p>
+<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
 <p>Class implementing a catalogue compatible with LePhare SED fitting code.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fname</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>) – name of the output file containing the catalogue when it is saved (without any extension, e.g. galaxy1 instead of galaxy1.in)</p></li>
-<li><p><strong>table</strong> (<a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table" rel="nofollow noopener">Astropy Table<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>) – input table</p></li>
-<li><p><strong>tunit</strong> (<a class="reference internal" href="misc/enum.html#SED.misc.enum.TableUnit" title="SED.misc.enum.TableUnit"><em>TableUnit</em></a>) – (<strong>Optional</strong>) unit of the table data. Must either be TableUnit.MAG for magnitude or TableUnit.FLUX for flux.</p></li>
-<li><p><strong>magtype</strong> (<a class="reference internal" href="misc/enum.html#SED.misc.enum.MagType" title="SED.misc.enum.MagType"><em>MagType</em></a>) – (<strong>Optional</strong>) magnitude type if data are in magnitude unit. Must either be MagType.AB or MagType.VEGA.</p></li>
-<li><p><strong>tformat</strong> (<a class="reference internal" href="misc/enum.html#SED.misc.enum.TableFormat" title="SED.misc.enum.TableFormat"><em>TableFormat</em></a>) – (<strong>Optional</strong>) format of the table. Must either be TableFormat.MEME if data and error columns are intertwined or TableFormat.MMEE if columns are first data and then errors.</p></li>
-<li><p><strong>ttype</strong> (<a class="reference internal" href="misc/enum.html#SED.misc.enum.TableType" title="SED.misc.enum.TableType"><em>TableType</em></a>) – (<strong>Optional</strong>) data type. Must either be TableType.SHORT or TableType.LONG.</p></li>
-<li><p><strong>nlines</strong> (<code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></code>) – (<strong>Optional</strong>) first and last line of the catalogue to be used during the SED fitting</p></li>
+<li><p><strong>fname</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code>) – name of the output file containing the catalogue when it is saved (without any extension, e.g. galaxy1 instead of galaxy1.in)</p></li>
+<li><p><strong>table</strong> (<a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table">Astropy Table</a>) – input table</p></li>
+<li><p><strong>tunit</strong> (<a class="reference internal" href="misc/enum.html#pixSED.misc.enum.TableUnit" title="pixSED.misc.enum.TableUnit"><em>TableUnit</em></a>) – (<strong>Optional</strong>) unit of the table data. Must either be TableUnit.MAG for magnitude or TableUnit.FLUX for flux.</p></li>
+<li><p><strong>magtype</strong> (<a class="reference internal" href="misc/enum.html#pixSED.misc.enum.MagType" title="pixSED.misc.enum.MagType"><em>MagType</em></a>) – (<strong>Optional</strong>) magnitude type if data are in magnitude unit. Must either be MagType.AB or MagType.VEGA.</p></li>
+<li><p><strong>tformat</strong> (<a class="reference internal" href="misc/enum.html#pixSED.misc.enum.TableFormat" title="pixSED.misc.enum.TableFormat"><em>TableFormat</em></a>) – (<strong>Optional</strong>) format of the table. Must either be TableFormat.MEME if data and error columns are intertwined or TableFormat.MMEE if columns are first data and then errors.</p></li>
+<li><p><strong>ttype</strong> (<a class="reference internal" href="misc/enum.html#pixSED.misc.enum.TableType" title="pixSED.misc.enum.TableType"><em>TableType</em></a>) – (<strong>Optional</strong>) data type. Must either be TableType.SHORT or TableType.LONG.</p></li>
+<li><p><strong>nlines</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></code>) – (<strong>Optional</strong>) first and last line of the catalogue to be used during the SED fitting</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>TypeError</strong> – <ul>
-<li><p>if <strong>table</strong> is not an <a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table" rel="nofollow noopener">Astropy Table<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a></p></li>
-<li><p>if <strong>fname</strong> is not of type <code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p></li>
-<li><p>if <strong>nlines</strong> is not a <code class="code highlight python docutils literal notranslate"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></code></p></li>
+<li><p>if <strong>table</strong> is not an <a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table">Astropy Table</a></p></li>
+<li><p>if <strong>fname</strong> is not of type <code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code></p></li>
+<li><p>if <strong>nlines</strong> is not a <code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></code></p></li>
 </ul>
 </p></li>
 <li><p><strong>ValueError</strong> – <ul>
-<li><p>if <strong>nlines</strong> values are not <code class="code highlight python docutils literal notranslate"><span class="nb">int</span></code></p></li>
+<li><p>if <strong>nlines</strong> values are not <code class="code highlight python docutils literal highlight-python"><span class="nb">int</span></code></p></li>
 <li><p>if the first value is less than 0</p></li>
 <li><p>if the second value is less than the first one</p></li>
 </ul>
@@ -231,51 +573,136 @@
 </ul>
 </dd>
 </dl>
-<dl class="py method code-definition">
-<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.catalogues.LePhareCat.save">
-<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">''</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/SED/catalogues.html#LePhareCat.save"><span class="viewcode-link">[source]</span></a><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.catalogues.LePhareCat.save">¶</a></dt>
-<dd class="panel">
-<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pixSED.catalogues.LePhareCat.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/pixSED/catalogues.html#LePhareCat.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.catalogues.LePhareCat.save" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
 <p>Save LePhare catalogue into the given file.</p>
 <p>:param path:(<strong>Optional</strong>) a path to append to the file name
-:type path: <code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code>
-:param **kwargs: optional parameters passed to <a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table.write" rel="nofollow noopener">Table.write()<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a> method</p>
+:type path: <code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code>
+:param **kwargs: optional parameters passed to <a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.table.Table.html#astropy.table.Table.write">Table.write()</a> method</p>
 <dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>TypeError</strong> – if <strong>path</strong> is not of type <code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – if <strong>path</strong> is not of type <code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code></p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py property code-definition">
-<dt class="sig sig-object py accordion" data-action="click-&gt;collapsible#expandAccordion" data-controller="collapsible" id="SED.catalogues.LePhareCat.text">
-<em class="property">property<span class="w"> </span></em><code class="sig-name descname">text</code><em class="property"><span class="p">:</span><span class="w"> </span>str</em><button aria-expanded="false" aria-label="Expand this section" class="expand-more tooltipped tooltipped-nw" data-action="collapsible#expandMore"><svg aria-hidden="true" pointer-events="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path></svg></button><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#SED.catalogues.LePhareCat.text">¶</a></dt>
-<dd class="panel">
-<p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried.mercier%40irap.omp.eu" rel="nofollow noopener">wilfried<span>.</span>mercier<span>@</span>irap<span>.</span>omp<span>.</span>eu<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a>&gt;</em></p>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pixSED.catalogues.LePhareCat.text">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pixSED.catalogues.LePhareCat.text" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;irap&#46;omp&#46;eu">wilfried<span>&#46;</span>mercier<span>&#64;</span>irap<span>&#46;</span>omp<span>&#46;</span>eu</a>&gt;</em></p>
 <p>Return a text representation of the catalogue used when making the parameter files.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>output representation</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="code highlight python docutils literal notranslate"><span class="nb">str</span></code></p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="code highlight python docutils literal highlight-python"><span class="nb">str</span></code></p>
 </dd>
 </dl>
 </dd></dl>
+
 </dd></dl>
+
 </section>
-</article>
-<footer>
-<div class="mt-20 mb-4 text-sm text-gray-700">© 2021, Wilfried Mercier Made with <a href="https://www.sphinx-doc.org">Sphinx 4.4.0</a></div>
-</footer></main>
-<button class="fixed bottom-0 right-0 z-20 opacity-0 p-4 m-4 tracking-wide bg-gray-900 text-gray-100 transition transform transform-gpu duration-500 translate-y-full" data-action="search#hideSnackbar" data-search-target="snackbar">
-  Clear highlights
-</button><div class="fixed hidden inset-0 bg-black bg-opacity-50" data-action="click-&gt;sidebar#close" data-sidebar-target="screen">
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">API</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="filters.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Filter classes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/API/catalogues.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
 </div>
-<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-<script src="../_static/jquery.js"></script>
-<script src="../_static/underscore.js"></script>
-<script src="../_static/doctools.js"></script>
-<script src="../_static/theme.3666d2347a4c66e5d7a8.js"></script>
-</body>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2022-2024, Wilfried Mercier.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
 </html>

@@ -1,0 +1,849 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Dust emission &#8212; pixSED</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mycss.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'API/misc/cigaleModules/dust_emission';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Enumeration classes" href="../enum.html" />
+    <link rel="prev" title="Dust attenuation" href="dust_attenuation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">Support for LePhare is currently deprecated as it relies on the old Fortran version. Please use Cigale instead.</div>
+  </div>
+
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+    
+    <img src="../../../_static/logo1.png" class="logo__image only-light" alt="pixSED documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/logo1.png" class="logo__image only-dark" alt="pixSED documentation - Home"/>`);</script>
+  
+  
+    <p class="title logo__title">pixSED</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../setup.html">
+                        Installation and setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../nomenclature.html">
+                        Nomenclature
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../poisson.html">
+                        About Poisson noise
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/SED" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../setup.html">
+                        Installation and setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../nomenclature.html">
+                        Nomenclature
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../poisson.html">
+                        About Poisson noise
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/SED" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../catalogues.html">Catalogue classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../filters.html">Filter classes</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Miscellaneous</a><input checked class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Modules for Cigale</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="SFH.html">Star formation histories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SFH_quench.html">Star formation history quenching modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SSP.html">Single stellar populations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nebular.html">Nebular emission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dust_attenuation.html">Dust attenuation</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Dust emission</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../enum.html">Enumeration classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../misc.html">Miscellaneous classes and functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../properties.html">Property classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../outputs.html">SED fitting code output classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../photometry.html">Photometry related fonctions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sed.html">SED classes</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">API</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Modules for Cigale</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Dust emission</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="dust-emission">
+<h1>Dust emission<a class="headerlink" href="#dust-emission" title="Permalink to this heading">#</a></h1>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-0">
+Base class</label><div class="sd-tab-content docutils">
+<dl class="py class">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.DUSTmodule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pixSED.misc.cigaleModules.</span></span><span class="sig-name descname"><span class="pre">DUSTmodule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#DUSTmodule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.DUSTmodule" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Class implementing a module to deal with dust emission.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – identifier for the class</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.DUSTmodule.__str__">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#DUSTmodule.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.DUSTmodule.__str__" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation of the class used to make Cigale parameter files.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.DUSTmodule.spec">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pixSED.misc.cigaleModules.DUSTmodule.spec" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation for the .spec file of Cigale parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-1">
+Modified black body</label><div class="sd-tab-content docutils">
+<dl class="py class">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.MBBmodule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pixSED.misc.cigaleModules.</span></span><span class="sig-name descname"><span class="pre">MBBmodule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon_mbb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.5]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_mbb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[50.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta_mbb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[1.5]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_balance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#MBBmodule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.MBBmodule" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pixSED.misc.cigaleModules.DUSTmodule" title="pixSED.misc.cigaleModules.DUSTmodule"><code class="xref py py-class docutils literal notranslate"><span class="pre">DUSTmodule</span></code></a></p>
+<p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Class implementing a modified black body dust emission module.</p>
+<p><strong>Keyword arguments</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epsilon_mbb</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – fraction of L_dust(energy balance) in the MBB. Must be between 0 and 1.</p></li>
+<li><p><strong>t_mbb</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – temperature of black body in <span class="math notranslate nohighlight">\(\rm K\)</span>. Minimum is <span class="math notranslate nohighlight">\(0\,\rm K\)</span>.</p></li>
+<li><p><strong>beta_mbb</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – emissivity index of modified black body</p></li>
+<li><p><strong>energy_balance</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">bool</span></code>) – whether to check for energy balance or not. If <code class="code highlight python docutils literal highlight-python"><span class="kc">False</span></code>, Lum[MBB] is not taken into account in the energy balance.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.MBBmodule.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#MBBmodule.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.MBBmodule.__str__" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation of the class used to make Cigale parameter files.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.MBBmodule.spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pixSED.misc.cigaleModules.MBBmodule.spec" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation for the .spec file of Cigale parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-2">
+Schreiber et al. (2016)</label><div class="sd-tab-content docutils">
+<dl class="py class">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.SCHREIBERmodule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pixSED.misc.cigaleModules.</span></span><span class="sig-name descname"><span class="pre">SCHREIBERmodule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tdust</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[20]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fpah</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.05]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#SCHREIBERmodule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.SCHREIBERmodule" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pixSED.misc.cigaleModules.DUSTmodule" title="pixSED.misc.cigaleModules.DUSTmodule"><code class="xref py py-class docutils literal notranslate"><span class="pre">DUSTmodule</span></code></a></p>
+<p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Class implementing Schreiber at al. (2016) dust emission module.</p>
+<p><strong>Keyword arguments</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tdust</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></code>) – temperature of the dust in <span class="math notranslate nohighlight">\(\rm K\)</span>. Must be between <span class="math notranslate nohighlight">\(15\,\rm K\)</span> and <span class="math notranslate nohighlight">\(60\,\rm K\)</span>.</p></li>
+<li><p><strong>fpah</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – emissivity index of the dust. Must be between 0 and 1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.SCHREIBERmodule.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#SCHREIBERmodule.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.SCHREIBERmodule.__str__" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation of the class used to make Cigale parameter files.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.SCHREIBERmodule.spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pixSED.misc.cigaleModules.SCHREIBERmodule.spec" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation for the .spec file of Cigale parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-3">
+Casey et al. (2012)</label><div class="sd-tab-content docutils">
+<dl class="py class">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.CASEYmodule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pixSED.misc.cigaleModules.</span></span><span class="sig-name descname"><span class="pre">CASEYmodule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[35.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[1.6]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[2.0]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#CASEYmodule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.CASEYmodule" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pixSED.misc.cigaleModules.DUSTmodule" title="pixSED.misc.cigaleModules.DUSTmodule"><code class="xref py py-class docutils literal notranslate"><span class="pre">DUSTmodule</span></code></a></p>
+<p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Class implementing Casey et al. (2012) dust emission module.</p>
+<p><strong>Keyword arguments</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>temperature</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – temperature of the dust in in <span class="math notranslate nohighlight">\(\rm K\)</span>. Minimum is <span class="math notranslate nohighlight">\(0\,\rm K\)</span>.</p></li>
+<li><p><strong>beta</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – emissivity index of the dust. Minimum is 0.</p></li>
+<li><p><strong>alpha</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – mid-infrared powerlaw slope. Minimum is 0.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.CASEYmodule.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#CASEYmodule.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.CASEYmodule.__str__" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation of the class used to make Cigale parameter files.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.CASEYmodule.spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pixSED.misc.cigaleModules.CASEYmodule.spec" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation for the .spec file of Cigale parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-4">
+Dale et al. (2014)</label><div class="sd-tab-content docutils">
+<dl class="py class">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.DALEmodule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pixSED.misc.cigaleModules.</span></span><span class="sig-name descname"><span class="pre">DALEmodule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fracAGN</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[2.0]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#DALEmodule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.DALEmodule" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pixSED.misc.cigaleModules.DUSTmodule" title="pixSED.misc.cigaleModules.DUSTmodule"><code class="xref py py-class docutils literal notranslate"><span class="pre">DUSTmodule</span></code></a></p>
+<p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Class implementing Dale et al. (2014) dust emission module.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>It is not recommended to combine this AGN emission with the models of Fritz et al. (2006).</p>
+</div>
+<p><strong>Keyword arguments</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fracAGN</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – AGN fraction. Must be between 0 and 1.</p></li>
+<li><p><strong>alpha</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – mid-infrared powerlaw slope. Accepted values are 0.0625, 0.125, 0.1875, 0.25, 0.3125, 0.375, 0.4375, 0.5, 0.5625, 0.625, 0.6875, 0.75, 0.8125, 0.875, 0.9375, 1, 1.0625, 1.125, 1.1875, 1.25, 1.3125, 1.375, 1.4375, 1.5, 1.5625, 1.625, 1.6875, 1.75, 1.8125, 1.875, 1.9375, 2, 2.0625, 2.125, 2.1875, 2.25, 2.3125, 2.375, 2.4375, 2.5, 2.5625, 2.625, 2.6875, 2.75, 2.8125, 2.875, 2.9375, 3, 3.0625, 3.125, 3.1875, 3.25, 3.3125, 3.375, 3.4375, 3.5, 3.5625, 3.625, 3.6875, 3.75, 3.8125, 3.875, 3.9375, 4.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.DALEmodule.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#DALEmodule.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.DALEmodule.__str__" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation of the class used to make Cigale parameter files.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.DALEmodule.spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pixSED.misc.cigaleModules.DALEmodule.spec" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation for the .spec file of Cigale parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-5">
+Draine &amp; Li (2007)</label><div class="sd-tab-content docutils">
+<dl class="py class">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.DL07module">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pixSED.misc.cigaleModules.</span></span><span class="sig-name descname"><span class="pre">DL07module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qpah</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[2.5]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">umin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[1.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">umax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[1000000.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.1]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#DL07module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.DL07module" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pixSED.misc.cigaleModules.DUSTmodule" title="pixSED.misc.cigaleModules.DUSTmodule"><code class="xref py py-class docutils literal notranslate"><span class="pre">DUSTmodule</span></code></a></p>
+<p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Class implementing Draine &amp; Li (2007) dust emission module.</p>
+<p><strong>Keyword arguments</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qpah</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – mass fraction of PAH. Accepted values are 0.47, 1.12, 1.77, 2.5, 3.19, 3.9, 4.58.</p></li>
+<li><p><strong>umin</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – minimum radiation field. Accepted values are 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.7, 0.8, 1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 7, 8, 10, 12, 15, 20, 25.</p></li>
+<li><p><strong>umax</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – maximum radiation field. Accepted values are 1e3, 1e4, 1e5, 1e6.</p></li>
+<li><p><strong>gamma</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – fraction illuminated from Umin to Umax. Must be between 0 and 1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.DL07module.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#DL07module.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.DL07module.__str__" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation of the class used to make Cigale parameter files.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.DL07module.spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pixSED.misc.cigaleModules.DL07module.spec" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation for the .spec file of Cigale parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<input id="sd-tab-item-6" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-6">
+Draine et al. (2014)</label><div class="sd-tab-content docutils">
+<dl class="py class">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.DL14module">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pixSED.misc.cigaleModules.</span></span><span class="sig-name descname"><span class="pre">DL14module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qpah</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[2.5]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">umin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[1.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[2.0]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#DL14module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.DL14module" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pixSED.misc.cigaleModules.DUSTmodule" title="pixSED.misc.cigaleModules.DUSTmodule"><code class="xref py py-class docutils literal notranslate"><span class="pre">DUSTmodule</span></code></a></p>
+<p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Class implementing Draine et al. 2014 update dust emission module.</p>
+<p><strong>Keyword arguments</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qpah</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – mass fraction of PAH. Accepted values are 0.47, 1.12, 1.77, 2.5, 3.19, 3.9, 4.58, 5.26, 5.95, 6.63, 7.32.</p></li>
+<li><p><strong>umin</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – minimum radiation field. Accepted values are 0.1, 0.12, 0.15, 0.17, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 0.6, 0.7, 0.8, 1, 1.2, 1.5, 1.7, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 10, 12, 15, 17, 20, 25, 30, 35, 40, 50.</p></li>
+<li><p><strong>alpha</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – powerlaw slope dU/dM propto U^alpha. Accepted values are 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3</p></li>
+<li><p><strong>gamma</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – fraction illuminated from Umin to Umax. Must be between 0 and 1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.DL14module.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#DL14module.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.DL14module.__str__" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation of the class used to make Cigale parameter files.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.DL14module.spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pixSED.misc.cigaleModules.DL14module.spec" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation for the .spec file of Cigale parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-7">
+Themis</label><div class="sd-tab-content docutils">
+<dl class="py class">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.THEMISmodule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pixSED.misc.cigaleModules.</span></span><span class="sig-name descname"><span class="pre">THEMISmodule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qhac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.17]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">umin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[1.0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0.1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[2.0]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#THEMISmodule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.THEMISmodule" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pixSED.misc.cigaleModules.DUSTmodule" title="pixSED.misc.cigaleModules.DUSTmodule"><code class="xref py py-class docutils literal notranslate"><span class="pre">DUSTmodule</span></code></a></p>
+<p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Class implementing Themis dust emission models from Jones et al. 2017.</p>
+<p><strong>Keyword arguments</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qhac</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – mass fraction of hydrocarbon solids i.e., a-C(:H) smaller than <span class="math notranslate nohighlight">\(1.5\,\rm nm\)</span>, also known as HAC. Accepted values are 0.02, 0.06, 0.1, 0.14, 0.17, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4.</p></li>
+<li><p><strong>umin</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – minimum radiation field. Accepted values are 0.1, 0.12, 0.15, 0.17, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 0.6, 0.7, 0.8, 1, 1.2, 1.5, 1.7, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 10, 12, 15, 17, 20, 25, 30, 35, 40, 50.</p></li>
+<li><p><strong>alpha</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – powerlaw slope dU/dM propto U^alpha. Accepted values are 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3</p></li>
+<li><p><strong>gamma</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span></code>) – fraction illuminated from Umin to Umax. Must be between 0 and 1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.THEMISmodule.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/pixSED/misc/cigaleModules.html#THEMISmodule.__str__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pixSED.misc.cigaleModules.THEMISmodule.__str__" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation of the class used to make Cigale parameter files.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pixSED.misc.cigaleModules.THEMISmodule.spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pixSED.misc.cigaleModules.THEMISmodule.spec" title="Permalink to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - IRAP/LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Implement a string representation for the .spec file of Cigale parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="dust_attenuation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Dust attenuation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../enum.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Enumeration classes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../../../_sources/API/misc/cigaleModules/dust_emission.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2022-2024, Wilfried Mercier.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

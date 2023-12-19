@@ -1,0 +1,597 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pixSED.photometry &#8212; pixSED</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mycss.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pixSED/photometry';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">Support for LePhare is currently deprecated as it relies on the old Fortran version. Please use Cigale instead.</div>
+  </div>
+
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+    
+    <img src="../../_static/logo1.png" class="logo__image only-light" alt="pixSED documentation - Home"/>
+    <script>document.write(`<img src="../../_static/logo1.png" class="logo__image only-dark" alt="pixSED documentation - Home"/>`);</script>
+  
+  
+    <p class="title logo__title">pixSED</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../setup.html">
+                        Installation and setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../nomenclature.html">
+                        Nomenclature
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../poisson.html">
+                        About Poisson noise
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../API/index.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/SED" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../setup.html">
+                        Installation and setup
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../nomenclature.html">
+                        Nomenclature
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../poisson.html">
+                        About Poisson noise
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../API/index.html">
+                        API
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/SED" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">pixSED.photometry</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for pixSED.photometry</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. codeauthor:: Hugo Plombat - LUPM &lt;hugo.plombat@umontpellier.fr&gt; &amp; Wilfried Mercier - IRAP/LAM &lt;wilfried.mercier@lam.fr&gt; &amp; Maxime Tarrasse - IRAP &lt;Maxime.Tarrasse@irap.omp.eu&gt;</span>
+
+<span class="sd">Photometry functions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span>   <span class="nn">typing</span>        <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">numpy</span>         <span class="k">as</span>     <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">astropy.units</span> <span class="k">as</span>     <span class="nn">u</span>
+
+<div class="viewcode-block" id="countToMag"><a class="viewcode-back" href="../../API/photometry.html#pixSED.photometry.countToMag">[docs]</a><span class="k">def</span> <span class="nf">countToMag</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">err</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">zeropoint</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    .. codeauthor:: Hugo Plombat - LUPM &lt;hugo.plombat@umontpellier.fr&gt; &amp; Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">    </span>
+<span class="sd">    Convert data counts and their associated error into AB magnitudes using the formula</span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">        </span>
+<span class="sd">        d [{\rm{mag}}] = -2.5 \log_{10} d [{\rm{e^{-}/s}}] + {\rm{zpt}}</span>
+<span class="sd">        </span>
+<span class="sd">    where :math:`d` is the data and :math:`\rm{zpt}` is the magnitude zeropoint. The error is given by</span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">        </span>
+<span class="sd">        \Delta d [{\rm{mag}}] = 1.08 \Delta d [{\rm{e^{-}/s}}] / d [{\rm{e^{-}/s}}]</span>
+<span class="sd">    </span>
+<span class="sd">    :param data: data in :math:`\rm{e^{-1}/s}`</span>
+<span class="sd">    :type data: :python:`float` or `ndarray`_ [:python:`float`]</span>
+<span class="sd">    :param err: std errors in :math:`\rm{e^{-1}/s}`</span>
+<span class="sd">    :type err: :python:`float` or `ndarray`_ [:python:`float`]</span>
+<span class="sd">    :param zeropoint: zeropoint associated to the data</span>
+<span class="sd">    :type zeropoint: :python:`float`</span>
+<span class="sd">    </span>
+<span class="sd">    :returns: AB magnitude and associated error</span>
+<span class="sd">    :rtype: (:python:`float` or `ndarray`_ [:python:`float`], :python:`float` or `ndarray`_ [:python:`float`]</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">mag</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">2.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="n">zeropoint</span>
+    <span class="n">emag</span> <span class="o">=</span> <span class="mf">1.08</span> <span class="o">*</span> <span class="n">err</span><span class="o">/</span><span class="n">data</span>
+    
+    <span class="k">return</span> <span class="n">mag</span><span class="p">,</span> <span class="n">emag</span></div>
+
+<div class="viewcode-block" id="countToFlux"><a class="viewcode-back" href="../../API/photometry.html#pixSED.photometry.countToFlux">[docs]</a><span class="k">def</span> <span class="nf">countToFlux</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">err</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">zeropoint</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    .. codeauthor:: Hugo Plombat - LUPM &lt;hugo.plombat@umontpellier.fr&gt; &amp; Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">    </span>
+<span class="sd">    Convert data counts and their associated error into flux in :math:`\rm{erg/cm^2/s/Hz}`.</span>
+<span class="sd">    </span>
+<span class="sd">    :param data: data in :math:`electron/s`</span>
+<span class="sd">    :type data: :python:`float` or `ndarray`_ [:python:`float`]</span>
+<span class="sd">    :param err: std errors in :math:`\rm{e^{-1}/s}`</span>
+<span class="sd">    :type err: :python:`float` or `ndarray`_ [:python:`float`]</span>
+<span class="sd">    :param zeropoint: zeropoint associated to the data</span>
+<span class="sd">    :type zeropoint: :python:`float`</span>
+<span class="sd">    </span>
+<span class="sd">    :returns: flux in :math:`\rm{erg/cm^2/s/Hz}` and associated error</span>
+<span class="sd">    :rtype: (`Astropy Quantity`_, `Astropy Quantity`_)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">flux</span>  <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">data</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">zeropoint</span><span class="o">+</span><span class="mf">48.6</span><span class="p">)</span><span class="o">/</span><span class="mf">2.5</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;erg/(s*Hz*cm^2)&#39;</span><span class="p">)</span>
+    <span class="n">eflux</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">(</span><span class="n">err</span>  <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">zeropoint</span><span class="o">+</span><span class="mf">48.6</span><span class="p">)</span><span class="o">/</span><span class="mf">2.5</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;erg/(s*Hz*cm^2)&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">flux</span><span class="p">,</span> <span class="n">eflux</span></div>
+
+<div class="viewcode-block" id="FluxToCount"><a class="viewcode-back" href="../../API/photometry.html#pixSED.photometry.FluxToCount">[docs]</a><span class="k">def</span> <span class="nf">FluxToCount</span><span class="p">(</span><span class="n">flux</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">],</span> <span class="n">eflux</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">],</span> <span class="n">zeropoint</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    .. codeauthor:: Hugo Plombat - LUPM &lt;hugo.plombat@umontpellier.fr&gt; &amp; Wilfried Mercier - IRAP &lt;wilfried.mercier@irap.omp.eu&gt;</span>
+<span class="sd">    </span>
+<span class="sd">    Convert flux values and their associated error into dta count in :math:`\rm{e^{-}/s}`.</span>
+<span class="sd">    </span>
+<span class="sd">    :param flux: flux in :math:`\rm{erg/cm^2/s/Hz}`. If provided as an Astropy Quantity it will be parsed to this unit.</span>
+<span class="sd">    :type flux: :python:`float`, `ndarray`_ [:python:`float`] or `Astropy Quantity`_</span>
+<span class="sd">    :param eflux: std errors in :math:`\rm{erg/cm^2/s/Hz}`. If provided as an Astropy Quantity it will be parsed to this unit.</span>
+<span class="sd">    :type eflux: :python:`float`, `ndarray`_ [:python:`float`] or `Astropy Quantity`_</span>
+<span class="sd">    :param zeropoint: zeropoint associated to the data</span>
+<span class="sd">    :type zeropoint: :python:`float`</span>
+<span class="sd">    </span>
+<span class="sd">    :returns: data count in :math:`\rm{e^{-}/s}` and associated error</span>
+<span class="sd">    :rtype: (:python:`float` or `ndarray`_ [:python:`float`], :python:`float` or `ndarray`_ [:python:`float`])</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">):</span>
+        <span class="n">flux</span>  <span class="o">=</span> <span class="n">flux</span><span class="o">.</span><span class="n">to</span><span class="p">(</span> <span class="s1">&#39;erg/(s*Hz*cm^2)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">eflux</span> <span class="o">=</span> <span class="n">eflux</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;erg/(s*Hz*cm^2)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+        
+    <span class="n">fac</span>   <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">((</span><span class="n">zeropoint</span><span class="o">+</span><span class="mf">48.6</span><span class="p">)</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">flux</span> <span class="o">*</span> <span class="n">fac</span>
+    <span class="n">err</span>   <span class="o">=</span> <span class="n">flux</span> <span class="o">*</span> <span class="n">fac</span>
+    
+    <span class="k">return</span> <span class="n">count</span><span class="p">,</span> <span class="n">err</span></div>
+
+<div class="viewcode-block" id="MagTocount"><a class="viewcode-back" href="../../API/photometry.html#pixSED.photometry.MagTocount">[docs]</a><span class="k">def</span> <span class="nf">MagTocount</span><span class="p">(</span><span class="n">mag</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">emag</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">zeropoint</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    .. codeauthor:: Maxime Tarrasse - IRAP &lt;Maxime.Tarrasse@irap.omp.eu&gt;</span>
+
+<span class="sd">    Converts magnitudes and their associated error into data counts and their associated errors.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mag: AB magnitude </span>
+<span class="sd">    :type mag: :python:`float` or `ndarray`_ [:python:`float`]</span>
+<span class="sd">    :param emag: error on AB magnitudes</span>
+<span class="sd">    :type emag: :python:`float` or `ndarray`_ [:python:`float`]</span>
+<span class="sd">    :param zeropoint: zeropoint associated to the data</span>
+<span class="sd">    :type zeropoint: :python:`float`</span>
+
+<span class="sd">    :returns : data in :math:`\rm{e^{-}/s}` and associated errors</span>
+<span class="sd">    :rtype: (:python:`float` or `ndarray`_ [:python:`float`], :python:`float` or `ndarray`_ [:python:`float`])</span>
+<span class="sd">    &#39;&#39;&#39;</span>	
+
+    <span class="n">data</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">((</span><span class="n">zeropoint</span><span class="o">-</span><span class="n">mag</span><span class="p">)</span><span class="o">/</span><span class="mf">2.5</span><span class="p">)</span>
+    <span class="n">err</span>  <span class="o">=</span> <span class="n">data</span><span class="o">*</span><span class="n">emag</span><span class="o">/</span><span class="mf">1.08</span>
+	
+    <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">err</span></div>
+	
+
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2022-2024, Wilfried Mercier.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
