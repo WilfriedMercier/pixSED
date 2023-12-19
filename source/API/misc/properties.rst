@@ -1,7 +1,7 @@
 Property classes
 ================
 
-.. automodule:: SED.misc.properties
+.. automodule:: pixSED.misc.properties
     :special-members: __str__
     :members:
     :private-members:

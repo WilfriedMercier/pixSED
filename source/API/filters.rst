@@ -1,7 +1,7 @@
 Filter classes
 ==============
 
-.. automodule:: SED.filters
+.. automodule:: pixSED.filters
     :members:
     :private-members:
     :show-inheritance:

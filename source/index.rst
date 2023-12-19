@@ -5,7 +5,7 @@
     setup
     nomenclature
     poisson
-    examples/index
+    examples
     API/index
     
 Introduction
@@ -71,7 +71,7 @@ Whatever the backend, the first step is to load the data. To do so, two classes 
 
 .. code-block::
 
-    import SED
+    import pixSED as SED
 
     filt_435w = SED.Filter('F435W', 'data_F435W.fits', 'var_F435W.fits', 25.68, file2 = None)
 
@@ -198,8 +198,8 @@ Similarly, to change the bad pixel cleaning method, one can do
 
     The code automatically cleans bad pixels which are identified as having either a negative flux or a negative variance. Two cleaning methods are proposed:
 
-    - :py:attr:`SED.misc.enum.CleanMethod.ZERO` which replaces bad pixels by a flux equal to 0 and 
-    - :py:attr:`SED.misc.enum.CleanMethod.MIN` which replaces bad pixels with the minimum value in the masked image.
+    - :py:attr:`pixSED.misc.enum.CleanMethod.ZERO` which replaces bad pixels by a flux equal to 0 and 
+    - :py:attr:`pixSED.misc.enum.CleanMethod.MIN` which replaces bad pixels with the minimum value in the masked image.
 
 There is also the possibility to update the SED fitting code backend as follows:
 

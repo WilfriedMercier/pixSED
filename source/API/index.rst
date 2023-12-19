@@ -19,7 +19,7 @@ API
             :link: catalogues
             :link-type: doc
             
-            Documentation related to :class:`~SED.catalogues.Catalogue` class and sub-classes.
+            Documentation related to :py:class:`~.Catalogue` class and sub-classes.
 
     .. grid-item::
 
@@ -27,7 +27,7 @@ API
             :link: filters
             :link-type: doc
             
-            Documentation related to :class:`~SED.filters.Filter` and :class:`~SED.filters.FilterList` classes.
+            Documentation related to :py:class:`~.Filter` and :py:class:`~.FilterList` classes.
             
     .. grid-item::
 
@@ -35,7 +35,7 @@ API
             :link: misc/index
             :link-type: doc
             
-            Documentation related to :py:mod:`~SED.filters.misc` module.
+            Documentation related to various misc module.
 
     .. grid-item::
 
@@ -43,7 +43,7 @@ API
             :link: outputs
             :link-type: doc
             
-            Documentation related to :py:class:`~SED.outputs.Output` class and sub-classes.
+            Documentation related to :py:class:`~.Output` class and sub-classes.
 
     .. grid-item::
 
@@ -51,7 +51,7 @@ API
             :link: photometry
             :link-type: doc
             
-            Documentation related to various functions related to photometric conversions defined in :py:mod:`~SED.photometry`.
+            Documentation related to various functions related to photometric conversions defined in :py:mod:`~pixSED.photometry`.
     
     .. grid-item::
 
@@ -59,6 +59,6 @@ API
             :link: sed
             :link-type: doc
             
-            Documentation related to :py:class:`~SED.sed.SED` class and sub-classes.
+            Documentation related to :py:class:`~.SED` class and sub-classes.
                    
             

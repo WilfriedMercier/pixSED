@@ -1,7 +1,7 @@
 Enumeration classes
 ===================
 
-.. automodule:: SED.misc.enum
+.. automodule:: pixSED.misc.enum
     :special-members: __str__
     :members:
     :private-members:

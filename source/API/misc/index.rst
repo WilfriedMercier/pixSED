@@ -42,4 +42,4 @@ Miscellaneous
             :link: properties
             :link-type: doc
             
-            Documentation related to :py:class:`~SED.misc.properties.Property` class and sub-classes used to perform checks for physical properties with strict bounds or a restricted set of acceptable values.
+            Documentation related to :py:class:`~.Property` class and sub-classes used to perform checks for physical properties with strict bounds or a restricted set of acceptable values.
