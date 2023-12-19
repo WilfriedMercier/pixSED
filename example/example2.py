@@ -9,7 +9,7 @@ Load and show a SFR map from an already existing output of a LePhare run.
 
 import os.path           as     opath
 from   astropy.io        import fits
-import SED               as     sed
+import pixSED            as     sed
 
 from   matplotlib        import rc
 import matplotlib        as     mpl

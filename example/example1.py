@@ -8,12 +8,11 @@ Generate a resolved stellar mass map using LePhare SED fitting code (Fortran ver
 """
 
 import os.path           as     opath
-from   astropy.io        import fits
-import SED
-
-from   matplotlib        import rc
+import pixSED            as     SED
 import matplotlib        as     mpl
 import matplotlib.pyplot as     plt
+from   matplotlib        import rc
+from   astropy.io        import fits
 
 # Define data file names
 galName    = '1'                                                             # Galaxy number

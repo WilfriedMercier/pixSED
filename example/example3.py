@@ -9,7 +9,7 @@ Generate a resolved stellar mass map using Cigale SED fitting code.
 
 import os.path           as     opath
 from   astropy.io        import fits
-import SED
+import pixSED            as     SED
 
 from   matplotlib        import rc
 import matplotlib        as     mpl
