@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-.. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+.. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
 
 General functions to format io output using ANSII sequences using colorama.
 """
@@ -10,7 +10,7 @@ import colorama as col
 
 def errorMessage(text):
     '''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Colorise text in red and emphasise it for error messages.
     
@@ -24,7 +24,7 @@ def errorMessage(text):
 
 def okMessage(text):
     '''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Dim green text for validation messages.
     
@@ -38,7 +38,7 @@ def okMessage(text):
 
 def brightMessage(text):
     '''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Emphasize a text by brightening it.
     
@@ -52,7 +52,7 @@ def brightMessage(text):
 
 def dimMessage(text):
     '''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Dim a text.
 
@@ -66,7 +66,7 @@ def dimMessage(text):
 
 def warningMessage(text):
     '''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Same as error message but using yellow instead of red.
 
