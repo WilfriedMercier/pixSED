@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 r"""
-.. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+.. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
 
 Miscellaneous, quite general objects used by the SED fitting classes.
 """
@@ -17,7 +17,7 @@ from   typing        import Any
       
 class ShapeError(Exception):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Error which is caught when two arrays do not share the same shape.
     
@@ -45,7 +45,7 @@ class ShapeError(Exception):
 
 def check_type(dtype):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     A decorator which check data type of the first mandatory parameter of the function.
     
@@ -74,7 +74,7 @@ def check_type(dtype):
         
 def check_type_in_list(dtype):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     A decorator which check data type of the first mandatory parameter of the function.
     
@@ -108,18 +108,22 @@ def check_type_in_list(dtype):
 
 class NamedColumn:
    r'''
-   .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+   .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
    
    A general named column to assicate to an Enum object.
+   
+   **Arguments**
    
    :param name: name of the column when included in a Table
    :type name: :python:`str`
    :param unit: unit of the column
    :type unit: :python:`str`
    
-   :param end: (**Optional**) end string to append to the associate enum name
+   **Keyword arguments**
+   
+   :param end: end string to append to the associate enum name
    :type end: :python:`str`
-   :param log: (**Optional**) whether this column holds log values. This will trigger a conversion to the power of 10 if True.
+   :param log: whether this column holds log values. This will trigger a conversion to the power of 10 if :python:`True`.
    :type log: :python:`bool`
    
    :raises TypeError: if **name**, **unit** and **end** are not of type :python:`str`
@@ -139,11 +143,15 @@ class NamedColumn:
       
 class PhysicalLogQuantity:
    r'''
-   .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+   .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
    
    Implement an Astropy Quantity which can have log of physical values.
    
+   **Arguments**
+   
    :param value: value to pass to the constructor
+   
+   **Keyword arguments**
    
    :param unit: data unit
    :type unit: :python:`str`
@@ -170,7 +178,7 @@ class PhysicalLogQuantity:
       
    def __str__(self, *args, **kwargs) -> str:
       r'''
-      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
        
       Slightly modified string representation.
       '''
@@ -179,7 +187,7 @@ class PhysicalLogQuantity:
    
    def toPhysical(self, *args, **kwargs) -> Quantity:
       r'''
-      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
       
       Go to physical unit by raising to the power of 10 and converting to the right unit.
       '''

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 r"""
-.. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+.. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@lam.fr>
 
 Enumerations used in other parts of the code.
 """
@@ -713,7 +713,7 @@ class LePhareOutputParam(Enum):
     
     def __str__(self, *args, **kwargs) -> str:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Formatted string for this enum.
         '''

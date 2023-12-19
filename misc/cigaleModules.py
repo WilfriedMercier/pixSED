@@ -793,8 +793,8 @@ class SSPmodule(ABC):
     
     **Keyword arguments**
     
-    :param imf: initial mass function. Options are given in :class:`~SED.misc.enum.IMF`.
-    :type imf: :python:`list[SED.misc.enum.IMF]`
+    :param imf: initial mass function. Options are given in :class:`~pixSED.misc.enum.IMF`.
+    :type imf: :python:`list[pixSED.misc.enum.IMF]`
     :param separation_age: age in :math:`\rm Myr` of the separation between the young and the old star populations. Set to 0 to not differentiate ages (only an old population).
     :type separation_age: :python:`list[int]`
     '''
@@ -840,8 +840,8 @@ class BC03module(SSPmodule):
     
     **Keyword arguments**
     
-    :param imf: initial mass function. Options are :attr:`~SED.misc.enum.IMF.CHABRIER` or :attr:`~SED.misc.enum.IMF.SALPETER`.
-    :type imf: :python:`list[SED.misc.enum.IMF]`
+    :param imf: initial mass function. Options are :attr:`~pixSED.misc.enum.IMF.CHABRIER` or :attr:`~pixSED.misc.enum.IMF.SALPETER`.
+    :type imf: :python:`list[pixSED.misc.enum.IMF]`
     :param separation_age: age in :math:`\rm Myr` of the separation between the young and the old star populations. Set to 0 to not differentiate ages (only an old population).
     :type separation_age: :python:`list[int]`
     :param list metallicity: possible values are 0.0001, 0.0004, 0.004, 0.008, 0.02, 0.05
@@ -909,12 +909,12 @@ class M2005module(SSPmodule):
     
     .. warning:
         
-        This module cannot be combined with :class:`~SED.misc.cigaleModules.NEBULARmodule`.
+        This module cannot be combined with :class:`~pixSED.misc.cigaleModules.NEBULARmodule`.
     
     **Keyword arguments**
     
-    :param imf: initial mass function. Options are :attr:`~SED.misc.enum.IMF.SALPETER` or :attr:`~SED.misc.enum.IMF.KROUPA`.
-    :type imf: :python:`list[SED.misc.enum.IMF]`
+    :param imf: initial mass function. Options are :attr:`~pixSED.misc.enum.IMF.SALPETER` or :attr:`~pixSED.misc.enum.IMF.KROUPA`.
+    :type imf: :python:`list[pixSED.misc.enum.IMF]`
     :param separation_age: age in in :math:`\rm Myr` of the separation between the young and old stellar populations. Set to 0 not to differentiate ages (only an old population).
     :type separation_age: :python:`list[int]`
     :param metallicity: possible values are 0.001, 0.01, 0.02, 0.04
@@ -985,7 +985,7 @@ class NEBULARmodule:
     
     .. warning:
         
-        This module cannot be combined with :class:`~SED.misc.cigaleModules.M2005module`.
+        This module cannot be combined with :class:`~pixSED.misc.cigaleModules.M2005module`.
     
     **Keyword arguments**
     
@@ -1290,7 +1290,7 @@ class DUSTATT_2POWERLAWSmodule(ATTENUATIONmodule):
         
         return text
     
-class DUSTATT_CALZLEITmodule(ATTENUATIONmodule):
+class DUSTATT_CALZLETTImodule(ATTENUATIONmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
@@ -1772,7 +1772,7 @@ class CASEYmodule(DUSTmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing Casey 2012 dust emission module.
+    Class implementing Casey et al. (2012) dust emission module.
     
     **Keyword arguments**
     
@@ -1838,7 +1838,7 @@ class DALEmodule(DUSTmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing Dale et al. 2014 dust emission module.
+    Class implementing Dale et al. (2014) dust emission module.
     
     .. important::
         
@@ -1920,7 +1920,7 @@ class DL07module(DUSTmodule):
     r'''
     .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
-    Class implementing Draine & Li 2007 dust emission module.
+    Class implementing Draine & Li (2007) dust emission module.
     
     **Keyword arguments**
     
