@@ -45,7 +45,7 @@ where :math:`\tilde S` is the input image convolved by the square of the PSF (an
 Practical implementation
 ------------------------
 
-If Poisson noise is missing from the input variance map, this code will assume that the variance corresponds to :math:`\tilde \sigma^2`. To add Poisson noise, the first step is to provide the name of a file that contains :math:`\tilde S`, that is the data convolved by the square of the PSF, when creating the :py:class:`~.Filter` objects:
+If Poisson noise is missing from the input variance map, this code will assume that the variance map provided by the user corresponds to :math:`\tilde \sigma^2`. To add Poisson noise, the first step is to provide the name of a file that contains :math:`\tilde S`, that is the data convolved by the square of the PSF, when creating the :py:class:`~.Filter` objects:
 
 .. code:: python
 
@@ -67,7 +67,7 @@ Because this code was developed with HST images in mind, it assumes that the inp
 * If :math:`\tilde S` is the signal in :math:`e^-\,s^{-1}`, then its value in :math:`e^-` must be given by :math:`\tilde S \times T_e`.
 * If :math:`{\rm Var} [S']` is the total variance in :math:`e^-\,s^{-2}`, then its value in :math:`e^-` must be given by :math:`{\rm Var} [S'] \times T_e^2`.
 
-Therefore, using the expression for :math:`{\rm Var} [S']` and the conversions between :math:`e^-` and :math:`e^-\,s^{-2}` given above, we find that the total variance in :math:`e^-\,s^{-1}` writes
+Therefore, using the expression for :math:`{\rm Var} [S']` and the conversions between :math:`e^-` and :math:`e^-\,s^{-2}` given above, we find that the total variance in :math:`e^-\,s^{-2}` writes
 
 .. math::
 
@@ -84,19 +84,21 @@ The methods :py:meth:`~.FilterList.setCode` or :py:meth:`~.FilterList.genTable` 
 
     flist.genTable(texpFac=10) 
     
-In this example, the exposure time will be divided by a factor of 10 when computing the Poisson noise contribution to the total variance. If :python:`texpFac` is equal to 0, no Poisson noise will be added. 
+will divide the exposure time by a factor of 10 when computing the Poisson noise contribution to the total variance. If :python:`texpFac` is equal to 0, no Poisson noise will be added. 
 
 This argument can be used to properly handle Poisson noise with data that are not in :math:`e^-\,s^{-1}`. Indeed, let us assume that the data are in an arbitrary unit :math:`u`, which can be converted to :math:`e^-\,s^{-1}` with a scale factor :math:`f` (i.e. :math:`S [u] = f \times S [e^-\,s^{-1}]`). Then,
 
-* If :math:`\tilde \sigma^2` is the background variance in unit :math:`u`, its value in :math:`e^-` must be given by :math:`\tilde \sigma^2 \times T_e^2 / f^2`
+* If :math:`\tilde \sigma^2` is the background variance in unit :math:`u^2`, its value in :math:`e^-` must be given by :math:`\tilde \sigma^2 \times T_e^2 / f^2`
 * If :math:`\tilde S` is the signal in unit :math:`u`, then its value in :math:`e^-` must be given by :math:`\tilde S \times T_e / f`.
-* If :math:`{\rm Var} [S']` is the total variance in unit :math:`u`, then its value in :math:`e^-` must be given by :math:`{\rm Var} [S'] \times T_e^2 / f^2`.
+* If :math:`{\rm Var} [S']` is the total variance in unit :math:`u^2`, then its value in :math:`e^-` must be given by :math:`{\rm Var} [S'] \times T_e^2 / f^2`.
 
-Following the same logic as in :ref:`this section <referenceToes>`, the total variance in unit :math:`u` writes
+Following the same logic as in :ref:`the previous section <referenceToes>`, the total variance in unit :math:`u^2` writes
 
 .. math::
 
-    {\rm Var} [S']  (x, y) = \tilde \sigma^2 (x, y) + f \times \tilde S (x, y) / T_e.
+    {\rm Var} [S']  (x, y) = \tilde \sigma^2 (x, y) + f \times \tilde S (x, y) / T_e,
+    
+where :math:`\tilde \sigma^2` is the background variance map in unit :math:`u^2` and :math:`\tilde S` is the input data convolved by the square of the PSF in unit :math:`u`.
     
 Thus, the keyword argument :python:`texpFac` can be used as a conversion factor to properly compute the contribution of the Poisson noise to the total variance.
 

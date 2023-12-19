@@ -465,3 +465,97 @@ Both :py:class:`~.CigaleOutput` and :py:class:`~.LePhareOutput` have a utility c
         image = output.toImage('bayes.stellar.m_star')
         
     where :python:`output` is the :py:class:`~.CigaleOutput` or :py:class:`~.LePhareOutput` object from above and :python:`flist` is the :py:class:`~.FilterList` object created :ref:`here <referenceToFilterList>`.
+    
+We can now generate a resolved stellar mass map:
+
+.. code:: python
+
+    from   matplotlib        import rc
+    import matplotlib        as     mpl
+    import matplotlib.pyplot as     plt
+        
+    rc('font', **{'family': 'serif', 'serif': ['Times']})
+    rc('text', usetex=True)
+    mpl.rcParams['text.latex.preamble'] = r'\usepackage{newtxmath}'
+    rc('figure', figsize=(5, 4.5))
+    
+    plt.imshow(np.log10(image.to('Msun').value), origin='lower', cmap='rainbow', vmin=6)
+    plt.xlabel('X [pixel]', size=13)
+    plt.ylabel('Y [pixel]', size=13)
+    
+    cbar = plt.colorbar(ret, orientation='vertical', shrink=0.9)
+    cbar.set_label(r'$\log_{10}$ M$_{\star}$ [M$_{\odot}$]', size=13)
+    plt.show()
+    
+.. jupyter-execute::
+    :hide-code:
+    
+    import os.path           as     opath
+    from   astropy.io        import fits
+    import pixSED            as     SED
+    import numpy             as     np
+    
+    from   matplotlib        import rc
+    import matplotlib        as     mpl
+    import matplotlib.pyplot as     plt
+    
+    # Define data file names
+    galName    = '1'                                                             # Galaxy number
+    zeropoints = [25.68, 26.51, 25.69, 25.94, 24.87, 26.27, 26.23, 26.45, 25.94] # HST zeropoints
+    redshift   = 0.622                                                           # Redshift of the galaxy
+    bands      = ['435', '606', '775', '814', '850', '105', '125', '140', '160'] # Bands
+    band_names = ['F435W', 'F606W', 'F775W', 'F814W', 'F850LP', 'F105W', 'F125W', 'F140W', 'F160W']
+    
+    dataFiles  = [] # Flux maps
+    data2Files = [] # Flux maps convolved by the PSF squared
+    varFiles   = [] # Variance maps
+    
+    for band in bands:
+    
+       file    = opath.abspath(opath.join('example', 'data', f'{galName}_{band}.fits'))
+       dataFiles.append(file)
+    
+       file2   = opath.abspath(opath.join('example', 'data', f'{galName}_{band}_PSF2.fits'))
+       data2Files.append(file2)
+    
+       vfile   = opath.abspath(opath.join('example', 'data', f'{galName}_{band}_var.fits'))
+       varFiles.append(vfile)
+    
+    # Get mask file
+    mfile      = opath.abspath(opath.join('example', 'data', f'{galName}_mask.fits'))
+    with fits.open(mfile) as hdul:
+       mask    = hdul[0].data == 0
+    
+    ###   1. Generate a FilterList object   ###
+    filts      = []
+    for band, data, data2, var, zpt in zip(bands, dataFiles, data2Files, varFiles, zeropoints):
+       filts.append(SED.Filter(band, data, var, zpt, file2=data2, verbose=False))
+    
+    flist      = SED.FilterList(filts, mask, code=SED.SEDcode.CIGALE, redshift=redshift)
+    
+    ###   2. Update data table and add Poisson noise (texpFac != 0)   ###
+    flist.genTable(cleanMethod=SED.CleanMethod.ZERO, texpFac=1)
+    
+    ###   6. Generate a resolved stellar mass map   ###
+    output = SED.CigaleOutput(opath.join('example', galName, 'out', 'results.fits'))
+    output.link(flist)
+    
+    mass_star  = np.log10(output.toImage('bayes.stellar.m_star').to('Msun').value)
+    
+    ###   7. Plot   ###
+    from   matplotlib        import rc
+    import matplotlib        as     mpl
+    import matplotlib.pyplot as     plt
+        
+    rc('font', **{'family': 'serif', 'serif': ['Times']})
+    rc('text', usetex=True)
+    mpl.rcParams['text.latex.preamble'] = r'\usepackage{newtxmath}'
+    rc('figure', figsize=(5, 4.5))
+    
+    ret = plt.imshow(mass_star, origin='lower', cmap='rainbow', vmin=6)
+    plt.xlabel('X [pixel]', size=13)
+    plt.ylabel('Y [pixel]', size=13)
+    
+    cbar = plt.colorbar(ret, orientation='vertical', shrink=0.9)
+    cbar.set_label(r'$\log_{10}$ M$_{\star}$ [M$_{\odot}$]', size=13)
+    plt.show()

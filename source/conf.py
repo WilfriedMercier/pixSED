@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-.. codeauthor:: Hugo Plombat - LUPM <hugo.plombat@umontpellier.fr> & Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+.. codeauthor:: Hugo Plombat - LUPM <hugo.plombat@umontpellier.fr> & Wilfried Mercier - IRAP/LAM <wilfried.mercier@ilam.fr>
 
 Configuration script for Sphinx documentation.
 """
@@ -16,7 +16,7 @@ def skip(app, what, name, obj, would_skip, options):
 ###################################################
 
 project            = 'pixSED'
-copyright          = '2023, Wilfried Mercier'
+copyright          = '2022-2024, Wilfried Mercier'
 author             = 'Wilfried Mercier'
 show_authors       = True
 
@@ -43,9 +43,6 @@ exclude_patterns   = []
 #               Options for HTML output               #
 #######################################################
 
-#html_theme         = 'karma_sphinx_theme'
-#html_theme = "sphinxawesome_theme"
-# html_logo          = "path/to/my/logo.png"
 html_theme = "pydata_sphinx_theme"
 
 
@@ -70,8 +67,17 @@ html_theme_options = {
             "type": "fontawesome",
         }],
     
-    "announcement" : "Support for LePhare is currently deprecated as it relies on the old Fortran version. Please use Cigale instead.",
-    "show_nav_level" : 2
+    "logo": {
+        
+        # Alt text for blind people
+        "alt_text"    : "pixSED documentation - Home",
+        "text"        : "pixSED",
+        "image_light" : "_static/logo1.png",
+        "image_dark"  : "_static/logo1.png",
+    },
+    
+    "announcement"    : "Support for LePhare is currently deprecated as it relies on the old Fortran version. Please use Cigale instead.",
+    "show_nav_level"  : 2
 }
 
 # Add sypport for custom css file
