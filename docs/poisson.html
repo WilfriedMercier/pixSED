@@ -427,10 +427,10 @@ document.write(`
 \[S' (x, y) = \sum_{x', y'} {\rm PSF} (x' - x, y' - y) S(x', y').\]</div>
 <p>It can be shown (e.g. see Appendix D of <a class="reference external" href="https://hal.science/tel-04104122v1">Mercier W. PhDT</a>) that in such a case and when neglecting covariance between pixels, the variance of <span class="math notranslate nohighlight">\(S'\)</span> writes</p>
 <div class="math notranslate nohighlight">
-\[{\rm Var} [S'] (x, y) = \sum_{x', y'} {\rm PSF} (x' - x, y' - y) \sigma^2_{\rm tot} (x', y'),\]</div>
+\[{\rm Var} [S'] (x, y) = \sum_{x', y'} {\rm PSF}^2 (x' - x, y' - y) \sigma^2_{\rm tot} (x', y'),\]</div>
 <p>which can be rewritten as</p>
 <div class="math notranslate nohighlight">
-\[{\rm Var} [S'] (x, y) = \tilde \sigma^2 (x, y) + \sum_{x', y'} {\rm PSF} (x' - x, y' - y) {\rm Var} [S] (x', y'),\]</div>
+\[{\rm Var} [S'] (x, y) = \tilde \sigma^2 (x, y) + \sum_{x', y'} {\rm PSF}^2 (x' - x, y' - y) {\rm Var} [S] (x', y'),\]</div>
 <p>where <span class="math notranslate nohighlight">\(\tilde \sigma^2 (x, y)\)</span> is the variance map without Poisson noise (but convolved, hereafter background variance). Finally, remembering that <span class="math notranslate nohighlight">\(Var [ S ] \approx S\)</span>, we can simplify the expression to</p>
 <div class="math notranslate nohighlight">
 \[{\rm Var} [S'] (x, y) = \tilde \sigma^2 (x, y) + \tilde S (x, y),\]</div>
