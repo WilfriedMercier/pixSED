@@ -26,13 +26,13 @@ It can be shown (e.g. see Appendix D of `Mercier W. PhDT <https://hal.science/te
 
 .. math::
 
-    {\rm Var} [S'] (x, y) = \sum_{x', y'} {\rm PSF} (x' - x, y' - y) \sigma^2_{\rm tot} (x', y'),
+    {\rm Var} [S'] (x, y) = \sum_{x', y'} {\rm PSF}^2 (x' - x, y' - y) \sigma^2_{\rm tot} (x', y'),
     
 which can be rewritten as
 
 .. math::
 
-    {\rm Var} [S'] (x, y) = \tilde \sigma^2 (x, y) + \sum_{x', y'} {\rm PSF} (x' - x, y' - y) {\rm Var} [S] (x', y'),
+    {\rm Var} [S'] (x, y) = \tilde \sigma^2 (x, y) + \sum_{x', y'} {\rm PSF}^2 (x' - x, y' - y) {\rm Var} [S] (x', y'),
     
 where :math:`\tilde \sigma^2 (x, y)` is the variance map without Poisson noise (but convolved, hereafter background variance). Finally, remembering that :math:`Var [ S ] \approx S`, we can simplify the expression to
 
