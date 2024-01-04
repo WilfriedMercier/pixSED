@@ -77,4 +77,3 @@ def warningMessage(text):
     '''
     
     return col.Style.BRIGHT + col.Fore.YELLOW + text + col.Style.RESET_ALL
-    

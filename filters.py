@@ -21,11 +21,12 @@ from   .misc.enum       import SEDcode, CleanMethod, TableUnit, MagType, TableFo
 from   .misc.misc       import ShapeError
 from   .catalogues      import LePhareCat, CigaleCat, Catalogue
 from   .photometry      import countToMag, countToFlux
-from   .coloredMessages import warningMessage, errorMessage
+from   .coloredMessages import warningMessage, errorMessage, brightMessage
 
 import warnings
 
 # Custom colored messages
+INFO    = brightMessage('Info:')
 WARNING = warningMessage('Warning:')
 ERROR   = errorMessage('Error:')
 
@@ -120,14 +121,21 @@ class Filter:
         self.ename                = varFile
         
         self.hdr,  self.data      = self._loadFits(self.fname,  ext=ext)
+        
+        if self.hdr is None or self.data is None:
+            raise OSError
+        
         self.ehdr, self.var       = self._loadFits(self.ename,  ext=extErr)
+        
+        if self.ehdr is None or self.var is None:
+            raise OSError
         
         if self.fname2 is None:
             self.hdr2             = None
             self.data2            = None
             self.texp             = None
         
-            if self.verbose: print(f'{WARNING} No data convolved with the square of the PSF was provided. Poisson noise is assumed to be already contained in the variance map.')
+            if self.verbose: print(f'{INFO} No data convolved with the square of the PSF was provided for filter {self.filter}. Poisson noise is assumed to be already contained in the variance map.')
         else:
             self.hdr2, self.data2 = self._loadFits(self.fname2, ext=ext2)
         
@@ -267,6 +275,8 @@ class FilterList:
         * if **filters** is not a :python:`list`
         * if **redshift** is neither an :python:`int` nor a :python:`float`
         * if one of the **filters** is not of type :py:class:`~.Filter`
+        
+    :raises ValueError: if **mask** contains :python:`True` values everywhere
     '''
     
     def __init__(self, filters: List[Filter], 
@@ -283,6 +293,9 @@ class FilterList:
             
         if not isinstance(filters, list):
             raise TypeError(f'filters parameter has type {type(filters)} but they must be of type list.')
+        
+        if np.all(mask):
+            raise ValueError('SED fitting stopped because mask contains True values everywhere. Please provide a mask with True values for pixels to mask and False values for pixels to fit.')
         
         # :Redshift of the galaxy
         self.redshift = redshift
@@ -553,7 +566,7 @@ class FilterList:
         data               = []
         var                = []
        
-        for pos, filt in enumerate(self.filters):
+        for pos, filt in enumerate(self.filters):       
 
             # Clean and add noise to variance map
             d, v           = self.cleanAndNoise(filt.data, filt.data2, filt.var, self.mask, 
@@ -562,6 +575,7 @@ class FilterList:
                                                 texpFac     = texpFac,
                                                 verbose     = filt.verbose
                                                )
+            
             data.append(d)
             var.append( v)
         
@@ -794,7 +808,7 @@ class FilterList:
         
         # Clean data and error maps of bad pixels and pixels with negative values
         data, var = self.clean(data, var, mask, method=cleanMethod)
-            
+        
         # Add Poisson noise to the variance map
         if texp is not None and data2 is not None:
             print('Adding Poisson noise...')

@@ -20,7 +20,7 @@ from   .filters         import FilterList
 
 class Output(ABC):
    r'''
-   .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+   .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
    
    Abstract SED fitting code output class.
    
@@ -56,7 +56,7 @@ class Output(ABC):
    @abstractmethod
    def load(self, *args, **kwargs) -> Table:
       r'''
-      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
       
       Load data from a file into an astropy Table object.
       
@@ -68,7 +68,7 @@ class Output(ABC):
   
    def link(self, filterList: FilterList, *args, **kwargs) -> None:
       r'''
-      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
       
       Provide the default image properties from a FilterList object.
       
@@ -89,7 +89,7 @@ class Output(ABC):
    @abstractmethod
    def toImage(self, *args, **kwargs) -> Quantity:
        r'''
-       .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+       .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
        
        Generate a resolved map.
        
@@ -101,7 +101,7 @@ class Output(ABC):
 
 class CigaleOutput(Output):
     r'''
-    .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+    .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
     
     Init the output class.
     
@@ -116,12 +116,12 @@ class CigaleOutput(Output):
         
         #: Mapping between column names and units
         self.units = {}
-        print(self.file)
+        
         self.load()
         
     def _getUnits(self, hdr: fits.Header, *args, **kwargs) -> Dict[str, str]:
         r'''
-        .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+        .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
         
         Get and return the units from a Cigale output fits file header and map them to their column names.
         
@@ -138,7 +138,7 @@ class CigaleOutput(Output):
 
     def link(self, filterList: FilterList, *args, **kwargs) -> None:
        r'''
-       .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+       .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
        
        Provide the default image properties from a FilterList object.
        
@@ -169,13 +169,17 @@ class CigaleOutput(Output):
     def toImage(self, name: str, 
                 shape: Optional[Tuple[int]] = None, **kwargs) -> Quantity:
        r'''
-       .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+       .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
        
        Generate an image from the Astropy Table given column name.
        
+       **Arguments**
+      
        :param name: name of the column to generate the image from
        :type name: :python:`str`
        
+       **Keyword arguments**
+      
        :param tuple[int] shape: (**Optional**) shape of the output image. The shape must be such that :python:`shape[0]*shape[1] == len(self.table)`. If :python:`None`, the default value provided in the :py:meth:`~.CigaleOutput.link` method is used.
        :type shape: :python:`tuple[int]`
        
@@ -221,7 +225,7 @@ class CigaleOutput(Output):
    
 class LePhareOutput(Output):
    r'''
-   .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+   .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
    
    Implement an output class for LePhare.
    
@@ -238,7 +242,7 @@ class LePhareOutput(Output):
    
    def load(self, *args, **kwargs) -> Table:
       r'''
-      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
       
       Load data from LePhare output file.
       
@@ -292,7 +296,7 @@ class LePhareOutput(Output):
   
    def readHeader(self, *args, **kwargs) -> Dict[str, str]:
       r'''
-      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
       
       Read the header of LePhare output file.
       
@@ -341,7 +345,7 @@ class LePhareOutput(Output):
                scaleFactor: Optional[Union[int, float]] = None,
                meanMap: Optional[ndarray] = None, **kwargs) -> Quantity:
       r'''
-      .. codeauthor:: Wilfried Mercier - IRAP <wilfried.mercier@irap.omp.eu>
+      .. codeauthor:: Wilfried Mercier - IRAP/LAM <wilfried.mercier@lam.fr>
       
       Generate an image from the Astropy Table given column name.
       
@@ -363,14 +367,18 @@ class LePhareOutput(Output):
           
           These parameters always override the default values if provided.
       
+      **Arguments**
+      
       :param name: name of the column to generate the image from
       :type name: :python:`str`
       
-      :param shape: (**Optional**) shape of the output image. The shape must be such that :python:`shape[0]*shape[1] == len(self.table)`. If :python:`None`, the default value provided in the :py:meth:`~.LePhareOutput.link` method is used.
+      **Keyword arguments**
+      
+      :param shape: shape of the output image. The shape must be such that :python:`shape[0]*shape[1] == len(self.table)`. If :python:`None`, the default value provided in the :py:meth:`~.LePhareOutput.link` method is used.
       :type shape: :python:`tuple[int]`
-      :param scaleFactor: (**Optional**) scale factor used to scale up the image. If :python:`None`, the default value provided in the :py:meth:`~.Output.link` method is used.
+      :param scaleFactor: scale factor used to scale up the image. If :python:`None`, the default value provided in the :py:meth:`~.Output.link` method is used.
       :type scaleFactor: :python:`int/float`
-      :param meanMap: (**Optional**) mean map used during the filterList table creation to normalise the data. If :python:`None`, the default value provided in the :py:meth:`~.Output.link` method is used.
+      :param meanMap: mean map used during the filterList table creation to normalise the data. If :python:`None`, the default value provided in the :py:meth:`~.Output.link` method is used.
       :type meanMap: `ndarray`_
       
       :returns: output image as an Astropy Quantity. Use .data method to only get the array.
